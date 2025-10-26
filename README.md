@@ -1,6 +1,6 @@
 # 🛍️ E-commerce de Joyas
 
-E-commerce desarrollado con Laravel, Vue.js, Bootstrap 5 y Docker. Proyecto similar a Pandora o Swarovski.
+E-commerce desarrollado con Laravel, Vue.js, Bootstrap 5 y Docker.
 
 ## 🚀 Tecnologías Utilizadas
 
