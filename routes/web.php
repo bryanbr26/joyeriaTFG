@@ -66,3 +66,7 @@ Route::get('/logs-usuario/{id}', [LogUsuarioController::class, 'show'])->name('l
 // PAGOS REDSYS
 Route::get('/pagos-redsys', [PagoRedsysController::class, 'index'])->name('pagos-redsys.index');
 Route::get('/pagos-redsys/{id}', [PagoRedsysController::class, 'show'])->name('pagos-redsys.show');
+
+
+// Ruta para probar productos
+Route::get('/test-productos', [ProductoController::class, 'testView'])->name('productos.test');

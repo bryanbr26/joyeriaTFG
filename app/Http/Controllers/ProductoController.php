@@ -18,4 +18,11 @@ class ProductoController extends Controller
         $producto = Producto::with('categoria')->find($id);
         return response()->json($producto);
     }
+
+    //Funcion qeu retorna los productos a una vista para probar
+    public function testView()
+{
+    $productos = Producto::with('categoria')->get();
+    return view('productos-test', compact('productos'));
+}
 }

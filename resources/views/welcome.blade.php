@@ -4,29 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joyería - TFG</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+    </style>
 </head>
 <body>
     
-    <h2>Probando conexión a BD</h2>
-    
-    @php
-        // Usar DB facade directamente
-        try {
-            $productos = DB::table('PRODUCTO')->get();
-            echo "<p style='color: green;'>Conexión exitosa a la base de datos</p>";
-            echo "<p>Número de productos: " . count($productos) . "</p>";
-            
-            // Mostrar algunos productos
-            foreach($productos->take(5) as $producto) {
-                echo "<div style='border: 1px solid #ccc; padding: 10px; margin: 5px;'>";
-                echo "<h3>" . $producto->nombre . "</h3>";
-                echo "<p>Precio: " . $producto->precio . "€</p>";
-                echo "</div>";
-            }
-            
-        } catch (Exception $e) {
-            echo "<p style='color: red;'>Error: " . $e->getMessage() . "</p>";
-        }
-    @endphp
+    <div style="margin: 20px 0;">
+    <a href="{{ route('productos.test') }}" class="btn">📋 Productos</a>
+    <a href="{{ route('categorias.index') }}" class="btn btn-secondary">📁 Categorías</a>
+    <a href="{{ route('usuarios.index') }}" class="btn btn-success">👥 Usuarios</a>
+</div>
 </body>
 </html>
