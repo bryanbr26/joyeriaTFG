@@ -69,4 +69,10 @@ Route::get('/pagos-redsys/{id}', [PagoRedsysController::class, 'show'])->name('p
 
 
 // Ruta para probar productos
-Route::get('/test-productos', [ProductoController::class, 'testView'])->name('productos.test');
+Route::get('/test/productos-test', [ProductoController::class, 'testView'])->name('productos.test');
+
+//Ruta para probar categorias
+Route::get('/test/categorias-test', [CategoriaController::class, 'testView'])->name('categorias.test');
+
+//Ruta para probar usuarios
+Route::get('/test/usuarios-test', [UsuarioController::class, 'testView'])->name('usuarios.test');

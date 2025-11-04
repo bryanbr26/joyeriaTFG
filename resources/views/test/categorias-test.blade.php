@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Joyas</title>
+    <title>Categorias de Joyas</title>
     <style>
         .producto-grid {
             display: grid;
@@ -52,41 +52,32 @@
         <h1>💎 Joyería - API Funcionando</h1>
         <a href="/" class="btn">🏠 Página Principal</a>
         <a href="/productos" class="btn" target="_blank">📋 Ver JSON Productos</a>
-        <a href="/categorias" class="btn" target="_blank">📁 Ver JSON Categorías</a>
+        <a href="/usuarios" class="btn" target="_blank">📁 Ver JSON Usuarios</a>
     </div>
 
-    <h2 style="text-align: center;">🎁 Catálogo de Productos</h2>
-    
-    @if($productos->count() > 0)
+    <h2 style="text-align: center;">Categorías de los productos</h2>
+    <!-- Comprobar si existe alguna categoria -->
+    @if($categorias->count() > 0) 
         <p style="text-align: center; color: green;">
-            ✅ {{ $productos->count() }} productos cargados correctamente
+            ✅ {{ $categorias->count() }} categorías cargadas correctamente  {{-- Usamos la funcion count de la coleccion de categorias --}}
         </p>
         
         <div class="producto-grid">
-            @foreach($productos as $producto)
+            @foreach($categorias as $categoria)
             <div class="producto-card">
-                <h3>{{ $producto->nombre }}</h3>
-                <p class="precio">{{ $producto->precio }} €</p>
-                <p>{{ $producto->descripcion }}</p>
-                
-                <div style="margin: 10px 0;">
-                    <span class="categoria">{{ $producto->categoria->nombre }}</span>
-                </div>
-                
-                <p><strong>Material:</strong> {{ $producto->material }}</p>
-                <p><strong>Peso:</strong> {{ $producto->peso }}g</p>
-                <p><strong>Stock:</strong> {{ $producto->stock }} unidades</p>
-                
-                <div style="margin-top: 15px;">
-                    <a href="/productos/{{ $producto->id }}" class="btn" target="_blank">
-                        🔍 Ver Detalles JSON
-                    </a>
-                </div>
+                <h3>{{ $categoria->nombre }}</h3>
+                <p>{{ $categoria->descripcion }}</p>
+                <p><strong>Productos:</strong></p>
+                <ul>
+                    @foreach($categoria->productos as $producto)
+                        <li>{{ $producto->nombre }} - {{ $producto->precio }} €</li>
+                    @endforeach
+                </ul>
             </div>
             @endforeach
         </div>
     @else
-        <p style="text-align: center; color: red;">❌ No hay productos disponibles</p>
+        <p style="text-align: center; color: red;">❌ No hay categorías disponibles</p>
     @endif
 </body>
 </html>

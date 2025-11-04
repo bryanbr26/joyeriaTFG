@@ -18,4 +18,9 @@ class CategoriaController extends Controller
         $categoria = Categoria::with('productos')->find($id);
         return response()->json($categoria);
     }
+    public function testView()
+    {
+        $categorias = Categoria::with('productos')->get(); // Obtenemos una coleccion de todos los datos de categorias
+        return view('test.categorias-test', compact('categorias'));
+    }
 }

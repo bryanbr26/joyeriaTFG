@@ -31,8 +31,8 @@
     
     <div style="margin: 20px 0;">
     <a href="{{ route('productos.test') }}" class="btn">📋 Productos</a>
-    <a href="{{ route('categorias.index') }}" class="btn btn-secondary">📁 Categorías</a>
-    <a href="{{ route('usuarios.index') }}" class="btn btn-success">👥 Usuarios</a>
+    <a href="{{ route('categorias.test') }}" class="btn btn-secondary">📁 Categorías</a>
+    <a href="{{ route('usuarios.test') }}" class="btn btn-success">👥 Usuarios</a>
 </div>
 </body>
 </html>

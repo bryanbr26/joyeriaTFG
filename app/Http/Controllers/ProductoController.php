@@ -21,8 +21,8 @@ class ProductoController extends Controller
 
     //Funcion qeu retorna los productos a una vista para probar
     public function testView()
-{
-    $productos = Producto::with('categoria')->get();
-    return view('productos-test', compact('productos'));
-}
+    {
+        $productos = Producto::with('categoria')->get();
+        return view('test.productos-test', compact('productos')); //Se pone test.productos-test para referirse a test/productos-test.blade.php
+    }
 }
