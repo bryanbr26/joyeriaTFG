@@ -13,7 +13,7 @@
     <form action="" method="">
         <p>CORREO ELECTRÓNICO<input type="text"></p>
         <p>CONTRASEÑA<input type="password"></p>
-        <button type="submit">INICIAR SESIÓN</button>
+        <button type="submit">IvgjvgNICIAR SESIÓN</button>
         <a href="">Recuperar contraseña</a>
         <a href="">¿No tienes cuenta?</a>
         <a href="">REGÍSTRATE</a>
