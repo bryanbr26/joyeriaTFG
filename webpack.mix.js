@@ -11,7 +11,3 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .vue() // ← AGREGAR ESTA LÍNEA PARA VUE
-    .sass('resources/sass/app.scss', 'public/css') // ← Cambiar a Sass
-    .sourceMaps();

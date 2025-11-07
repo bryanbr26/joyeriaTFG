@@ -6,16 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('IMAGENES_PRODUCTO', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('url', 500);
-            $table->boolean('principal')->default(false);
-            $table->foreignId('id_producto')->constrained('PRODUCTO');
+            $table->boolean('principal')->nullable()->default(false);
+            $table->unsignedInteger('id_producto')->nullable()->index('id_producto');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('IMAGENES_PRODUCTO');
