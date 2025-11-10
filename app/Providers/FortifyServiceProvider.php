@@ -30,13 +30,13 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 🔐 Acciones personalizadas de Fortify
+        // Acciones personalizadas de Fortify
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        // 🧾 Vistas personalizadas (si usas Blade)
+        // Vistas personalizadas (si usas Blade)
         Fortify::loginView(function () {
             return view('auth.login');
         });
@@ -53,7 +53,7 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.reset-password', ['request' => $request]);
         });
 
-        // ⚙️ Rate limiting (seguridad)
+        // Rate limiting (seguridad)
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
             return Limit::perMinute(5)->by($throttleKey);
