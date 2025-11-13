@@ -13,7 +13,7 @@
   <div class="d-flex mt-4">
     
     <!-- IMAGEN -->
-    <aside class="d-flex justify-content-center align-items-center bg-light">
+    <aside class="flex-fill d-flex justify-content-center align-items-center bg-light">
       <img class="img-fluid" src="{{ asset('assets/BolsaLogin.png') }}" alt="ImagenPrueba">
     </aside>
 
@@ -40,7 +40,8 @@
 
         <!-- FORMULARIO -->
         <form class="mx-4" method="POST" action="{{ route('login') }}">
-          @csrf
+          <!-- Token que evita la falsificacion de cuenta contrastando valores -->
+          @csrf 
           <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico:</label>
             <input type="email" class="form-control" name="email" id="email" required autofocus>
