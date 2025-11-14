@@ -25,5 +25,8 @@ class ResetUserPassword implements ResetsUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        return redirect('/login')
+            ->with('status', 'Contraseña cambiada correctamente.'); //Al recuperar la contraseña lo mandamos al login con el status
     }
 }

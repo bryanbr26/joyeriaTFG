@@ -36,6 +36,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+
         // Vistas personalizadas (si usas Blade)
         Fortify::loginView(function () {
             return view('auth.login');
@@ -45,9 +46,11 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
+        //Manda correo para recuperar la contraseña y manda a la vista
         Fortify::requestPasswordResetLinkView(function () {
             return view('auth.forgot-password');
         });
+
 
         Fortify::resetPasswordView(function ($request) {
             return view('auth.reset-password', ['request' => $request]);

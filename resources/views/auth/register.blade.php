@@ -40,10 +40,11 @@
 
         <!-- FORMULARIO -->
         <form action="{{ route('register') }}" method="POST" class="mx-4">
+            @csrf
             <div class="d-flex">
                 <div class="flex-fill me-3">
                   <label for="nombre" class="form-label ">Nombre</label>
-                  <input type="text" nam e="nombre" id="nombre" class="form-control" required>
+                  <input type="text" name="nombre" id="nombre" class="form-control" required>
                 </div>
                     
                 <div class="flex-fill m-0">
@@ -76,8 +77,8 @@
 
               <div class="flex-fill m-0">
                 <!-- Comprobar que sea igual que password (comparar cadena o el hasheo directamente?) -->
-                <label for="confirmPassword" class="form-label">Confirmar contraseña:</label>
-                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>     
+                <label for="password_confirmation">Confirmar contraseña</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" required>   
               </div>
 
             </div>

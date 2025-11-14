@@ -13,7 +13,7 @@
   <div class="d-flex mt-4">
     
     <!-- IMAGEN -->
-    <aside class="flex-fill d-flex justify-content-center align-items-center bg-light">
+    <aside class="flex-fill d-flex justify-content-center align-items-center bg-light" style="border:1px solid red;">
       <img class="img-fluid" src="{{ asset('assets/BolsaLogin.png') }}" alt="ImagenPrueba">
     </aside>
 
@@ -38,6 +38,13 @@
           </div>
         @endif
 
+        <!-- Status de recuperar la contraseña-->
+         @if (session('status'))
+          <div class="mb-4 font-medium text-sm text-green-600">
+              {{ session('status') }}
+          </div>
+        @endif
+
         <!-- FORMULARIO -->
         <form class="mx-4" method="POST" action="{{ route('login') }}">
           <!-- Token que evita la falsificacion de cuenta contrastando valores -->
@@ -54,7 +61,7 @@
 
           <div class="d-flex mb-3 p-2">
             <button type="submit" class="btn btn-primary flex-fill text-center m-0">Entrar</button>
-            <a href="#" class="flex-fill text-center m-0">Recuperar contraseña</a>
+            <a href="{{ route('password.request') }}" class="flex-fill text-center m-0">Recuperar contraseña</a>
           </div>
           
         </form>
