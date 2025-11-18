@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\MetodoPagoController;
@@ -20,8 +20,8 @@ Route::get('/', function () {
 });
 
 // USUARIOS
-Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
 
 // CATEGORIAS
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');

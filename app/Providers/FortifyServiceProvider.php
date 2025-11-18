@@ -13,17 +13,23 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use App\Models\Usuario; // Asegúrate de importar tu modelo correcto
+use App\Models\Usuario; 
+
+use Laravel\Fortify\Contracts\PasswordResetResponse;
+use App\Http\Responses\CustomPasswordResetResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
-    }
+    public function register()
+{
+    $this->app->singleton(
+        PasswordResetResponse::class,
+        CustomPasswordResetResponse::class
+    );
+}
 
     /**
      * Bootstrap any application services.
