@@ -9,6 +9,6 @@ class CustomPasswordResetResponse implements PasswordResetResponse
     public function toResponse($request)
     {
         return redirect('/login')
-            ->with('status', 'Contraseña cambiada correctamente.');
+            ->with('status', 'OK');
     }
 }
