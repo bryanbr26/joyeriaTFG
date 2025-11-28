@@ -9,6 +9,7 @@
     <form method="POST" action="{{ route('password.update') }}">
         @csrf
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        
         <label>Email</label>
         <input type="email" name="email" value="{{ old('email', $request->email) }}" required>
         <label>Nueva contraseña</label>
