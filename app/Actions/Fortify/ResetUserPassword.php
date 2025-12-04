@@ -18,6 +18,8 @@ class ResetUserPassword implements ResetsUserPasswords
      */
     public function reset(User $user, array $input): void
     {
+        \Illuminate\Support\Facades\Log::info('ResetUserPassword: Start for ' . $user->email);
+
         Validator::make($input, [
             'password' => $this->passwordRules(),
         ])->validate();
@@ -26,5 +28,6 @@ class ResetUserPassword implements ResetsUserPasswords
             'password' => Hash::make($input['password']),
         ])->save();
 
+        \Illuminate\Support\Facades\Log::info('ResetUserPassword: Password updated for ' . $user->email);
     }
 }
