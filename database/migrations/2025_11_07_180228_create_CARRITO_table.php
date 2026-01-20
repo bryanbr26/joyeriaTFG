@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('cantidad');
             $table->timestamp('fecha_agregado')->nullable()->useCurrent();
+            $table->string('ruta_grabado', 300);
             $table->unsignedInteger('id_usuario')->nullable()->index('id_usuario');
             $table->unsignedInteger('id_producto')->nullable()->index('id_producto');
         });
