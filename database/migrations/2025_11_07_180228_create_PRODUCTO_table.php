@@ -11,17 +11,25 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('PRODUCTO', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre', 200);
+            //Categoria del producto
+            $table->enum('categoria', ['anillo', 'pulsera', 'pendiente', 'collar']);
+
+            $table->string('nombre');
+            $table->string('marca');
             $table->string('descripcion');
             $table->decimal('precio', 10);
-            $table->string('material', 100)->nullable();
+            $table->string('genero');
+            $table->string('color');
+            $table->string('talla')->nullable();
+            $table->string('ruta_grabado', 300);
+            $table->string('material')->nullable();
+            $table->timestamp('fecha_agregado')->nullable()->useCurrent();
             $table->decimal('peso')->nullable();
             $table->integer('stock');
-            $table->unsignedInteger('id_categoria')->nullable()->index('id_categoria');
             $table->unsignedInteger('id_detalles_pedido')->nullable()->index('id_detalles_pedido');
         });
     }
