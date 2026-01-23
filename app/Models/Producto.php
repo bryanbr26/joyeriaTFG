@@ -14,33 +14,62 @@ class Producto extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nombre', 'descripcion', 'precio', 'material', 'peso', 'stock', 
-        'id_categoria', 'id_detalles_pedido'
+        'categoria',
+        'nombre',
+        'marca',
+        'descripcion',
+        'precio',
+        'genero',
+        'color',
+        'talla',
+        'ruta_grabado',
+        'material',
+        'peso',
+        'stock',
+        'id_detalles_pedido',
+        'fecha_agregado',
     ];
 
-    // Relaciones
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class, 'id_categoria');
-    }
+    protected $casts = [
+        'precio' => 'decimal:2',
+        'peso' => 'decimal:2',
+        'fecha_agregado' => 'datetime',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relaciones
+    |--------------------------------------------------------------------------
+    */
 
     public function detallePedido()
     {
         return $this->belongsTo(DetallePedido::class, 'id_detalles_pedido');
     }
 
-    public function imagenes()
+    //Muestra todos los collares
+    public static function mostrarCollares()
     {
-        return $this->hasMany(ImagenProducto::class, 'id_producto');
+        return self::where('categoria', 'collar')->get();
     }
-
-    public function carritos()
+    //Muestra todos los anillos
+    public static function mostrarAnillos()
     {
-        return $this->hasMany(Carrito::class, 'id_producto');
+        return self::where('categoria', 'anillo')->get();
     }
-
-    public function favoritos()
+    //Muestra todas las pulseras
+    public static function mostrarPulseras()
     {
-        return $this->hasMany(Favorito::class, 'id_producto');
+        return self::where('categoria', 'pulsera')->get();
+    }
+    //Muestra todos los pendientes
+    public static function mostrarPendientes()
+    {
+        return self::where('categoria', 'pendiente')->get();
+    }
+    //Muestra todos los productos
+    public static function mostrarTodos()
+    {
+        return self::all();
     }
 }

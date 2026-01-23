@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('marca');
             $table->string('descripcion');
-            $table->decimal('precio', 10);
+            $table->decimal('precio', 10, 2);
             $table->string('genero');
             $table->string('color');
             $table->string('talla')->nullable();

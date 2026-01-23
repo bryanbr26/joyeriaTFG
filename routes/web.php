@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JoyeriaController;
+use App\Http\Controllers\JoyasController;
 use App\Http\Controllers\RegalosController;
 use App\Http\Controllers\PersonalizaController;
 use App\Http\Controllers\ComproOroController;
@@ -26,10 +26,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // RUTAS DE JOYERIA
-Route::get('/collares', [JoyeriaController::class, 'collares'])->name('collares');
-Route::get('/anillos', [JoyeriaController::class, 'anillos'])->name('anillos');
-Route::get('/pulseras', [JoyeriaController::class, 'pulseras'])->name('pulseras');
-Route::get('/pendientes', [JoyeriaController::class, 'pendientes'])->name('pendientes');
+Route::get('/collares', [JoyasController::class, 'collares'])->name('collares');
+Route::get('/anillos', [JoyasController::class, 'anillos'])->name('anillos');
+Route::get('/pulseras', [JoyasController::class, 'pulseras'])->name('pulseras');
+Route::get('/pendientes', [JoyasController::class, 'pendientes'])->name('pendientes');
 
 //RUTAS DEL RESTO DEL NAV
 Route::get('/regalos', [RegalosController::class, 'regalos'])->name('regalos');

@@ -1,13 +1,11 @@
 <header class="border-bottom">
     <!-- Fila 1: Logo, Buscador, Iconos -->
-    <div class="container-fluid py-2 bg-white">
-        <div class="row align-items-center">
+    <div class="container-fluid d-flex flex-row py-2 bg-white align-items-center">
 
-            <!-- Logo -->
-            <div class="col-auto">
-                <div class="d-flex align-items-center" style="text-decoration:none">
-                    <a href="{{ route('index') }}" class="h3 mb-0 fw-bold text-uppercase" style="text-decoration:none">Joyas<br>Perez</a>
-                </div>
+        <!-- Logo -->
+        <div class="col-auto">
+            <div class="d-flex align-items-center">
+                <a href="{{ route('index') }}" class="h3 mb-0 fw-bold text-uppercase" style="text-decoration:none">Joyas<br>Perez</a>
             </div>
         </div>
 
@@ -48,7 +46,6 @@
             </div>
         </div>
 
-    </div>
     </div>
 
     <!-- Fila 2: Navegación -->
