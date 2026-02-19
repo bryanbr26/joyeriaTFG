@@ -48,16 +48,6 @@ services:
     networks:
       - joyas_network
 
-  mailhog:
-    image: mailhog/mailhog
-    container_name: joyas_mailhog
-    restart: unless-stopped
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-    networks:
-      - joyas_network
-
 volumes:
   db_data:
     driver: local
