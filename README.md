@@ -1,8 +1,8 @@
-# 🛍️ E-commerce de Joyas
+#  E-commerce de Joyas
 
 E-commerce desarrollado con Laravel, Vue.js, Bootstrap 5 y Docker.
 
-## 🚀 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 ### Backend
 - **Laravel 10** - Framework PHP
@@ -22,12 +22,12 @@ E-commerce desarrollado con Laravel, Vue.js, Bootstrap 5 y Docker.
 - **Nginx** - Servidor web
 - **Mailhog** - Testing de emails
 
-## 📋 Prerrequisitos
+## Prerrequisitos
 
 - **Docker** y **Docker Compose** instalados
 - **Git** para clonar el repositorio
 
-## 🛠️ Instalación y Configuración
+## Instalación y Configuración
 
 ### 1. Clonar el repositorio
 ```bash
