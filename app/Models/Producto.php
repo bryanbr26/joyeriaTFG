@@ -47,29 +47,34 @@ class Producto extends Model
         return $this->belongsTo(DetallePedido::class, 'id_detalles_pedido');
     }
 
+    public function imagenes()
+    {
+        return $this->hasMany(ImagenProducto::class, 'id_producto');
+    }
+
     //Muestra todos los collares
     public static function mostrarCollares()
     {
-        return self::where('categoria', 'collar')->get();
+        return self::where('categoria', 'collar')->paginate(8);
     }
     //Muestra todos los anillos
     public static function mostrarAnillos()
     {
-        return self::where('categoria', 'anillo')->get();
+        return self::where('categoria', 'anillo')->paginate(8);
     }
     //Muestra todas las pulseras
     public static function mostrarPulseras()
     {
-        return self::where('categoria', 'pulsera')->get();
+        return self::where('categoria', 'pulsera')->paginate(8);
     }
     //Muestra todos los pendientes
     public static function mostrarPendientes()
     {
-        return self::where('categoria', 'pendiente')->get();
+        return self::where('categoria', 'pendiente')->paginate(8);
     }
     //Muestra todos los productos
     public static function mostrarTodos()
     {
-        return self::all();
+        return self::paginate(10);
     }
 }

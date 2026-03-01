@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('FAVORITOS', function (Blueprint $table) {
-            $table->foreign(['id_usuario'], 'FAVORITOS_ibfk_1')->references(['id'])->on('USUARIO')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_producto'], 'FAVORITOS_ibfk_2')->references(['id'])->on('PRODUCTO')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_usuario'], 'FAVORITOS_ibfk_1')->references(['id'])->on('USUARIO')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign(['id_producto'], 'FAVORITOS_ibfk_2')->references(['id'])->on('PRODUCTO')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

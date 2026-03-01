@@ -6,39 +6,23 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class JoyasController extends Controller
+class ProductoController extends Controller
 {
-    // Mapa de rutas a categorías de la BBDD
-    private function getCategoriaDB($categoria)
+    public function index()
     {
-        $mapa = [
-            'collares' => 'collar',
-            'anillos' => 'anillo',
-            'pulseras' => 'pulsera',
-            'pendientes' => 'pendiente',
-        ];
-        return $mapa[$categoria] ?? $categoria;
+        $productos = Producto::paginate(10);
+        return view('productos.index', compact('productos'));
     }
 
-    public function index($categoria)
+    public function create()
     {
-        $categoriaDB = $this->getCategoriaDB($categoria);
-        $productos = Producto::where('categoria', $categoriaDB)->paginate(8);
-        $titulo = ucfirst($categoria);
-        return view('joyas.index', compact('productos', 'categoria', 'titulo'));
+        return view('productos.create');
     }
 
-    public function create($categoria)
+    public function store(Request $request)
     {
-        $titulo = ucfirst($categoria);
-        return view('joyas.create', compact('categoria', 'titulo'));
-    }
-
-    public function store(Request $request, $categoria)
-    {
-        $categoriaDB = $this->getCategoriaDB($categoria);
-
         $request->validate([
+            'categoria' => 'required|in:anillo,pulsera,pendiente,collar',
             'nombre' => 'required|string|max:255',
             'marca' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -53,7 +37,6 @@ class JoyasController extends Controller
         ]);
 
         $datos = $request->except('imagen');
-        $datos['categoria'] = $categoriaDB;
 
         if ($request->hasFile('imagen')) {
             $ruta = $request->file('imagen')->store('productos', 'public');
@@ -62,18 +45,18 @@ class JoyasController extends Controller
 
         Producto::create($datos);
 
-        return redirect()->route('joyas.index', $categoria)->with('success', ucfirst($categoriaDB) . ' creado correctamente.');
+        return redirect()->route('productos.index')->with('success', 'Producto creado correctamente.');
     }
 
-    public function edit($categoria, Producto $producto)
+    public function edit(Producto $producto)
     {
-        $titulo = ucfirst($categoria);
-        return view('joyas.edit', compact('producto', 'categoria', 'titulo'));
+        return view('productos.edit', compact('producto'));
     }
 
-    public function update(Request $request, $categoria, Producto $producto)
+    public function update(Request $request, Producto $producto)
     {
         $request->validate([
+            'categoria' => 'required|in:anillo,pulsera,pendiente,collar',
             'nombre' => 'required|string|max:255',
             'marca' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -90,6 +73,7 @@ class JoyasController extends Controller
         $datos = $request->except('imagen');
 
         if ($request->hasFile('imagen')) {
+            // Eliminar imagen anterior si existe
             if ($producto->ruta_grabado && Storage::disk('public')->exists($producto->ruta_grabado)) {
                 Storage::disk('public')->delete($producto->ruta_grabado);
             }
@@ -99,17 +83,18 @@ class JoyasController extends Controller
 
         $producto->update($datos);
 
-        return redirect()->route('joyas.index', $categoria)->with('success', 'Producto actualizado correctamente.');
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
     }
 
-    public function destroy($categoria, Producto $producto)
+    public function destroy(Producto $producto)
     {
+        // Eliminar imagen si existe
         if ($producto->ruta_grabado && Storage::disk('public')->exists($producto->ruta_grabado)) {
             Storage::disk('public')->delete($producto->ruta_grabado);
         }
 
         $producto->delete();
 
-        return redirect()->route('joyas.index', $categoria)->with('success', 'Producto eliminado correctamente.');
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente.');
     }
 }
