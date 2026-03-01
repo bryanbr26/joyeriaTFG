@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('PAGOS_REDSYS', function (Blueprint $table) {
-            $table->foreign(['id_pedido'], 'PAGOS_REDSYS_ibfk_1')->references(['id'])->on('PEDIDO')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_pedido'], 'PAGOS_REDSYS_ibfk_1')->references(['id'])->on('PEDIDO')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

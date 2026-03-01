@@ -15,23 +15,26 @@ use App\Http\Controllers\ContactoController;
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-// USUARIOS
-//Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
-//Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
-
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// RUTAS DE JOYERIA
-Route::get('/collares', [JoyasController::class, 'collares'])->name('collares');
-Route::get('/anillos', [JoyasController::class, 'anillos'])->name('anillos');
-Route::get('/pulseras', [JoyasController::class, 'pulseras'])->name('pulseras');
-Route::get('/pendientes', [JoyasController::class, 'pendientes'])->name('pendientes');
+// CRUD USUARIOS
+Route::resource('usuarios', UserController::class);
 
-//RUTAS DEL RESTO DEL NAV
+// CRUD JOYAS POR CATEGORÍA
+Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|pendientes'])->name('joyas.')->group(function () {
+    Route::get('/', [JoyasController::class, 'index'])->name('index');
+    Route::get('/create', [JoyasController::class, 'create'])->name('create');
+    Route::post('/', [JoyasController::class, 'store'])->name('store');
+    Route::get('/{producto}/edit', [JoyasController::class, 'edit'])->name('edit');
+    Route::put('/{producto}', [JoyasController::class, 'update'])->name('update');
+    Route::delete('/{producto}', [JoyasController::class, 'destroy'])->name('destroy');
+});
+
+// RUTAS DEL RESTO DEL NAV
 Route::get('/regalos', [RegalosController::class, 'regalos'])->name('regalos');
 Route::get('/personaliza-tus-joyas', [PersonalizaController::class, 'personaliza'])->name('personaliza');
 Route::get('/compro-oro', [ComproOroController::class, 'comproOro'])->name('comproOro');

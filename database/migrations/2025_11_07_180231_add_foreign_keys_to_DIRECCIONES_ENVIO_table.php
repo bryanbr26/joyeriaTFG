@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('DIRECCIONES_ENVIO', function (Blueprint $table) {
-            $table->foreign(['id_usuario'], 'DIRECCIONES_ENVIO_ibfk_1')->references(['id'])->on('USUARIO')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_usuario'], 'DIRECCIONES_ENVIO_ibfk_1')->references(['id'])->on('USUARIO')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

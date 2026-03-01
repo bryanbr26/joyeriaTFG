@@ -25,7 +25,7 @@
         <div class="col-auto">
             <div class="d-flex gap-3">
                 <!-- Usuario/Login -->
-                <a href="#" class="text-dark" title="Mi Cuenta">
+                <a href="{{ route('usuarios.index') }}" class="text-dark" title="Gestión Usuarios">
                     <i class="bi bi-person fs-5"></i>
                 </a>
                 <!-- Ubicacion -->
@@ -59,10 +59,10 @@
                                 Joyería
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('collares') }}">Collares</a></li>
-                                <li><a class="dropdown-item" href="{{ route('anillos') }}">Anillos</a></li>
-                                <li><a class="dropdown-item" href="{{ route('pulseras') }}">Pulseras</a></li>
-                                <li><a class="dropdown-item" href="{{ route('pendientes') }}">Pendientes</a></li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'collares') }}">Collares</a></li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'anillos') }}">Anillos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a></li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
