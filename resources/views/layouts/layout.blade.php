@@ -12,7 +12,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Bootstrap Icons (ya incluidos en app.css) -->
-    <!-- estilos css personalizados -->
+    <link href="{{ asset('css/global.css') }}" rel="stylesheet">
 </head>
 
 <body>
