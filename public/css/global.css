@@ -1,30 +1,766 @@
+/* ============================================================
+   JOYAS PÉREZ – TEMA GLOBAL (Paleta Azul Claro + Animaciones)
+   ============================================================ */
+
+/* ---------- Fuentes ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ---------- Variables de color ---------- */
+:root {
+    --blue-50: #e8f4fd;
+    --blue-100: #bee3f8;
+    --blue-200: #90cdf4;
+    --blue-300: #63b3ed;
+    --blue-400: #4299e1;
+    --blue-500: #2b7cb8;
+    --blue-600: #11415E;
+    --blue-700: #0b2d42;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a0;
+    --white: #ffffff;
+    --grey-50: #f7fafc;
+    --grey-100: #edf2f7;
+    --text-dark: #1a202c;
+    --text-muted: #718096;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Georgia, serif;
-    color: #1a1a1a;
+    font-family: 'Inter', 'Georgia', serif;
+    color: var(--text-dark);
+    background-color: var(--grey-50);
+    transition: background-color 0.3s ease;
 }
 
-a {
-    color: #11415E;
+/* ---------- Tipografía de display ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+.brand-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: 0.03em;
 }
 
-a:hover {
-    color: #83ABB9;
+/* ---------- Animaciones Keyframes ---------- */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.nav-bar {
-    background-color: #e3f2fd;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes pulse-soft {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(66, 153, 225, 0);
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Clases de animación de entrada ---------- */
+.anim-fade-in {
+    animation: fadeIn 0.6s ease both;
+}
+
+.anim-fade-in-down {
+    animation: fadeInDown 0.6s ease both;
+}
+
+.anim-fade-in-up {
+    animation: fadeInUp 0.6s ease both;
+}
+
+.anim-slide-in-left {
+    animation: slideInLeft 0.6s ease both;
+}
+
+/* Retrasos para encadenar */
+.anim-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.anim-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.anim-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.anim-delay-4 {
+    animation-delay: 0.4s;
+}
+
+.anim-delay-5 {
+    animation-delay: 0.5s;
+}
+
+/* ---------- HEADER ---------- */
+header {
+    animation: fadeInDown 0.5s ease both;
+    box-shadow: 0 2px 12px rgba(17, 65, 94, 0.08);
+}
+
+/* Barra superior del header — logo centrado */
+.header-top {
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-600) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 1.5rem;
+}
+
+/* Logo — título centrado sobre buscador */
+.brand-name {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light) !important;
+    text-decoration: none !important;
+    line-height: 1;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.brand-name:hover {
+    color: var(--gold) !important;
+    text-shadow: 0 0 14px rgba(201, 168, 76, 0.4);
+}
+
+/* Buscador */
+.search-input {
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    border-right: none !important;
+    border-radius: 25px 0 0 25px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--white) !important;
+    padding-left: 1.2rem !important;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.25) !important;
+    background: rgba(255, 255, 255, 0.18) !important;
+    border-color: var(--gold) !important;
+    color: var(--white) !important;
+}
+
+.search-btn {
+    background: var(--gold) !important;
+    border: 2px solid var(--gold) !important;
+    border-radius: 0 25px 25px 0 !important;
+    color: var(--white) !important;
+    transition: background 0.25s, border-color 0.25s, transform 0.2s;
+}
+
+.search-btn:hover {
+    background: #b8943e !important;
+    border-color: #b8943e !important;
+    transform: scale(1.05);
+}
+
+/* Iconos de acción */
+.header-icon {
+    color: var(--blue-100) !important;
+    font-size: 1.25rem;
+    transition: color 0.25s, transform 0.25s;
+    text-decoration: none;
+}
+
+.header-icon:hover {
+    color: var(--gold-light) !important;
+    transform: scale(1.2);
+}
+
+/* Badge del carrito */
+.badge-cart {
+    background: var(--gold) !important;
+    color: var(--blue-700);
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+/* ---------- NAVEGACIÓN ---------- */
+.main-nav {
+    background: linear-gradient(90deg, var(--blue-700) 0%, var(--blue-600) 100%);
+    box-shadow: 0 4px 12px rgba(11, 45, 66, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.main-nav .nav-link {
+    color: var(--white) !important;
+    font-weight: 500;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.65rem 1rem !important;
+    position: relative;
+    transition: color 0.25s ease;
+}
+
+/* Subrayado animado al hover */
+.main-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.3s ease, left 0.3s ease;
+    border-radius: 2px;
+}
+
+.main-nav .nav-link:hover::after,
+.main-nav .nav-link.active::after {
+    width: 70%;
+    left: 15%;
+}
+
+.main-nav .nav-link:hover {
+    color: var(--gold-light) !important;
+}
+
+/* Dropdown del nav */
+.main-nav .dropdown-menu {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(17, 65, 94, 0.15);
+    background: var(--white);
+    animation: fadeInDown 0.25s ease both;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.main-nav .dropdown-item {
+    color: var(--blue-600);
+    font-size: 0.88rem;
+    padding: 0.6rem 1.2rem;
+    transition: background 0.2s, color 0.2s, padding-left 0.2s;
+}
+
+.main-nav .dropdown-item:hover {
+    background: var(--blue-50);
+    color: var(--blue-500);
+    padding-left: 1.6rem;
+}
+
+/* ---------- MAIN content ---------- */
+main.site-main {
+    min-height: 60vh;
+    animation: fadeInUp 0.55s ease 0.1s both;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+    border: none !important;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(17, 65, 94, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(17, 65, 94, 0.15);
+}
+
+.card-img-top {
+    transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.04);
+}
+
+/* ---------- BOTONES ---------- */
 .btn-primary {
-    background-color: #11415E;
-    border-color: #11415E;
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-400)) !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 0.55rem 1.6rem !important;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--white) !important;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .btn-primary:hover {
-    background-color: #83ABB9;
-    border-color: #83ABB9;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-500)) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(43, 124, 184, 0.35) !important;
 }
 
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-outline-primary {
+    border-color: var(--blue-400) !important;
+    color: var(--blue-600) !important;
+    border-radius: 25px !important;
+    transition: all 0.25s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--blue-400) !important;
+    color: var(--white) !important;
+    border-color: var(--blue-400) !important;
+}
+
+.btn-outline-dark {
+    border-color: var(--blue-500) !important;
+    color: var(--blue-600) !important;
+    border-radius: 25px !important;
+    transition: all 0.25s ease;
+}
+
+.btn-outline-dark:hover {
+    background: var(--blue-500) !important;
+    color: var(--white) !important;
+}
+
+/* Botón dorado (especial) */
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold), #e0b85c);
+    border: none;
+    border-radius: 25px;
+    color: var(--white);
+    font-weight: 600;
+    padding: 0.6rem 1.8rem;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(201, 168, 76, 0.4);
+    color: var(--white);
+}
+
+/* ---------- FORMULARIOS ---------- */
+.form-control,
+.form-select {
+    border: 2px solid var(--blue-200) !important;
+    border-radius: 10px !important;
+    background: var(--blue-50) !important;
+    color: var(--text-dark) !important;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    padding: 0.5rem 0.9rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--blue-400) !important;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2) !important;
+    background: var(--white) !important;
+    outline: none !important;
+}
+
+.form-label {
+    color: var(--blue-600);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Animación en foco de input (pulse) */
+.form-control:focus {
+    animation: pulse-soft 1.5s ease infinite;
+}
+
+/* ---------- ALERT / MENSAJES ---------- */
+.alert-info {
+    background: var(--blue-50);
+    border-left: 4px solid var(--blue-400);
+    color: var(--blue-600);
+    border-radius: 10px;
+    animation: fadeInUp 0.4s ease both;
+}
+
+.alert-danger {
+    border-radius: 10px;
+    animation: fadeInUp 0.4s ease both;
+}
+
+/* ---------- BADGES ---------- */
+.badge {
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.bg-primary {
+    background: var(--blue-400) !important;
+}
+
+/* ---------- TABLAS ---------- */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: linear-gradient(90deg, var(--blue-500), var(--blue-400));
+    color: var(--white);
+}
+
+.table-hover tbody tr {
+    transition: background 0.2s, transform 0.15s;
+}
+
+.table-hover tbody tr:hover {
+    background: var(--blue-50);
+    transform: scale(1.005);
+}
+
+/* ---------- FOOTER ---------- */
 footer {
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-600) 100%);
+    color: var(--grey-100);
+    animation: fadeInUp 0.6s ease 0.2s both;
+    padding: 3rem 0 1.5rem;
+}
+
+footer .footer-card {
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--grey-100);
+}
+
+footer h5 {
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}
+
+footer .nav-link,
+footer a {
+    color: var(--blue-100) !important;
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.25s, padding-left 0.25s;
+}
+
+footer .nav-link:hover,
+footer a:hover {
+    color: var(--gold-light) !important;
+    padding-left: 0.4rem;
+}
+
+footer .social-icon {
+    font-size: 1.35rem;
+    color: var(--blue-100) !important;
+    transition: color 0.25s, transform 0.25s;
+    text-decoration: none !important;
+}
+
+footer .social-icon:hover {
+    color: var(--gold-light) !important;
+    transform: scale(1.25) rotate(8deg);
+}
+
+footer .copyright {
+    color: var(--blue-200);
+    font-size: 0.82rem;
+}
+
+footer .divider {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- LOGIN / REGISTER PAGES ---------- */
+.auth-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--blue-50) 0%, var(--blue-100) 50%, var(--white) 100%);
+}
+
+.auth-card {
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 16px 48px rgba(17, 65, 94, 0.14) !important;
+    animation: fadeInUp 0.6s ease both;
+    overflow: hidden;
+}
+
+.auth-aside {
+    background: linear-gradient(160deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-aside::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -30%;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    animation: spin-slow 18s linear infinite;
+}
+
+/* Tabs login/register */
+.auth-tabs {
+    background: var(--blue-50);
+    border-bottom: 2px solid var(--blue-200);
+}
+
+.auth-tabs .tab-btn {
+    flex: 1;
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.25s, background 0.25s;
+    text-decoration: none;
+}
+
+.auth-tabs .tab-btn.active,
+.auth-tabs .tab-btn:hover {
+    color: var(--blue-600);
+    background: var(--blue-100);
+}
+
+/* ---------- PÁGINAS "PRÓXIMAMENTE" ---------- */
+.coming-soon-icon {
+    font-size: 3.5rem;
+    color: var(--blue-300);
+    animation: pulse-soft 2s ease infinite;
+}
+
+/* ---------- HOME – sección bienvenida ---------- */
+.home-hero {
+    background: linear-gradient(135deg, var(--blue-50) 0%, var(--white) 60%, var(--blue-100) 100%);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 24px rgba(17, 65, 94, 0.07);
+    animation: fadeInUp 0.7s ease both;
+}
+
+.home-hero h2 {
+    color: var(--blue-600);
+    font-size: 2.4rem;
+}
+
+.home-hero p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* ---------- SCROLL REVEAL helper ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------- Scrollbar personalizado ---------- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--blue-50);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--blue-300);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--blue-500);
+}
+
+/* ---------- Enlace genérico ---------- */
+a {
+    color: var(--blue-500);
+    transition: color 0.25s;
+}
+
+a:hover {
+    color: var(--blue-700);
+}
+
+/* ---------- Home Secciones Extra ---------- */
+.section-img {
+    transition: transform 0.5s ease;
+}
+
+.section-img:hover {
+    transform: scale(1.03);
+}
+
+.section-label {
+    display: inline-block;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    color: var(--blue-700);
+    font-size: 2.8rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+}
+
+.section-text {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.section-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.section-list li {
+    font-size: 1rem;
+    color: var(--blue-600);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.section-list li i {
+    color: var(--gold);
+}
+
+.section-banner {
+    background: linear-gradient(135deg, var(--blue-700), var(--blue-600));
+    color: var(--gold-light);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+}
+
+.banner-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.banner-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .brand-name {
+        font-size: 1.3rem;
+    }
+
+    .main-nav .nav-link {
+        font-size: 0.82rem;
+        padding: 0.5rem 0.6rem !important;
+    }
+
+    footer {
+        padding: 2rem 0 1rem;
+    }
+
+    .home-hero h2 {
+        font-size: 1.8rem;
+    }
 }
