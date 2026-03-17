@@ -55,26 +55,26 @@ class Producto extends Model
     //Muestra todos los collares
     public static function mostrarCollares()
     {
-        return self::where('categoria', 'collar')->paginate(8);
+        return self::where('categoria', 'collar')->paginate(2);
     }
     //Muestra todos los anillos
     public static function mostrarAnillos()
     {
-        return self::where('categoria', 'anillo')->paginate(8);
+        return self::where('categoria', 'anillo')->paginate(2);
     }
     //Muestra todas las pulseras
     public static function mostrarPulseras()
     {
-        return self::where('categoria', 'pulsera')->paginate(8);
+        return self::where('categoria', 'pulsera')->paginate(2);
     }
     //Muestra todos los pendientes
     public static function mostrarPendientes()
     {
-        return self::where('categoria', 'pendiente')->paginate(8);
+        return self::where('categoria', 'pendiente')->paginate(2);
     }
     //Muestra todos los productos
     public static function mostrarTodos()
     {
-        return self::paginate(10);
+        return self::paginate(2);
     }
 }
