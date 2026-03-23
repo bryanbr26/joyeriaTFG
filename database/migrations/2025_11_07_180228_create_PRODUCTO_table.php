@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('marca');
             $table->string('descripcion');
             $table->decimal('precio', 10, 2);
-            $table->string('genero');
+            $table->enum('genero', ['hombre', 'mujer', 'unisex']);
             $table->string('color');
             $table->string('talla')->nullable();
             $table->string('ruta_grabado', 300);
