@@ -26,10 +26,13 @@
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
         <h3 class="mb-3 olvidaste-contra">¿Olvidaste tu contraseña?</h3>
-        <div class="mb-3">
+        <div class="mb-3 mt-1">
             <input type="email" name="email" id="email" class="form-control input-email" placeholder="Escriba su email aquí" required>
+        </div>   
+        <div class="mb-3 mt-1 text-center">
+            <button class="btn boton-recup" type="submit" style="background-color: #83ABB9">Enviar enlace</button>
         </div>
-        <button class="btn btn-primary boton-login" type="submit">Enviar enlace de recuperación</button>
+        
     </form>
 </body>
 </html>
