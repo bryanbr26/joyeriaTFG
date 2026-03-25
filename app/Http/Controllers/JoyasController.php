@@ -71,8 +71,8 @@ class JoyasController extends Controller
             $query->orderBy('precio', 'desc');
         }
 
-        // withQueryString() mantiene los parámetros de la URL al paginar
-        $productos = $query->paginate(8)->withQueryString();
+        // appends($request->query()) mantiene los parámetros de la URL al paginar
+        $productos = $query->paginate(8)->appends($request->query());
         $titulo = ucfirst($categoria);
 
         return view('joyas.index', compact('productos', 'categoria', 'titulo', 'precioMaximo', 'precioMin', 'precioMax', 'orden'));
