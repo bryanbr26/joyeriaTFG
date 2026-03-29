@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Iniciar sesión</title>
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/global.css') }}">
   <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
@@ -20,12 +21,12 @@
 
     <!-- MAIN -->
     <main class="flex-fill d-flex justify-content-center align-items-center">
-      <div class="w-100 h-100">
+      <div class="w-100 h-100 form-loginreg">
 
         <!-- INICIAR SESION / REGISTRARSE -->
-        <div class="d-flex mb-3 p-2" style="background-color: lightgrey;">
-          <p class="flex-fill text-center m-0">INICIAR SESIÓN</p>
-          <p class="flex-fill text-center m-0">REGISTRARSE</p>
+        <div class="d-flex mb-3 p-2 bot-loginreg" style="background-color: lightgrey;">
+          <p class="flex-fill text-center m-0">Iniciar Sesión</p>
+          <p class="flex-fill text-center m-0">Registrarse</p>
         </div>
 
         <!-- ERRORES -->
@@ -47,7 +48,7 @@
         @endif
 
         <!-- FORMULARIO -->
-        <form class="mx-4" method="POST" action="{{ route('login') }}">
+        <form class="campos-form" method="POST" action="{{ route('login') }}">
           <!-- Token que evita la falsificacion de cuenta contrastando valores -->
           @csrf
           <div class="mb-3">
@@ -61,8 +62,8 @@
           </div>
 
           <div class="d-flex mb-3 p-2">
-            <button type="submit" class="btn btn-primary flex-fill text-center m-0">Entrar</button>
-            <a href="{{ route('password.request') }}" class="flex-fill text-center m-0">Recuperar contraseña</a>
+            <button type="submit" class="btn btn-primary flex-fill text-center m-0 btn-entrar">Entrar</button>
+            <a href="{{ route('password.request') }}" class="flex-fill text-center m-0 btn-recu">Recuperar contraseña</a>
           </div>
 
         </form>
