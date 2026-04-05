@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Personalizador de Joyas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Personalizador de Joyas</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 5 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha implementado una herramienta interactiva de personalización de joyas dentro de la página
+        <code>/personaliza-tus-joyas</code> del proyecto Laravel. La herramienta permite al usuario <strong>dibujar
+            libremente</strong>, <strong>escribir texto</strong> y <strong>subir imágenes</strong> sobre un canvas
+        rectangular blanco, simulando un boceto de diseño de joya.</p>
+
+    <p>La funcionalidad está inspirada en herramientas como el personalizador de Pandora, pero simplificada a tres
+        acciones principales: dibujar, escribir y cargar imagen.</p>
+
+    <!-- ============================== -->
+    <h2>2. Archivos involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/pages/personaliza.blade.php</span></td>
+            <td>Vista Blade con todo el HTML, CSS inline y JavaScript del personalizador</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/PersonalizaController.php</span></td>
+            <td>Controlador que sirve la vista (ya existía, sin cambios)</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Ruta <code>/personaliza-tus-joyas</code> (ya existía, sin cambios)</td>
+        </tr>
+    </table>
+
+    <p>Todo el código (HTML + JS) está contenido en un único archivo Blade para simplificar el mantenimiento. No se han
+        añadido archivos CSS ni JS externos.</p>
+
+    <!-- ============================== -->
+    <h2>3. Arquitectura del canvas</h2>
+
+    <p>Se utilizan <strong>dos canvas HTML5 superpuestos</strong> para evitar que el cursor de texto se quede grabado en
+        el dibujo:</p>
+
+    <div class="diagram">
+        ┌──────────────────────────────────┐<br>
+        │ <strong>canvas-cursor</strong> (overlay transparente) │ ← Solo el cursor "|" parpadeante<br>
+        │ pointer-events: none │<br>
+        ├──────────────────────────────────┤<br>
+        │ <strong>canvas-joya</strong> (canvas principal) │ ← Dibujos, texto e imágenes<br>
+        │ border: 1px solid #ccc │<br>
+        └──────────────────────────────────┘
+    </div>
+
+    <ul>
+        <li><strong>canvas-joya</strong> (900×450px): canvas principal donde se dibujan los trazos del lápiz, el texto
+            confirmado y las imágenes cargadas.</li>
+        <li><strong>canvas-cursor</strong> (900×450px): canvas transparente posicionado encima con
+            <code>position: absolute</code> y <code>pointer-events: none</code>. Solo se usa para mostrar el cursor
+            parpadeante "<strong>|</strong>" del modo texto. Al estar en un canvas separado, el cursor nunca se "quema"
+            en el dibujo principal.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>4. Herramientas implementadas</h2>
+
+    <h3>4.1 Lápiz (dibujo libre)</h3>
+    <p>Permite dibujar trazos libres sobre el canvas. Funciona capturando los eventos <code>mousedown</code>,
+        <code>mousemove</code> y <code>mouseup</code> del canvas:</p>
+    <ul>
+        <li><strong>mousedown</strong>: marca el inicio del trazo y guarda la posición inicial.</li>
+        <li><strong>mousemove</strong>: mientras el ratón está pulsado, dibuja líneas cortas (<code>ctx.lineTo</code>)
+            desde la última posición hasta la actual, creando un trazo continuo.</li>
+        <li><strong>mouseup</strong>: finaliza el trazo y guarda el estado en la pila de deshacer.</li>
+    </ul>
+    <p>También se gestionan <code>mouseleave</code> y <code>mouseenter</code>: al salir del canvas se pausa el dibujo, y
+        al volver a entrar con el botón pulsado se retoma <strong>desde la nueva posición</strong> (sin dibujar una
+        línea recta desde donde salió).</p>
+    <p>El color se configura con un <code>&lt;input type="color"&gt;</code> y el grosor con un
+        <code>&lt;select&gt;</code>.</p>
+
+    <h3>4.2 Texto en vivo</h3>
+    <p>Al activar el modo texto y hacer clic en el canvas, el usuario puede escribir directamente con el teclado y ver
+        el texto aparecer en tiempo real:</p>
+
+    <ol>
+        <li>Se guarda el estado actual del canvas como <code>ImageData</code> (antes de escribir).</li>
+        <li>Cada vez que se pulsa una tecla, se restaura ese estado guardado y se redibuja todo el texto encima → así
+            cada carácter nuevo aparece sin acumular artefactos.</li>
+        <li>El cursor "<strong>|</strong>" se dibuja en el canvas overlay con un <code>setInterval</code> que alterna su
+            visibilidad cada 500ms.</li>
+        <li><strong>Enter</strong> → salto de línea (se añade una nueva línea al array <code>lineasTexto</code>).</li>
+        <li><strong>Escape</strong> o clic en otro sitio → confirma el texto, detiene el parpadeo y guarda el estado.
+        </li>
+    </ol>
+
+    <pre>
+// Estructura de datos del texto multilínea:
+let lineasTexto = ['Primera línea', 'Segunda línea', ''];
+//                                                   ↑ línea actual donde se escribe
+</pre>
+
+    <h3>4.3 Subir imagen</h3>
+    <p>Un <code>&lt;input type="file"&gt;</code> oculto permite seleccionar una imagen del ordenador. La imagen se carga
+        con la API <code>FileReader</code> / <code>URL.createObjectURL</code> y se dibuja en el canvas centrada y
+        escalada proporcionalmente para que quepa sin deformarse.</p>
+
+    <pre>
+const escala = Math.min(canvas.width / img.width, canvas.height / img.height, 1);
+// Se usa Math.min con 1 para que imágenes pequeñas no se agranden
+</pre>
+
+    <!-- ============================== -->
+    <h2>5. Sistema de deshacer</h2>
+
+    <p>Se mantiene una <strong>pila de estados</strong> (<code>pilaDeshacer</code>) que almacena capturas del canvas
+        como objetos <code>ImageData</code>:</p>
+
+    <ul>
+        <li><strong>Guardar estado</strong>: después de cada acción (trazo dibujado, texto confirmado, imagen subida,
+            limpiar), se llama a <code>ctx.getImageData()</code> y se añade a la pila.</li>
+        <li><strong>Deshacer</strong>: se elimina el último estado y se restaura el anterior con
+            <code>ctx.putImageData()</code>.</li>
+        <li>Límite: máximo 30 estados para no consumir demasiada memoria.</li>
+    </ul>
+
+    <p><strong>Importante</strong>: se usa <code>ImageData</code> (síncrono) en lugar de <code>toDataURL</code> +
+        <code>new Image()</code> (asíncrono). Esto evita <em>race conditions</em> donde operaciones asíncronas
+        interferían entre sí y causaban que el cursor del texto se quedara grabado en el canvas.</p>
+
+    <!-- ============================== -->
+    <h2>6. Gestión de eventos táctiles</h2>
+
+    <p>Para que la herramienta funcione en dispositivos táctiles (tablets, móviles), se duplican los eventos de ratón
+        con sus equivalentes táctiles:</p>
+
+    <table>
+        <tr>
+            <th>Ratón</th>
+            <th>Táctil</th>
+        </tr>
+        <tr>
+            <td>mousedown</td>
+            <td>touchstart</td>
+        </tr>
+        <tr>
+            <td>mousemove</td>
+            <td>touchmove</td>
+        </tr>
+        <tr>
+            <td>mouseup</td>
+            <td>touchend</td>
+        </tr>
+    </table>
+
+    <p>Se usa <code>e.preventDefault()</code> en los eventos táctiles para evitar el scroll de la página mientras se
+        dibuja, y <code>{ passive: false }</code> en el listener.</p>
+
+    <!-- ============================== -->
+    <h2>7. Funcionalidad de guardar</h2>
+
+    <p>El botón "Guardar" exporta el contenido del canvas como imagen PNG descargable:</p>
+
+    <pre>
+const enlace = document.createElement('a');
+enlace.download = 'mi-joya-personalizada.png';
+enlace.href = canvas.toDataURL('image/png');
+enlace.click();
+</pre>
+
+    <p>Se crea un enlace temporal con el atributo <code>download</code> y se simula un clic para iniciar la descarga
+        automáticamente.</p>
+
+    <!-- ============================== -->
+    <h2>8. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>HTML5 Canvas API</td>
+            <td>Dibujo, texto e imágenes</td>
+        </tr>
+        <tr>
+            <td>JavaScript (vanilla)</td>
+            <td>Lógica de herramientas, eventos, estado</td>
+        </tr>
+        <tr>
+            <td>Bootstrap 5</td>
+            <td>Estilos de botones y layout (ya existente en el proyecto)</td>
+        </tr>
+        <tr>
+            <td>Bootstrap Icons</td>
+            <td>Iconos de la barra de herramientas</td>
+        </tr>
+        <tr>
+            <td>Laravel Blade</td>
+            <td>Plantilla que extiende el layout principal</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
