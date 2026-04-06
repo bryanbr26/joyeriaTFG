@@ -32,6 +32,7 @@ Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|p
     Route::get('/{producto}/edit', [JoyasController::class, 'edit'])->name('edit');
     Route::put('/{producto}', [JoyasController::class, 'update'])->name('update');
     Route::delete('/{producto}', [JoyasController::class, 'destroy'])->name('destroy');
+    Route::get('/{producto}', [JoyasController::class, 'show'])->name('show');
 });
 
 // RUTAS DEL RESTO DEL NAV

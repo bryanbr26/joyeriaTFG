@@ -124,6 +124,7 @@
     <div class="row g-3">
         @forelse($productos as $producto)
         <div class="col-md-3">
+            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="text-decoration-none text-dark">
             <div class="card h-100">
                 @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                     <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="card-img-top" alt="{{ $producto->nombre }}" style="height: 200px; object-fit: cover;">
@@ -139,6 +140,7 @@
                     <p class="card-text fw-bold">{{ number_format($producto->precio, 2) }} €</p>
                     <p class="card-text"><small class="text-muted">Stock: {{ $producto->stock }}</small></p>
                 </div>
+            </a>
                 <!--
                     TODO: Meter para admin estilo dashboard
                         <div class="card-footer d-flex gap-2">

@@ -162,4 +162,13 @@ class JoyasController extends Controller
 
         return redirect()->route('joyas.index', $categoria)->with('success', 'Producto eliminado correctamente.');
     }
+
+    public function show($categoria, Producto $producto)
+    {
+        $titulo = $producto->nombre;
+
+        return view('joyas.show', compact('producto', 'categoria', 'titulo'));
+    }
+
 }
+

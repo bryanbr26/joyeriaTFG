@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Joyas Pérez - @yield('title', 'Lujo y Elegancia')</title>
 
     <!-- Bootstrap CSS (compilado desde app.scss) -->
@@ -13,6 +14,7 @@
 
     <!-- Bootstrap Icons (ya incluidos en app.css) -->
     <!-- estilos css personalizados -->
+    <link href="{{ asset('css/global.css') }}" rel="stylesheet">
     <!--fuente italiana desde google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,8 +30,7 @@
 
     @include("layouts.footer")
 
-
-
+    @stack('scripts')
 
 </body>
 
