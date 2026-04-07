@@ -13,6 +13,10 @@
 
     <!-- Bootstrap Icons (ya incluidos en app.css) -->
     <!-- estilos css personalizados -->
+    <!--fuente italiana desde google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
 </head>
 
 <body>

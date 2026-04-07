@@ -1,13 +1,45 @@
 .olvidaste-contra{
-    font-style: italic;
+    font-family: "Italiana", serif;
+    font-weight: 300;
+    font-size: 70px;
     color: #11415E;
 }
 
 .input-email{
     background-color: #83ABB9;
+    width: 50%;
+    margin: auto;
+    font-size: 20px;
 }
-.boton-login{
-    background-color: #83ABB9;
-    border-radius: 10;
+
+.form-loginreg{
+    font-family: "Italiana", serif;
+    font-weight: 300;
 }
+
+.bot-loginreg{
+    font-size: 30px;
+    color: #000000;
+}
+
+.campos-form {
+    margin: 0 auto;      
+    width: 100%;        
+    max-width: 400px;    
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.btn-entrar{
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn-recu{
+    color: #FFFFFF;
+}
+
+
+
+
+
 

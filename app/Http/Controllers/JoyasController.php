@@ -20,12 +20,62 @@ class JoyasController extends Controller
         return $mapa[$categoria] ?? $categoria;
     }
 
-    public function index($categoria)
+    public function index(Request $request, $categoria)
     {
         $categoriaDB = $this->getCategoriaDB($categoria);
-        $productos = Producto::where('categoria', $categoriaDB)->paginate(8);
+
+        // Precio máximo real de la categoría para el slider
+        // No usamos el precioMax porque ese es despues del filtro y no de todos los productos
+        $precioMaximo = (int) ceil(Producto::where('categoria', $categoriaDB)->max('precio') ?? 1000);
+
+        $query = Producto::where('categoria', $categoriaDB);
+
+        // Filtro marca
+        if ($request->filled('marca')) {
+            $query->whereIn('marca', $request->input('marca'));
+        }
+
+        // Filtro género
+        if ($request->filled('genero')) {
+            $query->whereIn('genero', $request->input('genero'));
+        }
+
+        // Filtro color
+        if ($request->filled('color')) {
+            $query->whereIn('color', $request->input('color'));
+        }
+
+        // Filtro material
+        if ($request->filled('material')) {
+            $query->whereIn('material', $request->input('material'));
+        }
+
+        // Filtro talla
+        if ($request->filled('talla')) {
+            $query->whereIn('talla', $request->input('talla'));
+        }
+
+        // Filtro rango de precio (usamos has() en vez de filled() porque filled() toma el 0 como vacio)
+        $precioMin = $request->has('precio_min') ? (float)$request->input('precio_min') : 0;
+        $precioMax = $request->has('precio_max') ? (float)$request->input('precio_max') : $precioMaximo;
+
+        if ($request->has('precio_min') || $request->has('precio_max')) {
+            $query->whereBetween('precio', [$precioMin, $precioMax]);
+        }
+
+        // Ordenación
+        $orden = $request->input('orden');
+        if ($orden === 'precio_asc') {
+            $query->orderBy('precio', 'asc');
+        } elseif ($orden === 'precio_desc') {
+            $query->orderBy('precio', 'desc');
+        }
+
+        // appends($request->query()) mantiene los parámetros de la URL al paginar
+        $productos = $query->paginate(8)->appends($request->query());
         $titulo = ucfirst($categoria);
-        return view('joyas.index', compact('productos', 'categoria', 'titulo'));
+
+        return view('joyas.index', compact('productos', 'categoria', 'titulo', 'precioMaximo', 'precioMin', 'precioMax', 'orden'));
     }
 
     public function create($categoria)

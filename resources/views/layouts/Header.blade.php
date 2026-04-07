@@ -26,7 +26,7 @@
         <div class="col-auto">
             <div class="d-flex gap-3">
                 <!-- Usuario/Login -->
-                <a href="{{ route('usuarios.index') }}" class="text-dark" title="Gestión Usuarios">
+                <a href="{{ route('login') }}" class="text-dark" title="Gestión Usuarios">
                     <i class="bi bi-person fs-5"></i>
                 </a>
                 <!-- Ubicacion -->
