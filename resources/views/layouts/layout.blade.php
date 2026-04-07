@@ -16,13 +16,13 @@
 </head>
 
 <body>
-    @include("layouts.header")
+    @include("layouts.Header")
 
     <main class="py-4">
         @yield("content")
     </main>
 
-    @include("layouts.footer")
+    @include("layouts.Footer")
 
 
 
