@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Sistema de Carrito</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sistema de Carrito de Compras</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 7 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha implementado un <strong>sistema de carrito de compras funcional</strong>. Incluye la lógica necesaria para que tanto la vista de detalle del artículo permita agregar productos de manera correcta (impidiendo su acceso si no está logeado), como una vista propia del carrito donde se muestran todos los productos subidos, así como el cálculo del precio y la opción de eliminación.</p>
+
+    <!-- ============================== -->
+    <h2>2. Archivos principales involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/CarritoController.php</span></td>
+            <td>Controlador nuevo con métodos <code>agregar()</code>, <code>index()</code> y <code>eliminar()</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Nuevas rutas para la cesta protegidas por inicio de sesión (algunas explícitas, otras bajo el grupo de <code>auth</code>).</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/joyas/show.blade.php</span></td>
+            <td>Lógica de agregado del detalle de producto: Modal para invitados vs AJAX Fetch para los logeados.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/carrito/index.blade.php</span></td>
+            <td>La vista principal de la Cesta, diseñada en blanco y negro mostrando imágenes, nombres, eliminación y subtotales.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Models/Carrito.php</span></td>
+            <td>Modelo interactuado en la base de datos de <code>CARRITO</code> y relación con `Producto` y `User`.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>3. Rutas y Controlador</h2>
+
+    <h3>3.1 Rutas de Carrito (<code>web.php</code>)</h3>
+    <p>Se ha creado un grupo de rutas protegidas obligatoriamente bajo uso del middleware de autenticación (<code>auth</code>):</p>
+
+    <pre>
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+    Route::post('/carrito/agregar/{producto}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+});</pre>
+
+    <h3>3.2 CarritoController</h3>
+    <p>Responsable de las tres acciones principales:</p>
+    <ul>
+        <li><strong><code>agregar()</code>:</strong> Funcionalidad tipo AJAX, comprueba si un producto está presente de este usuario para sumar la cantidad o crear la entrada.</li>
+        <li><strong><code>index()</code>:</strong> Función central para la vista. Recolecta las relaciones con <code>Producto::with('producto.imagenes')</code> de las entradas y calcula a código el gasto total.</li>
+        <li><strong><code>eliminar()</code>:</strong> Procedimiento típico de eliminación validando coincidencia con `id_usuario`.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>4. Modificaciones en Detalle de Producto</h2>
+
+    <p>Se modificó <code>resources/views/joyas/show.blade.php</code> de esta manera:</p>
+    <div class="diagram">
+        Directiva <strong>@auth</strong> - Verifica el cliente <br>
+        │<br>
+        ├── <strong>[SI] Logeado</strong><br>
+        │   └── Ejecuta script AJAX (Fetch), envía Token CSRF, muestra animación de carga, y alert de éxito. Aumenta carrito de BBDD.<br>
+        │<br>
+        └── <strong>[NO] Invitado</strong><br>
+            └── Llama a Modal de Bootstrap con botones redirigiendo a <code>login</code> & <code>register</code>.
+    </div>
+    
+    <p>Código del script <code>fetch</code> en JS vanilla para que no se recargue toda la página para esto:</p>
+    <pre>
+fetch(url, {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+})</pre>
+
+    <!-- ============================== -->
+    <h2>5. Vista General de la Cesta</h2>
+
+    <h3>5.1 Estructura Estilística</h3>
+    <p>La vista completa <code>carrito/index.blade.php</code> tiene un enfoque muy elegante. Siguiendo en exclusiva las utilidades de Bootstrap 5 y ligeros retoques por CSS dentro de la misma vista, la estructura cuenta con:</p>
+    
+    <ul>
+        <li>Color de fondo de página tenue <code>#f8f9fa</code>.</li>
+        <li>Bordeado gris que define cada caja de producto listada usando flexbox.</li>
+        <li>Soporta responsividad: en móvil es colapsable verticalmente para la imagen y la información.</li>
+        <li>Uso de botón <code>javascript:history.back()</code> en la zona superior.</li>
+    </ul>
+
+    <div class="diagram">
+        ┌────────────────────────────────────────────────────────┬─────┐<br>
+        │ <strong>[Imagen]</strong>  Lorem ipsum dolor sit amet              100€ │<br>
+        │           <span>La marca o descripcion abreviada...</span>             │<br>
+        │                                                            │<br>
+        │           [Eliminar producto]           Cantidad  [  1  ]  │<br>
+        └────────────────────────────────────────────────────────┴─────┘<br>
+    </div>
+
+    <h3>5.2 Elementos Internos de la Vista</h3>
+    <ul>
+        <li><strong>Boton de Eliminar</strong>: Se trata de un form encapsulado con método DELETE hacia la ruta de acción.</li>
+        <li><strong>Badge de Cantidad</strong>: Simulación limpia y minimalista, en un fondo ligeramente más oscuro con bordes sutiles.</li>
+        <li><strong>Placeholder Empty</strong>: Cesta prefabricada alternativa por si se abre sin items para sugerir ir al inicio <code>(Seguir Comprando)</code>.</li>
+        <li><strong>Pasar de Caja final</strong>: Bloque con un botón Alert demostrativo indicando las partes de pago pendientes.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>6. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>Componente Modal Bstrp</td>
+            <td>Se encarga de la pausa a invitados de agregar elementos forzando el paso por caja.</td>
+        </tr>
+        <tr>
+            <td>Vanilla Fetch JS</td>
+            <td>Añade de forma asíncrona un artículo al carrito desde show.blade.php</td>
+        </tr>
+        <tr>
+            <td>Eloquent Relacional</td>
+            <td>Vincula <code>belongsTo(User::class)</code> y <code>belongsTo(Producto::class)</code> dentro del modelo.</td>
+        </tr>
+        <tr>
+            <td>Inyección Flex y Grids</td>
+            <td>Usados exhaustivamente en <code>carrito.index</code> para separar texto, botón y cantidades visuales.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

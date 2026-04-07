@@ -90,11 +90,20 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 mb-4">
-                {{-- Añadir a la cesta: Dejamos que pueda agregar y hasta que no vaya a comprar no pida logearse --}}
-                <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCesta"
-                        {{ $producto->stock <= 0 ? 'disabled' : '' }}>
-                    <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
-                </button>
+                {{-- Añadir a la cesta: Lógica con Auth --}}
+                @auth
+                    <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCestaAuth"
+                            data-url="{{ route('carrito.agregar', $producto) }}"
+                            {{ $producto->stock <= 0 ? 'disabled' : '' }}>
+                        <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
+                    </button>
+                @else
+                    <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCestaGuest"
+                            data-bs-toggle="modal" data-bs-target="#loginModal"
+                            {{ $producto->stock <= 0 ? 'disabled' : '' }}>
+                        <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
+                    </button>
+                @endauth
 
                 {{-- TODO: hacer que pida logearse para añadir a favoritos: Modal + elegir login o register --}}
                 {{-- Favorito --}}
@@ -112,13 +121,65 @@
     </div>
 </div>
 
+{{-- Modal de Autenticación para añadir al carrito --}}
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="loginModalLabel">Inicia sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center pb-4">
+                <i class="bi bi-bag-x text-muted" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-4">Para añadir productos a la cesta debes iniciar sesión o crear una cuenta nueva.</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-dark">Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-dark">Registrarse</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Botón añadir a la cesta
-        const btnCesta = document.getElementById('btnAnadirCesta');
-        if (btnCesta) {
-            btnCesta.addEventListener('click', function() {
-                alert('Producto añadido a la cesta.');
+        // Botón añadir a la cesta (Usuario Autenticado)
+        const btnCestaAuth = document.getElementById('btnAnadirCestaAuth');
+        if (btnCestaAuth) {
+            btnCestaAuth.addEventListener('click', function() {
+                const url = this.dataset.url;
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Deshabilitar botón temporalmente para evitar doble click
+                this.disabled = true;
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Añadiendo...';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.disabled = false;
+                    this.innerHTML = originalHTML;
+
+                    if(data.success) {
+                        alert(data.message); // Muestra éxito temporalmente
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    this.disabled = false;
+                    this.innerHTML = originalHTML;
+                    console.error('Error:', err);
+                    alert('Hubo un error al añadir a la cesta.');
+                });
             });
         }
 

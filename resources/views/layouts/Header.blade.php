@@ -37,7 +37,7 @@
                     <i class="bi bi-heart fs-5"></i>
                 </a>
                 <!-- Carrito -->
-                <a href="#" class="text-dark position-relative" title="Carrito">
+                <a href="{{ route('carrito.index') }}" class="text-dark position-relative" title="Carrito">
                     <i class="bi bi-bag fs-5"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
                         0

@@ -11,6 +11,7 @@ use App\Http\Controllers\ComproOroController;
 use App\Http\Controllers\OrfebreriaController;
 use App\Http\Controllers\HistoriaController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\CarritoController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -42,3 +43,10 @@ Route::get('/compro-oro', [ComproOroController::class, 'comproOro'])->name('comp
 Route::get('/orfebreria', [OrfebreriaController::class, 'orfebreria'])->name('orfebreria');
 Route::get('/historia', [HistoriaController::class, 'historia'])->name('historia');
 Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');
+
+// RUTAS CARRITO
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+    Route::post('/carrito/agregar/{producto}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+});
