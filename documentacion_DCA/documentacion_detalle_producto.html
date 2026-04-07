@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Detalle de Producto</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Página de Detalle de Producto</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 7 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha implementado una página de <strong>detalle de producto</strong> que se muestra al pulsar sobre cualquier
+        producto del listado de joyas (<code>/collares</code>, <code>/anillos</code>, <code>/pulseras</code>,
+        <code>/pendientes</code>). La página presenta toda la información del producto en un diseño de
+        <strong>dos columnas</strong>: imagen a la izquierda e información con botones de acción a la derecha.</p>
+
+    <p>La página incluye tres botones de acción: <strong>Añadir a la cesta</strong>,
+        <strong>Favoritos</strong> (toggle visual) y <strong>Personalizar joya</strong> (enlace a la herramienta
+        de personalización). Se utilizan exclusivamente clases de Bootstrap 5, sin estilos CSS adicionales.</p>
+
+    <!-- ============================== -->
+    <h2>2. Archivos involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/joyas/show.blade.php</span></td>
+            <td>Vista Blade creada con el HTML del detalle de producto y JavaScript para los botones interactivos</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/JoyasController.php</span></td>
+            <td>Controlador — método <code>show()</code> que carga el producto y devuelve la vista</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Ruta <code>/{categoria}/{producto}</code> con nombre <code>joyas.show</code> (ya existía)</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/joyas/index.blade.php</span></td>
+            <td>Listado de productos — cada tarjeta ya enlazaba al detalle mediante <code>route('joyas.show')</code></td>
+        </tr>
+    </table>
+
+    <p>La vista nueva es <code>show.blade.php</code>. El resto de archivos ya existían y no se han modificado;
+        la ruta y el enlace desde el listado ya estaban preparados.</p>
+
+    <!-- ============================== -->
+    <h2>3. Estructura de la página</h2>
+
+    <p>La página sigue un diseño de <strong>dos columnas</strong> con el sistema de grid de Bootstrap
+        (<code>row</code> + <code>col-lg-6</code>), adaptándose a una sola columna en dispositivos pequeños:</p>
+
+    <div class="diagram">
+        ┌─────────────────────────────────────────────────────────┐<br>
+        │ <strong>Breadcrumb</strong>: Inicio → Categoría → Producto              │<br>
+        ├───────────────────────┬─────────────────────────────────┤<br>
+        │                       │ <strong>Nombre del producto</strong>            │<br>
+        │                       │ Marca                           │<br>
+        │   <strong>Imagen principal</strong>   │ <strong>Precio</strong>                          │<br>
+        │   (450px max-height)  │ Descripción                     │<br>
+        │   o placeholder       │ Tabla de detalles               │<br>
+        │   con icono bi-gem    │ (material, color, género,       │<br>
+        │                       │  talla, peso, stock)            │<br>
+        │   col-lg-6            │                        col-lg-6 │<br>
+        │                       ├─────────────────────────────────┤<br>
+        │                       │ [Añadir a la cesta]  [♡]        │<br>
+        │                       │ [Personalizar joya]             │<br>
+        └───────────────────────┴─────────────────────────────────┘
+    </div>
+
+    <!-- ============================== -->
+    <h2>4. Ruta y controlador</h2>
+
+    <h3>4.1 Definición de la ruta</h3>
+    <p>La ruta está definida dentro del grupo de rutas de joyas por categoría en <code>web.php</code>. Ya existía
+        antes de esta implementación:</p>
+
+    <pre>
+Route::prefix('{categoria}')
+    ->where(['categoria' => 'collares|anillos|pulseras|pendientes'])
+    ->name('joyas.')
+    ->group(function () {
+        // ... otras rutas ...
+        Route::get('/{producto}', [JoyasController::class, 'show'])->name('show');
+    });</pre>
+
+    <p>Gracias al <em>route model binding</em> de Laravel, el parámetro <code>{producto}</code> se resuelve
+        automáticamente al modelo <code>Producto</code> correspondiente por su <code>id</code>.</p>
+
+    <h3>4.2 Método show() del controlador</h3>
+    <p>El método <code>show()</code> en <code>JoyasController</code> recibe la categoría y el producto, y
+        pasa las variables necesarias a la vista:</p>
+
+    <pre>
+public function show($categoria, Producto $producto)
+{
+    $titulo = $producto->nombre;
+
+    return view('joyas.show', compact('producto', 'categoria', 'titulo'));
+}</pre>
+
+    <!-- ============================== -->
+    <h2>5. Componentes de la vista</h2>
+
+    <h3>5.1 Breadcrumb de navegación</h3>
+    <p>Se utiliza el componente <code>breadcrumb</code> de Bootstrap para permitir al usuario volver al inicio o
+        al listado de la categoría:</p>
+    <ul>
+        <li><strong>Inicio</strong> → enlaza a <code>route('index')</code></li>
+        <li><strong>Categoría</strong> (ej: Collares) → enlaza a <code>route('joyas.index', $categoria)</code></li>
+        <li><strong>Nombre del producto</strong> → elemento activo (página actual)</li>
+    </ul>
+
+    <h3>5.2 Columna izquierda — Imagen del producto</h3>
+    <p>Muestra la imagen del producto ocupando todo el ancho de la columna (<code>col-lg-6</code>).
+        Se usa una directiva Blade condicional para verificar si el archivo de imagen existe en disco:</p>
+
+    <pre>
+@if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+    &lt;img src="{{ asset('storage/' . $producto->ruta_grabado) }}" ...&gt;
+@else
+    &lt;div class="bg-light ..."&gt;
+        &lt;i class="bi bi-gem"&gt;&lt;/i&gt;  {{-- Icono placeholder --}}
+    &lt;/div&gt;
+@endif</pre>
+
+    <p>Si el producto no tiene imagen asignada (<code>ruta_grabado</code> vacío) o el archivo no existe
+        físicamente en la carpeta <code>storage</code>, se muestra un <strong>placeholder</strong> con un
+        icono de gema (<code>bi-gem</code>) de Bootstrap Icons sobre fondo gris claro.</p>
+
+    <h3>5.3 Columna derecha — Información del producto</h3>
+    <p>Presenta los datos del producto en el siguiente orden:</p>
+
+    <table>
+        <tr>
+            <th>Elemento</th>
+            <th>Componente Bootstrap</th>
+            <th>Datos mostrados</th>
+        </tr>
+        <tr>
+            <td>Nombre</td>
+            <td><code>&lt;h2 class="fw-bold"&gt;</code></td>
+            <td><code>$producto->nombre</code></td>
+        </tr>
+        <tr>
+            <td>Marca</td>
+            <td><code>&lt;p class="text-muted"&gt;</code></td>
+            <td><code>$producto->marca</code></td>
+        </tr>
+        <tr>
+            <td>Precio</td>
+            <td><code>&lt;h3&gt;</code></td>
+            <td><code>number_format($producto->precio, 2) €</code></td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td><code>&lt;p&gt;</code></td>
+            <td><code>$producto->descripcion</code> (texto completo)</td>
+        </tr>
+        <tr>
+            <td>Detalles</td>
+            <td><code>table table-sm table-borderless</code></td>
+            <td>Material, color, género, talla, peso, disponibilidad</td>
+        </tr>
+    </table>
+
+    <p>La tabla de detalles usa directivas <code>@if</code> para mostrar solo los campos que tienen valor,
+        evitando filas vacías. La fila de disponibilidad se muestra siempre: con icono verde
+        (<code>bi-check-circle</code>) y texto "En stock" si hay stock, o icono rojo
+        (<code>bi-x-circle</code>) y texto "Agotado" si el stock es 0.</p>
+
+    <!-- ============================== -->
+    <h2>6. Botones de acción</h2>
+
+    <p>Los tres botones se agrupan en la parte inferior de la columna derecha. Los dos primeros
+        comparten una fila con <code>d-flex gap-3</code>:</p>
+
+    <h3>6.1 Añadir a la cesta</h3>
+    <p>Botón principal con clase <code>btn-dark btn-lg</code> que ocupa todo el espacio disponible
+        (<code>flex-grow-1</code>). Se deshabilita automáticamente si el producto no tiene stock:</p>
+
+    <pre>
+&lt;button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCesta"
+        {{ $producto->stock &lt;= 0 ? 'disabled' : '' }}&gt;
+    &lt;i class="bi bi-cart-plus me-2"&gt;&lt;/i&gt;Añadir a la cesta
+&lt;/button&gt;</pre>
+
+    <p>Al pulsar, muestra un <code>alert('Producto añadido a la cesta.')</code>. La lógica completa del
+        carrito de compras está <strong>pendiente de implementar</strong>.</p>
+
+    <h3>6.2 Botón de favoritos</h3>
+    <p>Botón con icono de corazón (<code>bi-heart</code>) que permite al usuario marcar o desmarcar el producto
+        como favorito. Funciona como un <strong>toggle visual</strong> mediante JavaScript del lado del cliente:</p>
+
+    <pre>
+btnFav.addEventListener('click', function() {
+    const icon = this.querySelector('i');
+    if (icon.classList.contains('bi-heart')) {
+        icon.classList.remove('bi-heart');
+        icon.classList.add('bi-heart-fill', 'text-danger');
+        alert('Añadido a favoritos.');
+    } else {
+        icon.classList.remove('bi-heart-fill', 'text-danger');
+        icon.classList.add('bi-heart');
+        alert('Eliminado de favoritos.');
+    }
+});</pre>
+
+    <ul>
+        <li>Al pulsar, alterna entre <code>bi-heart</code> (corazón vacío) y <code>bi-heart-fill text-danger</code>
+            (corazón relleno rojo).</li>
+        <li>Muestra un <code>alert()</code> indicando la acción realizada.</li>
+        <li>El estado <strong>no se persiste</strong> en la base de datos — es solo visual. Está pendiente
+            conectarlo con el endpoint <code>toggleFavorito</code> del controlador y requerir autenticación.</li>
+    </ul>
+
+    <h3>6.3 Personalizar joya</h3>
+    <p>Enlace con estilo de botón (<code>btn-outline-secondary w-100</code>) que redirige a la página del
+        personalizador de joyas:</p>
+
+    <pre>
+&lt;a href="{{ route('personaliza') }}" class="btn btn-outline-secondary w-100"&gt;
+    &lt;i class="bi bi-brush me-2"&gt;&lt;/i&gt;Personalizar joya
+&lt;/a&gt;</pre>
+
+    <p>Ocupa todo el ancho de la columna (<code>w-100</code>) y se sitúa debajo de los otros dos botones.</p>
+
+    <!-- ============================== -->
+    <h2>7. Enlace desde el listado</h2>
+
+    <p>En <code>index.blade.php</code>, cada tarjeta de producto ya estaba envuelta en un enlace que apunta a la
+        ruta <code>joyas.show</code>. No se ha modificado:</p>
+
+    <pre>
+&lt;a href="{{ route('joyas.show', [$categoria, $producto]) }}"
+   class="text-decoration-none text-dark"&gt;
+    &lt;div class="card h-100"&gt;
+        ...
+    &lt;/div&gt;
+&lt;/a&gt;</pre>
+
+    <p>Se usa <code>text-decoration-none text-dark</code> para que el enlace no altere la apariencia del
+        texto dentro de la tarjeta.</p>
+
+    <!-- ============================== -->
+    <h2>8. Variables pasadas a la vista</h2>
+
+    <p>El controlador pasa las siguientes variables a la vista <code>show.blade.php</code> mediante
+        <code>compact()</code>:</p>
+
+    <table>
+        <tr>
+            <th>Variable</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+        </tr>
+        <tr>
+            <td><code>$producto</code></td>
+            <td>Producto (Eloquent)</td>
+            <td>Instancia del producto con todos sus campos (nombre, marca, precio, descripcion, etc.)</td>
+        </tr>
+        <tr>
+            <td><code>$categoria</code></td>
+            <td>string</td>
+            <td>Slug de la categoría en plural (<code>collares</code>, <code>anillos</code>,
+                <code>pulseras</code>, <code>pendientes</code>)</td>
+        </tr>
+        <tr>
+            <td><code>$titulo</code></td>
+            <td>string</td>
+            <td>Nombre del producto, usado en el <code>&lt;title&gt;</code> de la página vía
+                <code>@section("title", $titulo)</code></td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>9. Flujo de navegación</h2>
+
+    <div class="diagram">
+        Listado de productos<br>
+        (<code>/{categoria}</code>)<br>
+        │<br>
+        │ clic en tarjeta de producto<br>
+        ▼<br>
+        Detalle del producto<br>
+        (<code>/{categoria}/{id}</code>)<br>
+        │<br>
+        ├── [Añadir a la cesta] → alert (pendiente carrito)<br>
+        ├── [♡ Favorito] → toggle visual (pendiente persistencia)<br>
+        └── [Personalizar joya] → <code>/personaliza-tus-joyas</code>
+    </div>
+
+    <p>Desde el breadcrumb, el usuario puede volver al listado de la categoría o a la página de inicio.</p>
+
+    <!-- ============================== -->
+    <h2>10. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>Laravel Blade</td>
+            <td>Plantilla que extiende el layout principal con <code>@extends</code> y <code>@section</code></td>
+        </tr>
+        <tr>
+            <td>Bootstrap 5 (Grid)</td>
+            <td>Sistema de columnas <code>row</code> / <code>col-lg-6</code> para el diseño de dos columnas responsive</td>
+        </tr>
+        <tr>
+            <td>Bootstrap 5 (Componentes)</td>
+            <td>Breadcrumb, tabla, botones (<code>btn-dark</code>, <code>btn-outline-dark</code>,
+                <code>btn-outline-secondary</code>)</td>
+        </tr>
+        <tr>
+            <td>Bootstrap Icons</td>
+            <td>Iconos: <code>bi-cart-plus</code>, <code>bi-heart</code> / <code>bi-heart-fill</code>,
+                <code>bi-brush</code>, <code>bi-gem</code>, <code>bi-check-circle</code>,
+                <code>bi-x-circle</code></td>
+        </tr>
+        <tr>
+            <td>JavaScript (vanilla)</td>
+            <td>Lógica de los botones de cesta y favoritos (eventos <code>click</code>, manipulación de clases CSS)</td>
+        </tr>
+        <tr>
+            <td>Route Model Binding</td>
+            <td>Resolución automática del parámetro <code>{producto}</code> al modelo Eloquent</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

@@ -90,12 +90,13 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 mb-4">
-                {{-- Añadir a la cesta --}}
+                {{-- Añadir a la cesta: Dejamos que pueda agregar y hasta que no vaya a comprar no pida logearse --}}
                 <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCesta"
                         {{ $producto->stock <= 0 ? 'disabled' : '' }}>
                     <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
                 </button>
 
+                {{-- TODO: hacer que pida logearse para añadir a favoritos: Modal + elegir login o register --}}
                 {{-- Favorito --}}
                 <button class="btn btn-outline-dark btn-lg" id="btnFavorito"
                         title="Añadir a favoritos">
