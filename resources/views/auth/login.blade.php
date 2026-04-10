@@ -40,14 +40,12 @@
         </div>
         @endif
 
-        <!-- Status de recuperar la contraseña -->
         @if (session('status'))
         <div class="mb-4 font-medium text-sm text-green-600">
           {{ session('status') }}
         </div>
         @endif
 
-        <!-- FORMULARIO -->
         <form method="POST" action="{{ route('login') }}" class="form-login">
           @csrf
           <div class="campo-form">

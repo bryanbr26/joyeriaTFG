@@ -70,6 +70,10 @@
     align-items: flex-start;
     justify-content: center;
     padding: 30px 40px;
+    background-image: url('/assets/fondoform.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .auth-form-wrapper {
@@ -80,7 +84,7 @@
 .auth-tabs {
     display: flex;
     margin-bottom: 24px;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .auth-tab {
@@ -88,7 +92,7 @@
     text-align: center;
     padding: 12px 0;
     text-decoration: none;
-    color: #999;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 18px;
     font-weight: 500;
     transition: color 0.3s, border-color 0.3s;
@@ -97,13 +101,13 @@
 }
 
 .auth-tab:hover {
-    color: #333;
+    color: #fff;
     text-decoration: none;
 }
 
 .auth-tab-active {
-    color: #11415E;
-    border-bottom-color: #11415E;
+    color: #fff;
+    border-bottom-color: #fff;
     font-weight: 600;
 }
 
@@ -132,7 +136,7 @@
 
 .campo-form .form-label {
     font-size: 13px;
-    color: #555;
+    color: #fff;
     margin-bottom: 6px;
     font-weight: 500;
     letter-spacing: 0.3px;
@@ -156,7 +160,7 @@
     background-color: #fff;
 }
 
-/* ===== TERMS ===== */
+
 
 .form-terms {
     margin-top: 20px;
@@ -165,10 +169,11 @@
 .form-terms p {
     margin: 4px 0;
     font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .form-terms a {
-    color: #11415E;
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
 }
 
@@ -186,7 +191,7 @@
     padding: 12px 48px;
     background-color: #fff;
     color: #11415E;
-    border: 2px solid #11415E;
+    border: 2px solid #fff;
     border-radius: 4px;
     font-size: 15px;
     font-weight: 600;
@@ -196,8 +201,9 @@
 }
 
 .btn-crear-cuenta:hover {
-    background-color: #11415E;
+    background-color: rgba(255, 255, 255, 0.15);
     color: #fff;
+    border-color: #fff;
 }
 
 .form-login {
@@ -217,7 +223,7 @@
 }
 
 .form-link-recover a {
-    color: #11415E;
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
 }
 
@@ -232,7 +238,7 @@
 }
 
 .form-link-alt a {
-    color: #11415E;
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
 }
 
