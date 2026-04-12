@@ -12,6 +12,7 @@ use App\Http\Controllers\OrfebreriaController;
 use App\Http\Controllers\HistoriaController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\FavoritoController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -50,3 +51,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrito/agregar/{producto}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
 });
+
+// RUTAS FAVORITOS
+// Toggle va fuera del middleware auth para devolver JSON 401 en AJAX
+Route::post('/favoritos/toggle/{producto}', [FavoritoController::class, 'toggle'])->name('favoritos.toggle');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/favoritos', [FavoritoController::class, 'index'])->name('favoritos.index');
+    Route::delete('/favoritos/{id}', [FavoritoController::class, 'eliminar'])->name('favoritos.eliminar');
+    Route::post('/favoritos/{id}/carrito', [FavoritoController::class, 'agregarAlCarrito'])->name('favoritos.agregarCarrito');
+});
+

@@ -4,6 +4,15 @@
 
 @section("content")
 
+@php
+    $esFavorito = false;
+    if(Auth::check()) {
+        $esFavorito = \App\Models\Favorito::where('id_usuario', Auth::id())
+                        ->where('id_producto', $producto->id)
+                        ->exists();
+    }
+@endphp
+
 <div class="container my-4">
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
@@ -105,12 +114,20 @@
                     </button>
                 @endauth
 
-                {{-- TODO: hacer que pida logearse para añadir a favoritos: Modal + elegir login o register --}}
                 {{-- Favorito --}}
-                <button class="btn btn-outline-dark btn-lg" id="btnFavorito"
-                        title="Añadir a favoritos">
-                    <i class="bi bi-heart"></i>
-                </button>
+                @auth
+                    <button class="btn btn-outline-dark btn-lg" id="btnFavorito"
+                            data-url="{{ route('favoritos.toggle', $producto) }}"
+                            title="Añadir a favoritos">
+                        <i class="bi {{ $esFavorito ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
+                    </button>
+                @else
+                    <button class="btn btn-outline-dark btn-lg" id="btnFavoritoGuest"
+                            data-bs-toggle="modal" data-bs-target="#loginModal"
+                            title="Añadir a favoritos">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                @endauth
             </div>
 
             {{-- Botón personalizar joya --}}
@@ -121,7 +138,7 @@
     </div>
 </div>
 
-{{-- Modal de Autenticación para añadir al carrito --}}
+{{-- Modal de Autenticación (para carrito y favoritos) --}}
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -130,8 +147,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body text-center pb-4">
-                <i class="bi bi-bag-x text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 mb-4">Para añadir productos a la cesta debes iniciar sesión o crear una cuenta nueva.</p>
+                <i class="bi bi-person-lock text-muted" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-4">Para añadir productos a la cesta o a favoritos debes iniciar sesión o crear una cuenta nueva.</p>
                 <div class="d-grid gap-2">
                     <a href="{{ route('login') }}" class="btn btn-dark">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="btn btn-outline-dark">Registrarse</a>
@@ -183,23 +200,46 @@
             });
         }
 
-        // Botón favorito
+        // Botón favorito (Usuario Autenticado) - AJAX toggle
         const btnFav = document.getElementById('btnFavorito');
         if (btnFav) {
             btnFav.addEventListener('click', function() {
+                const url = this.dataset.url;
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 const icon = this.querySelector('i');
-                if (icon.classList.contains('bi-heart')) {
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill', 'text-danger');
-                    alert('Añadido a favoritos.');
-                } else {
-                    icon.classList.remove('bi-heart-fill', 'text-danger');
-                    icon.classList.add('bi-heart');
-                    alert('Eliminado de favoritos.');
-                }
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        if(data.favorito) {
+                            // Añadido a favoritos
+                            icon.classList.remove('bi-heart');
+                            icon.classList.add('bi-heart-fill', 'text-danger');
+                        } else {
+                            // Eliminado de favoritos
+                            icon.classList.remove('bi-heart-fill', 'text-danger');
+                            icon.classList.add('bi-heart');
+                        }
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    alert('Hubo un error al actualizar favoritos.');
+                });
             });
         }
     });
 </script>
 
 @endsection
+

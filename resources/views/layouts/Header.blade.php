@@ -34,7 +34,7 @@
                     <i class="bi bi-geo-alt"></i>
                 </a>
                 <!-- Favoritos -->
-                <a href="#" class="text-dark" title="Favoritos">
+                <a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos">
                     <i class="bi bi-heart fs-5"></i>
                 </a>
                 <!-- Carrito -->
