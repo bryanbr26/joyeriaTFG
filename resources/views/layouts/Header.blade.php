@@ -5,7 +5,8 @@
         <!-- Logo -->
         <div class="col-auto">
             <div class="d-flex align-items-center">
-                <a href="{{ route('index') }}" class="h3 mb-0 fw-bold text-uppercase" style="text-decoration:none">Joyas<br>Perez</a>
+                <a href="{{ route('index') }}" class="h3 mb-0 fw-bold text-uppercase"
+                    style="text-decoration:none">Joyas<br>Perez</a>
             </div>
         </div>
 
@@ -55,21 +56,27 @@
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Joyería
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'collares') }}">Collares</a></li>
-                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'anillos') }}">Anillos</a></li>
-                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a></li>
-                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a></li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'collares') }}">Collares</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'anillos') }}">Anillos</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark fw-medium" href="{{route('regalos')}}">Regalos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('personaliza')}}">Personaliza tus joyas</a>
+                            <a class="nav-link text-dark fw-medium" href="{{route('personaliza')}}">Personaliza tus
+                                joyas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark fw-medium" href="{{route('comproOro')}}">Compro Oro</a>
