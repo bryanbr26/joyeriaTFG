@@ -145,8 +145,22 @@
                         <div class="item-details">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
-                                    <h5 class="fw-bold mb-1">{{ $item->producto->nombre }}</h5>
+                                    <h5 class="fw-bold mb-1">
+                                        {{ $item->producto->nombre }}
+                                        @if($item->ruta_grabado_personalizado)
+                                            <span class="badge bg-dark ms-2" style="font-size: 0.65rem;">
+                                                <i class="bi bi-brush me-1"></i>Personalizado
+                                            </span>
+                                        @endif
+                                    </h5>
                                     <p class="text-muted small mb-0">{{ Str::limit($item->producto->descripcion, 70) }}</p>
+                                    @if($item->ruta_grabado_personalizado && file_exists(public_path('storage/' . $item->ruta_grabado_personalizado)))
+                                        <a href="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" target="_blank" class="d-inline-block mt-2">
+                                            <img src="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" alt="Grabado" 
+                                                 style="height: 50px; border: 1px solid #dee2e6; border-radius: 4px;">
+                                            <small class="d-block text-muted">Ver grabado</small>
+                                        </a>
+                                    @endif
                                 </div>
                                 <div class="text-end ms-3">
                                     <div class="fw-bold fs-5" style="white-space: nowrap;" id="subtotal-{{ $item->id }}">
@@ -172,10 +186,10 @@
                                         <div class="qty-value" id="qty-{{ $item->id }}">{{ $item->cantidad }}</div>
                                         <button type="button" class="btn-qty-plus" 
                                                 data-item-id="{{ $item->id }}"
-                                                data-max-stock="{{ $item->producto->stock }}"
-                                                {{ $item->cantidad >= $item->producto->stock ? 'disabled' : '' }}>+</button>
+                                                data-max-stock="{{ $item->maxDisponible }}"
+                                                {{ $item->cantidad >= $item->maxDisponible ? 'disabled' : '' }}>+</button>
                                     </div>
-                                    <small class="text-muted" id="stock-info-{{ $item->id }}">({{ $item->producto->stock }} disp.)</small>
+                                    <small class="text-muted" id="stock-info-{{ $item->id }}">({{ $item->maxDisponible }} máx.)</small>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +238,7 @@
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    // Actualizar cantidad mostrada
+                    // Actualizar cantidad mostrada del item modificado
                     document.getElementById('qty-' + itemId).textContent = data.cantidad;
                     // Actualizar subtotal del item
                     document.getElementById('subtotal-' + itemId).textContent = data.subtotal + '€';
@@ -232,13 +246,21 @@
                     document.getElementById('totalPrice').textContent = data.totalPrice + '€';
                     document.getElementById('totalItems').textContent = data.totalItems;
 
-                    // Actualizar estado de los botones
-                    const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${itemId}"]`);
-                    const plusBtn = document.querySelector(`.btn-qty-plus[data-item-id="${itemId}"]`);
-                    const maxStock = parseInt(plusBtn.dataset.maxStock);
+                    // Actualizar botones de TODAS las líneas del mismo producto
+                    if (data.itemsActualizados) {
+                        data.itemsActualizados.forEach(function(linea) {
+                            const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${linea.id}"]`);
+                            const plusBtn = document.querySelector(`.btn-qty-plus[data-item-id="${linea.id}"]`);
+                            const stockInfo = document.getElementById('stock-info-' + linea.id);
 
-                    minusBtn.disabled = (data.cantidad <= 1);
-                    plusBtn.disabled = (data.cantidad >= maxStock);
+                            if (minusBtn) minusBtn.disabled = (linea.cantidad <= 1);
+                            if (plusBtn) {
+                                plusBtn.dataset.maxStock = linea.maxDisponible;
+                                plusBtn.disabled = (linea.cantidad >= linea.maxDisponible);
+                            }
+                            if (stockInfo) stockInfo.textContent = '(' + linea.maxDisponible + ' máx.)';
+                        });
+                    }
                 }
             })
             .catch(err => {

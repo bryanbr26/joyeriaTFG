@@ -14,7 +14,7 @@ class Carrito extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'cantidad', 'id_usuario', 'id_producto'
+        'cantidad', 'id_usuario', 'id_producto', 'ruta_grabado_personalizado'
     ];
 
     public function usuario()

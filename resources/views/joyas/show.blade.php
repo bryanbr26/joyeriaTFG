@@ -131,7 +131,7 @@
             </div>
 
             {{-- Botón personalizar joya --}}
-            <a href="{{ route('personaliza') }}" class="btn btn-outline-secondary w-100">
+            <a href="{{ route('personaliza.producto', $producto) }}" class="btn btn-outline-secondary w-100">
                 <i class="bi bi-brush me-2"></i>Personalizar joya
             </a>
         </div>

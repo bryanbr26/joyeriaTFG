@@ -5,6 +5,27 @@
 <div class="container my-5">
     <h2 class="text-center mb-4">Personaliza tus Joyas</h2>
 
+    {{-- Si hay un producto vinculado, mostrar su info --}}
+    @if($producto)
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-3 p-3 bg-white border">
+                <div style="width: 80px; height: 80px; flex-shrink: 0;" class="d-flex align-items-center justify-content-center border bg-light">
+                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                    @else
+                        <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>
+                    @endif
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">{{ $producto->nombre }}</h5>
+                    <p class="text-muted small mb-0">{{ $producto->marca }} · {{ number_format($producto->precio, 2) }}€</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Barra de herramientas -->
     <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap align-items-center">
         <!-- Botón lápiz para dibujo libre -->
@@ -47,10 +68,17 @@
             <i class="bi bi-trash3"></i> Limpiar
         </button>
 
-        <!-- Descargar el diseño como imagen PNG -->
-        <button class="btn btn-dark" id="btn-guardar" title="Descargar diseño">
-            <i class="bi bi-download"></i> Guardar
-        </button>
+        @if($producto)
+            <!-- Modo producto: Añadir al carrito -->
+            <button class="btn btn-dark" id="btn-anadir-carrito" title="Añadir a la cesta con grabado">
+                <i class="bi bi-cart-plus"></i> Añadir a la cesta
+            </button>
+        @else
+            <!-- Modo genérico: Descargar diseño -->
+            <button class="btn btn-dark" id="btn-guardar" title="Descargar diseño">
+                <i class="bi bi-download"></i> Guardar
+            </button>
+        @endif
     </div>
 
     <!--
@@ -65,7 +93,47 @@
             <canvas id="canvas-cursor" style="position:absolute; top:0; left:0; pointer-events:none;"></canvas>
         </div>
     </div>
+
+    {{-- Botón de volver al producto (solo en modo producto) --}}
+    @if($producto)
+    @php
+        $categoriaRuta = [
+            'collar' => 'collares',
+            'anillo' => 'anillos',
+            'pulsera' => 'pulseras',
+            'pendiente' => 'pendientes',
+        ];
+        $catSlug = $categoriaRuta[$producto->categoria] ?? $producto->categoria . 's';
+    @endphp
+    <div class="d-flex justify-content-center mt-3">
+        <a href="{{ route('joyas.show', [$catSlug, $producto]) }}" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left me-2"></i>Volver a la joya
+        </a>
+    </div>
+    @endif
 </div>
+
+{{-- Modal de autenticación (solo modo producto) --}}
+@if($producto)
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="loginModalLabel">Inicia sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center pb-4">
+                <i class="bi bi-person-lock text-muted" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-4">Para añadir productos personalizados a la cesta debes iniciar sesión o crear una cuenta nueva.</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-dark">Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-dark">Registrarse</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -432,14 +500,76 @@ document.addEventListener('DOMContentLoaded', () => {
         guardarEstado();
     });
 
-    //Botón Guardar: descarga el diseño como imagen PNG
-    document.getElementById('btn-guardar').addEventListener('click', () => {
-        if (textoActivo) confirmarTexto();
-        const enlace = document.createElement('a');
-        enlace.download = 'mi-joya-personalizada.png';
-        enlace.href = canvas.toDataURL('image/png');
-        enlace.click();
-    });
+    // =============================================
+    //  MODO PRODUCTO: AÑADIR AL CARRITO CON GRABADO
+    // =============================================
+
+    const btnAnadirCarrito = document.getElementById('btn-anadir-carrito');
+    if (btnAnadirCarrito) {
+        btnAnadirCarrito.addEventListener('click', () => {
+            if (textoActivo) confirmarTexto();
+
+            // Verificar autenticación
+            @auth
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const imagenBase64 = canvas.toDataURL('image/png');
+
+            // Deshabilitar botón temporalmente
+            btnAnadirCarrito.disabled = true;
+            const originalHTML = btnAnadirCarrito.innerHTML;
+            btnAnadirCarrito.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Guardando...';
+
+            fetch('{{ route("personaliza.guardar") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    imagen_base64: imagenBase64,
+                    producto_id: {{ $producto ? $producto->id : 'null' }}
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                btnAnadirCarrito.disabled = false;
+                btnAnadirCarrito.innerHTML = originalHTML;
+
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(err => {
+                btnAnadirCarrito.disabled = false;
+                btnAnadirCarrito.innerHTML = originalHTML;
+                console.error('Error:', err);
+                alert('Hubo un error al guardar el grabado.');
+            });
+            @else
+            // Si no está autenticado, mostrar modal de login
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            @endauth
+        });
+    }
+
+    // =============================================
+    //  MODO GENÉRICO: DESCARGAR DISEÑO
+    // =============================================
+
+    const btnGuardar = document.getElementById('btn-guardar');
+    if (btnGuardar) {
+        btnGuardar.addEventListener('click', () => {
+            if (textoActivo) confirmarTexto();
+            const enlace = document.createElement('a');
+            enlace.download = 'mi-joya-personalizada.png';
+            enlace.href = canvas.toDataURL('image/png');
+            enlace.click();
+        });
+    }
 });
 </script>
 

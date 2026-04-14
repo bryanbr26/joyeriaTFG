@@ -14,7 +14,7 @@ class DetallePedido extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'cantidad', 'precio_unitario', 'id_pedido', 'id_producto'
+        'cantidad', 'precio_unitario', 'id_pedido', 'id_producto', 'ruta_grabado_personalizado'
     ];
 
     public function pedido()

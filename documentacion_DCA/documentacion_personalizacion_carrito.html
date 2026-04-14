@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Integración Personalización con Carrito y Pedidos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Integración de Personalización con Carrito y Pedidos</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 14 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha integrado la <strong>herramienta de personalización de joyas</strong> (canvas de dibujo) con el <strong>sistema de carrito y pedidos</strong>, permitiendo que un usuario:</p>
+    <ol>
+        <li>Seleccione un producto desde su página de detalle.</li>
+        <li>Acceda a la herramienta de personalización <strong>vinculada a ese producto</strong>.</li>
+        <li>Dibuje, escriba texto o suba imágenes en el canvas como diseño de grabado.</li>
+        <li>Añada el producto personalizado al carrito con la <strong>imagen del grabado asociada</strong>.</li>
+        <li>Al pasar por caja, el grabado se conserva en el <strong>historial de pedidos</strong>.</li>
+    </ol>
+
+    <p>El sistema diferencia productos personalizados de los normales: el mismo producto puede estar en el carrito con y sin grabado como <strong>líneas separadas</strong>, y cada grabado es único (nunca se agrupan).</p>
+
+    <!-- ============================== -->
+    <h2>2. Archivos principales involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Acción</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/PersonalizaController.php</span></td>
+            <td>Modificado</td>
+            <td>Nuevos métodos <code>personalizaProducto()</code> y <code>guardarGrabado()</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/CarritoController.php</span></td>
+            <td>Modificado</td>
+            <td>El checkout copia <code>ruta_grabado_personalizado</code> del carrito al pedido.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Modificado</td>
+            <td>2 rutas nuevas: GET con producto y POST para guardar grabado.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/pages/personaliza.blade.php</span></td>
+            <td>Modificado</td>
+            <td>Modo dual: con producto (añadir a cesta) o genérico (descargar PNG).</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/joyas/show.blade.php</span></td>
+            <td>Modificado</td>
+            <td>Botón "Personalizar joya" ahora pasa el ID del producto.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/carrito/index.blade.php</span></td>
+            <td>Modificado</td>
+            <td>Badge "Personalizado" y miniatura del grabado en items personalizados.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/pedidos/show.blade.php</span></td>
+            <td>Modificado</td>
+            <td>Badge "Personalizado" e imagen del grabado en detalles de pedido.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Models/Carrito.php</span></td>
+            <td>Modificado</td>
+            <td>Añadido <code>ruta_grabado_personalizado</code> al <code>$fillable</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Models/DetallePedido.php</span></td>
+            <td>Modificado</td>
+            <td>Añadido <code>ruta_grabado_personalizado</code> al <code>$fillable</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">database/migrations/..._add_grabado_personalizado_to_CARRITO_table.php</span></td>
+            <td>Nuevo</td>
+            <td>Columna <code>ruta_grabado_personalizado</code> en CARRITO.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">database/migrations/..._add_grabado_personalizado_to_DETALLES_PEDIDO_table.php</span></td>
+            <td>Nuevo</td>
+            <td>Columna <code>ruta_grabado_personalizado</code> en DETALLES_PEDIDO.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>3. Flujo completo del usuario</h2>
+
+    <div class="diagram">
+        <strong>1.</strong> Usuario ve producto en <code>show.blade.php</code><br>
+        │<br>
+        <strong>2.</strong> Pulsa <strong>"Personalizar joya"</strong> → abre <code>personaliza.blade.php</code> <em>con contexto del producto</em><br>
+        │<br>
+        <strong>3.</strong> Dibuja/escribe/sube imagen en el <strong>canvas HTML5</strong><br>
+        │<br>
+        <strong>4.</strong> Pulsa <strong>"Añadir a la cesta"</strong><br>
+        │    ├── @auth → AJAX POST con canvas.toDataURL() (base64)<br>
+        │    └── @guest → Modal de login<br>
+        │<br>
+        <strong>5.</strong> Servidor: guarda PNG en <code>storage/app/public/grabados/</code><br>
+        │         crea entrada en CARRITO con <code>ruta_grabado_personalizado</code><br>
+        │<br>
+        <strong>6.</strong> En la <strong>cesta</strong>: aparece con badge "Personalizado" + miniatura del grabado<br>
+        │<br>
+        <strong>7.</strong> Al <strong>pasar por caja</strong>: se copia <code>ruta_grabado_personalizado</code> a DETALLES_PEDIDO<br>
+        │<br>
+        <strong>8.</strong> En el <strong>historial de pedidos</strong>: se muestra el grabado junto al producto
+    </div>
+
+    <!-- ============================== -->
+    <h2>4. Dos modos de la vista de personalización</h2>
+
+    <p>La vista <code>personaliza.blade.php</code> funciona en dos modos dependiendo de si recibe un producto o no:</p>
+
+    <table>
+        <tr>
+            <th>Característica</th>
+            <th>Modo producto (desde detalle)</th>
+            <th>Modo genérico (desde nav)</th>
+        </tr>
+        <tr>
+            <td>Variable <code>$producto</code></td>
+            <td>Instancia de <code>Producto</code></td>
+            <td><code>null</code></td>
+        </tr>
+        <tr>
+            <td>Info del producto</td>
+            <td>Se muestra arriba del canvas (nombre, imagen, precio)</td>
+            <td>No se muestra</td>
+        </tr>
+        <tr>
+            <td>Botón principal</td>
+            <td><strong>Añadir a la cesta</strong> (AJAX → guarda grabado)</td>
+            <td><strong>Guardar</strong> (descarga PNG local)</td>
+        </tr>
+        <tr>
+            <td>Botón secundario</td>
+            <td>"Volver a la joya" (enlace al detalle)</td>
+            <td>No hay</td>
+        </tr>
+        <tr>
+            <td>Requiere autenticación</td>
+            <td>Sí (modal login si no está logueado)</td>
+            <td>No</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>5. Rutas añadidas</h2>
+
+    <pre>
+// Ruta genérica (ya existía)
+Route::get('/personaliza-tus-joyas', [PersonalizaController::class, 'personaliza'])
+    ->name('personaliza');
+
+// NUEVAS
+Route::post('/personaliza-tus-joyas/guardar',
+    [PersonalizaController::class, 'guardarGrabado'])
+    ->name('personaliza.guardar');
+
+Route::get('/personaliza-tus-joyas/{producto}',
+    [PersonalizaController::class, 'personalizaProducto'])
+    ->name('personaliza.producto');</pre>
+
+    <p><strong>Nota:</strong> La ruta POST de <code>guardar</code> va <em>antes</em> de la ruta GET con <code>{producto}</code> para evitar que Laravel interprete "guardar" como un ID de producto.</p>
+
+    <!-- ============================== -->
+    <h2>6. PersonalizaController</h2>
+
+    <h3>6.1 Método <code>personalizaProducto()</code></h3>
+    <p>Recibe un <code>Producto</code> por inyección de modelo y lo pasa a la vista para activar el modo producto:</p>
+    <pre>
+public function personalizaProducto(Producto $producto)
+{
+    return view('pages.personaliza', compact('producto'));
+}</pre>
+
+    <h3>6.2 Método <code>guardarGrabado()</code></h3>
+    <p>Endpoint AJAX que recibe la imagen del canvas en base64 y la guarda en storage:</p>
+    <ul>
+        <li>Valida autenticación (devuelve 401 JSON si no está logueado).</li>
+        <li>Valida <code>imagen_base64</code> (string requerido) y <code>producto_id</code> (existe en tabla PRODUCTO).</li>
+        <li>Decodifica el base64, elimina el prefijo <code>data:image/png;base64,</code>.</li>
+        <li>Guarda el archivo PNG en <code>storage/app/public/grabados/</code> con nombre único: <code>{userId}_{productoId}_{timestamp}.png</code>.</li>
+        <li>Crea una entrada en CARRITO con <code>ruta_grabado_personalizado</code> apuntando al archivo.</li>
+        <li><strong>Los productos personalizados siempre son entradas nuevas</strong> (nunca se agrupan con otros del mismo producto).</li>
+    </ul>
+
+    <pre>
+// Nombre único: evita colisiones
+$nombreArchivo = 'grabados/' . Auth::id() . '_' . $producto->id . '_' . time() . '.png';
+Storage::disk('public')->put($nombreArchivo, $imagenBinaria);
+
+// Siempre es una entry nueva (cada grabado es único)
+Carrito::create([
+    'id_usuario' => $userId,
+    'id_producto' => $producto->id,
+    'cantidad' => 1,
+    'ruta_grabado_personalizado' => $nombreArchivo
+]);</pre>
+
+    <!-- ============================== -->
+    <h2>7. Migraciones de base de datos</h2>
+
+    <h3>7.1 Columna en CARRITO</h3>
+    <p>Almacena la ruta del grabado mientras el producto está en el carrito (dato <strong>temporal</strong>, se elimina al vaciar el carrito):</p>
+    <pre>
+$table->string('ruta_grabado_personalizado', 300)->nullable()->after('id_producto');</pre>
+
+    <h3>7.2 Columna en DETALLES_PEDIDO</h3>
+    <p>Almacena la ruta del grabado de forma <strong>permanente</strong> en el historial de pedidos. Se copia desde CARRITO durante el checkout:</p>
+    <pre>
+$table->string('ruta_grabado_personalizado', 300)->nullable()->after('id_producto');</pre>
+
+    <h3>7.3 Ciclo de vida del dato</h3>
+    <div class="diagram">
+        <strong>Personalización</strong> → canvas.toDataURL()<br>
+        ↓ AJAX POST (base64)<br>
+        <strong>Storage</strong> → <code>storage/app/public/grabados/{user}_{prod}_{time}.png</code><br>
+        ↓ ruta guardada<br>
+        <strong>CARRITO</strong> → <code>ruta_grabado_personalizado</code> (temporal)<br>
+        ↓ checkout()<br>
+        <strong>DETALLES_PEDIDO</strong> → <code>ruta_grabado_personalizado</code> (permanente)<br>
+        ↓<br>
+        <strong>CARRITO se vacía</strong> (la imagen sigue en storage y en DETALLES_PEDIDO)
+    </div>
+
+    <p><strong>¿Por qué en ambas tablas?</strong></p>
+    <ul>
+        <li><strong>CARRITO</strong> necesita el campo para mostrar el grabado en la cesta antes de comprar y para diferenciar líneas del mismo producto con grabados distintos.</li>
+        <li><strong>DETALLES_PEDIDO</strong> necesita el campo porque el carrito se vacía al pagar, y la imagen debe persistir en el historial.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>8. Diferenciación de productos normales vs personalizados</h2>
+
+    <p>Un <strong>producto normal</strong> (sin personalización) tiene <code>ruta_grabado_personalizado = NULL</code>. Los productos normales se agrupan en el carrito (si el usuario añade el mismo producto dos veces, se incrementa la cantidad).</p>
+
+    <p>Un <strong>producto personalizado</strong> tiene <code>ruta_grabado_personalizado</code> con la ruta al archivo PNG. Cada grabado genera una <strong>línea separada</strong> en el carrito, porque cada diseño es único.</p>
+
+    <table>
+        <tr>
+            <th>Escenario</th>
+            <th>Entradas en CARRITO</th>
+        </tr>
+        <tr>
+            <td>Anillo sin personalizar × 3</td>
+            <td>1 fila (cantidad = 3, grabado = NULL)</td>
+        </tr>
+        <tr>
+            <td>Anillo con grabado "Ana"</td>
+            <td>1 fila (cantidad = 1, grabado = grabados/1_5_001.png)</td>
+        </tr>
+        <tr>
+            <td>Anillo con grabado "Pedro"</td>
+            <td>1 fila (cantidad = 1, grabado = grabados/1_5_002.png)</td>
+        </tr>
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>3 filas separadas</strong> del mismo producto</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>9. Visualización en la cesta</h2>
+
+    <p>Los items personalizados muestran información adicional en <code>carrito/index.blade.php</code>:</p>
+
+    <div class="diagram">
+        ┌────────────────────────────────────────────────────────┬──────┐<br>
+        │ <strong>[Imagen]</strong>  Anillo Diamante <span style="background:#333;color:#fff;padding:1px 4px;font-size:11px;">🖌 Personalizado</span>  150.00€ │<br>
+        │           <span>Descripción abreviada...</span>               150.00€/ud │<br>
+        │           <span>[📷 miniatura grabado]</span>                            │<br>
+        │           <span style="color:#888">Ver grabado</span>                                        │<br>
+        │                                                             │<br>
+        │  [Eliminar]                  Cantidad  [−]  <strong>1</strong>  [+]  (5 disp.) │<br>
+        └────────────────────────────────────────────────────────┴──────┘<br>
+    </div>
+
+    <ul>
+        <li><strong>Badge:</strong> Etiqueta oscura "Personalizado" con icono de pincel junto al nombre.</li>
+        <li><strong>Miniatura:</strong> Imagen del grabado de 50px de alto. Click abre la imagen completa en nueva pestaña.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>10. Visualización en el historial de pedidos</h2>
+
+    <p>En <code>pedidos/show.blade.php</code>, los detalles del pedido que tienen grabado personalizado muestran la misma información:</p>
+    <ul>
+        <li>Badge "Personalizado" junto al nombre del producto.</li>
+        <li>Miniatura del grabado con enlace para verlo en tamaño completo.</li>
+    </ul>
+    <p>Esto permite al usuario (y a los administradores) identificar qué productos fueron personalizados y ver exactamente qué diseño se pidió.</p>
+
+    <!-- ============================== -->
+    <h2>11. Modificaciones en el checkout</h2>
+
+    <p>En <code>CarritoController::checkout()</code>, al crear cada <code>DetallePedido</code>, se copia el campo <code>ruta_grabado_personalizado</code> desde el item del carrito:</p>
+
+    <pre>
+DetallePedido::create([
+    'cantidad' => $item->cantidad,
+    'precio_unitario' => $item->producto->precio,
+    'id_pedido' => $pedido->id,
+    'id_producto' => $item->producto->id,
+    'ruta_grabado_personalizado' => $item->ruta_grabado_personalizado  // ← NUEVO
+]);</pre>
+
+    <p>Si el item no es personalizado, el valor será <code>NULL</code> y el pedido se comporta como antes.</p>
+
+    <!-- ============================== -->
+    <h2>12. Almacenamiento de imágenes</h2>
+
+    <table>
+        <tr>
+            <th>Aspecto</th>
+            <th>Detalle</th>
+        </tr>
+        <tr>
+            <td>Disco</td>
+            <td><code>public</code> (accesible vía <code>storage/app/public/</code>)</td>
+        </tr>
+        <tr>
+            <td>Carpeta</td>
+            <td><code>grabados/</code></td>
+        </tr>
+        <tr>
+            <td>Formato</td>
+            <td>PNG (exportado desde <code>canvas.toDataURL('image/png')</code>)</td>
+        </tr>
+        <tr>
+            <td>Nombre</td>
+            <td><code>{userId}_{productoId}_{timestamp}.png</code></td>
+        </tr>
+        <tr>
+            <td>Acceso público</td>
+            <td>Vía <code>asset('storage/' . $ruta)</code> (requiere symlink de storage)</td>
+        </tr>
+    </table>
+
+    <p><strong>Importante:</strong> Es necesario ejecutar <code>php artisan storage:link</code> si no se ha hecho previamente para que las imágenes sean accesibles desde el navegador.</p>
+
+    <!-- ============================== -->
+    <h2>13. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>HTML5 Canvas</td>
+            <td>Herramienta de dibujo con lápiz, texto e imágenes para el diseño del grabado.</td>
+        </tr>
+        <tr>
+            <td>canvas.toDataURL()</td>
+            <td>Exporta el contenido del canvas como imagen PNG en base64 para enviar al servidor.</td>
+        </tr>
+        <tr>
+            <td>Fetch API (AJAX POST)</td>
+            <td>Envía la imagen del grabado al servidor sin recargar la página.</td>
+        </tr>
+        <tr>
+            <td>Laravel Storage</td>
+            <td><code>Storage::disk('public')->put()</code> para guardar las imágenes de grabado en el servidor.</td>
+        </tr>
+        <tr>
+            <td>base64_decode (PHP)</td>
+            <td>Decodifica la imagen base64 recibida del canvas para almacenarla como archivo binario PNG.</td>
+        </tr>
+        <tr>
+            <td>Inyección de modelo</td>
+            <td><code>Producto $producto</code> en la ruta para cargar automáticamente el producto.</td>
+        </tr>
+        <tr>
+            <td>Directivas Blade @auth/@else</td>
+            <td>Renderiza el botón AJAX para autenticados o el modal de login para invitados.</td>
+        </tr>
+        <tr>
+            <td>Bootstrap 5</td>
+            <td>Badges, modales, botones y layout consistente con el resto del sitio.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

@@ -116,9 +116,23 @@
                         <div class="detalle-info">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
-                                    <h6 class="fw-bold mb-1">{{ $detalle->producto ? $detalle->producto->nombre : 'Producto eliminado' }}</h6>
+                                    <h6 class="fw-bold mb-1">
+                                        {{ $detalle->producto ? $detalle->producto->nombre : 'Producto eliminado' }}
+                                        @if($detalle->ruta_grabado_personalizado)
+                                            <span class="badge bg-dark ms-2" style="font-size: 0.6rem;">
+                                                <i class="bi bi-brush me-1"></i>Personalizado
+                                            </span>
+                                        @endif
+                                    </h6>
                                     @if($detalle->producto)
                                         <p class="text-muted small mb-0">{{ $detalle->producto->marca }}</p>
+                                    @endif
+                                    @if($detalle->ruta_grabado_personalizado && file_exists(public_path('storage/' . $detalle->ruta_grabado_personalizado)))
+                                        <a href="{{ asset('storage/' . $detalle->ruta_grabado_personalizado) }}" target="_blank" class="d-inline-block mt-2">
+                                            <img src="{{ asset('storage/' . $detalle->ruta_grabado_personalizado) }}" alt="Grabado personalizado" 
+                                                 style="height: 50px; border: 1px solid #dee2e6; border-radius: 4px;">
+                                            <small class="d-block text-muted">Ver grabado</small>
+                                        </a>
                                     @endif
                                 </div>
                                 <div class="text-end ms-3">
