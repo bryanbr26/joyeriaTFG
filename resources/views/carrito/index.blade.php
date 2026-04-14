@@ -6,13 +6,13 @@
 
 <style>
     .carrito-bg {
-        background-color: #f8f9fa; /* Gris muy clarito casi blanco */
+        background-color: #f8f9fa;
         min-height: 80vh;
         padding: 40px 0;
     }
     
     .item-box {
-        border: 2px solid #dee2e6; /* Borde gris normal */
+        border: 2px solid #dee2e6;
         background-color: transparent;
         padding: 20px;
         margin-bottom: 30px;
@@ -41,6 +41,50 @@
         justify-content: space-between;
     }
 
+    .qty-control {
+        display: flex;
+        align-items: center;
+        gap: 0;
+    }
+
+    .qty-control button {
+        width: 32px;
+        height: 32px;
+        border: 1px solid #dee2e6;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .qty-control button:hover {
+        background-color: #f8f9fa;
+    }
+
+    .qty-control button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .qty-control .qty-value {
+        width: 40px;
+        height: 32px;
+        border-top: 1px solid #dee2e6;
+        border-bottom: 1px solid #dee2e6;
+        border-left: none;
+        border-right: none;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+    }
+
     /* Responsividad básica */
     @media (max-width: 768px) {
         .item-box {
@@ -56,10 +100,15 @@
 <div class="carrito-bg">
     <div class="container">
         
-        <!-- Botón de volver atrás -->
-        <a href="javascript:history.back()" class="btn btn-outline-dark mb-4">
-            <i class="bi bi-arrow-left me-2"></i>Volver atrás
-        </a>
+        <!-- Botones superiores -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="javascript:history.back()" class="btn btn-outline-dark">
+                <i class="bi bi-arrow-left me-2"></i>Volver atrás
+            </a>
+            <a href="{{ route('pedidos.index') }}" class="btn btn-outline-dark">
+                <i class="bi bi-clock-history me-2"></i>Historial de pedidos
+            </a>
+        </div>
 
         <h2 class="text-dark text-center mb-4" style="font-family: 'Italiana', serif;">Tu Cesta</h2>
 
@@ -81,7 +130,7 @@
             <div class="col-lg-8">
                 
                 @forelse($items as $item)
-                    <div class="item-box">
+                    <div class="item-box" id="item-{{ $item->id }}">
                         <!-- Img Container -->
                         <div class="item-image">
                             @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
@@ -99,8 +148,11 @@
                                     <h5 class="fw-bold mb-1">{{ $item->producto->nombre }}</h5>
                                     <p class="text-muted small mb-0">{{ Str::limit($item->producto->descripcion, 70) }}</p>
                                 </div>
-                                <div class="fw-bold fs-5 ms-3 whitespace-nowrap">
-                                    {{ number_format($item->producto->precio, 0) }}€
+                                <div class="text-end ms-3">
+                                    <div class="fw-bold fs-5" style="white-space: nowrap;" id="subtotal-{{ $item->id }}">
+                                        {{ number_format($item->producto->precio * $item->cantidad, 2) }}€
+                                    </div>
+                                    <small class="text-muted">{{ number_format($item->producto->precio, 2) }}€/ud</small>
                                 </div>
                             </div>
                             
@@ -111,11 +163,19 @@
                                     <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold">Eliminar</button>
                                 </form>
                                 
-                                <div class="d-flex align-items-center">
-                                    <span class="me-2 fw-semibold text-muted">Cantidad</span>
-                                    <span class="badge rounded-pill text-dark px-3 py-2 bg-light border">
-                                        {{ $item->cantidad }}
-                                    </span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fw-semibold text-muted small">Cantidad</span>
+                                    <div class="qty-control">
+                                        <button type="button" class="btn-qty-minus" 
+                                                data-item-id="{{ $item->id }}"
+                                                {{ $item->cantidad <= 1 ? 'disabled' : '' }}>−</button>
+                                        <div class="qty-value" id="qty-{{ $item->id }}">{{ $item->cantidad }}</div>
+                                        <button type="button" class="btn-qty-plus" 
+                                                data-item-id="{{ $item->id }}"
+                                                data-max-stock="{{ $item->producto->stock }}"
+                                                {{ $item->cantidad >= $item->producto->stock ? 'disabled' : '' }}>+</button>
+                                    </div>
+                                    <small class="text-muted" id="stock-info-{{ $item->id }}">({{ $item->producto->stock }} disp.)</small>
                                 </div>
                             </div>
                         </div>
@@ -129,10 +189,16 @@
 
                 @if($items->count() > 0)
                     <!-- Total y Checkout -->
-                    <div class="d-flex justify-content-center mt-5 mb-4">
-                        <button class="btn btn-dark btn-lg px-5 py-3 rounded-0 fw-bold fs-5 w-100 shadow" style="max-width: 400px;" onclick="alert('Pasando por caja... ¡Compra realizada con éxito! (Total: {{ number_format($totalPrice, 2) }}€)')">
-                            Pasar por caja [{{ $totalItems }}]
-                        </button>
+                    <div class="text-center mt-4 mb-2">
+                        <p class="fs-5 fw-semibold text-muted mb-1">Total: <span class="text-dark" id="totalPrice">{{ number_format($totalPrice, 2) }}€</span></p>
+                    </div>
+                    <div class="d-flex justify-content-center mt-2 mb-4">
+                        <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra por {{ number_format($totalPrice, 2) }}€?')">
+                            @csrf
+                            <button type="submit" class="btn btn-dark btn-lg px-5 py-3 rounded-0 fw-bold fs-5 shadow" style="min-width: 300px;">
+                                <i class="bi bi-bag-check me-2"></i>Pasar por caja [<span id="totalItems">{{ $totalItems }}</span>]
+                            </button>
+                        </form>
                     </div>
                 @endif
                 
@@ -140,5 +206,68 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        function actualizarCantidad(itemId, nuevaCantidad) {
+            fetch(`/carrito/${itemId}/cantidad`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cantidad: nuevaCantidad })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Actualizar cantidad mostrada
+                    document.getElementById('qty-' + itemId).textContent = data.cantidad;
+                    // Actualizar subtotal del item
+                    document.getElementById('subtotal-' + itemId).textContent = data.subtotal + '€';
+                    // Actualizar total general
+                    document.getElementById('totalPrice').textContent = data.totalPrice + '€';
+                    document.getElementById('totalItems').textContent = data.totalItems;
+
+                    // Actualizar estado de los botones
+                    const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${itemId}"]`);
+                    const plusBtn = document.querySelector(`.btn-qty-plus[data-item-id="${itemId}"]`);
+                    const maxStock = parseInt(plusBtn.dataset.maxStock);
+
+                    minusBtn.disabled = (data.cantidad <= 1);
+                    plusBtn.disabled = (data.cantidad >= maxStock);
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            });
+        }
+
+        // Botones de incrementar/decrementar cantidad
+        document.querySelectorAll('.btn-qty-minus').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                const currentQty = parseInt(document.getElementById('qty-' + itemId).textContent);
+                if (currentQty > 1) {
+                    actualizarCantidad(itemId, currentQty - 1);
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-qty-plus').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                const currentQty = parseInt(document.getElementById('qty-' + itemId).textContent);
+                const maxStock = parseInt(this.dataset.maxStock);
+                if (currentQty < maxStock) {
+                    actualizarCantidad(itemId, currentQty + 1);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

@@ -14,7 +14,7 @@ class DetallePedido extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'cantidad', 'precio_unitario', 'id_pedido'
+        'cantidad', 'precio_unitario', 'id_pedido', 'id_producto'
     ];
 
     public function pedido()
@@ -24,6 +24,6 @@ class DetallePedido extends Model
 
     public function producto()
     {
-        return $this->hasOne(Producto::class, 'id_detalles_pedido');
+        return $this->belongsTo(Producto::class, 'id_producto');
     }
-}
+}

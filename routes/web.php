@@ -13,6 +13,7 @@ use App\Http\Controllers\HistoriaController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\FavoritoController;
+use App\Http\Controllers\PedidoController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -49,7 +50,9 @@ Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto
 Route::middleware('auth')->group(function () {
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
     Route::post('/carrito/agregar/{producto}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::patch('/carrito/{id}/cantidad', [CarritoController::class, 'actualizarCantidad'])->name('carrito.actualizarCantidad');
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+    Route::post('/carrito/checkout', [CarritoController::class, 'checkout'])->name('carrito.checkout');
 });
 
 // RUTAS FAVORITOS
@@ -60,5 +63,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/favoritos', [FavoritoController::class, 'index'])->name('favoritos.index');
     Route::delete('/favoritos/{id}', [FavoritoController::class, 'eliminar'])->name('favoritos.eliminar');
     Route::post('/favoritos/{id}/carrito', [FavoritoController::class, 'agregarAlCarrito'])->name('favoritos.agregarCarrito');
+});
+
+// RUTAS PEDIDOS
+Route::middleware('auth')->group(function () {
+    Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
 });
 
