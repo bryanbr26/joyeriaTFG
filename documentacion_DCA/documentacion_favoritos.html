@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Sistema de Favoritos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sistema de Favoritos</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 12 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha implementado un <strong>sistema de favoritos completo</strong> que permite a los usuarios autenticados guardar productos como favoritos desde la vista de detalle, y gestionar su lista de favoritos en una página dedicada. Los usuarios no autenticados son redirigidos a iniciar sesión o registrarse antes de poder usar esta funcionalidad.</p>
+
+    <p>El sistema incluye:</p>
+    <ul>
+        <li>Botón de corazón en la vista de detalle del producto con <strong>toggle AJAX</strong> (añadir/eliminar favorito).</li>
+        <li>Página de favoritos con listado completo, opción de <strong>eliminar de favoritos</strong> y <strong>añadir al carrito</strong>.</li>
+        <li>Modal de autenticación para usuarios invitados que intentan marcar favoritos.</li>
+        <li>Enlace en el header del sitio hacia la página de favoritos.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>2. Archivos principales involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/FavoritoController.php</span></td>
+            <td>Controlador nuevo con métodos <code>index()</code>, <code>toggle()</code>, <code>eliminar()</code> y <code>agregarAlCarrito()</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Nuevas rutas para favoritos: toggle AJAX sin middleware, resto protegido con <code>auth</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/favoritos/index.blade.php</span></td>
+            <td>Vista de la página de favoritos con el mismo estilo visual que la cesta.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/joyas/show.blade.php</span></td>
+            <td>Modificado: botón corazón ahora funcional con AJAX para autenticados y modal para invitados.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/layouts/Header.blade.php</span></td>
+            <td>Modificado: icono de corazón del header ahora enlaza a <code>/favoritos</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Models/Favorito.php</span></td>
+            <td>Modelo Eloquent existente de la tabla <code>FAVORITOS</code> con relaciones a <code>User</code> y <code>Producto</code>.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>3. Rutas y Controlador</h2>
+
+    <h3>3.1 Rutas de Favoritos (<code>web.php</code>)</h3>
+    <p>La ruta de <code>toggle</code> queda fuera del middleware <code>auth</code> para poder devolver un JSON 401 en las peticiones AJAX cuando el usuario no está autenticado. El resto de rutas sí están protegidas:</p>
+
+    <pre>
+// Toggle va fuera del middleware auth para devolver JSON 401 en AJAX
+Route::post('/favoritos/toggle/{producto}', [FavoritoController::class, 'toggle'])
+    ->name('favoritos.toggle');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/favoritos', [FavoritoController::class, 'index'])
+        ->name('favoritos.index');
+    Route::delete('/favoritos/{id}', [FavoritoController::class, 'eliminar'])
+        ->name('favoritos.eliminar');
+    Route::post('/favoritos/{id}/carrito', [FavoritoController::class, 'agregarAlCarrito'])
+        ->name('favoritos.agregarCarrito');
+});</pre>
+
+    <h3>3.2 FavoritoController</h3>
+    <p>Responsable de las cuatro acciones principales:</p>
+    <ul>
+        <li><strong><code>index()</code>:</strong> Carga los favoritos del usuario autenticado con sus relaciones de producto e imágenes y los pasa a la vista.</li>
+        <li><strong><code>toggle()</code>:</strong> Recibe peticiones AJAX POST. Si el producto ya es favorito lo elimina; si no lo es, lo crea. Devuelve JSON con el estado resultante (<code>favorito: true/false</code>).</li>
+        <li><strong><code>eliminar()</code>:</strong> Elimina un favorito por su ID validando que pertenezca al usuario actual.</li>
+        <li><strong><code>agregarAlCarrito()</code>:</strong> Toma un favorito, localiza el producto asociado y lo añade al carrito (incrementando cantidad si ya existe).</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>4. Modificaciones en Detalle de Producto</h2>
+
+    <p>Se modificó <code>resources/views/joyas/show.blade.php</code> para hacer funcional el botón de favoritos:</p>
+
+    <h3>4.1 Detección del estado de favorito</h3>
+    <p>Al cargar la página, se consulta si el producto ya es favorito del usuario actual mediante un bloque <code>@php</code>:</p>
+    <pre>
+@php
+    $esFavorito = false;
+    if(Auth::check()) {
+        $esFavorito = \App\Models\Favorito::where('id_usuario', Auth::id())
+                        ->where('id_producto', $producto->id)
+                        ->exists();
+    }
+@endphp</pre>
+
+    <h3>4.2 Lógica del botón corazón</h3>
+    <div class="diagram">
+        Directiva <strong>@auth</strong> - Verifica el cliente <br>
+        │<br>
+        ├── <strong>[SI] Logeado</strong><br>
+        │   ├── Muestra corazón <strong>relleno rojo</strong> si ya es favorito<br>
+        │   ├── Muestra corazón <strong>vacío</strong> si no lo es<br>
+        │   └── Click → Fetch AJAX POST a <code>/favoritos/toggle/{id}</code> → Toggle icono<br>
+        │<br>
+        └── <strong>[NO] Invitado</strong><br>
+            └── Click → Abre Modal Bootstrap con botones a <code>login</code> & <code>register</code>
+    </div>
+
+    <h3>4.3 Modal de autenticación unificado</h3>
+    <p>Se actualizó el modal existente para cubrir tanto el carrito como favoritos. El texto ahora indica:</p>
+    <pre>
+"Para añadir productos a la cesta o a favoritos debes iniciar sesión
+o crear una cuenta nueva."</pre>
+    <p>El icono se cambió a <code>bi-person-lock</code> para reflejar mejor el contexto de autenticación.</p>
+
+    <!-- ============================== -->
+    <h2>5. Vista de Favoritos</h2>
+
+    <h3>5.1 Estructura Visual</h3>
+    <p>La vista <code>favoritos/index.blade.php</code> sigue exactamente el mismo patrón de diseño que la cesta, reutilizando las clases CSS <code>item-box</code>, <code>item-image</code> e <code>item-details</code>:</p>
+
+    <div class="diagram">
+        ┌────────────────────────────────────────────────────────┬──────┐<br>
+        │ <strong>[Imagen]</strong>  Nombre del producto                   100.00€ │<br>
+        │           <span>Marca · Descripción abreviada...</span>                │<br>
+        │                                                             │<br>
+        │  [♥ Eliminar]                          [🛒 Añadir a cesta] │<br>
+        └────────────────────────────────────────────────────────┴──────┘<br>
+    </div>
+
+    <h3>5.2 Elementos de cada item</h3>
+    <ul>
+        <li><strong>Imagen:</strong> Cuadro de 150×150px con la imagen del producto o icono placeholder de gema.</li>
+        <li><strong>Información:</strong> Nombre, marca, descripción abreviada (70 chars) y precio con formato.</li>
+        <li><strong>Eliminar de favoritos:</strong> Formulario con método DELETE y confirmación <code>onsubmit</code>.</li>
+        <li><strong>Añadir a la cesta:</strong> Formulario POST que envía el producto al carrito. Se deshabilita si <code>stock <= 0</code>.</li>
+    </ul>
+
+    <h3>5.3 Estado vacío</h3>
+    <p>Si el usuario no tiene favoritos, se muestra un bloque con borde discontinuo, icono de corazón, mensaje descriptivo y botón <code>Explorar joyas</code> que redirige al inicio.</p>
+
+    <!-- ============================== -->
+    <h2>6. Modificación del Header</h2>
+
+    <p>En <code>resources/views/layouts/Header.blade.php</code>, el icono de corazón que antes apuntaba a <code>#</code> ahora enlaza a la ruta de favoritos:</p>
+    <pre>
+&lt;!-- Antes --&gt;
+&lt;a href="#" class="text-dark" title="Favoritos"&gt;
+
+&lt;!-- Después --&gt;
+&lt;a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos"&gt;</pre>
+
+    <!-- ============================== -->
+    <h2>7. Modelo de datos</h2>
+
+    <h3>7.1 Tabla FAVORITOS</h3>
+    <table>
+        <tr>
+            <th>Columna</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+        </tr>
+        <tr>
+            <td><code>id</code></td>
+            <td>INT (PK, AI)</td>
+            <td>Identificador único del favorito</td>
+        </tr>
+        <tr>
+            <td><code>fecha_agregado</code></td>
+            <td>TIMESTAMP</td>
+            <td>Fecha en que se añadió, por defecto <code>CURRENT_TIMESTAMP</code></td>
+        </tr>
+        <tr>
+            <td><code>id_usuario</code></td>
+            <td>INT (FK)</td>
+            <td>Referencia a <code>USUARIO.id</code></td>
+        </tr>
+        <tr>
+            <td><code>id_producto</code></td>
+            <td>INT (FK)</td>
+            <td>Referencia a <code>PRODUCTO.id</code></td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>8. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>Vanilla Fetch JS (AJAX)</td>
+            <td>Toggle de favoritos sin recarga de página desde <code>show.blade.php</code>.</td>
+        </tr>
+        <tr>
+            <td>Componente Modal Bootstrap</td>
+            <td>Bloquea el acceso a favoritos para invitados, ofreciendo login o registro.</td>
+        </tr>
+        <tr>
+            <td>Directivas Blade @auth / @guest</td>
+            <td>Renderizado condicional del botón corazón según estado de autenticación.</td>
+        </tr>
+        <tr>
+            <td>Eloquent ORM</td>
+            <td>Consultas con <code>where()</code>, <code>exists()</code>, <code>create()</code>, <code>delete()</code> y relaciones <code>belongsTo</code>.</td>
+        </tr>
+        <tr>
+            <td>CSS Flexbox + Bootstrap 5</td>
+            <td>Diseño responsivo de las tarjetas de favoritos con el mismo patrón visual que la cesta.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

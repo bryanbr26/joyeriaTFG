@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Mejoras Carrito y Sistema de Pedidos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mejoras del Carrito y Sistema de Pedidos</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 14 de Abril de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se han implementado <strong>mejoras significativas en el sistema de carrito</strong> y un <strong>sistema completo de pedidos</strong>. Los cambios incluyen:</p>
+    <ul>
+        <li><strong>Control de cantidad</strong> en la cesta con botones +/− que respetan el stock disponible, actualizando precios en tiempo real vía AJAX.</li>
+        <li><strong>Proceso de checkout</strong> funcional: al "Pasar por caja" se crea un pedido en la base de datos, se descuenta el stock de cada producto y se vacía el carrito.</li>
+        <li><strong>Historial de pedidos</strong> con listado de todos los pedidos del usuario y vista de detalle por pedido.</li>
+        <li><strong>Nueva migración</strong> para añadir <code>id_producto</code> a la tabla <code>DETALLES_PEDIDO</code>.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>2. Archivos principales involucrados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/CarritoController.php</span></td>
+            <td>Ampliado con <code>actualizarCantidad()</code> y <code>checkout()</code>. Validación de stock en <code>agregar()</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/PedidoController.php</span></td>
+            <td>Controlador nuevo con <code>index()</code> y <code>show()</code> para el historial de pedidos.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/carrito/index.blade.php</span></td>
+            <td>Rediseñada: controles de cantidad +/−, subtotales dinámicos, checkout real con formulario POST.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/pedidos/index.blade.php</span></td>
+            <td>Vista nueva del historial de pedidos con tarjetas resumen y estados con colores.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/pedidos/show.blade.php</span></td>
+            <td>Vista nueva del detalle completo de un pedido individual.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Models/DetallePedido.php</span></td>
+            <td>Modificado: añadido <code>id_producto</code> al fillable y cambiada relación <code>producto()</code> a <code>belongsTo</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Nuevas rutas: <code>PATCH</code> cantidad, <code>POST</code> checkout, <code>GET</code> pedidos.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">database/migrations/2026_04_14_..._add_id_producto_to_DETALLES_PEDIDO_table.php</span></td>
+            <td>Migración nueva para añadir columna <code>id_producto</code> con FK a <code>PRODUCTO</code>.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>3. Rutas añadidas</h2>
+
+    <h3>3.1 Nuevas rutas de Carrito (<code>web.php</code>)</h3>
+    <p>Se añadieron dos rutas adicionales al grupo protegido por <code>auth</code>:</p>
+
+    <pre>
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', ...)->name('carrito.index');
+    Route::post('/carrito/agregar/{producto}', ...)->name('carrito.agregar');
+
+    // NUEVAS
+    Route::patch('/carrito/{id}/cantidad', [CarritoController::class, 'actualizarCantidad'])
+        ->name('carrito.actualizarCantidad');
+    Route::post('/carrito/checkout', [CarritoController::class, 'checkout'])
+        ->name('carrito.checkout');
+
+    Route::delete('/carrito/{id}', ...)->name('carrito.eliminar');
+});</pre>
+
+    <h3>3.2 Rutas de Pedidos (<code>web.php</code>)</h3>
+    <p>Nuevo grupo de rutas protegidas para el historial:</p>
+    <pre>
+Route::middleware('auth')->group(function () {
+    Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
+});</pre>
+
+    <!-- ============================== -->
+    <h2>4. Mejoras en el Carrito</h2>
+
+    <h3>4.1 Control de cantidad con validación de stock</h3>
+    <p>Se reemplazó el badge estático de cantidad por controles interactivos −/+ que actualizan vía AJAX:</p>
+
+    <div class="diagram">
+        ┌────────────────────────────────────────────────────────┬──────┐<br>
+        │ <strong>[Imagen]</strong>  Nombre del producto                   200.00€ │<br>
+        │           <span>Descripción abreviada...</span>               100.00€/ud │<br>
+        │                                                             │<br>
+        │  [Eliminar]                  Cantidad  [−]  <strong>2</strong>  [+]  (5 disp.) │<br>
+        └────────────────────────────────────────────────────────┴──────┘<br>
+    </div>
+
+    <p>Comportamiento de los botones:</p>
+    <ul>
+        <li>El botón <strong>−</strong> se deshabilita cuando la cantidad es <code>1</code> (mínimo).</li>
+        <li>El botón <strong>+</strong> se deshabilita cuando la cantidad alcanza el <code>stock</code> disponible del producto.</li>
+        <li>Cada click envía una petición <code>PATCH</code> vía Fetch API al endpoint <code>/carrito/{id}/cantidad</code>.</li>
+        <li>La respuesta JSON actualiza en tiempo real: cantidad, subtotal del item, precio total de la cesta y contador de items.</li>
+    </ul>
+
+    <h3>4.2 Método <code>actualizarCantidad()</code></h3>
+    <pre>
+public function actualizarCantidad(Request $request, $id)
+{
+    $item = Carrito::with('producto')
+                   ->where('id', $id)
+                   ->where('id_usuario', Auth::id())
+                   ->first();
+
+    $nuevaCantidad = (int) $request->input('cantidad', 1);
+
+    // Limitar entre 1 y stock disponible
+    if ($nuevaCantidad < 1) $nuevaCantidad = 1;
+    if ($nuevaCantidad > $item->producto->stock) $nuevaCantidad = $item->producto->stock;
+
+    $item->cantidad = $nuevaCantidad;
+    $item->save();
+
+    // Recalcular y devolver totales
+    return response()->json([
+        'success' => true,
+        'cantidad' => $nuevaCantidad,
+        'subtotal' => ...,
+        'totalPrice' => ...,
+        'totalItems' => ...
+    ]);
+}</pre>
+
+    <h3>4.3 Validación de stock en <code>agregar()</code></h3>
+    <p>Se añadió validación al método de añadir al carrito desde la vista de detalle:</p>
+    <ul>
+        <li>Si el producto ya está en carrito y <code>cantidad >= stock</code>, devuelve error JSON.</li>
+        <li>Si el producto tiene <code>stock <= 0</code>, no se crea la entrada.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>5. Proceso de Checkout</h2>
+
+    <h3>5.1 Flujo completo</h3>
+    <div class="diagram">
+        Usuario pulsa <strong>"Pasar por caja"</strong><br>
+        │<br>
+        ├── 1. Confirmar compra (JS <code>confirm()</code>)<br>
+        │<br>
+        ├── 2. Verificar stock de todos los items<br>
+        │   └── Si alguno excede stock → error, volver atrás<br>
+        │<br>
+        ├── 3. <strong>DB::beginTransaction()</strong><br>
+        │   ├── Calcular total<br>
+        │   ├── Crear registro en <code>PEDIDO</code><br>
+        │   ├── Por cada item del carrito:<br>
+        │   │   ├── Crear <code>DETALLES_PEDIDO</code> (cantidad, precio, id_producto)<br>
+        │   │   └── Descontar <code>stock</code> del <code>PRODUCTO</code><br>
+        │   └── Eliminar todos los items del <code>CARRITO</code> del usuario<br>
+        │<br>
+        ├── 4. <strong>DB::commit()</strong><br>
+        │<br>
+        └── 5. Redirigir a historial de pedidos con mensaje de éxito
+    </div>
+
+    <h3>5.2 Integridad transaccional</h3>
+    <p>Todo el proceso de checkout se ejecuta dentro de una <strong>transacción de base de datos</strong> (<code>DB::beginTransaction()</code>). Si ocurre cualquier error, se ejecuta <code>DB::rollBack()</code> y ningún dato es modificado. Esto garantiza que:</p>
+    <ul>
+        <li>No se creen pedidos sin descontar stock.</li>
+        <li>No se descuente stock sin crear el pedido.</li>
+        <li>No se vacíe el carrito si la creación del pedido falla.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>6. Historial de Pedidos</h2>
+
+    <h3>6.1 Vista del listado (<code>pedidos/index.blade.php</code>)</h3>
+    <p>Accesible desde el botón <strong>"Historial de pedidos"</strong> en la cesta. Muestra todos los pedidos del usuario ordenados por fecha descendente:</p>
+
+    <div class="diagram">
+        ┌──────────────────────────────────────────────────────────────┐<br>
+        │ <strong>Pedido #12</strong>                                      250.00€  │<br>
+        │ 📅 14/04/2026 21:30                          ● Pendiente    │<br>
+        │ ─────────────────────────────────────────────────────────── │<br>
+        │ 2 producto(s)                                               │<br>
+        │ Anillo Diamante × 1                                150.00€ │<br>
+        │ Pulsera Oro × 2                                    100.00€ │<br>
+        │                                          [👁 Ver detalles]  │<br>
+        └──────────────────────────────────────────────────────────────┘<br>
+    </div>
+
+    <p>Características de cada tarjeta:</p>
+    <ul>
+        <li><strong>Cabecera:</strong> Número de pedido, fecha formateada, total y estado con badge de color.</li>
+        <li><strong>Preview:</strong> Muestra hasta 3 productos con cantidades. Si hay más, indica "y X más...".</li>
+        <li><strong>Botón:</strong> Enlace a la vista de detalle completo del pedido.</li>
+    </ul>
+
+    <h3>6.2 Estados y colores</h3>
+    <table>
+        <tr>
+            <th>Estado</th>
+            <th>Color</th>
+            <th>Clase CSS</th>
+        </tr>
+        <tr>
+            <td>Pendiente</td>
+            <td>Amarillo</td>
+            <td><code>estado-pendiente</code> → <code>#ffc107</code></td>
+        </tr>
+        <tr>
+            <td>Preparado</td>
+            <td>Cyan</td>
+            <td><code>estado-preparado</code> → <code>#17a2b8</code></td>
+        </tr>
+        <tr>
+            <td>Enviado</td>
+            <td>Azul</td>
+            <td><code>estado-enviado</code> → <code>#007bff</code></td>
+        </tr>
+        <tr>
+            <td>Entregado</td>
+            <td>Verde</td>
+            <td><code>estado-entregado</code> → <code>#28a745</code></td>
+        </tr>
+        <tr>
+            <td>Cancelado</td>
+            <td>Rojo</td>
+            <td><code>estado-cancelado</code> → <code>#dc3545</code></td>
+        </tr>
+    </table>
+
+    <h3>6.3 Vista de detalle (<code>pedidos/show.blade.php</code>)</h3>
+    <p>Muestra la información completa del pedido con un bloque de información general (fecha, estado, total) y la lista de todos los productos:</p>
+
+    <div class="diagram">
+        ┌──────────────────────────────────────────────────────────────┐<br>
+        │ <strong>Fecha:</strong> 14/04/2026   <strong>Estado:</strong> ● Pendiente   <strong>Total:</strong> 250.00€ │<br>
+        └──────────────────────────────────────────────────────────────┘<br>
+        <br>
+        ┌────────────────────────────────────────────────────────┬──────┐<br>
+        │ <strong>[Img]</strong>  Anillo Diamante                         150.00€  │<br>
+        │         Marca Ejemplo                                       │<br>
+        │         150.00€/ud                          Cantidad: 1     │<br>
+        └────────────────────────────────────────────────────────┴──────┘<br>
+    </div>
+
+    <!-- ============================== -->
+    <h2>7. Migración de base de datos</h2>
+
+    <h3>7.1 Nueva columna <code>id_producto</code> en DETALLES_PEDIDO</h3>
+    <p>Se creó una migración para añadir la columna <code>id_producto</code> a la tabla <code>DETALLES_PEDIDO</code>, permitiendo vincular directamente qué producto fue comprado en cada detalle de pedido:</p>
+
+    <pre>
+Schema::table('DETALLES_PEDIDO', function (Blueprint $table) {
+    $table->unsignedInteger('id_producto')->nullable()
+          ->index('dp_id_producto')
+          ->after('id_pedido');
+    $table->foreign(['id_producto'], 'DETALLES_PEDIDO_ibfk_2')
+          ->references(['id'])->on('PRODUCTO')
+          ->onUpdate('CASCADE')
+          ->onDelete('SET NULL');
+});</pre>
+
+    <p><strong>Importante:</strong> Es necesario ejecutar <code>php artisan migrate</code> para aplicar esta migración.</p>
+
+    <h3>7.2 Cambio en el modelo DetallePedido</h3>
+    <p>Se añadió <code>id_producto</code> al array <code>$fillable</code> y se cambió la relación <code>producto()</code>:</p>
+    <pre>
+// Antes: hasOne inverso a través del campo del producto
+public function producto() {
+    return $this->hasOne(Producto::class, 'id_detalles_pedido');
+}
+
+// Después: belongsTo directo con la nueva FK
+public function producto() {
+    return $this->belongsTo(Producto::class, 'id_producto');
+}</pre>
+
+    <!-- ============================== -->
+    <h2>8. Modelo de datos actualizado</h2>
+
+    <h3>8.1 Flujo de datos en el checkout</h3>
+    <div class="diagram">
+        <strong>CARRITO</strong> (items del usuario)<br>
+        ↓ checkout() ↓<br>
+        ┌─────────────┐     ┌──────────────────┐     ┌───────────┐<br>
+        │   PEDIDO     │ ←── │  DETALLES_PEDIDO  │ ──→ │ PRODUCTO  │<br>
+        │ id, total,   │     │ id, cantidad,     │     │ stock −=  │<br>
+        │ estado,      │     │ precio_unitario,  │     │ cantidad  │<br>
+        │ id_usuario   │     │ id_pedido,        │     │           │<br>
+        │              │     │ id_producto       │     │           │<br>
+        └─────────────┘     └──────────────────┘     └───────────┘<br>
+        <br>
+        ↓ Después del checkout ↓<br>
+        <strong>CARRITO</strong> → se vacía completamente
+    </div>
+
+    <!-- ============================== -->
+    <h2>9. Resumen de tecnologías utilizadas</h2>
+
+    <table>
+        <tr>
+            <th>Tecnología</th>
+            <th>Uso</th>
+        </tr>
+        <tr>
+            <td>Fetch API (AJAX)</td>
+            <td>Actualización de cantidad en tiempo real sin recarga de página (método <code>PATCH</code>).</td>
+        </tr>
+        <tr>
+            <td>Transacciones DB</td>
+            <td><code>DB::beginTransaction()</code> / <code>commit()</code> / <code>rollBack()</code> para garantizar integridad en checkout.</td>
+        </tr>
+        <tr>
+            <td>Eloquent ORM</td>
+            <td>Relaciones <code>with()</code> para eager loading, <code>belongsTo</code>, <code>hasMany</code>, y operaciones CRUD.</td>
+        </tr>
+        <tr>
+            <td>Carbon</td>
+            <td>Formateo de fechas en las vistas de pedidos (<code>d/m/Y H:i</code>).</td>
+        </tr>
+        <tr>
+            <td>CSS Flexbox + Bootstrap 5</td>
+            <td>Diseño responsivo consistente con control de cantidad personalizado.</td>
+        </tr>
+        <tr>
+            <td>Formularios con CSRF</td>
+            <td>Protección contra ataques CSRF en las acciones de checkout y eliminación.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
