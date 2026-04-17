@@ -78,12 +78,15 @@ class CarritoController extends Controller
             return $group->sum('cantidad');
         });
 
+        
         foreach ($items as $item) {
             $totalPrice += $item->producto->precio * $item->cantidad;
             $totalItems += $item->cantidad;
 
             // Máximo para esta línea = stock - unidades en OTRAS líneas
             $otrasUnidades = $unidadesPorProducto[$item->id_producto] - $item->cantidad;
+            /** @var \App\Models\Carrito $item */
+            //Metemos la linea anterior porque el intelliphense no reconoce la propiedad maxDisponible del modelo
             $item->maxDisponible = max(1, $item->producto->stock - $otrasUnidades);
         }
 
