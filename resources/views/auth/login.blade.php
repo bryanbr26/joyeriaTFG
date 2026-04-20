@@ -12,21 +12,21 @@
 @include("layouts.header")
 
 <body class="m-0">
-  <div class="d-flex mt-4">
+  <div class="auth-split-layout">
 
     <!-- IMAGEN -->
-    <aside class="flex-fill d-flex justify-content-center align-items-center bg-light" style="border:1px solid red;">
-      <img class="img-fluid" src="{{ asset('assets/BolsaLogin.png') }}" alt="ImagenPrueba">
+    <aside class="auth-image-side">
+      <img src="{{ asset('assets/BolsaLogin.png') }}" alt="Imagen decorativa joyería">
     </aside>
 
     <!-- MAIN -->
-    <main class="flex-fill d-flex justify-content-center align-items-center">
-      <div class="w-100 h-100 form-loginreg">
+    <main class="auth-form-side">
+      <div class="auth-form-wrapper">
 
         <!-- INICIAR SESION / REGISTRARSE -->
-        <div class="d-flex mb-3 p-2 bot-loginreg" style="background-color: lightgrey;">
-          <p class="flex-fill text-center m-0">Iniciar Sesión</p>
-          <p class="flex-fill text-center m-0">Registrarse</p>
+        <div class="auth-tabs">
+          <a href="{{ route('login') }}" class="auth-tab auth-tab-active">Iniciar Sesión</a>
+          <a href="{{ route('register') }}" class="auth-tab">Registrarse</a>
         </div>
 
         <!-- ERRORES -->
@@ -40,35 +40,34 @@
         </div>
         @endif
 
-        <!-- Status de recuperar la contraseña-->
         @if (session('status'))
         <div class="mb-4 font-medium text-sm text-green-600">
           {{ session('status') }}
         </div>
         @endif
 
-        <!-- FORMULARIO -->
-        <form class="campos-form" method="POST" action="{{ route('login') }}">
-          <!-- Token que evita la falsificacion de cuenta contrastando valores -->
+        <form method="POST" action="{{ route('login') }}" class="form-login">
           @csrf
-          <div class="mb-3">
-            <label for="email" class="form-label">Correo electrónico:</label>
-            <input type="email" class="form-control" name="email" id="email" required autofocus>
+          <div class="campo-form">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" name="email" id="email" required autofocus>
           </div>
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Contraseña:</label>
-            <input type="password" class="form-control" name="password" id="password" required>
+          <div class="campo-form">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" name="password" id="password" required>
           </div>
 
-          <div class="d-flex mb-3 p-2">
-            <button type="submit" class="btn btn-primary flex-fill text-center m-0 btn-entrar">Entrar</button>
-            <a href="{{ route('password.request') }}" class="flex-fill text-center m-0 btn-recu">Recuperar contraseña</a>
+          <div class="form-submit-wrapper">
+            <button type="submit" class="btn-crear-cuenta">Entrar</button>
           </div>
 
+          <p class="form-link-recover">
+            <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+          </p>
         </form>
 
-        <p class="mt-3 text-center">
+        <p class="form-link-alt">
           <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate</a>
         </p>
 
@@ -79,6 +78,6 @@
 </body>
 
 
-@include("layouts.footer")
+@include("layouts.footer");
 
 </html>

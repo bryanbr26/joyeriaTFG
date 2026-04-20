@@ -4,11 +4,11 @@
 
 <div class="container my-5">
     <div class="text-center py-5">
-        <i class="bi bi-envelope fs-1 text-muted"></i>
-        <h2 class="mt-3">Contacto</h2>
-        <p class="text-muted fs-5">Disponible próximamente</p>
-        <p class="text-muted">Estamos preparando esta sección para ti. ¡Vuelve pronto!</p>
-        <a href="{{ route('index') }}" class="btn btn-outline-dark mt-3">Volver al inicio</a>
+        <i class="bi bi-person-circle"></i><h2 class="mt-3">Contacto</h2>
+        <h4>Ven a visitarnos en Calle Tejera 5, 42001 Soria</h4>
+        <i class="bi bi-clock"></i><p>Horario de lunes a viernes de 10:00 a 14:30 y de 17:00 a 20:00</p>
+        <i class="bi bi-clock"></i><p>Horario de sábados de 10:00 a 14:30</p>
+        <i class="bi bi-telephone"><p>Teléfono: 608 66 02 74</p></i>
     </div>
 </div>
 
