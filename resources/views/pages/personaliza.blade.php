@@ -29,12 +29,12 @@
     <!-- Barra de herramientas -->
     <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap align-items-center">
         <!-- Botón lápiz para dibujo libre -->
-        <button class="btn btn-outline-dark active" id="btn-lapiz" title="Dibujar con lápiz">
+        <button class="btn btn-outline-dark active" id="btn-lapiz" title="Dibujar con lápiz" type="button">
             <i class="bi bi-pencil-fill"></i> Dibujar
         </button>
 
         <!-- Botón texto: activa el modo texto para escribir en el canvas -->
-        <button class="btn btn-outline-dark" id="btn-texto" title="Escribir texto">
+        <button class="btn btn-outline-dark" id="btn-texto" title="Escribir texto" type="button">
             <i class="bi bi-fonts"></i> Escribir texto
         </button>
 
@@ -59,23 +59,23 @@
         </select>
 
         <!-- Deshacer último trazo o acción -->
-        <button class="btn btn-outline-secondary" id="btn-deshacer" title="Deshacer">
+        <button class="btn btn-outline-secondary" id="btn-deshacer" title="Deshacer" type="button">
             <i class="bi bi-arrow-counterclockwise"></i> Deshacer
         </button>
 
         <!-- Borrar todo el contenido del canvas -->
-        <button class="btn btn-outline-secondary" id="btn-limpiar" title="Limpiar todo">
+        <button class="btn btn-outline-secondary" id="btn-limpiar" title="Limpiar todo" type="button">
             <i class="bi bi-trash3"></i> Limpiar
         </button>
 
         @if($producto)
             <!-- Modo producto: Añadir al carrito -->
-            <button class="btn btn-dark" id="btn-anadir-carrito" title="Añadir a la cesta con grabado">
+            <button class="btn btn-dark" id="btn-anadir-carrito" title="Añadir a la cesta con grabado" type="button">
                 <i class="bi bi-cart-plus"></i> Añadir a la cesta
             </button>
         @else
             <!-- Modo genérico: Descargar diseño -->
-            <button class="btn btn-dark" id="btn-guardar" title="Descargar diseño">
+            <button class="btn btn-dark" id="btn-guardar" title="Descargar diseño" type="button">
                 <i class="bi bi-download"></i> Guardar
             </button>
         @endif
@@ -135,8 +135,21 @@
 </div>
 @endif
 
+{{-- Config para JS, así evitamos Blade dentro del script --}}
+<div id="personaliza-config"
+     data-auth="{{ auth()->check() ? '1' : '0' }}"
+     data-ruta-guardar="{{ $producto ? route('personaliza.guardar') : '' }}"
+     data-producto-id="{{ $producto?->id ?? '' }}"
+     hidden>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+    const config = document.getElementById('personaliza-config');
+    const usuarioAutenticado = config.dataset.auth === '1';
+    const rutaGuardar = config.dataset.rutaGuardar;
+    const productoId = config.dataset.productoId || null;
 
     //Recogemos los dos canvas, el color y el texto del DOM
     const canvas = document.getElementById('canvas-joya');           // canvas principal de dibujo
@@ -509,50 +522,48 @@ document.addEventListener('DOMContentLoaded', () => {
         btnAnadirCarrito.addEventListener('click', () => {
             if (textoActivo) confirmarTexto();
 
-            // Verificar autenticación
-            @auth
-            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const imagenBase64 = canvas.toDataURL('image/png');
+            if (usuarioAutenticado) {
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const imagenBase64 = canvas.toDataURL('image/png');
 
-            // Deshabilitar botón temporalmente
-            btnAnadirCarrito.disabled = true;
-            const originalHTML = btnAnadirCarrito.innerHTML;
-            btnAnadirCarrito.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Guardando...';
+                // Deshabilitar botón temporalmente
+                btnAnadirCarrito.disabled = true;
+                const originalHTML = btnAnadirCarrito.innerHTML;
+                btnAnadirCarrito.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Guardando...';
 
-            fetch('{{ route("personaliza.guardar") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    imagen_base64: imagenBase64,
-                    producto_id: {{ $producto ? $producto->id : 'null' }}
+                fetch(rutaGuardar, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        imagen_base64: imagenBase64,
+                        producto_id: productoId
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                btnAnadirCarrito.disabled = false;
-                btnAnadirCarrito.innerHTML = originalHTML;
+                .then(response => response.json())
+                .then(data => {
+                    btnAnadirCarrito.disabled = false;
+                    btnAnadirCarrito.innerHTML = originalHTML;
 
-                if (data.success) {
-                    alert(data.message);
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(err => {
-                btnAnadirCarrito.disabled = false;
-                btnAnadirCarrito.innerHTML = originalHTML;
-                console.error('Error:', err);
-                alert('Hubo un error al guardar el grabado.');
-            });
-            @else
-            // Si no está autenticado, mostrar modal de login
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-            @endauth
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    btnAnadirCarrito.disabled = false;
+                    btnAnadirCarrito.innerHTML = originalHTML;
+                    console.error('Error:', err);
+                    alert('Hubo un error al guardar el grabado.');
+                });
+            } else {
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            }
         });
     }
 
