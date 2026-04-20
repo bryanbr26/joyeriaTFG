@@ -4,7 +4,7 @@
 
 <div class="container my-5">
     <div class="text-center py-5">
-        <h2 class="mt-3">Contacto</h2>
+        <h2 class="mt-3">Historia</h2>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>
