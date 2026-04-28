@@ -32,7 +32,7 @@
         </div>
 
         {{-- ===================== COLUMNA DERECHA: INFORMACIÓN ===================== --}}
-        <div class="col-lg-6">
+        <div class="col-lg-6 info_prod">
             <h2 class="fw-bold mb-1">{{ $producto->nombre }}</h2>
             <p class="text-muted mb-3">{{ $producto->marca }}</p>
 
