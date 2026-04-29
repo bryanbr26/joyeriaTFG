@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joyas Pérez - @yield('title', 'Lujo y Elegancia')</title>
+    <title>Joyas Pérez </title>
 
     <!-- Bootstrap CSS (compilado desde app.scss) -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <!-- Bootstrap js -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 
     <!-- Bootstrap Icons (ya incluidos en app.css) -->
     <!-- estilos css personalizados -->

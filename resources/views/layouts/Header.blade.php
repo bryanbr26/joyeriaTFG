@@ -1,29 +1,26 @@
 <header class="border-bottom">
-    <!-- Fila 1: Logo, Buscador, Iconos -->
-    <div class="container-fluid d-flex flex-row py-2 bg-white align-items-center">
 
-        <!-- Logo -->
-        <div class="col-auto">
-            <div class="d-flex align-items-center">
-                <a href="{{ route('index') }}" class="h3 mb-0 fw-bold text-uppercase"
-                    style="text-decoration:none">Joyas<br>Perez</a>
-            </div>
+    <div class="container-fluid d-flex flex-row justify-content-center align-items-center py-2 bg-white">
+        <div class="LogoLetra">
+            <a href="{{ route('index') }}" style="text-decoration:none">
+                JOYAS PÉREZ
+            </a>
         </div>
+    </div>
+    <!-- Fila 1: Logo, Buscador, Iconos -->
+    <div class="container-fluid py-2 bg-white" id="header">
 
         <!-- Buscador -->
-        <div class="col">
+        <div class="col" id="contenedor-buscador">
             <div class="d-flex justify-content-center">
-                <div class="input-group" style="max-width: 600px;">
+                <div class="input-group bg-grey" style="max-width: 565px;">
                     <input type="text" class="form-control border-dark" placeholder="BUSCAR">
-                    <button class="btn btn-dark" type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Iconos -->
-        <div class="col-auto">
+        <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-3">
                 <!-- Usuario/Login -->
                 <a href="{{ route('login') }}" class="text-dark" title="Gestión Usuarios">
@@ -49,15 +46,15 @@
 
     </div>
 
-    <!-- Fila 2: Navegación -->
-    <nav class="border-top navbar-light" style="background-color: #e3f2fd;">
+    <!-- Fila 3: Navegación -->
+    <nav class="border-top navbar-light" id="nav-bar">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 Joyería
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -72,23 +69,23 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('regalos')}}">Regalos</a>
+                            <a class="nav-link fw-medium" href="{{route('regalos')}}">Regalos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('personaliza')}}">Personaliza tus
+                            <a class="nav-link fw-medium" href="{{route('personaliza')}}">Personaliza tus
                                 joyas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('comproOro')}}">Compro Oro</a>
+                            <a class="nav-link fw-medium" href="{{route('comproOro')}}">Compro Oro</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('orfebreria')}}">Orfebrería</a>
+                            <a class="nav-link fw-medium" href="{{route('orfebreria')}}">Orfebrería</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('historia')}}">Historia</a>
+                            <a class="nav-link fw-medium" href="{{route('historia')}}">Historia</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-medium" href="{{route('contacto')}}">Contacto</a>
+                            <a class="nav-link fw-medium" href="{{route('contacto')}}">Contacto</a>
                         </li>
                     </ul>
                 </div>
