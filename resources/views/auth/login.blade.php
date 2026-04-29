@@ -9,7 +9,7 @@
   <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
-@include("layouts.header")
+@include("layouts.Header")
 
 <body class="m-0">
   <div class="auth-split-layout">
@@ -78,6 +78,6 @@
 </body>
 
 
-@include("layouts.footer");
+@include("layouts.Footer")
 
 </html>
