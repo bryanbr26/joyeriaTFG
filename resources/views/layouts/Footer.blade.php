@@ -11,13 +11,12 @@
             <div class="col-12 col-md-3 mb-4">
                 <h5 class="fw-bold mb-3">Explorar</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Joyería</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Relojes</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Regalos</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Personaliza tus joyas</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Compro oro</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Orfebrería</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-dark">Historia</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('home') }}" class="nav-link p-0 text-dark">Joyería</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('regalos') }}" class="nav-link p-0 text-dark">Regalos</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('personaliza') }}" class="nav-link p-0 text-dark">Personaliza tus joyas</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('comproOro') }}" class="nav-link p-0 text-dark">Compro oro</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('orfebreria') }}" class="nav-link p-0 text-dark">Orfebrería</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('historia') }}" class="nav-link p-0 text-dark">Historia</a></li>
                 </ul>
             </div>
             <!--ayuda-->
