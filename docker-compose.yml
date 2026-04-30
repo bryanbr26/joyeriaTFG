@@ -8,8 +8,12 @@ services:
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
+    ports:
+      - "3000:3000"  # BrowserSync
     networks:
       - joyas_network
+    environment:
+      - NODE_ENV=development  # Importante para source maps
 
   webserver:
     image: nginx:alpine

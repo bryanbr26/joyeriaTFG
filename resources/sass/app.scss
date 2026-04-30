@@ -3,3 +3,45 @@
 
 // Importar Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//resources/sass/app.scss
+// ============================================
+// 1. ABSTRACTOS (Variables, funciones, mixins)
+// ============================================
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// ============================================
+// 2. BASE (Estilos fundamentales)
+// ============================================
+//@import 'base/reset';
+@import 'base/global';
+//@import 'base/typography';
+
+// ============================================
+// 3. COMPONENTES (Elementos reutilizables)
+// ============================================
+@import 'components/header';
+//@import 'components/footer';
+//@import 'components/buttons';
+//@import 'components/cards';
+//@import 'components/forms';
+
+// ============================================
+// 4. LAYOUTS (Estructuras de página)
+// ============================================
+//@import 'layouts/grid';
+
+// ============================================
+// 5. PÁGINAS (Estilos específicos)
+// ============================================
+//@import 'pages/home';
+@import 'pages/login';
+//@import 'pages/productos';
+//@import 'pages/carrito';
+//@import 'pages/contacto';
+
+// ============================================
+// 6. TEMAS (Opcional)
+// ============================================
+// @import 'themes/dark';

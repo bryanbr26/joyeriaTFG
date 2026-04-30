@@ -1,16 +1,35 @@
 const mix = require('laravel-mix');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+// Configuración para desarrollo con Docker
+if (process.env.NODE_ENV !== 'production') {
+   mix.webpackConfig({
+      watchOptions: {
+         poll: 1000,
+         ignored: /node_modules/
+      }
+   });
+}
 
-mix.js('resources/js/app.js', 'public/js')      // Compila tu JS (y Bootstrap JS)
-   .sass('resources/sass/app.scss', 'public/css') // Compila tu SCSS (Bootstrap incluido)
-   .sourceMaps();
+// Compilar a la ubicación ESTÁNDAR de Laravel
+mix.js('resources/js/app.js', 'public/js')      // → public/js/app.js
+   .sass('resources/sass/app.scss', 'public/css') // → public/css/app.css
+   .sourceMaps(false, 'source-map');
+
+// BrowserSync (solo desarrollo)
+if (process.env.NODE_ENV !== 'production') {
+   mix.browserSync({
+      proxy: 'webserver',
+      host: '0.0.0.0',
+      port: 3000,
+      open: false,
+      files: [
+         'public/css/*.css',
+         'public/js/*.js',
+         'resources/views/**/*.blade.php'
+      ],
+      watchOptions: {
+         usePolling: true,
+         interval: 1000
+      }
+   });
+}
