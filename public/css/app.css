@@ -20316,12 +20316,49 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #1a1a1a;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 1.5rem;
+}
+
 .LogoLetra a {
   font-family: "Italiana", serif;
   font-size: 2rem;
   color: black;
   text-decoration: none;
-  width: 100vh;
   display: flex;
   justify-content: center;
 }
@@ -20329,22 +20366,65 @@ textarea.form-control-lg {
 #header {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  border: 2px solid red;
+  justify-items: center;
+  align-items: center;
+}
+@media (max-width: 576px) {
+  #header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 #contenedor-buscador {
-  grid-column: 1/4;
-  margin-left: 35%;
+  border: 2px solid green;
+  grid-column: 1/3;
+  justify-self: center;
+  align-self: center;
 }
 
 #contenedor-iconos {
-  grid-column: 4/4;
+  border: 2px solid green;
+  grid-column: 4/5;
+  justify-self: center;
+  align-self: center;
 }
 
 #nav-bar {
   margin-top: 1%;
   background-color: #25434E;
   padding: 20px;
-  border: 2px solid red;
+}
+#nav-bar .nav-link {
+  color: white !important;
+}
+#nav-bar .nav-link:hover {
+  color: #ffd700 !important;
+}
+
+.login-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.login-container .login-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.login-container .btn-login {
+  background-color: #25434E;
+  color: white;
+  width: 100%;
+}
+.login-container .btn-login:hover {
+  background-color: rgb(20.5913043478, 37.2869565217, 43.4086956522);
 }
 
 /*# sourceMappingURL=app.css.map*/
