@@ -17,6 +17,8 @@ use App\Models\Usuario;
 
 use Laravel\Fortify\Contracts\PasswordResetResponse;
 use App\Http\Responses\CustomPasswordResetResponse;
+use Laravel\Fortify\Contracts\LoginResponse;
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,11 @@ class FortifyServiceProvider extends ServiceProvider
     $this->app->singleton(
         PasswordResetResponse::class,
         CustomPasswordResetResponse::class
+    );
+
+    $this->app->singleton(
+        LoginResponse::class,
+        CustomLoginResponse::class
     );
 }
 

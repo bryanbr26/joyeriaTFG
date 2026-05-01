@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoyasController;
@@ -14,6 +13,10 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
+use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -24,8 +27,17 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// CRUD USUARIOS
-Route::resource('usuarios', UserController::class);
+// PANEL DE ADMINISTRACIÓN
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('usuarios', AdminUserController::class)->except(['show'])->parameters(['usuarios' => 'usuario']);
+    Route::resource('productos', AdminProductoController::class)->except(['show']);
+    Route::patch('/productos/{producto}/stock', [AdminProductoController::class, 'updateStock'])->name('productos.stock');
+    Route::get('/pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
+    Route::patch('/pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateEstado'])->name('pedidos.estado');
+    Route::delete('/pedidos/{pedido}', [AdminPedidoController::class, 'destroy'])->name('pedidos.destroy');
+});
 
 // CRUD JOYAS POR CATEGORÍA
 Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|pendientes'])->name('joyas.')->group(function () {

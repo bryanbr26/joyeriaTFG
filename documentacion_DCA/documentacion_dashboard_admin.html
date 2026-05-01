@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación - Dashboard de Administración</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #f5f5fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0 14px;
+            font-family: 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        .file-ref {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0f3460;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 16px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        @media print {
+            body {
+                padding: 20px 30px;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre,
+            .diagram {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Dashboard de Administración</h1>
+    <p class="subtitle">Documentación técnica — Proyecto Joyería TFG<br>Fecha: 1 de Mayo de 2026</p>
+
+    <!-- ============================== -->
+    <h2>1. Descripción general</h2>
+
+    <p>Se ha creado una <strong>miniweb de administración independiente</strong> bajo el prefijo <code>/admin</code>. El objetivo es separar las tareas internas de gestión de la tienda pública, evitando que los administradores tengan que entrar en páginas visibles para clientes para editar productos, pedidos o usuarios.</p>
+
+    <p>El dashboard inicial actúa como punto de entrada para el personal administrador. Incluye métricas básicas, acceso rápido a secciones internas y una navegación lateral propia. No utiliza el <code>Header</code> público de la tienda, sino un layout específico de administración.</p>
+
+    <!-- ============================== -->
+    <h2>2. Motivo del cambio</h2>
+
+    <p>Antes existían pantallas de gestión mezcladas con el layout público, por ejemplo el CRUD de usuarios en <code>/usuarios</code>. Esto provocaba varios problemas:</p>
+
+    <ul>
+        <li>La edición de datos internos se mostraba con el diseño de la tienda.</li>
+        <li>La navegación del administrador dependía de enlaces públicos.</li>
+        <li>No había una separación clara entre experiencia de cliente y panel interno.</li>
+        <li>Era más difícil ampliar funcionalidades como stock, pedidos, imágenes o métricas.</li>
+    </ul>
+
+    <p>Con la nueva estructura, todo lo administrativo queda agrupado en <code>/admin</code> y protegido por autenticación y rol.</p>
+
+    <!-- ============================== -->
+    <h2>3. Control de acceso</h2>
+
+    <p>Se ha creado un middleware para comprobar que el usuario autenticado tiene rol de administrador.</p>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Middleware/AdminMiddleware.php</span></td>
+            <td>Comprueba que el usuario está logeado y que <code>Auth::user()->rol === 'admin'</code>.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Kernel.php</span></td>
+            <td>Registra el alias <code>admin</code> para poder usarlo en rutas.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">routes/web.php</span></td>
+            <td>Agrupa las rutas internas con <code>middleware(['auth', 'admin'])</code>, prefijo <code>admin</code> y nombres <code>admin.*</code>.</td>
+        </tr>
+    </table>
+
+    <pre>Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});</pre>
+
+    <!-- ============================== -->
+    <h2>4. Redirección tras login</h2>
+
+    <p>Fortify redirigía a todos los usuarios a <code>/</code>, incluso si eran administradores. Para corregirlo, se creó una respuesta personalizada de login.</p>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Responses/LoginResponse.php</span></td>
+            <td>Si el usuario tiene rol <code>admin</code>, redirige a <code>admin.dashboard</code>. Si no, redirige a la tienda.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Providers/FortifyServiceProvider.php</span></td>
+            <td>Registra la respuesta personalizada para el login de Fortify.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Middleware/RedirectIfAuthenticated.php</span></td>
+            <td>Si un administrador ya logeado intenta acceder a login o register, se le manda al dashboard.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>5. Estructura de rutas</h2>
+
+    <table>
+        <tr>
+            <th>Ruta</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+        </tr>
+        <tr>
+            <td><code>/admin/dashboard</code></td>
+            <td><code>admin.dashboard</code></td>
+            <td>Vista inicial con métricas y accesos rápidos.</td>
+        </tr>
+        <tr>
+            <td><code>/admin/usuarios</code></td>
+            <td><code>admin.usuarios.index</code></td>
+            <td>Listado y búsqueda básica de usuarios.</td>
+        </tr>
+        <tr>
+            <td><code>/admin/productos</code></td>
+            <td><code>admin.productos.index</code></td>
+            <td>Listado, filtros básicos y stock rápido de productos.</td>
+        </tr>
+        <tr>
+            <td><code>/admin/pedidos</code></td>
+            <td><code>admin.pedidos.index</code></td>
+            <td>Listado y filtrado básico de pedidos.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>6. Archivos principales creados</h2>
+
+    <table>
+        <tr>
+            <th>Archivo</th>
+            <th>Función</th>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/Admin/DashboardController.php</span></td>
+            <td>Controlador del dashboard. Calcula métricas como usuarios, productos, pedidos, stock bajo y ventas.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/Admin/UserController.php</span></td>
+            <td>CRUD administrativo de usuarios.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/Admin/ProductoController.php</span></td>
+            <td>CRUD administrativo de productos, subida de imagen y actualización rápida de stock.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">app/Http/Controllers/Admin/PedidoController.php</span></td>
+            <td>Gestión de pedidos, detalle y cambio de estado.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/layouts/admin.blade.php</span></td>
+            <td>Layout aislado del panel con sidebar, estilos propios y sin header público.</td>
+        </tr>
+        <tr>
+            <td><span class="file-ref">resources/views/admin/</span></td>
+            <td>Carpeta con las vistas del dashboard, usuarios, productos y pedidos.</td>
+        </tr>
+    </table>
+
+    <!-- ============================== -->
+    <h2>7. CRUD de usuarios</h2>
+
+    <p>Se ha migrado la gestión de usuarios al panel interno. El CRUD antiguo situado en <code>/usuarios</code> se ha eliminado porque ya no se usa.</p>
+
+    <h3>Funcionalidad actual</h3>
+    <ul>
+        <li>Listado de usuarios.</li>
+        <li>Búsqueda por nombre, apellidos o email.</li>
+        <li>Filtro por rol (<code>admin</code> o <code>user</code>).</li>
+        <li>Crear usuario.</li>
+        <li>Editar nombre, apellidos, email, teléfono, rol, contraseña y estado activo.</li>
+        <li>Eliminar usuario.</li>
+    </ul>
+
+    <h3>Archivos eliminados</h3>
+    <ul>
+        <li><code>app/Http/Controllers/UserController.php</code></li>
+        <li><code>resources/views/usuarios/index.blade.php</code></li>
+        <li><code>resources/views/usuarios/create.blade.php</code></li>
+        <li><code>resources/views/usuarios/edit.blade.php</code></li>
+        <li>Ruta pública <code>Route::resource('usuarios', UserController::class)</code></li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>8. CRUD de productos</h2>
+
+    <p>Se ha creado una gestión interna de productos separada de las páginas públicas de joyas.</p>
+
+    <h3>Funcionalidad actual</h3>
+    <ul>
+        <li>Listado paginado de productos.</li>
+        <li>Búsqueda por nombre o marca.</li>
+        <li>Filtro por categoría.</li>
+        <li>Crear producto con imagen obligatoria.</li>
+        <li>Editar datos e imagen del producto.</li>
+        <li>Actualizar stock directamente desde el listado.</li>
+        <li>Eliminar producto y su imagen principal.</li>
+    </ul>
+
+    <p>La imagen se guarda en el disco público de Laravel usando <code>Storage::disk('public')</code>, dentro de la carpeta <code>productos</code>.</p>
+
+    <!-- ============================== -->
+    <h2>9. Gestión de pedidos</h2>
+
+    <p>Se ha añadido una zona de pedidos para administración, diferente del historial de pedidos del usuario cliente.</p>
+
+    <h3>Funcionalidad actual</h3>
+    <ul>
+        <li>Listado paginado de pedidos.</li>
+        <li>Filtro básico por estado.</li>
+        <li>Detalle del pedido con productos, cantidades, precio unitario y subtotal.</li>
+        <li>Cambio de estado del pedido: pendiente, preparado, enviado, entregado o cancelado.</li>
+        <li>Eliminación de pedido.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>10. Diseño del dashboard</h2>
+
+    <p>El dashboard usa un layout propio con sidebar lateral y contenido central. Se decidió no usar el header de la tienda porque el panel de administración necesita una navegación más operativa, enfocada a gestión repetida y no a compra.</p>
+
+    <div class="diagram">
+        /admin/dashboard<br>
+        ├── Usuarios<br>
+        ├── Productos<br>
+        ├── Pedidos<br>
+        └── Ver tienda
+    </div>
+
+    <p>Los estilos base del admin se han incluido temporalmente en <code>resources/views/layouts/admin.blade.php</code>. Esto se hizo porque durante el desarrollo se detectó que la recompilación de Sass con Laravel Mix no siempre actualizaba <code>public/css/app.css</code> por problemas con <code>node_modules</code> entre Windows, WSL y Docker.</p>
+
+    <!-- ============================== -->
+    <h2>11. Funcionalidades pendientes</h2>
+
+    <p>El dashboard actual es una base funcional. Quedan pendientes varias mejoras para convertirlo en una herramienta completa de gestión:</p>
+
+    <ul>
+        <li><strong>Filtros avanzados de productos:</strong> por precio, stock, género, material, color, fecha de alta y productos sin imagen.</li>
+        <li><strong>Buscador global:</strong> una búsqueda única en el sidebar o cabecera del admin para encontrar usuarios, pedidos o productos.</li>
+        <li><strong>Ordenación de tablas:</strong> permitir ordenar por precio, stock, fecha, estado o cliente.</li>
+        <li><strong>Gestión de varias imágenes:</strong> usar la tabla <code>IMAGENES_PRODUCTO</code> para permitir galería, imagen principal y eliminación individual.</li>
+        <li><strong>Validaciones más finas de stock:</strong> avisos visuales por stock bajo, stock agotado y reposición recomendada.</li>
+        <li><strong>Panel de pedidos más completo:</strong> dirección de envío, método de pago, historial de cambios de estado y notas internas.</li>
+        <li><strong>Protección contra borrados críticos:</strong> impedir que un administrador se elimine a sí mismo o que se borre el último admin.</li>
+        <li><strong>Dashboard de métricas reales:</strong> ventas por periodo, productos más vendidos, pedidos pendientes y evolución mensual.</li>
+        <li><strong>Exportación:</strong> descargar productos, usuarios o pedidos en CSV/Excel.</li>
+        <li><strong>Tests:</strong> pruebas de acceso admin, CRUD y permisos.</li>
+    </ul>
+
+    <!-- ============================== -->
+    <h2>12. Consideraciones técnicas</h2>
+
+    <ul>
+        <li>Todo lo nuevo del panel se ha colocado bajo el namespace <code>App\Http\Controllers\Admin</code>.</li>
+        <li>Las vistas nuevas viven en <code>resources/views/admin</code>.</li>
+        <li>Las rutas administrativas usan nombres <code>admin.*</code> para no mezclarse con rutas públicas.</li>
+        <li>El CRUD antiguo de usuarios se eliminó para evitar duplicidad y confusión.</li>
+        <li>El acceso al panel depende de que el campo <code>rol</code> del usuario sea exactamente <code>admin</code>.</li>
+    </ul>
+
+</body>
+
+</html>
