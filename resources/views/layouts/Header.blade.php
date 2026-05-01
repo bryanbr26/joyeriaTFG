@@ -29,13 +29,13 @@
                 <a href="#" class="text-dark" title="ubicacion">
                     <i class="bi bi-geo-alt"></i>
                 </a>
-                <a href="#" class="text-dark" title="Favoritos">
+                <a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos">
                     <i class="bi bi-heart fs-5"></i>
                 </a>
-                <a href="#" class="text-dark position-relative" title="Carrito">
+                <a href="{{ route('carrito.index') }}" class="text-dark position-relative" title="Carrito">
                     <i class="bi bi-bag fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
-                        0
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+                        {{ $totalItemsCarrito ?? 0 }}
                     </span>
                 </a>
             </div>

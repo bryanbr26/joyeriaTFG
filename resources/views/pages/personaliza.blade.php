@@ -549,6 +549,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnAnadirCarrito.innerHTML = originalHTML;
 
                     if (data.success) {
+                        const cartCount = document.getElementById('cart-count');
+                        if (cartCount && data.totalItems !== undefined) {
+                            cartCount.textContent = data.totalItems;
+                        }
                         alert(data.message);
                     } else {
                         alert('Error: ' + data.message);

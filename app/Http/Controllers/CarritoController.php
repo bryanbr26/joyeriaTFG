@@ -54,7 +54,8 @@ class CarritoController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Producto añadido a la cesta correctamente'
+            'message' => 'Producto añadido a la cesta correctamente',
+            'totalItems' => Carrito::where('id_usuario', $userId)->sum('cantidad')
         ]);
     }
 

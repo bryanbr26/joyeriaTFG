@@ -83,7 +83,8 @@ class PersonalizaController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Producto personalizado añadido a la cesta correctamente'
+            'message' => 'Producto personalizado añadido a la cesta correctamente',
+            'totalItems' => Carrito::where('id_usuario', $userId)->sum('cantidad')
         ]);
     }
 }

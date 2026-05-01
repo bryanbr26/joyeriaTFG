@@ -245,6 +245,10 @@
                     // Actualizar total general
                     document.getElementById('totalPrice').textContent = data.totalPrice + '€';
                     document.getElementById('totalItems').textContent = data.totalItems;
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        cartCount.textContent = data.totalItems;
+                    }
 
                     // Actualizar botones de TODAS las líneas del mismo producto
                     if (data.itemsActualizados) {
