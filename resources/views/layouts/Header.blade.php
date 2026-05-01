@@ -38,6 +38,13 @@
                         {{ $totalItemsCarrito ?? 0 }}
                     </span>
                 </a>
+                @auth
+                    @if(auth()->user()->rol === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="text-dark" title="Panel de control">
+                            <i class="bi bi-gear fs-5"></i>
+                        </a>
+                    @endif
+                @endauth
             </div>
         </div>
 
