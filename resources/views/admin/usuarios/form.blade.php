@@ -40,16 +40,7 @@
         </div>
         <div>
             <label for="rol" class="form-label">Rol</label>
-            <select class="form-select" id="rol" name="rol" required>
-                <option value="user" {{ old('rol', optional($usuario)->rol) === 'user' ? 'selected' : '' }}>Usuario</option>
-                <option value="admin" {{ old('rol', optional($usuario)->rol) === 'admin' ? 'selected' : '' }}>Administrador</option>
-            </select>
-        </div>
-        <div class="full">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="activo" name="activo" {{ old('activo', optional($usuario)->activo ?? true) ? 'checked' : '' }}>
-                <label class="form-check-label" for="activo">Usuario activo</label>
-            </div>
+            <input type="text" name="rol" value="admin" class="form-control" id="rol" style="text-transform: capitalize; background-color: #e9ecef;" readonly>
         </div>
     </div>
 

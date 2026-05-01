@@ -3,17 +3,6 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="admin-page-header">
-        <div>
-            <p class="admin-eyebrow">Panel de control</p>
-            <h1>Dashboard</h1>
-        </div>
-        <a href="{{ route('admin.productos.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-lg me-1"></i>
-            Nuevo producto
-        </a>
-    </div>
-
     <section class="admin-stat-grid">
         <article class="admin-stat-card">
             <span>Usuarios</span>

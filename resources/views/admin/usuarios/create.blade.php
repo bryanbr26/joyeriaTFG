@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Crear usuario')
+@section('title', 'Crear administrador')
 
 @section('content')
     <div class="admin-page-header">
         <div>
             <p class="admin-eyebrow">Administración</p>
-            <h1>Crear usuario</h1>
+            <h1>Crear administrador</h1>
         </div>
         <a href="{{ route('admin.usuarios.index') }}" class="btn btn-outline-dark">
             <i class="bi bi-arrow-left me-1"></i>
@@ -19,7 +19,7 @@
             'usuario' => null,
             'action' => route('admin.usuarios.store'),
             'method' => 'POST',
-            'submit' => 'Crear usuario',
+            'submit' => 'Crear administrador',
         ])
     </section>
 @endsection

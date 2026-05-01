@@ -10,7 +10,7 @@
         </div>
         <a href="{{ route('admin.usuarios.create') }}" class="btn btn-dark">
             <i class="bi bi-person-plus me-1"></i>
-            Nuevo usuario
+            Nuevo administrador
         </a>
     </div>
 
