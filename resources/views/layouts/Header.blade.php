@@ -23,9 +23,18 @@
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-3">
-                <a href="{{ route('login') }}" class="text-dark" title="Gestión Usuarios">
-                    <i class="bi bi-person fs-5"></i>
-                </a>
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" class="m-0" onsubmit="return confirm('¿Quieres cerrar sesión?');">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-dark p-0 border-0" title="Cerrar sesión">
+                            <i class="bi bi-box-arrow-right fs-5"></i>
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="text-dark" title="Iniciar sesión">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
+                @endauth
                 <a href="#" class="text-dark" title="ubicacion">
                     <i class="bi bi-geo-alt"></i>
                 </a>

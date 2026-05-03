@@ -22,6 +22,8 @@
         .admin-nav-link:hover, .admin-nav-link.active { background: #263244; color: #fff; }
         .admin-user { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); display: flex; flex-direction: column; gap: 4px; }
         .admin-user a { text-decoration: none; font-size: .9rem; }
+        .admin-logout-button { padding: 0; border: 0; background: transparent; color: #a7b0bd; font-size: .9rem; }
+        .admin-logout-button:hover { color: #fff; }
         .admin-main { min-width: 0; padding: 32px; }
         .admin-page-header, .admin-panel-header, .admin-stock-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
         .admin-page-header { margin-bottom: 28px; }
@@ -45,7 +47,7 @@
         .admin-stock-item div span { color: #6b7280; font-size: .9rem; }
         .admin-product-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; }
         .admin-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .admin-filter-bar { display: grid; grid-template-columns: minmax(220px, 1fr) 180px auto; gap: 12px; margin-bottom: 18px; }
+        .admin-filter-bar { display: grid; grid-template-columns: minmax(220px, 1fr) 180px 140px auto; gap: 12px; margin-bottom: 18px; }
         .admin-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
         .admin-form-grid .full { grid-column: 1 / -1; }
         @media (max-width: 992px) { .admin-shell, .admin-stat-grid, .admin-panel-grid, .admin-form-grid, .admin-filter-bar { grid-template-columns: 1fr; } .admin-sidebar { position: static; height: auto; } }
@@ -86,7 +88,10 @@
 
             <div class="admin-user">
                 <span>{{ auth()->user()->nombre ?? 'Admin' }}</span>
-                <a href="{{ route('logout') }}">Cerrar sesión</a>
+                <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('¿Quieres cerrar sesión?');">
+                    @csrf
+                    <button type="submit" class="admin-logout-button">Cerrar sesión</button>
+                </form>
             </div>
         </aside>
 

@@ -24,7 +24,6 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // PANEL DE ADMINISTRACIÓN

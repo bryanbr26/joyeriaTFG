@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('telefono', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('fecha_registro')->nullable()->useCurrent();
-            $table->boolean('activo')->nullable()->default(false);
             $table->rememberToken();
         });
     }

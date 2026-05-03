@@ -40,7 +40,6 @@
                         <th>Email</th>
                         <th>Teléfono</th>
                         <th>Rol</th>
-                        <th>Activo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -56,11 +55,6 @@
                             <td>
                                 <span class="badge {{ $usuario->rol === 'admin' ? 'bg-danger' : 'bg-primary' }}">
                                     {{ $usuario->rol === 'admin' ? 'Admin' : 'Usuario' }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="badge {{ $usuario->activo ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $usuario->activo ? 'Sí' : 'No' }}
                                 </span>
                             </td>
                             <td>
@@ -80,7 +74,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-muted">No hay usuarios registrados.</td>
+                            <td colspan="5" class="text-muted">No hay usuarios registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

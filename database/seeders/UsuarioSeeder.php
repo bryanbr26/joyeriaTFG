@@ -18,7 +18,6 @@ class UsuarioSeeder extends Seeder
                 'email' => 'ana.garcia@email.com',
                 'password' => Hash::make('password123'),
                 'telefono' => '612345678',
-                'activo' => true,
             ],
             [
                 'nombre' => 'Carlos',
@@ -27,7 +26,6 @@ class UsuarioSeeder extends Seeder
                 'email' => 'carlos.martinez@email.com',
                 'password' => Hash::make('password123'),
                 'telefono' => '623456789',
-                'activo' => true,
             ],
             [
                 'nombre' => 'Laura',
@@ -36,7 +34,6 @@ class UsuarioSeeder extends Seeder
                 'email' => 'laura.fernandez@email.com',
                 'password' => Hash::make('password123'),
                 'telefono' => '634567890',
-                'activo' => true,
             ],
             [
                 'nombre' => 'Pedro',
@@ -45,7 +42,6 @@ class UsuarioSeeder extends Seeder
                 'email' => 'pedro.sanchez@email.com',
                 'password' => Hash::make('password123'),
                 'telefono' => '645678901',
-                'activo' => false,
             ],
             [
                 'nombre' => 'María',
@@ -54,7 +50,6 @@ class UsuarioSeeder extends Seeder
                 'email' => 'maria.lopez@email.com',
                 'password' => Hash::make('password123'),
                 'telefono' => '656789012',
-                'activo' => true,
             ],
         ]);
     }

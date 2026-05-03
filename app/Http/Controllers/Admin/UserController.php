@@ -39,7 +39,6 @@ class UserController extends Controller
     {
         $datos = $this->validateUsuario($request);
         $datos['password'] = Hash::make($datos['password']);
-        $datos['activo'] = $request->has('activo');
 
         User::create($datos);
 
@@ -54,7 +53,6 @@ class UserController extends Controller
     public function update(Request $request, User $usuario)
     {
         $datos = $this->validateUsuario($request, $usuario);
-        $datos['activo'] = $request->has('activo');
 
         if (!empty($datos['password'])) {
             $datos['password'] = Hash::make($datos['password']);
