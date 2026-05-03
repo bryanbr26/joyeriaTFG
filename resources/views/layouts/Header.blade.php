@@ -89,15 +89,108 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button">
+                                Regalos
+                            </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('regalos') }}">Regalos</a>
+                            <!-- Mega Menú -->
+                            <div class="dropdown-regalos" aria-labelledby="navbarDropdown">
+                                <!-- Columna Izquierda: Lista de categorías -->
+                                <div class="titulo-contenedor-regalos">
+                                    <h3>IDEAS PARA REGALOS</h3>
+                                </div>
+                                <div class="lista-regalos-container">
+                                    <ul class="lista-regalos">
+                                        <li class="categoria-regalos">
+                                            <a href="" style="font-weight: bold;">Categoria</a>
+                                            <br>
+                                            <a href="#">Mas Vendidos</a>
+                                            <a href="#">Cojuntos de regalo</a>
+                                            <a href="#">Regalos para grabar</a>
+                                        </li>
+
+                                        <li class="ocasiones-item">
+                                            <a href="#" style="font-weight: bold;">Ocasiones especiales</a>
+                                            <br>
+                                            <a href="#">Bodas</a>
+                                            <br>
+                                            <a href="#">Comuniones</a>
+                                            <br>
+                                            <a href="#">Compromisos</a>
+                                            <br>
+                                            <a href="#">Aniversario</a>
+                                            <br>
+                                            <a href="#">Bautizo</a>
+                                            <br>
+                                        </li>
+                                        <li class="regalos-item">
+                                            <a href="#" style="font-weight: bold;">Regalos para</a>
+                                            <br>
+                                            <a href="#">Para ella</a>
+                                            <br>
+                                            <a href="#">Para él</a>
+                                            <br>
+                                            <a href="#">Niños</a>
+                                            <br>
+                                            <a href="#">Pareja</a>
+                                            <br>
+                                            <a href="#">Padres</a>
+                                            <br>
+                                        </li>
+                                        <li class="presupuesto-item">
+                                            <a href="#" style="font-weight: bold;">Presupuesto</a>
+                                            <br>
+                                            <a href="#">Menos de 50€</a>
+                                            <a href="#">Menos de 100€</a>
+                                            <a href="#">Menos de 250€</a>
+                                            <a href="#">Mas de 250€</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}" id="navbarDropdown"
+                                role="button">Personaliza tus joyas</a>
+                            <div class="dropdown-personaliza" aria-labelledby="navbarDropdown">
+                                <!-- Columna Izquierda: Lista de categorías -->
+                                <div class="titulo-contenedor-personaliza">
+                                    <h3>PERSONALIZA TUS JOYAS</h3>
+                                </div>
+                                <div class="lista-personaliza-container">
+                                    <ul class="lista-personaliza">
+                                        <li class="categoria-personaliza">
+                                            <a href="{{ route('personaliza') }}"
+                                                style="font-weight: bold;">Categoria</a>
+                                            <br>
+                                            <a href="#">Grabado de anillos</a>
+                                            <br>
+                                            <a href="#">Grabado de pendientes</a>
+                                            <br>
+                                            <a href="#">Grabado de colgantes</a>
+                                            <br>
+                                            <a href="#">Grabado de pulseras</a>
+                                            <br>
+                                        </li>
+                                        <li class="material-personaliza">
+                                            <a href="#" style="font-weight: bold;">Material</a>
+                                            <br>
+                                            <a href="#">Plata de 1º ley</a>
+                                            <br>
+                                            <a href="#">Oro 18k</a>
+                                            <br>
+                                            <a href="#">Oro rosa</a>
+                                            <br>
+                                            <a href="#">Acero Inoxidable</a>
+                                            <br>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}">Personaliza tus joyas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
+                            <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compra de Oro</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('orfebreria') }}">Orfebrería</a>
