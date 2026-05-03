@@ -20918,6 +20918,14 @@ body {
   width: 100%;
 }
 
+.home-page {
+  background-color: yellow !important;
+}
+.home-page h1, .home-page .h1 {
+  color: red !important;
+  font-size: 50px !important;
+}
+
 .login-container {
   min-height: 80vh;
   display: flex;
