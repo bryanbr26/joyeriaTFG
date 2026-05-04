@@ -15,19 +15,24 @@
         <div class="col" id="contenedor-buscador">
             <div class="d-flex justify-content-center">
                 <div class="input-group bg-grey" style="max-width: 565px;" id="contenedor-input-buscador">
-                    <input type="text" class="form-control border-dark bg-grey" placeholder="BUSCAR" id="buscador">
+                    <input type="text" class="form-control" placeholder="BUSCAR" id="buscador">
                 </div>
             </div>
         </div>
 
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-4 " id="contenedor-botones">
+                <!-- boton buscador-->
+                <a id="boton-buscador" style="cursor: pointer;" class="text-dark" title="Buscador"><i
+                        class="bi bi-search fs-5"></i></a>
+                <!-- boton gestion usuarios-->
                 <a href="{{ route('login') }}" class="text-dark" title="Gestión Usuarios">
                     <i class="bi bi-person fs-5"></i>
                 </a>
+                <!-- boton ubicacion-->
                 <a href="#" class="text-dark" title="ubicacion">
-                    <i class="bi bi-geo-alt"></i>
+                    <i class="bi bi-geo-alt fs-5"></i>
                 </a>
                 <a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos">
                     <i class="bi bi-heart fs-5"></i>

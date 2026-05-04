@@ -54,4 +54,58 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+
+    // Toggle buscador
+    const botonBuscador = document.getElementById('boton-buscador');
+    const contenedorBuscador = document.getElementById('contenedor-buscador');
+
+    if (botonBuscador && contenedorBuscador) {
+        botonBuscador.addEventListener('click', function (e) {
+            e.preventDefault();
+            contenedorBuscador.classList.toggle('activo');
+
+            // Enfocar el input si se abre
+            if (contenedorBuscador.classList.contains('activo')) {
+                const inputBuscador = document.getElementById('buscador');
+                if (inputBuscador) {
+                    setTimeout(() => inputBuscador.focus(), 500);
+                }
+                if (inputBuscador) {
+                    inputBuscador.addEventListener('mouseleave', function (e) {
+                        e.preventDefault();
+                        contenedorBuscador.classList.remove('activo');
+                    });
+                }
+            }
+        });
+    }
+
+    // Efecto scroll para el header
+    let lastScrollTop = 0;
+    const headerElement = document.querySelector('header');
+    const scrollThreshold = 50; 
+    const navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+            // Scroll hacia abajo - Ocultar todo
+            headerElement.classList.add('header-hidden');
+            headerElement.classList.remove('header-nav-only');
+        } else {
+            // Scroll hacia arriba
+            if (scrollTop > navShowThreshold) {
+                // Lejos del tope: Solo mostramos la fila del nav-bar
+                headerElement.classList.remove('header-hidden');
+                headerElement.classList.add('header-nav-only');
+            } else {
+                // Cerca del tope: Mostramos todo el header original
+                headerElement.classList.remove('header-hidden');
+                headerElement.classList.remove('header-nav-only');
+            }
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, false);
 });

@@ -8,6 +8,11 @@ body {
     font-family: $font-primary;
     color: $dark;
     background-color: $light;
+    padding-top: 220px; // Espacio para el header fixed
+
+    @include mobile {
+        padding-top: 280px; // Probablemente más alto en mobile por el wrap
+    }
 }
 
 .container {
