@@ -42,6 +42,13 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mb-4">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 
@@ -65,6 +72,16 @@
                                     <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>
                                     {{ ucfirst($pedido->estado) }}
                                 </span>
+                                @if($pedido->pagoRedsys)
+                                    <br>
+                                    @php
+                                        $pagoClase = $pedido->pagoRedsys->estado === 'completado' ? 'text-success' : ($pedido->pagoRedsys->estado === 'error' ? 'text-danger' : 'text-warning');
+                                    @endphp
+                                    <span class="badge bg-light border {{ $pagoClase }} fw-semibold px-3 py-2 mt-1">
+                                        <i class="bi bi-credit-card me-1"></i>
+                                        Pago {{ ucfirst($pedido->pagoRedsys->estado) }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         

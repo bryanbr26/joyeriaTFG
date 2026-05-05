@@ -14,7 +14,12 @@ class PagoRedsys extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'importe', 'codigo_autorizacion', 'estado', 'respuesta_json', 'id_pedido'
+        'importe',
+        'codigo_autorizacion',
+        'estado',
+        'respuesta_json',
+        'id_pedido',
+        'numero_pedido_redsys',
     ];
 
     protected $casts = [

@@ -207,7 +207,7 @@
                         <p class="fs-5 fw-semibold text-muted mb-1">Total: <span class="text-dark" id="totalPrice">{{ number_format($totalPrice, 2) }}€</span></p>
                     </div>
                     <div class="d-flex justify-content-center mt-2 mb-4">
-                        <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra por {{ number_format($totalPrice, 2) }}€?')">
+                        <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra?')">
                             @csrf
                             <button type="submit" class="btn btn-dark btn-lg px-5 py-3 rounded-0 fw-bold fs-5 shadow" style="min-width: 300px;">
                                 <i class="bi bi-bag-check me-2"></i>Pasar por caja [<span id="totalItems">{{ $totalItems }}</span>]

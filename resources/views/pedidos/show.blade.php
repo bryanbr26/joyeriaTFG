@@ -68,6 +68,20 @@
 
         <h2 class="text-dark text-center mb-2" style="font-family: 'Italiana', serif;">Pedido #{{ $pedido->id }}</h2>
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show mb-4">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mb-4">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-lg-8">
 
@@ -96,6 +110,29 @@
                         </div>
                     </div>
                 </div>
+
+                @if($pedido->pagoRedsys)
+                    @php
+                        $pagoClase = $pedido->pagoRedsys->estado === 'completado' ? 'success' : ($pedido->pagoRedsys->estado === 'error' ? 'danger' : 'warning');
+                    @endphp
+                    <div class="bg-white border p-4 mb-4">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                            <div>
+                                <p class="text-muted small mb-1">Pago Redsys</p>
+                                <span class="badge bg-{{ $pagoClase }} fw-semibold px-3 py-2">
+                                    {{ ucfirst($pedido->pagoRedsys->estado) }}
+                                </span>
+                            </div>
+                            <div class="text-end">
+                                <p class="text-muted small mb-1">Referencia TPV</p>
+                                <p class="fw-semibold mb-0">{{ $pedido->pagoRedsys->numero_pedido_redsys }}</p>
+                                @if($pedido->pagoRedsys->codigo_autorizacion)
+                                    <small class="text-muted">Autorización: {{ $pedido->pagoRedsys->codigo_autorizacion }}</small>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Productos del pedido -->
                 <h5 class="fw-bold mb-3">Productos</h5>

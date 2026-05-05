@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\RedsysController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
 use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
@@ -64,6 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
     Route::post('/carrito/checkout', [CarritoController::class, 'checkout'])->name('carrito.checkout');
 });
+
+// RUTAS REDSYS
+Route::post('/redsys/notificacion', [RedsysController::class, 'notification'])->name('redsys.notification');
+Route::match(['get', 'post'], '/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+Route::match(['get', 'post'], '/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
 
 // RUTAS FAVORITOS
 // Toggle va fuera del middleware auth para devolver JSON 401 en AJAX

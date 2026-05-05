@@ -6,9 +6,13 @@ use App\Models\Carrito;
 use App\Models\Producto;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
+use App\Models\MetodoPago;
+use App\Models\PagoRedsys;
+use App\Services\RedsysService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CarritoController extends Controller
 {
@@ -180,9 +184,9 @@ class CarritoController extends Controller
     }
 
     /**
-     * Pasar por caja: crear pedido, descontar stock, vaciar carrito.
+     * Pasar por caja: crear pedido pendiente y redirigir a Redsys.
      */
-    public function checkout()
+    public function checkout(RedsysService $redsys)
     {
         $userId = Auth::id();
 
@@ -201,50 +205,94 @@ class CarritoController extends Controller
             }
         }
 
-        // Usar transacción para asegurar integridad
-        DB::beginTransaction();
-
         try {
-            // Calcular total
-            $total = 0;
-            foreach ($items as $item) {
-                $total += $item->producto->precio * $item->cantidad;
-            }
+            $formData = DB::transaction(function () use ($userId, $redsys) {
+                $items = Carrito::with('producto')
+                    ->where('id_usuario', $userId)
+                    ->lockForUpdate()
+                    ->get();
 
-            // Crear pedido
-            $pedido = Pedido::create([
-                'estado' => 'pendiente',
-                'total' => $total,
-                'id_usuario' => $userId,
-                'id_direcciones_envio' => null,
-                'id_metodos_pago' => null
-            ]);
+                if ($items->isEmpty()) {
+                    throw new \RuntimeException('Tu cesta está vacía.');
+                }
 
-            // Crear detalles del pedido y descontar stock
-            foreach ($items as $item) {
-                $detalle = DetallePedido::create([
-                    'cantidad' => $item->cantidad,
-                    'precio_unitario' => $item->producto->precio,
-                    'id_pedido' => $pedido->id,
-                    'id_producto' => $item->producto->id,
-                    'ruta_grabado_personalizado' => $item->ruta_grabado_personalizado
+                $productIds = $items->pluck('id_producto')->unique()->values();
+                $productos = Producto::whereIn('id', $productIds)->lockForUpdate()->get()->keyBy('id');
+                $unidadesPorProducto = $items->groupBy('id_producto')->map(function ($group) {
+                    return $group->sum('cantidad');
+                });
+
+                foreach ($unidadesPorProducto as $productoId => $cantidad) {
+                    $producto = $productos->get($productoId);
+
+                    if (!$producto || $cantidad > $producto->stock) {
+                        $nombre = $producto ? $producto->nombre : 'un producto de tu cesta';
+                        $stock = $producto ? $producto->stock : 0;
+
+                        throw new \RuntimeException('No hay suficiente stock de "' . $nombre . '". Disponible: ' . $stock);
+                    }
+                }
+
+                $total = 0;
+                foreach ($items as $item) {
+                    $producto = $productos->get($item->id_producto);
+                    $total += $producto->precio * $item->cantidad;
+                }
+
+                $metodoPago = MetodoPago::firstOrCreate(
+                    ['nombre' => 'Redsys'],
+                    ['descripcion' => 'Pago seguro con tarjeta mediante TPV Virtual Redsys']
+                );
+
+                $pedido = Pedido::create([
+                    'estado' => 'pendiente',
+                    'total' => $total,
+                    'id_usuario' => $userId,
+                    'id_direcciones_envio' => null,
+                    'id_metodos_pago' => $metodoPago->id
                 ]);
 
-                // Descontar stock
-                $item->producto->stock -= $item->cantidad;
-                $item->producto->save();
-            }
+                foreach ($items as $item) {
+                    $producto = $productos->get($item->id_producto);
 
-            // Vaciar carrito del usuario
-            Carrito::where('id_usuario', $userId)->delete();
+                    DetallePedido::create([
+                        'cantidad' => $item->cantidad,
+                        'precio_unitario' => $producto->precio,
+                        'id_pedido' => $pedido->id,
+                        'id_producto' => $producto->id,
+                        'ruta_grabado_personalizado' => $item->ruta_grabado_personalizado
+                    ]);
 
-            DB::commit();
+                    $producto->stock -= $item->cantidad;
+                    $producto->save();
+                }
 
-            return redirect()->route('pedidos.index')->with('success', '¡Pedido realizado con éxito! Total: ' . number_format($total, 2) . '€');
+                $pago = PagoRedsys::create([
+                    'importe' => $total,
+                    'estado' => 'pendiente',
+                    'id_pedido' => $pedido->id,
+                    'numero_pedido_redsys' => $redsys->createOrderNumber($pedido->id),
+                    'respuesta_json' => [
+                        'environment' => config('redsys.environment'),
+                        'created_from' => 'checkout',
+                    ],
+                ]);
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Error al procesar el pedido. Inténtalo de nuevo.');
+                Carrito::where('id_usuario', $userId)->delete();
+
+                return $redsys->buildPaymentForm($pedido->load('usuario'), $pago);
+            });
+
+            return view('redsys.redirect', compact('formData'));
+        } catch (\RuntimeException $e) {
+            return back()->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('Error iniciando pago Redsys.', [
+                'user_id' => $userId,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->with('error', 'Error al iniciar el pago seguro. Inténtalo de nuevo.');
         }
     }
 }
