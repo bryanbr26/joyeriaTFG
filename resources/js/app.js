@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoriasItems = document.querySelectorAll('.categoria-item');
     const imagenElemento = document.querySelector('.img-drop-down img');
     const textoElemento = document.querySelector('.imagen-texto');
+    const botonBuscador = document.getElementById('boton-buscador');
+    const overlayBuscador = document.getElementById('overlay-buscador');
+    const cerrarBuscador = document.getElementById('cerrar-buscador');
 
     // Imagen por defecto
     const imagenDefault = {
@@ -54,28 +57,36 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-
-    // Toggle buscador
-    const botonBuscador = document.getElementById('boton-buscador');
-    const contenedorBuscador = document.getElementById('contenedor-buscador');
-
-    if (botonBuscador && contenedorBuscador) {
+    // Abrir overlay
+    if (botonBuscador) {
         botonBuscador.addEventListener('click', function (e) {
             e.preventDefault();
-            contenedorBuscador.classList.toggle('activo');
+            overlayBuscador.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evita scroll del body
 
-            // Enfocar el input si se abre
-            if (contenedorBuscador.classList.contains('activo')) {
-                const inputBuscador = document.getElementById('buscador');
-                if (inputBuscador) {
-                    setTimeout(() => inputBuscador.focus(), 500);
-                }
-                if (inputBuscador) {
-                    inputBuscador.addEventListener('mouseleave', function (e) {
-                        e.preventDefault();
-                        contenedorBuscador.classList.remove('activo');
-                    });
-                }
+            // Opcional: Enfocar el input
+            setTimeout(() => {
+                const input = document.getElementById('buscador');
+                if (input) input.focus();
+            }, 300);
+        });
+    }
+
+    // Cerrar overlay
+    function cerrarOverlay() {
+        overlayBuscador.classList.remove('active');
+        document.body.style.overflow = ''; // Restaurar scroll
+    }
+
+    if (cerrarBuscador) {
+        cerrarBuscador.addEventListener('click', cerrarOverlay);
+    }
+
+    // Cerrar al hacer clic fuera del panel
+    if (overlayBuscador) {
+        overlayBuscador.addEventListener('click', function (e) {
+            if (e.target === overlayBuscador) {
+                cerrarOverlay();
             }
         });
     }
@@ -83,12 +94,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Efecto scroll para el header
     let lastScrollTop = 0;
     const headerElement = document.querySelector('header');
-    const scrollThreshold = 50; 
+    const scrollThreshold = 50;
     const navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
+
         if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
             // Scroll hacia abajo - Ocultar todo
             headerElement.classList.add('header-hidden');
@@ -105,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 headerElement.classList.remove('header-nav-only');
             }
         }
-        
+
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }, false);
 });

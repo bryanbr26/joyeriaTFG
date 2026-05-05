@@ -10,16 +10,6 @@
 
     <!-- Fila 2: Buscador e Iconos -->
     <div class="container-fluid py-2 bg-white" id="header">
-
-        <!-- Buscador -->
-        <div class="col" id="contenedor-buscador">
-            <div class="d-flex justify-content-center">
-                <div class="input-group bg-grey" style="max-width: 565px;" id="contenedor-input-buscador">
-                    <input type="text" class="form-control" placeholder="BUSCAR" id="buscador">
-                </div>
-            </div>
-        </div>
-
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-4 " id="contenedor-botones">
@@ -212,3 +202,33 @@
         </div>
     </nav>
 </header>
+
+<div id="overlay-buscador" class="overlay-buscador">
+    <div class="panel-buscador">
+
+        <div class="contenedor-buscador-padre">
+            <div class="contenedor-buscar">
+                <div class="input-group" id="contenedor-input-buscador">
+                    <input type="text" class="form-control" placeholder="Buscar" id="buscador">
+                </div>
+            </div>
+            <div class="contenedor-categorias">
+                <div class="contenedor-recomendaciones">
+                    <h3>Recomendaciones</h3>
+                </div>
+                <div class="contenedor-productos">
+                    <h3>Nuestros best sellers</h3>
+                    <div class="contenedor-productos-img">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contenedor-cerrar">
+            <button type="button" id="cerrar-buscador" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>

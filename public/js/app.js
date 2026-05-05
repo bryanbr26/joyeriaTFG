@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var categoriasItems = document.querySelectorAll('.categoria-item');
   var imagenElemento = document.querySelector('.img-drop-down img');
   var textoElemento = document.querySelector('.imagen-texto');
+  var botonBuscador = document.getElementById('boton-buscador');
+  var overlayBuscador = document.getElementById('overlay-buscador');
+  var cerrarBuscador = document.getElementById('cerrar-buscador');
 
   // Imagen por defecto
   var imagenDefault = {
@@ -62,29 +65,35 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
-
-  // Toggle buscador
-  var botonBuscador = document.getElementById('boton-buscador');
-  var contenedorBuscador = document.getElementById('contenedor-buscador');
-  if (botonBuscador && contenedorBuscador) {
+  // Abrir overlay
+  if (botonBuscador) {
     botonBuscador.addEventListener('click', function (e) {
       e.preventDefault();
-      contenedorBuscador.classList.toggle('activo');
+      overlayBuscador.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Evita scroll del body
 
-      // Enfocar el input si se abre
-      if (contenedorBuscador.classList.contains('activo')) {
-        var inputBuscador = document.getElementById('buscador');
-        if (inputBuscador) {
-          setTimeout(function () {
-            return inputBuscador.focus();
-          }, 500);
-        }
-        if (inputBuscador) {
-          inputBuscador.addEventListener('mouseleave', function (e) {
-            e.preventDefault();
-            contenedorBuscador.classList.remove('activo');
-          });
-        }
+      // Opcional: Enfocar el input
+      setTimeout(function () {
+        var input = document.getElementById('buscador');
+        if (input) input.focus();
+      }, 300);
+    });
+  }
+
+  // Cerrar overlay
+  function cerrarOverlay() {
+    overlayBuscador.classList.remove('active');
+    document.body.style.overflow = ''; // Restaurar scroll
+  }
+  if (cerrarBuscador) {
+    cerrarBuscador.addEventListener('click', cerrarOverlay);
+  }
+
+  // Cerrar al hacer clic fuera del panel
+  if (overlayBuscador) {
+    overlayBuscador.addEventListener('click', function (e) {
+      if (e.target === overlayBuscador) {
+        cerrarOverlay();
       }
     });
   }

@@ -20954,6 +20954,105 @@ header.header-nav-only {
   width: 100%;
 }
 
+.overlay-buscador {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  background-color: white;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.overlay-buscador.active {
+  opacity: 1;
+  visibility: visible;
+}
+.overlay-buscador.active .panel-buscador {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.panel-buscador {
+  margin-top: 2%;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: 40vw;
+  margin-left: 20%;
+  background-color: white;
+}
+
+.contenedor-buscador-padre {
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-buscar input {
+  margin-top: 2%;
+  border-bottom: 2px solid black;
+  background-color: white;
+}
+
+.contenedor-cerrar {
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.contenedor-cerrar button {
+  margin-right: 10%;
+  color: grey;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  font-size: 3rem;
+}
+
+.contenedor-categorias {
+  margin-top: 5%;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 30% 70%;
+  gap: 2rem;
+}
+
+.contenedor-recomendaciones {
+  grid-column: 1/2;
+}
+.contenedor-recomendaciones h3, .contenedor-recomendaciones .h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-weight: bold;
+  writing-mode: horizontal-tb;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.contenedor-productos {
+  grid-column: 2/3;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.overlay-buscador {
+  cursor: pointer;
+}
+.overlay-buscador .panel-buscador {
+  cursor: default;
+}
+
 .contenedor-portada {
   width: 100vw;
   height: 70vh;
