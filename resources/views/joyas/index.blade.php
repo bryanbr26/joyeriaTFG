@@ -126,8 +126,8 @@
         <div class="col-md-3">
             <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="text-decoration-none text-dark">
             <div class="card h-100">
-                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="card-img-top" alt="{{ $producto->nombre }}" style="height: 200px; object-fit: cover;">
+                @if($producto->imagen_principal_url)
+                    <img src="{{ $producto->imagen_principal_url }}" class="card-img-top" alt="{{ $producto->nombre }}" style="height: 200px; object-fit: cover;">
                 @else
                     <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
                         <i class="bi bi-gem fs-1 text-muted"></i>

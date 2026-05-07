@@ -23,6 +23,8 @@ class PersonalizaController extends Controller
      */
     public function personalizaProducto(Producto $producto)
     {
+        $producto->load('imagenes');
+
         return view('pages.personaliza', compact('producto'));
     }
 

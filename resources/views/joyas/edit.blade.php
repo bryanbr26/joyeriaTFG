@@ -76,15 +76,21 @@
         </div>
 
         <div class="mb-3">
-            <label for="imagen" class="form-label">Imagen del producto</label>
-            @if($producto->ruta_grabado)
-                <div class="mb-2">
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded">
-                    <small class="d-block text-muted">Imagen actual</small>
+            <label for="imagenes" class="form-label">Imágenes del producto</label>
+            @if($producto->imagenes->isNotEmpty())
+                <div class="d-flex gap-2 flex-wrap mb-2">
+                    @foreach($producto->imagenes as $imagen)
+                        <div>
+                            <img src="{{ $imagen->url_completa }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded">
+                            @if($imagen->principal)
+                                <small class="d-block text-muted">Principal</small>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             @endif
-            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
-            <small class="text-muted">Dejar vacío para mantener la imagen actual</small>
+            <input type="file" class="form-control" id="imagenes" name="imagenes[]" accept="image/*" multiple>
+            <small class="text-muted">Dejar vacío para mantener las imágenes actuales. Si subes nuevas, se añadirán a las existentes.</small>
         </div>
 
         <div class="d-flex gap-2">

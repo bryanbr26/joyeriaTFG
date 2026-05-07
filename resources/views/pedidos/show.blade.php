@@ -141,8 +141,8 @@
                     <div class="detalle-box">
                         <!-- Imagen -->
                         <div class="detalle-image">
-                            @if($detalle->producto && $detalle->producto->ruta_grabado && file_exists(public_path('storage/' . $detalle->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $detalle->producto->ruta_grabado) }}" 
+                            @if($detalle->producto && $detalle->producto->imagen_principal_url)
+                                <img src="{{ $detalle->producto->imagen_principal_url }}"
                                      alt="{{ $detalle->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
                             @else
                                 <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>

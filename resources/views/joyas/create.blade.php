@@ -76,9 +76,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="imagen" class="form-label">Imagen del producto</label>
-            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
-            <small class="text-muted">Formatos: JPEG, PNG, GIF, WebP. Máx: 2MB</small>
+            <label for="imagenes" class="form-label">Imágenes del producto</label>
+            <input type="file" class="form-control" id="imagenes" name="imagenes[]" accept="image/*" multiple>
+            <small class="text-muted">Puedes subir una o varias imágenes. La primera será la principal. Formatos: JPEG, PNG, GIF, WebP. Máx: 2MB por imagen.</small>
         </div>
 
         <div class="d-flex gap-2">

@@ -11,8 +11,8 @@
         <div class="col-lg-8">
             <div class="d-flex align-items-center gap-3 p-3 bg-white border">
                 <div style="width: 80px; height: 80px; flex-shrink: 0;" class="d-flex align-items-center justify-content-center border bg-light">
-                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                    @if($producto->imagen_principal_url)
+                        <img src="{{ $producto->imagen_principal_url }}" alt="{{ $producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
                     @else
                         <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>
                     @endif

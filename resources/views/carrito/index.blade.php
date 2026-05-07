@@ -133,8 +133,8 @@
                     <div class="item-box" id="item-{{ $item->id }}">
                         <!-- Img Container -->
                         <div class="item-image">
-                            @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $item->producto->ruta_grabado) }}" 
+                            @if($item->producto->imagen_principal_url)
+                                <img src="{{ $item->producto->imagen_principal_url }}"
                                      alt="{{ $item->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
                             @else
                                 <i class="bi bi-gem text-muted" style="font-size: 3rem;"></i>

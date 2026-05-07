@@ -27,8 +27,8 @@
         {{-- ===================== COLUMNA IZQUIERDA: IMAGEN ===================== --}}
         <div class="col-lg-6">
             <div class="mb-3">
-                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}"
+                @if($producto->imagen_principal_url)
+                    <img src="{{ $producto->imagen_principal_url }}"
                          class="img-fluid rounded w-100" alt="{{ $producto->nombre }}"
                          style="max-height: 450px; object-fit: cover;">
                 @else
@@ -38,6 +38,16 @@
                     </div>
                 @endif
             </div>
+            @if($producto->imagenes->count() > 1)
+                <div class="d-flex gap-2 flex-wrap">
+                    @foreach($producto->imagenes as $imagen)
+                        <img src="{{ $imagen->url_completa }}"
+                             alt="{{ $producto->nombre }}"
+                             class="border rounded"
+                             style="width: 76px; height: 76px; object-fit: cover;">
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         {{-- ===================== COLUMNA DERECHA: INFORMACIÓN ===================== --}}

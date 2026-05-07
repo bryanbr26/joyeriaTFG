@@ -52,6 +52,28 @@ class Producto extends Model
         return $this->hasMany(ImagenProducto::class, 'id_producto');
     }
 
+    public function imagenPrincipal()
+    {
+        return $this->hasOne(ImagenProducto::class, 'id_producto')->where('principal', true);
+    }
+
+    public function getImagenPrincipalUrlAttribute()
+    {
+        $imagen = $this->relationLoaded('imagenes')
+            ? $this->imagenes->firstWhere('principal', true) ?? $this->imagenes->first()
+            : $this->imagenPrincipal()->first();
+
+        if ($imagen) {
+            return $imagen->url_completa;
+        }
+
+        if ($this->ruta_grabado) {
+            return asset('storage/' . $this->ruta_grabado);
+        }
+
+        return null;
+    }
+
     //Muestra todos los collares
     public static function mostrarCollares()
     {

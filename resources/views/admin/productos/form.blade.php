@@ -70,15 +70,21 @@
             <input type="number" id="peso" name="peso" class="form-control" step="0.01" min="0" value="{{ old('peso', optional($producto)->peso) }}">
         </div>
         <div class="full">
-            <label for="imagen" class="form-label">Imagen</label>
-            @if($producto && $producto->ruta_grabado)
-                <div class="mb-2">
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="admin-product-thumb">
-                    <span class="text-muted small ms-2">Imagen actual</span>
+            <label for="imagenes" class="form-label">Imágenes</label>
+            @if($producto && $producto->imagenes->isNotEmpty())
+                <div class="d-flex gap-2 flex-wrap mb-2">
+                    @foreach($producto->imagenes as $imagen)
+                        <div>
+                            <img src="{{ $imagen->url_completa }}" alt="{{ $producto->nombre }}" class="admin-product-thumb">
+                            @if($imagen->principal)
+                                <span class="badge bg-dark d-block mt-1">Principal</span>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             @endif
-            <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*" {{ $imageRequired ? 'required' : '' }}>
-            <small class="text-muted">JPEG, PNG, GIF o WebP. Máximo 2MB.</small>
+            <input type="file" id="imagenes" name="imagenes[]" class="form-control" accept="image/*" multiple {{ $imageRequired ? 'required' : '' }}>
+            <small class="text-muted">Puedes subir una o varias imágenes. La primera será la principal. En edición, las nuevas imágenes se añaden a las existentes. JPEG, PNG, GIF o WebP. Máximo 2MB por imagen.</small>
         </div>
     </div>
 

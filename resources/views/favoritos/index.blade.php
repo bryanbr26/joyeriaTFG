@@ -84,8 +84,8 @@
                     <div class="item-box">
                         <!-- Img Container -->
                         <div class="item-image">
-                            @if($favorito->producto->ruta_grabado && file_exists(public_path('storage/' . $favorito->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $favorito->producto->ruta_grabado) }}" 
+                            @if($favorito->producto->imagen_principal_url)
+                                <img src="{{ $favorito->producto->imagen_principal_url }}"
                                      alt="{{ $favorito->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
                             @else
                                 <i class="bi bi-gem text-muted" style="font-size: 3rem;"></i>

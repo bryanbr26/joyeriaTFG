@@ -17,7 +17,7 @@ class PedidoController extends Controller
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para ver tus pedidos.');
         }
 
-        $pedidos = Pedido::with(['detalles.producto', 'pagoRedsys'])
+        $pedidos = Pedido::with(['detalles.producto.imagenes', 'pagoRedsys'])
                          ->where('id_usuario', Auth::id())
                          ->orderBy('fecha', 'desc')
                          ->get();
@@ -34,7 +34,7 @@ class PedidoController extends Controller
             return redirect()->route('login');
         }
 
-        $pedido = Pedido::with(['detalles.producto', 'pagoRedsys'])
+        $pedido = Pedido::with(['detalles.producto.imagenes', 'pagoRedsys'])
                         ->where('id', $id)
                         ->where('id_usuario', Auth::id())
                         ->firstOrFail();
