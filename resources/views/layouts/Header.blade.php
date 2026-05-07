@@ -1,5 +1,10 @@
 <header class="border-bottom">
-
+    <div class="header-video-container">
+        <video autoplay muted loop playsinline class="header-video">
+            <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
     <div class="container-fluid d-flex flex-row justify-content-center align-items-center py-2 bg-white">
         <div class="LogoLetra">
             <a href="{{ route('index') }}">
