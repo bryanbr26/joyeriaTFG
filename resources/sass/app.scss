@@ -45,3 +45,44 @@
 // 6. TEMAS (Opcional)
 // ============================================
 // @import 'themes/dark';
+// Video de fondo (se mantiene fijo detrás del header y del contenido)
+.video-background {
+    position: absolute; // Cambiado de fixed a absolute para que haga scroll
+    top: 0;
+    left: 0;
+    width: 100%;
+    // Altura = padding-top de main (180px) + altura del hero-section (50vw)
+    height: calc(180px + 50vw);
+    overflow: hidden;
+    z-index: -1; // Detrás de todo
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); // Oscurece el video para legibilidad
+    }
+}
+
+// El contenido principal debe tener un padding-top igual a la altura real del header
+// (ajusta este valor tras medir tu header: logo + iconos + nav ≈ 160‑200 px)
+.main-content {
+    padding-top: 180px; // Para que el contenido no se meta debajo del header
+    position: relative;
+    z-index: 1; // Encima del video
+}
+
+// Header y footer siempre por encima
+header,
+footer {
+    position: relative;
+    z-index: 2;
+}

@@ -9,24 +9,21 @@
   <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
-@include("layouts.Header")
+<body>
+  <div class="login-container">
 
-<body class="m-0">
-  <div class="auth-split-layout">
-
-    <!-- IMAGEN -->
-    <aside class="auth-image-side">
-      <img src="{{ asset('assets/BolsaLogin.png') }}" alt="Imagen decorativa joyería">
+    <aside class="contenedor-imagen-login">
+      <img src="{{ asset('images/fondos/Logo-login.jpg') }}" alt="Imagen decorativa">
     </aside>
 
-    <!-- MAIN -->
-    <main class="auth-form-side">
-      <div class="auth-form-wrapper">
-
-        <!-- INICIAR SESION / REGISTRARSE -->
-        <div class="auth-tabs">
-          <a href="{{ route('login') }}" class="auth-tab auth-tab-active">Iniciar Sesión</a>
-          <a href="{{ route('register') }}" class="auth-tab">Registrarse</a>
+    <div class="contenedor-form-login">
+      <div class="fila-btn-salir">
+        <a href="{{ route('index') }}"><i class="bi bi-x"></i></a>
+      </div>
+      <div class="fila-form">
+        <div class="btn-opciones-login">
+          <a href="{{ route('login') }}">Iniciar Sesión</a>
+          <a href="{{ route('register') }}">Registrarse</a>
         </div>
 
         <!-- ERRORES -->
@@ -40,44 +37,32 @@
         </div>
         @endif
 
+        <!-- Status de recuperar la contraseña -->
         @if (session('status'))
         <div class="mb-4 font-medium text-sm text-green-600">
           {{ session('status') }}
         </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}" class="form-login">
-          @csrf
-          <div class="campo-form">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" name="email" id="email" required autofocus>
-          </div>
+        <div class="fila-form-login">
+          <form action="{{ route('login') }}" method="post">
+            @csrf
+            <div class="form-group">
 
-          <div class="campo-form">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" name="password" id="password" required>
-          </div>
+              <input type="email" name="email" id="email" placeholder="Dirección de correo electrónico *">
+            </div>
+            <div class="form-group">
 
-          <div class="form-submit-wrapper">
-            <button type="submit" class="btn-crear-cuenta">Entrar</button>
-          </div>
-
-          <p class="form-link-recover">
+              <input type="password " name="password" id="password" placeholder="Contraseña *">
+            </div>
             <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-          </p>
-        </form>
-
-        <p class="form-link-alt">
-          <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate</a>
-        </p>
-
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+          </form>
+        </div>
       </div>
-    </main>
+    </div>
 
   </div>
 </body>
-
-
-@include("layouts.Footer")
 
 </html>

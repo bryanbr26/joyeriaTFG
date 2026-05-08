@@ -1,26 +1,142 @@
-.login-container {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+* {
+    margin: 0;
+    padding: 0;
+}
 
-    .login-card {
-        background: white;
-        border-radius: 15px;
-        padding: 2rem;
+.login-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+
+}
+
+.contenedor-imagen-login {
+    grid-column: 1/2;
+
+    img {
         width: 100%;
-        max-width: 400px;
-        @include shadow(2);
+        height: 100%;
+        object-fit: cover;
+        padding: 7rem;
+    }
+}
+
+.contenedor-form-login {
+    border: 2px solid green;
+    grid-column: 2/3;
+    background-color: $white;
+
+    .fila-btn-salir {
+        border: 2px solid blue;
+        grid-column: 1/2;
     }
 
-    .btn-login {
-        background-color: $primary-color;
-        color: white;
-        width: 100%;
+}
 
-        &:hover {
-            background-color: darken($primary-color, 10%);
+.fila-btn-salir {
+    border: 2px solid blue;
+    display: flex;
+    justify-content: start;
+
+    a {
+        border: 1px solid red;
+        text-decoration: none;
+        color: $dark;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+            font-size: 2rem;
+        }
+    }
+}
+
+.fila-form {
+    border: 2px solid yellow;
+    margin-top: 1rem;
+
+    .btn-opciones-login {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 2rem;
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+            font-family: $font-primary;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            padding: 5px 0;
+
+            &:hover {
+                color: $dark;
+                transform: translateX(5px);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $dark;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.fila-form-login {
+    border: 2px solid red;
+    margin-top: 4rem;
+    gap: 2rem;
+
+    form {
+        width: 100%;
+        gap: 2rem;
+        display: flex;
+        flex-direction: column;
+
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            border-bottom: 1px solid $dark;
+            display: inline-block;
+            position: relative;
+
+            &:hover {
+                color: $dark;
+                transform: translateX(5px);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $dark;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
         }
     }
 }

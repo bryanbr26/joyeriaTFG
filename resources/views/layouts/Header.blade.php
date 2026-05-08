@@ -1,10 +1,4 @@
-<header class="border-bottom">
-    <div class="header-video-container">
-        <video autoplay muted loop playsinline class="header-video">
-            <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
+<header>
     <div class="container-fluid d-flex flex-row justify-content-center align-items-center py-2 bg-white">
         <div class="LogoLetra">
             <a href="{{ route('index') }}">
@@ -14,7 +8,7 @@
     </div>
 
     <!-- Fila 2: Buscador e Iconos -->
-    <div class="container-fluid py-2 bg-white" id="header">
+    <div class="container-fluid py-2 bg-white" id="header-icon">
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-4 " id="contenedor-botones">

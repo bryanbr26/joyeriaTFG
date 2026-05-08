@@ -91,32 +91,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Efecto scroll para el header
-    let lastScrollTop = 0;
-    const headerElement = document.querySelector('header');
-    const scrollThreshold = 50;
-    const navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
+    // Mostrar Nav al hacer scroll pasado el header-icon
+    const headerIconContainer = document.getElementById('header-icon');
+    const mainNavBar = document.getElementById('nav-bar');
 
-    window.addEventListener('scroll', function () {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (headerIconContainer && mainNavBar) {
+        function checkScrollForNav() {
+            // Umbral = la parte inferior de header-icon respecto al inicio del documento
+            const threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
 
-        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-            // Scroll hacia abajo - Ocultar todo
-            headerElement.classList.add('header-hidden');
-            headerElement.classList.remove('header-nav-only');
-        } else {
-            // Scroll hacia arriba
-            if (scrollTop > navShowThreshold) {
-                // Lejos del tope: Solo mostramos la fila del nav-bar
-                headerElement.classList.remove('header-hidden');
-                headerElement.classList.add('header-nav-only');
+            // Si hemos scrolleado más allá de ese punto, mostramos el nav
+            if (window.scrollY > threshold) {
+                mainNavBar.classList.add('mostrar-nav');
             } else {
-                // Cerca del tope: Mostramos todo el header original
-                headerElement.classList.remove('header-hidden');
-                headerElement.classList.remove('header-nav-only');
+                mainNavBar.classList.remove('mostrar-nav');
             }
         }
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    }, false);
+        // Escuchar evento de scroll
+        window.addEventListener('scroll', checkScrollForNav);
+        // Llamar una vez por si se recargó la página con scroll
+        checkScrollForNav();
+    }
 });
