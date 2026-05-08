@@ -99,31 +99,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Efecto scroll para el header
-  var lastScrollTop = 0;
-  var headerElement = document.querySelector('header');
-  var scrollThreshold = 50;
-  var navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
-
-  window.addEventListener('scroll', function () {
-    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-      // Scroll hacia abajo - Ocultar todo
-      headerElement.classList.add('header-hidden');
-      headerElement.classList.remove('header-nav-only');
-    } else {
-      // Scroll hacia arriba
-      if (scrollTop > navShowThreshold) {
-        // Lejos del tope: Solo mostramos la fila del nav-bar
-        headerElement.classList.remove('header-hidden');
-        headerElement.classList.add('header-nav-only');
+  /*let lastScrollTop = 0;
+  const headerElement = document.querySelector('header');
+  const scrollThreshold = 50;
+  const navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
+    window.addEventListener('scroll', function () {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+          // Scroll hacia abajo - Ocultar todo
+          headerElement.classList.add('header-hidden');
+          headerElement.classList.remove('header-nav-only');
       } else {
-        // Cerca del tope: Mostramos todo el header original
-        headerElement.classList.remove('header-hidden');
-        headerElement.classList.remove('header-nav-only');
+          // Scroll hacia arriba
+          if (scrollTop > navShowThreshold) {
+              // Lejos del tope: Solo mostramos la fila del nav-bar
+              headerElement.classList.remove('header-hidden');
+              headerElement.classList.add('header-nav-only');
+          } else {
+              // Cerca del tope: Mostramos todo el header original
+              headerElement.classList.remove('header-hidden');
+              headerElement.classList.remove('header-nav-only');
+          }
       }
-    }
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  }, false);
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  }, false);*/
 });
 
 /***/ }),

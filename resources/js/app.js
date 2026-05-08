@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Efecto scroll para el header
-    let lastScrollTop = 0;
+    /*let lastScrollTop = 0;
     const headerElement = document.querySelector('header');
     const scrollThreshold = 50;
     const navShowThreshold = 300; // Distancia desde el tope para solo mostrar el nav
@@ -118,5 +118,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    }, false);
+    }, false);*/
 });

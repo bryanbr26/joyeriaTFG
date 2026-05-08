@@ -8,11 +8,6 @@ body {
     font-family: $font-primary;
     color: $dark;
     background-color: $light;
-    padding-top: 220px; // Espacio para el header fixed
-
-    @include mobile {
-        padding-top: 280px; // Probablemente más alto en mobile por el wrap
-    }
 }
 
 .container {
@@ -40,4 +35,12 @@ body {
 
 .mt-3 {
     margin-top: 1.5rem;
+}
+
+body {
+    overflow-x: hidden;
+
+    &.home-page {
+        overflow-y: auto;
+    }
 }

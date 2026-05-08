@@ -27,14 +27,28 @@
 </head>
 
 <body>
-    @include("layouts.Header")
+    <!-- Video de fondo CONTINUO para header y home -->
+    @if(Route::currentRouteName() == 'index')
+    <div class="fullscreen-video-wrapper">
+        <video autoplay muted loop playsinline class="fullscreen-video-bg">
+            <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
+        </video>
+        <div class="video-overlay-continuous"></div>
+    </div>
+    @endif
 
-    <main class="py-4">
-        @yield("content")
+    <!-- Header -->
+    @include('layouts.Header')
+
+    <!-- Contenido Principal -->
+    <main>
+        @yield('content')
     </main>
 
-    @include("layouts.Footer")
+    <!-- Footer -->
+    @include('layouts.Footer')
 
+    <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 
 </body>

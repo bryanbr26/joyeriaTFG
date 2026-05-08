@@ -1,36 +1,34 @@
-{{-- resources/views/pages/home.blade.php --}}
 @extends('layouts.layout')
 
+@section('title', 'Joyas Pérez - Joyería Artesanal')
+
 @section('content')
-    <!-- Hero section con video continuo -->
-    <section class="hero-section" id="homeHero">
-        <div class="hero-content">
-            <h1 class="hero-title">Bienvenido a Joyas Pérez</h1>
-            <p class="hero-subtitle">Descubre la elegancia en cada pieza</p>
-            <div class="hero-buttons">
-                <a href="{{ route('joyas.index', 'collares') }}" class="btn btn-gold">Ver Colección</a>
-                <a href="{{ route('personaliza') }}" class="btn btn-outline-light">Personalizar</a>
-            </div>
-        </div>
-    </section>
+<!-- Hero Section (hereda el video del layout) -->
+<section class="home-hero-section">
+    <div class="hero-content text-center text-white">
+        <h1 class="display-3 fw-bold mb-4 animate-fade-in">
+            Joyas que Cuentan Historias
+        </h1>
+        <p class="lead mb-4 animate-fade-in-delay">
+            Descubre nuestra colección de joyería artesanal única
+        </p>
 
-    {{-- Resto del contenido de la página --}}
-    <section class="container my-5">
-        <!-- Tu contenido adicional -->
-    </section>
-@endsection
+    </div>
 
-@section('scripts')
-    @parent
-    <script>
-        // Opcional: Ajustar altura del hero según el header
-        document.addEventListener('DOMContentLoaded', function () {
-            const header = document.getElementById('mainHeader');
-            const hero = document.getElementById('homeHero');
-            if (header && hero) {
-                const headerHeight = header.offsetHeight;
-                hero.style.height = `calc(100vh - ${headerHeight}px)`;
-            }
-        });
-    </script>
+    <!-- Scroll indicator -->
+    <div class="scroll-down-indicator">
+        <span>Descubre más</span>
+        <i class="bi bi-chevron-down"></i>
+    </div>
+</section>
+
+<!-- Secciones del Home -->
+<section class="categories-section bg-white">
+    <div class="container py-5">
+        <h2 class="text-center mb-5">Nuestras Categorías</h2>
+        <!-- Tu contenido de categorías -->
+    </div>
+</section>
+
+<!-- Más secciones... -->
 @endsection

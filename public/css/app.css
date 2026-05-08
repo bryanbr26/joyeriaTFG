@@ -20326,12 +20326,6 @@ body {
   font-family: "Lato", sans-serif;
   color: #1a1a1a;
   background-color: #f8f9fa;
-  padding-top: 220px;
-}
-@media (max-width: 576px) {
-  body {
-    padding-top: 280px;
-  }
 }
 
 .container {
@@ -20360,6 +20354,13 @@ body {
   margin-top: 1.5rem;
 }
 
+body {
+  overflow-x: hidden;
+}
+body.home-page {
+  overflow-y: auto;
+}
+
 header {
   position: fixed;
   top: 0;
@@ -20369,12 +20370,6 @@ header {
   background-color: white;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-header.header-hidden {
-  transform: translateY(-100%);
-}
-header.header-nav-only {
-  transform: translateY(-135px);
 }
 
 .LogoLetra a {
@@ -20390,11 +20385,11 @@ header.header-nav-only {
 #header {
   margin-top: 20px;
   display: grid;
+  z-index: 2;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
   align-items: center;
   overflow-x: hidden;
-  position: relative;
 }
 @media (max-width: 576px) {
   #header {
@@ -21086,79 +21081,132 @@ header.header-nav-only {
   cursor: default;
 }
 
-.hero-section {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 100%);
-}
-.hero-section .hero-content {
-  text-align: center;
-  padding: 2rem;
-  animation: fadeInUp 1s ease-out;
-}
-.hero-section .hero-content .hero-title {
-  font-family: "Italiana", serif;
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-.hero-section .hero-content .hero-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-}
-.hero-section .hero-content .hero-buttons .btn {
-  margin: 0.5rem;
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
-  transition: all 0.3s;
-}
-.hero-section .hero-content .hero-buttons .btn-gold {
-  background: linear-gradient(45deg, #FFD700, #FFA500);
-  border: none;
-  color: #000;
-}
-.hero-section .hero-content .hero-buttons .btn-gold:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+* {
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .login-container {
-  min-height: 80vh;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.contenedor-imagen-login {
+  grid-column: 1/2;
+}
+.contenedor-imagen-login img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  padding: 7rem;
+}
+
+.contenedor-form-login {
+  border: 2px solid green;
+  grid-column: 2/3;
+  background-color: #fff;
+}
+.contenedor-form-login .fila-btn-salir {
+  border: 2px solid blue;
+  grid-column: 1/2;
+}
+
+.fila-btn-salir {
+  border: 2px solid blue;
   display: flex;
-  align-items: center;
+  justify-content: start;
+}
+.fila-btn-salir a {
+  border: 1px solid red;
+  text-decoration: none;
+  color: #1a1a1a;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  align-items: center;
 }
-.login-container .login-card {
-  background: white;
-  border-radius: 15px;
-  padding: 2rem;
+.fila-btn-salir a i {
+  font-size: 2rem;
+}
+
+.fila-form {
+  border: 2px solid yellow;
+  margin-top: 1rem;
+}
+.fila-form .btn-opciones-login {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+}
+.fila-form .btn-opciones-login a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  transition: all 0.3s ease;
+  display: inline-block;
+  position: relative;
+  padding: 5px 0;
+}
+.fila-form .btn-opciones-login a:hover {
+  color: #1a1a1a;
+  transform: translateX(5px);
+}
+.fila-form .btn-opciones-login a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #1a1a1a;
+  transition: width 0.3s ease;
+}
+.fila-form .btn-opciones-login a:hover::after {
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.login-container .btn-login {
-  background-color: #25434E;
-  color: white;
+
+.fila-form-login {
+  border: 2px solid red;
+  margin-top: 4rem;
+  gap: 2rem;
+}
+.fila-form-login form {
   width: 100%;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
 }
-.login-container .btn-login:hover {
-  background-color: rgb(20.5913043478, 37.2869565217, 43.4086956522);
+.fila-form-login form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-bottom: 1px solid #1a1a1a;
+  display: inline-block;
+  position: relative;
+}
+.fila-form-login form input:hover {
+  color: #1a1a1a;
+  transform: translateX(5px);
+}
+.fila-form-login form input::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #1a1a1a;
+  transition: width 0.3s ease;
+}
+.fila-form-login form input:hover::after {
+  width: 100%;
 }
 
 /*# sourceMappingURL=app.css.map*/
