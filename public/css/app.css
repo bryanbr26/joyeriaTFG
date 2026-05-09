@@ -20368,21 +20368,22 @@ header {
   width: 100%;
   z-index: 2000;
   background-color: white;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-<<<<<<< Updated upstream
-=======
-  margin-top: -12%;
->>>>>>> Stashed changes
 }
 
 .LogoLetra a {
   font-family: "Italiana", serif;
-  font-size: 3.2rem;
+  font-size: 2rem;
+  color: black;
   text-decoration: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-#header-icon {
+#header {
+  margin-top: 20px;
   display: grid;
   z-index: 2;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -20391,10 +20392,16 @@ header {
   overflow-x: hidden;
 }
 @media (max-width: 576px) {
-  #header-icon {
+  #header {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+}
+
+#contenedor-iconos {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 #contenedor-buscador {
@@ -20427,27 +20434,26 @@ header {
 }
 
 #nav-bar {
-  background-color: #25434E;
+  margin-top: 1%;
+  padding: 20px;
   position: relative;
   z-index: 1000;
-  margin-top: 0;
-  padding: 0 20px;
   max-height: 0;
   opacity: 0;
+  background-color: transparent;
   visibility: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.5s ease-in-out;
 }
 #nav-bar.mostrar-nav {
+  max-height: 500px;
+  opacity: 1;
   visibility: visible;
-  max-height: 150px;
+  transition: all 0.4s ease;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  opacity: 1;
   background-color: #25434E;
-  padding: 20px;
-  margin-top: 0;
 }
 #nav-bar .nav-link {
   color: white !important;
@@ -21063,37 +21069,40 @@ header {
   cursor: default;
 }
 
-<<<<<<< Updated upstream
-* {
-  margin: 0;
-  padding: 0;
-=======
 body.home-page header {
   background-color: transparent !important;
   box-shadow: none !important;
+  border-color: transparent !important;
 }
-body.home-page header .bg-white {
+body.home-page header .top-bar-container,
+body.home-page header .icon-bar-container {
   background-color: transparent !important;
 }
-body.home-page .LogoLetra a {
+body.home-page header .LogoLetra {
+  width: 100vw;
+}
+body.home-page header .LogoLetra a {
   color: white !important;
 }
-body.home-page #contenedor-iconos a {
+body.home-page header .header-icon-link {
   color: white !important;
 }
-body.home-page .nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
+body.home-page header #nav-bar {
+  border-top-color: rgba(255, 255, 255, 0.2) !important;
+}
+body.home-page header .nav-link {
+  color: white !important;
 }
 
 .hero-section {
   border: 2px solid green;
-  margin-top: -8%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  height: 50vw;
+  height: 40vw; /* Altura ajustada */
+  padding-top: 180px; /* Compensa la altura del header transparente y absoluto */
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 100%);
 }
 .hero-section .hero-content {
@@ -21109,7 +21118,21 @@ body.home-page .nav-link {
 .section-categorias {
   border: 2px solid green;
   height: 500px;
->>>>>>> Stashed changes
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
 }
 
 .login-container {
@@ -21122,32 +21145,32 @@ body.home-page .nav-link {
 
 .contenedor-imagen-login {
   grid-column: 1/2;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #FBF9F7;
 }
 .contenedor-imagen-login img {
   width: 100%;
-  height: 100%;
+  height: 75vw;
   -o-object-fit: cover;
      object-fit: cover;
-  padding: 7rem;
+  padding: 6rem 10rem 35rem 10rem;
 }
 
 .contenedor-form-login {
-  border: 2px solid green;
   grid-column: 2/3;
   background-color: #fff;
+  overflow-y: auto;
 }
 .contenedor-form-login .fila-btn-salir {
-  border: 2px solid blue;
   grid-column: 1/2;
 }
 
 .fila-btn-salir {
-  border: 2px solid blue;
   display: flex;
   justify-content: start;
 }
 .fila-btn-salir a {
-  border: 1px solid red;
   text-decoration: none;
   color: #1a1a1a;
   border-radius: 50%;
@@ -21156,14 +21179,14 @@ body.home-page .nav-link {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #ebeae8;
 }
 .fila-btn-salir a i {
   font-size: 2rem;
 }
 
 .fila-form {
-  border: 2px solid yellow;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 .fila-form .btn-opciones-login {
   display: flex;
@@ -21173,7 +21196,7 @@ body.home-page .nav-link {
 .fila-form .btn-opciones-login a {
   text-decoration: none;
   color: #333;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-family: "Lato", sans-serif;
   transition: all 0.3s ease;
   display: inline-block;
@@ -21183,6 +21206,9 @@ body.home-page .nav-link {
 .fila-form .btn-opciones-login a:hover {
   color: #1a1a1a;
   transform: translateX(5px);
+}
+.fila-form .btn-opciones-login a.active {
+  color: #1a1a1a;
 }
 .fila-form .btn-opciones-login a::after {
   content: "";
@@ -21194,14 +21220,27 @@ body.home-page .nav-link {
   background-color: #1a1a1a;
   transition: width 0.3s ease;
 }
-.fila-form .btn-opciones-login a:hover::after {
+.fila-form .btn-opciones-login a:hover::after, .fila-form .btn-opciones-login a.active::after {
   width: 100%;
+}
+.fila-form .info-login {
+  margin-top: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
 }
 
 .fila-form-login {
-  border: 2px solid red;
   margin-top: 4rem;
   gap: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 .fila-form-login form {
   width: 100%;
@@ -21211,7 +21250,7 @@ body.home-page .nav-link {
 }
 .fila-form-login form input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.7rem;
   border: none;
   border-bottom: 1px solid #1a1a1a;
   display: inline-block;
@@ -21219,7 +21258,6 @@ body.home-page .nav-link {
 }
 .fila-form-login form input:hover {
   color: #1a1a1a;
-  transform: translateX(5px);
 }
 .fila-form-login form input::after {
   content: "";
@@ -21234,13 +21272,35 @@ body.home-page .nav-link {
 .fila-form-login form input:hover::after {
   width: 100%;
 }
+.fila-form-login form button {
+  width: 100%;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.fila-form-login .contenedor-recuperar {
+  display: flex;
+  justify-content: end;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+}
+
+.hero-wrapper {
+  position: relative;
+  width: 100%;
+}
 
 .video-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(180px + 50vw);
+  height: 100%;
   overflow: hidden;
   z-index: -1;
 }

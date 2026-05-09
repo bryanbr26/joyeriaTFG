@@ -28,21 +28,30 @@
 
 <body class="{{ Route::is('index') ? 'home-page' : '' }}">
 
-    {{-- Video solo en la página de inicio --}}
     @if(Route::is('index'))
-        <div class="video-background">
-            <video autoplay muted loop playsinline>
-                <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
+        <div class="hero-wrapper">
+            <div class="video-background">
+                <video autoplay muted loop playsinline>
+                    <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+
+            @include("layouts.Header")
+
+            @yield("hero")
         </div>
+
+        <main class="main-content pb-4" style="padding-top: 0;">
+            @yield("content")
+        </main>
+    @else
+        @include("layouts.Header")
+
+        <main class="main-content pb-4">
+            @yield("content")
+        </main>
     @endif
-
-    @include("layouts.Header")
-
-    <main class="main-content pb-4">
-        @yield("content")
-    </main>
 
     @include("layouts.Footer")
     @stack('scripts')

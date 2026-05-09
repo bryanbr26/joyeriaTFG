@@ -45,14 +45,20 @@
 // 6. TEMAS (Opcional)
 // ============================================
 // @import 'themes/dark';
-// Video de fondo (se mantiene fijo detrás del header y del contenido)
+// Contenedor principal que envuelve el header y el hero
+.hero-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+// Video de fondo (se mantiene detrás del header y del hero-content)
 .video-background {
-    position: absolute; // Cambiado de fixed a absolute para que haga scroll
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
-    // Altura = padding-top de main (180px) + altura del hero-section (50vw)
-    height: calc(180px + 50vw);
+    // Ocupa el 100% del contenedor padre (.hero-wrapper)
+    height: 100%;
     overflow: hidden;
     z-index: -1; // Detrás de todo
 

@@ -1,5 +1,5 @@
-<header>
-    <div class="container-fluid d-flex flex-row justify-content-center align-items-center py-2 bg-white">
+<header class="border-bottom main-header">
+    <div class="container-fluid d-flex flex-row justify-content-center align-items-center py-2 top-bar-container">
         <div class="LogoLetra">
             <a href="{{ route('index') }}">
                 JOYAS PÉREZ
@@ -8,25 +8,25 @@
     </div>
 
     <!-- Fila 2: Buscador e Iconos -->
-    <div class="container-fluid py-2 bg-white" id="header-icon">
+    <div class="container-fluid py-2 icon-bar-container" id="header-icon">
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-4 " id="contenedor-botones">
                 <!-- boton buscador-->
-                <a id="boton-buscador" style="cursor: pointer;" class="text-dark" title="Buscador"><i
+                <a id="boton-buscador" style="cursor: pointer;" class="header-icon-link" title="Buscador"><i
                         class="bi bi-search fs-5"></i></a>
                 <!-- boton gestion usuarios-->
-                <a href="{{ route('login') }}" class="text-dark" title="Gestión Usuarios">
+                <a href="{{ route('login') }}" class="header-icon-link" title="Gestión Usuarios">
                     <i class="bi bi-person fs-5"></i>
                 </a>
                 <!-- boton ubicacion-->
-                <a href="#" class="text-dark" title="ubicacion">
+                <a href="#" class="header-icon-link" title="ubicacion">
                     <i class="bi bi-geo-alt fs-5"></i>
                 </a>
-                <a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos">
+                <a href="{{ route('favoritos.index') }}" class="header-icon-link" title="Favoritos">
                     <i class="bi bi-heart fs-5"></i>
                 </a>
-                <a href="{{ route('carrito.index') }}" class="text-dark position-relative" title="Carrito">
+                <a href="{{ route('carrito.index') }}" class="header-icon-link position-relative" title="Carrito">
                     <i class="bi bi-bag fs-5"></i>
                     <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge bg-danger">
                         {{ $totalItemsCarrito ?? 0 }}

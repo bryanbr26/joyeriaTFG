@@ -5,22 +5,25 @@ header {
     width: 100%;
     z-index: 2000;
     background-color: white;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-top: -12%;
 }
 
 
 
 .LogoLetra a {
     font-family: $font-logo;
-    font-size: 3.2rem;
+    font-size: 2rem;
+    color: black;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
 }
 
-
-
-#header-icon {
+#header {
+    margin-top: 20px;
     display: grid;
 
     z-index: 2;
@@ -35,6 +38,11 @@ header {
     }
 }
 
+#contenedor-iconos {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 
 #contenedor-buscador {
     width: 100%;
@@ -67,29 +75,26 @@ header {
 }
 
 #nav-bar {
-    background-color: $primary-color;
+    margin-top: 1%;
+    padding: 20px;
     position: relative;
     z-index: 1000;
-
-    // Ocultar por defecto
-    margin-top: 0;
-    padding: 0 20px; // Evitar padding superior/inferior para que la altura sea 0 real
     max-height: 0;
     opacity: 0;
+    background-color: transparent;
     visibility: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.5s ease-in-out;
 
     &.mostrar-nav {
+        max-height: 500px;
+        opacity: 1;
         visibility: visible;
-        max-height: 150px;
+        transition: all 0.4s ease;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        opacity: 1;
         background-color: $primary-color;
-        padding: 20px; // Restaurar padding original
-        margin-top: 0; // Evitar margin cuando está fijo
     }
 
     .nav-link {
@@ -779,38 +784,39 @@ header {
     }
 }
 
-// ============================================
-// ESTILOS PARA LA PÁGINA DE INICIO (VIDEO)
-// ============================================
 body.home-page {
-
-    // El header principal transparente y sin sombra
     header {
         background-color: transparent !important;
         box-shadow: none !important;
+        border-color: transparent !important;
+
+        .top-bar-container,
+        .icon-bar-container {
+            background-color: transparent !important;
+        }
+
+        .LogoLetra {
+            width: 100vw;
+
+            a {
+                color: white !important;
+            }
+
+        }
+
+
+
+        .header-icon-link {
+            color: white !important;
+        }
+
+        #nav-bar {
+
+            border-top-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .nav-link {
+            color: white !important;
+        }
     }
-
-    // Todos los elementos con bg-white dentro del header se vuelven transparentes
-    header .bg-white {
-        background-color: transparent !important;
-    }
-
-
-
-    // Logo en blanco
-    .LogoLetra a {
-        color: white !important;
-    }
-
-    // Iconos en blanco
-    #contenedor-iconos a {
-        color: white !important;
-    }
-
-    // Ajustar el color de los enlaces del nav si es necesario
-    .nav-link {
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    // Opcional: el dropdown puede mantener fondo blanco, no se toca
 }

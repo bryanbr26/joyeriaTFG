@@ -1,12 +1,12 @@
 .hero-section {
     border: 2px solid green;
-    margin-top: -8%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    height: 50vw;
+    height: 40vw; /* Altura ajustada */
+    padding-top: 180px; /* Compensa la altura del header transparente y absoluto */
     background: linear-gradient(135deg,
             rgba(0, 0, 0, 0.6) 0%,
             rgba(0, 0, 0, 0.2) 100%);

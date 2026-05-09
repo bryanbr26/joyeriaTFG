@@ -1,8 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Joyas Pérez - Joyería Artesanal')
-
-@section('content')
+@section('hero')
     <div class="hero-section">
         <div class="hero-content">
             <div class="contenedor-titulos">
@@ -16,6 +14,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('content')
     {{-- Resto del contenido de la home --}}
 
     <div class="container">
