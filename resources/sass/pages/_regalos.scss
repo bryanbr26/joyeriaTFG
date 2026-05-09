@@ -1,0 +1,125 @@
+#portada_regalos {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+#imagen_portada_regalos {
+    flex: 1;
+}
+
+#imagen_portada_regalos img {
+    width: 100%;
+    height: auto;
+}
+
+#texto_portada_regalos {
+    flex: 1;
+    background-color: #83AAB8;
+    padding: 20px;
+}
+
+#opciones_regalos .card {
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+#opciones_regalos .card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+#opciones_regalos .card:hover img {
+    transform: scale(1.1);
+}
+
+#opciones_regalos .card h3 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#conjuntos_regalos {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+#texto_conjuntos {
+    flex: 1;
+    background-color: #83AAB8;
+    padding: 20px;
+}
+
+#imagen_conjuntos {
+    flex: 1;
+}
+
+#imagen_conjuntos img {
+    width: 100%;
+    height: auto;
+}
+
+#imagenes_peques_regalos .card {
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+#imagenes_peques_regalos .card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+#imagenes_peques_regalos .card:hover img {
+    transform: scale(1.1);
+}
+
+#imagenes_peques_regalos .card h3 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#imagenes_grande_regalos {
+    position: relative;
+    overflow: hidden;
+}
+
+#imagenes_grande_regalos img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 20px;
+}
+
+#imagenes_grande_regalos:hover img {
+    transform: scale(1.1);
+}
+
+#imagenes_grande_regalos h4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+}
