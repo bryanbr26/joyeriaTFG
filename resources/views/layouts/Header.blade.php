@@ -75,7 +75,7 @@
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
                         <li class="nav-item dropdown joyeria-mega-dropdown">
-                            <a class="nav-link" href="{{ route('joyas.buscar') }}" id="navbarDropdown" role="button">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button">
                                 Joyería
                             </a>
 
@@ -119,7 +119,7 @@
                             <a class="nav-link fw-medium" href="{{ route('regalos') }}">Regalos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}">Personaliza tus joyas</a>
+                            <a class="nav-link fw-medium"href="{{ route('joyas.buscar') }}">Personaliza tus joyas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
