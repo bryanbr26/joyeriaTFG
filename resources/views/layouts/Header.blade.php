@@ -152,7 +152,7 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}" id="navbarDropdown"
+                            <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}" id="navbarDropdown"
                                 role="button">Personaliza tus joyas</a>
                             <div class="dropdown-personaliza" aria-labelledby="navbarDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
@@ -191,14 +191,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <<<<<<< HEAD <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}">Personaliza
-                                tus joyas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
-                            =======
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compra de Oro</a>
-                            >>>>>>> bryan
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('orfebreria') }}">Orfebrería</a>

@@ -116,7 +116,7 @@ class JoyasController extends Controller
 
         // appends($request->query()) mantiene los parámetros de la URL al paginar
         $productos = $query->paginate(20)->appends($request->query());
-        $titulo = ucfirst($categoria);
+        $titulo = $categoria ? ucfirst($categoria) : 'Joyería';
 
         return view('joyas.index', compact(
             'productos',

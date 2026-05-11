@@ -39,22 +39,15 @@
             <div class="imagen-destacada-overlay">
                 <h3>Colección Exclusiva</h3>
                 <p>Descubre nuestras piezas únicas</p>
-                <a href="{{ route('joyas.index', $categoria) }}" class="btn-ver-mas">Ver colección</a>
+                <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn-ver-mas">Ver colección</a>
             </div>
         </div>
-        </a>
-    </div>
-</div>
-@empty
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-
-
             {{-- Grid 2x2 de productos (derecha) --}}
             <div class="productos-secundarios">
                 @foreach($productos->slice(0, 4) as $producto)
+                    @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
                     <div class="producto-item">
-                        <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                        <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
                                 @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                     <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
@@ -84,8 +77,9 @@
         @if($productos->count() > 4)
             <div class="productos-fila">
                 @foreach($productos->slice(4, 4) as $producto)
+                    @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
                     <div class="producto-item">
-                        <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                        <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
                                 @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                     <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
@@ -117,8 +111,9 @@
                 {{-- Grid 2x2 de productos (izquierda) --}}
                 <div class="productos-secundarios">
                     @foreach($productos->slice(8, 4) as $producto)
+                        @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
                         <div class="producto-item">
-                            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                            <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                         <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
@@ -161,8 +156,9 @@
         @if($productos->count() > 12)
             <div class="productos-fila">
                 @foreach($productos->slice(12) as $producto)
+                    @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
                     <div class="producto-item">
-                        <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                        <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
                                 @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                     <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
@@ -192,16 +188,19 @@
     <div class="productos-vacio">
         <i class="bi bi-inbox vacio-icono"></i>
         <h3>No hay {{ strtolower($titulo) }} registrados</h3>
-        <a href="{{ route('joyas.create', $categoria) }}" class="btn-crear">
-            <i class="bi bi-plus-circle"></i> Crear uno
-        </a>
+        @if($categoria)
+            <a href="{{ route('joyas.create', $categoria) }}" class="btn-crear">
+                <i class="bi bi-plus-circle"></i> Crear uno
+            </a>
+        @endif
     </div>
     @endif
-</div>
 
-<div class="d-flex justify-content-center mt-4">
-    {{ $productos->links() }}
-</div>
+    @if($productos && count($productos) > 0)
+        <div class="d-flex justify-content-center mt-4">
+            {{ $productos->links() }}
+        </div>
+    @endif
 </div>
 
 <script>

@@ -19,13 +19,13 @@ use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
 use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 
-// Página de inicio: listado de todos los productos
-Route::get('/', [JoyasController::class, 'indexAll'])->name('index');
+// Página de inicio
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/home', [JoyasController::class, 'indexAll'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // PANEL DE ADMINISTRACIÓN
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
