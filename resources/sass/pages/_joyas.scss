@@ -2,6 +2,7 @@
     margin-top: -8%;
     display: flex;
     flex-direction: column;
+    padding: 0 5rem 0 5rem;
 
 }
 
@@ -13,22 +14,36 @@
     align-items: center;
     border: 2px solid red;
 
+    h2 {
+        font-size: 2.8rem;
+        font-family: $font-logo;
+        font-weight: 500;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: 0.5px;
+    }
+
     .contenedor-filtros {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        gap: 2rem;
+        gap: 4rem;
 
         .filtrar,
         .ordenar {
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: center;
 
             i {
-                margin-left: 5px;
+                position: relative;
+                top: -0.5rem;
+                left: 1rem;
+                color: $dark;
+                font-size: 2.2rem;
             }
+
         }
     }
 
@@ -36,193 +51,36 @@
 }
 
 // ==========================================
-// SHOWCASE PRINCIPAL
+// VARIABLES
 // ==========================================
-.productos-showcase {
-    display: grid;
-    grid-template-columns: 1fr 1fr; // 50% - 50%
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+$color-primary: #007bff;
+$color-primary-hover: #0056b3;
+$color-text-dark: #333;
+$color-text-medium: #666;
+$color-text-light: #999;
+$color-background-light: #f5f5f5;
+$color-background-empty: #f9f9f9;
+$color-white: #ffffff;
+$color-black: #000000;
 
-    // Producto destacado (izquierda, ocupa 2 filas del grid derecho)
-    .producto-destacado {
-        grid-row: span 2; // Ocupa 2 filas
+$border-radius-sm: 8px;
+$border-radius-md: 10px;
+$border-radius-lg: 12px;
+$border-radius-round: 25px;
 
-        .producto-card--grande {
-            height: 100%;
-            min-height: 450px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+$shadow-sm: 0 2px 15px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.15);
+$shadow-hover: 0 6px 25px rgba(0, 0, 0, 0.12);
 
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-
-                .producto-imagen {
-                    transform: scale(1.05);
-                }
-
-                .producto-overlay {
-                    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-                }
-            }
-
-            .producto-imagen,
-            .producto-imagen--placeholder {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: transform 0.3s ease;
-            }
-
-            .producto-imagen--placeholder {
-                background: #f5f5f5;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                .icono-placeholder {
-                    font-size: 5rem;
-                    color: #999;
-                }
-            }
-
-            .producto-overlay {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: 2rem;
-                color: white;
-                background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-                transition: background 0.3s ease;
-
-                .producto-titulo {
-                    font-size: 1.5rem;
-                    font-weight: 700;
-                    margin: 0 0 0.5rem 0;
-                }
-
-                .producto-marca {
-                    font-size: 0.9rem;
-                    opacity: 0.8;
-                    margin: 0 0 0.5rem 0;
-                }
-
-                .producto-precio {
-                    font-size: 1.4rem;
-                    font-weight: 700;
-                    margin: 0;
-                }
-
-                .producto-badge {
-                    display: inline-block;
-                    background: #007bff;
-                    color: white;
-                    padding: 0.3rem 1rem;
-                    border-radius: 20px;
-                    font-size: 0.85rem;
-                    margin-top: 0.8rem;
-                }
-            }
-        }
-    }
-
-    // Grid secundario (derecha, 2x2)
-    .productos-secundarios {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); // 2 columnas
-        grid-template-rows: repeat(2, 1fr); // 2 filas
-        gap: 1rem;
-
-        .producto-item {
-            .producto-card {
-                background: white;
-                border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                height: 100%;
-
-                &:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
-
-                    .producto-imagen {
-                        filter: brightness(1.05);
-                    }
-                }
-
-                .producto-imagen {
-                    width: 100%;
-                    height: 180px;
-                    object-fit: cover;
-                    transition: filter 0.3s ease;
-                }
-
-                .producto-imagen--placeholder {
-                    width: 100%;
-                    height: 180px;
-                    background: #f5f5f5;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    .icono-placeholder {
-                        font-size: 2.5rem;
-                        color: #999;
-                    }
-                }
-
-                .producto-info {
-                    padding: 1rem;
-
-                    .producto-titulo {
-                        font-size: 0.95rem;
-                        font-weight: 600;
-                        margin: 0 0 0.3rem 0;
-                        color: #333;
-                    }
-
-                    .producto-marca {
-                        font-size: 0.8rem;
-                        color: #666;
-                        margin: 0 0 0.3rem 0;
-                    }
-
-                    .producto-descripcion {
-                        font-size: 0.8rem;
-                        color: #999;
-                        margin: 0 0 0.5rem 0;
-                        line-height: 1.4;
-                    }
-
-                    .producto-precio {
-                        font-size: 1.1rem;
-                        font-weight: 700;
-                        color: #007bff;
-                        margin: 0 0 0.3rem 0;
-                    }
-
-                    .producto-stock {
-                        font-size: 0.75rem;
-                        color: #999;
-                        margin: 0;
-                    }
-                }
-            }
-        }
-    }
-}
+$transition-base: 0.3s ease;
+$transition-transform: transform 0.3s ease;
+$transition-shadow: box-shadow 0.3s ease;
+$transition-filter: filter 0.3s ease;
+$transition-bg: background 0.3s ease;
 
 // ==========================================
-// ENLACES
+// ENLACES DE PRODUCTOS
 // ==========================================
 .producto-enlace {
     text-decoration: none;
@@ -232,42 +90,583 @@
 }
 
 // ==========================================
+// SHOWCASE PRINCIPAL (Imagen + 4 productos)
+// ==========================================
+.productos-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+    // Versión invertida (4 productos + imagen)
+    &.productos-showcase--invertido {
+        .imagen-destacada {
+            order: 1;
+        }
+
+        .productos-secundarios {
+            order: 0;
+        }
+    }
+}
+
+// ==========================================
+// IMAGEN DESTACADA
+// ==========================================
+.imagen-destacada {
+    position: relative;
+    height: 82vh;
+    margin-top: 13%;
+    min-height: 450px;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+    grid-row: span 2;
+    transition: $transition-shadow;
+
+    &:hover {
+        box-shadow: $shadow-lg;
+
+        .imagen-destacada-img {
+            transform: scale(1.05);
+        }
+    }
+
+    .imagen-destacada-img {
+        width: 100%;
+        height: 82vh;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .imagen-destacada-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2.5rem 2rem;
+        color: $color-white;
+        text-align: center;
+        transition: $transition-bg;
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin: 0 0 1.5rem 0;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .btn-ver-mas {
+            display: inline-block;
+            background: $color-white;
+            color: $color-text-dark;
+            padding: 0.6rem 1.8rem;
+            border-radius: $border-radius-round;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            &:hover {
+                background: $color-primary;
+                color: $color-white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+}
+
+// ==========================================
+// GRID DE PRODUCTOS SECUNDARIOS (2x2)
+// ==========================================
+.productos-secundarios {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+// ==========================================
+// TARJETAS DE PRODUCTO
+// ==========================================
+.producto-item {
+    height: 50vh;
+}
+
+.producto-card {
+    background: $color-white;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
+    transition: $transition-transform, $transition-shadow;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-hover;
+
+        .producto-imagen {
+            filter: brightness(1.05);
+            transform: scale(1.02);
+        }
+    }
+
+    // Versión grande (para imagen destacada - ya no se usa pero se mantiene por si acaso)
+    &.producto-card--grande {
+        position: relative;
+        min-height: 450px;
+
+        .producto-imagen,
+        .producto-imagen--placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .producto-imagen {
+        width: 100%;
+        height: 80vh;
+        object-fit: cover;
+        transition: $transition-filter, transform 0.3s ease;
+        display: block;
+    }
+
+    .producto-imagen--placeholder {
+        width: 100%;
+        height: 80vh;
+        background: $color-background-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+
+        .icono-placeholder {
+            font-size: 3rem;
+            color: #ccc;
+            transition: $transition-transform;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .producto-info {
+        height: 20vh;
+        margin-left: 1.3rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .producto-titulo {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.4rem 0;
+            color: $color-text-dark;
+            line-height: 1.3;
+        }
+
+        .producto-marca {
+            font-size: 0.85rem;
+            color: $color-text-medium;
+            margin: 0 0 0.4rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .producto-descripcion {
+            font-size: 0.85rem;
+            color: $color-text-light;
+            margin: 0 0 0.6rem 0;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .producto-precio {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: $dark;
+            margin: 0 0 0.3rem 0;
+
+            &::before {
+                content: '';
+                display: block;
+                width: 30px;
+                height: 2px;
+                background: $dark;
+                margin-bottom: 0.3rem;
+                opacity: 0.3;
+            }
+        }
+    }
+}
+
+// ==========================================
+// FILA NORMAL DE PRODUCTOS (4 columnas)
+// ==========================================
+.productos-fila {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+// ==========================================
 // ESTADO VACÍO
 // ==========================================
 .productos-vacio {
-    grid-column: 1 / -1;
     text-align: center;
     padding: 4rem 2rem;
-    background: #f9f9f9;
-    border-radius: 12px;
+    background: $color-background-empty;
+    border-radius: $border-radius-lg;
+    border: 2px dashed #e0e0e0;
 
     .vacio-icono {
         font-size: 4rem;
         color: #ccc;
         display: block;
         margin-bottom: 1.5rem;
+        animation: float 3s ease-in-out infinite;
     }
 
     h3 {
-        color: #666;
+        color: $color-text-medium;
         margin-bottom: 1rem;
         font-size: 1.3rem;
+        font-weight: 500;
     }
 
     .btn-crear {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: #007bff;
-        color: white;
+        background: $color-primary;
+        color: $color-white;
         padding: 0.7rem 1.5rem;
-        border-radius: 25px;
+        border-radius: $border-radius-round;
         text-decoration: none;
         font-weight: 500;
-        transition: background 0.3s ease;
+        transition: $transition-bg;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
 
         &:hover {
-            background: #0056b3;
+            background: $color-primary-hover;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
+
+        i {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+// ==========================================
+// ANIMACIONES
+// ==========================================
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+// ==========================================
+// RESPONSIVE - PANTALLAS GRANDES
+// ==========================================
+@media (max-width: 1200px) {
+    .productos-fila {
+        gap: 1.2rem;
+    }
+}
+
+// ==========================================
+// RESPONSIVE - TABLETS GRANDES
+// ==========================================
+@media (max-width: 992px) {
+    .imagen-destacada {
+        min-height: 350px;
+
+        .imagen-destacada-overlay {
+            padding: 2rem 1.5rem;
+
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .btn-ver-mas {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    }
+
+    .productos-fila {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+    }
+
+    .producto-card {
+
+        .producto-imagen,
+        .producto-imagen--placeholder {
+            height: 180px;
+        }
+
+        .producto-info {
+            padding: 1rem;
+        }
+    }
+}
+
+// ==========================================
+// RESPONSIVE - TABLETS
+// ==========================================
+@media (max-width: 768px) {
+    .productos-showcase {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        // Resetear orden en móvil
+        &.productos-showcase--invertido {
+            .imagen-destacada {
+                order: 0;
+            }
+
+            .productos-secundarios {
+                order: 1;
+            }
+        }
+    }
+
+    .imagen-destacada {
+        min-height: 300px;
+
+        .imagen-destacada-overlay {
+            padding: 1.8rem 1.5rem;
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+        }
+    }
+
+    .productos-secundarios {
+        gap: 0.8rem;
+    }
+
+    .productos-fila {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .producto-card {
+
+        .producto-imagen,
+        .producto-imagen--placeholder {
+            height: 160px;
+        }
+
+        .producto-info {
+            .producto-titulo {
+                font-size: 0.9rem;
+            }
+
+            .producto-precio {
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
+
+// ==========================================
+// RESPONSIVE - MÓVILES
+// ==========================================
+@media (max-width: 480px) {
+    .productos-showcase {
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .imagen-destacada {
+        min-height: 250px;
+
+        .imagen-destacada-overlay {
+            padding: 1.5rem 1rem;
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            p {
+                font-size: 0.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .btn-ver-mas {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.8rem;
+            }
+        }
+    }
+
+    .productos-secundarios {
+        gap: 0.6rem;
+    }
+
+    .productos-fila {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .producto-card {
+
+        .producto-imagen,
+        .producto-imagen--placeholder {
+            height: 200px;
+        }
+
+        .producto-info {
+            padding: 1rem;
+
+            .producto-titulo {
+                font-size: 1rem;
+            }
+
+            .producto-marca {
+                font-size: 0.8rem;
+            }
+
+            .producto-precio {
+                font-size: 1.1rem;
+            }
+        }
+    }
+
+    .productos-vacio {
+        padding: 2.5rem 1.5rem;
+
+        .vacio-icono {
+            font-size: 3rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+// ==========================================
+// RESPONSIVE - MÓVILES PEQUEÑOS
+// ==========================================
+@media (max-width: 360px) {
+    .imagen-destacada {
+        min-height: 200px;
+
+        .imagen-destacada-overlay {
+            padding: 1.2rem 0.8rem;
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            p {
+                font-size: 0.75rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .btn-ver-mas {
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    .producto-card {
+
+        .producto-imagen,
+        .producto-imagen--placeholder {
+            height: 160px;
+        }
+
+        .producto-info {
+            padding: 0.8rem;
+        }
+    }
+}
+
+// ==========================================
+// UTILIDADES ADICIONALES
+// ==========================================
+// Para cuando quieras resaltar una tarjeta
+.producto-card--destacado {
+    border: 2px solid $color-primary;
+    position: relative;
+
+    &::before {
+        content: '🌟';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        z-index: 1;
+    }
+}
+
+// Para imágenes sin stock
+.producto-sin-stock {
+    position: relative;
+
+    &::after {
+        content: 'SIN STOCK';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-15deg);
+        background: rgba(255, 0, 0, 0.8);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        font-size: 1.2rem;
+        border-radius: $border-radius-sm;
+        z-index: 1;
+    }
+
+    .producto-imagen {
+        filter: grayscale(100%);
+        opacity: 0.5;
     }
 }

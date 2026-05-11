@@ -9,15 +9,17 @@
             <h2>{{ $titulo }}</h2>
             <div class="contenedor-filtros">
                 <div class="filtrar">
-                    <p>Filtrar Por:</p>
+                    <p>Filtrar Por: </p>
                     <i class="bi bi-list"></i>
                 </div>
                 <div class="ordenar">
-                    <p>Ordenar Por:</p>
+                    <p>Ordenar Por: </p>
                     <i class="bi bi-list"></i>
                 </div>
             </div>
+
         </div>
+        {{-- Contenedor de iconos de filtro y ordenación --}}
 
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show">
@@ -25,39 +27,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
-        <!--Fila con imagen a la izquierda y productos a la derecha -->
-        {{-- Contenedor principal --}}
-        <div class="productos-showcase">
+        {{-- ========================================== --}}
+        {{-- FILA 1: Imagen grande izquierda + 4 productos --}}
+        {{-- ========================================== --}}
+        @if($productos && count($productos) > 0)
 
-            @if(count($productos) > 0)
-                @php $productoDestacado = $productos->first(); @endphp
-
-                {{-- Producto destacado --}}
-                <div class="producto-destacado">
-                    <a href="{{ route('joyas.show', [$categoria, $productoDestacado]) }}" class="producto-enlace">
-                        <div class="producto-card producto-card--grande">
-                            @if($productoDestacado->ruta_grabado && file_exists(public_path('storage/' . $productoDestacado->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $productoDestacado->ruta_grabado) }}" class="producto-imagen"
-                                    alt="{{ $productoDestacado->nombre }}">
-                            @else
-                                <div class="producto-imagen--placeholder">
-                                    <i class="bi bi-gem icono-placeholder"></i>
-                                </div>
-                            @endif
-
-                            <div class="producto-overlay">
-                                <h3 class="producto-titulo">{{ $productoDestacado->nombre }}</h3>
-                                <p class="producto-marca">{{ $productoDestacado->marca }}</p>
-                                <p class="producto-precio">{{ number_format($productoDestacado->precio, 2) }} €</p>
-                                <span class="producto-badge">Destacado</span>
-                            </div>
-                        </div>
-                    </a>
+            <div class="productos-showcase">
+                {{-- Imagen decorativa grande (izquierda) --}}
+                <div class="imagen-destacada">
+                    <img src="{{ asset('images/joyas/exclusiva.webp') }}" alt="Joyería destacada" class="imagen-destacada-img">
+                    <div class="imagen-destacada-overlay">
+                        <h3>Colección Exclusiva</h3>
+                        <p>Descubre nuestras piezas únicas</p>
+                        <a href="{{ route('joyas.index', $categoria) }}" class="btn-ver-mas">Ver colección</a>
+                    </div>
                 </div>
 
-                {{-- Grid de productos secundarios --}}
+                {{-- Grid 2x2 de productos (derecha) --}}
                 <div class="productos-secundarios">
-                    @forelse($productos->slice(1, 4) as $producto)
+                    @foreach($productos->slice(0, 4) as $producto)
                         <div class="producto-item">
                             <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
@@ -75,27 +63,133 @@
                                         <p class="producto-marca">{{ $producto->marca }}</p>
                                         <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
                                         <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
-                                        <p class="producto-stock">Stock: {{ $producto->stock }}</p>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                    @empty
-                        {{-- Sin productos adicionales --}}
-                    @endforelse
+                    @endforeach
                 </div>
+            </div>
 
-            @else
-                <div class="productos-vacio">
-                    <i class="bi bi-inbox vacio-icono"></i>
-                    <h3>No hay {{ strtolower($titulo) }} registrados</h3>
-                    <a href="{{ route('joyas.create', $categoria) }}" class="btn-crear">
-                        <i class="bi bi-plus-circle"></i> Crear uno
-                    </a>
+            {{-- ========================================== --}}
+            {{-- FILA 2: 4 productos en grid normal --}}
+            {{-- ========================================== --}}
+            @if($productos->count() > 4)
+                <div class="productos-fila">
+                    @foreach($productos->slice(4, 4) as $producto)
+                        <div class="producto-item">
+                            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                                <div class="producto-card">
+                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                            alt="{{ $producto->nombre }}">
+                                    @else
+                                        <div class="producto-imagen--placeholder">
+                                            <i class="bi bi-gem icono-placeholder"></i>
+                                        </div>
+                                    @endif
+
+                                    <div class="producto-info">
+                                        <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
+                                        <p class="producto-marca">{{ $producto->marca }}</p>
+                                        <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
+                                        <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             @endif
 
-        </div>
+            {{-- ========================================== --}}
+            {{-- FILA 3: 4 productos izquierda + Imagen grande derecha --}}
+            {{-- ========================================== --}}
+            @if($productos->count() > 8)
+                <div class="productos-showcase productos-showcase--invertido">
+                    {{-- Grid 2x2 de productos (izquierda) --}}
+                    <div class="productos-secundarios">
+                        @foreach($productos->slice(8, 4) as $producto)
+                            <div class="producto-item">
+                                <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                                    <div class="producto-card">
+                                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                                alt="{{ $producto->nombre }}">
+                                        @else
+                                            <div class="producto-imagen--placeholder">
+                                                <i class="bi bi-gem icono-placeholder"></i>
+                                            </div>
+                                        @endif
+
+                                        <div class="producto-info">
+                                            <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
+                                            <p class="producto-marca">{{ $producto->marca }}</p>
+                                            <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
+                                            <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Imagen decorativa grande (derecha) --}}
+                    <div class="imagen-destacada">
+                        <img src="{{ asset('images/joyas/exclusiva-2.jpg') }}" alt="Artesanía en joyería"
+                            class="imagen-destacada-img">
+                        <div class="imagen-destacada-overlay">
+                            <h3>Artesanía Única</h3>
+                            <p>Cada pieza cuenta una historia</p>
+
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            {{-- ========================================== --}}
+            {{-- FILAS RESTANTES: Grid normal de 4 columnas --}}
+            {{-- ========================================== --}}
+            @if($productos->count() > 12)
+                <div class="productos-fila">
+                    @foreach($productos->slice(12) as $producto)
+                        <div class="producto-item">
+                            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                                <div class="producto-card">
+                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                            alt="{{ $producto->nombre }}">
+                                    @else
+                                        <div class="producto-imagen--placeholder">
+                                            <i class="bi bi-gem icono-placeholder"></i>
+                                        </div>
+                                    @endif
+
+                                    <div class="producto-info">
+                                        <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
+                                        <p class="producto-marca">{{ $producto->marca }}</p>
+                                        <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
+                                        <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+        @else
+            {{-- Estado vacío --}}
+            <div class="productos-vacio">
+                <i class="bi bi-inbox vacio-icono"></i>
+                <h3>No hay {{ strtolower($titulo) }} registrados</h3>
+                <a href="{{ route('joyas.create', $categoria) }}" class="btn-crear">
+                    <i class="bi bi-plus-circle"></i> Crear uno
+                </a>
+            </div>
+        @endif
     </div>
 
     <div class="d-flex justify-content-center mt-4">

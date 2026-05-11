@@ -56,8 +56,8 @@ class JoyasController extends Controller
         }
 
         // Filtro rango de precio (usamos has() en vez de filled() porque filled() toma el 0 como vacio)
-        $precioMin = $request->has('precio_min') ? (float)$request->input('precio_min') : 0;
-        $precioMax = $request->has('precio_max') ? (float)$request->input('precio_max') : $precioMaximo;
+        $precioMin = $request->has('precio_min') ? (float) $request->input('precio_min') : 0;
+        $precioMax = $request->has('precio_max') ? (float) $request->input('precio_max') : $precioMaximo;
 
         if ($request->has('precio_min') || $request->has('precio_max')) {
             $query->whereBetween('precio', [$precioMin, $precioMax]);
@@ -72,7 +72,7 @@ class JoyasController extends Controller
         }
 
         // appends($request->query()) mantiene los parámetros de la URL al paginar
-        $productos = $query->paginate(8)->appends($request->query());
+        $productos = $query->paginate(20)->appends($request->query());
         $titulo = ucfirst($categoria);
 
         return view('joyas.index', compact('productos', 'categoria', 'titulo', 'precioMaximo', 'precioMin', 'precioMax', 'orden'));
