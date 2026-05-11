@@ -35,7 +35,7 @@
                         <i class="bi bi-person fs-5"></i>
                     </a>
                 @endauth
-                <a href="#" class="text-dark" title="ubicacion">
+                <a href="https://maps.app.goo.gl/2nEWQXenbcLCjSgh6" class="text-dark" title="ubicacion">
                     <i class="bi bi-geo-alt"></i>
                 </a>
                 <a href="{{ route('favoritos.index') }}" class="text-dark" title="Favoritos">
@@ -108,9 +108,6 @@
 
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('regalos') }}">Regalos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}">Personaliza tus joyas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
