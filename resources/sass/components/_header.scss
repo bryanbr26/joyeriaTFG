@@ -57,11 +57,11 @@
     }
 }
 
-.dropdown {
+#nav-bar .joyeria-mega-dropdown {
     position: static;
 }
 
-.dropdown-menu {
+#nav-bar .joyeria-mega-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -83,7 +83,7 @@
     grid-template-columns: 400px 45% 30%;
     gap: 2rem;
 
-    .dropdown:hover & {
+    .joyeria-mega-dropdown:hover & {
         display: grid !important;
         opacity: 1;
         visibility: visible;
@@ -213,7 +213,7 @@
     }
 }
 
-.dropdown-menu {
+#nav-bar .joyeria-mega-menu {
     animation: fadeInDown 0.3s ease;
 }
 
@@ -230,12 +230,12 @@
 }
 
 
-.dropdown:hover .dropdown-menu {
+#nav-bar .joyeria-mega-dropdown:hover .joyeria-mega-menu {
     pointer-events: auto;
 }
 
 
-.dropdown.show .dropdown-menu {
+#nav-bar .joyeria-mega-dropdown.show .joyeria-mega-menu {
     display: grid !important;
     opacity: 1;
     visibility: visible;
@@ -243,7 +243,7 @@
 
 
 @media (max-width: 992px) {
-    .dropdown-menu {
+    #nav-bar .joyeria-mega-menu {
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
         padding: 1.5rem;
@@ -271,7 +271,7 @@
 }
 
 @media (max-width: 768px) {
-    .dropdown-menu {
+    #nav-bar .joyeria-mega-menu {
         grid-template-columns: 1fr;
         gap: 1rem;
 

@@ -14,9 +14,18 @@
         <!-- Buscador -->
         <div class="col" id="contenedor-buscador">
             <div class="d-flex justify-content-center">
-                <div class="input-group bg-grey" style="max-width: 565px;" id="contenedor-input-buscador">
-                    <input type="text" class="form-control border-dark bg-grey" placeholder="BUSCAR" id="buscador">
-                </div>
+                @php
+                    $categoriaActual = request()->route('categoria');
+                    $buscadorAction = $categoriaActual
+                        ? route('joyas.index', $categoriaActual)
+                        : route('joyas.buscar');
+                @endphp
+                <form method="GET" action="{{ $buscadorAction }}" class="input-group bg-grey" style="max-width: 565px;" id="contenedor-input-buscador">
+                    <input type="search" class="form-control border-dark bg-grey" placeholder="BUSCAR" id="buscador" name="q" value="{{ request('q') }}">
+                    <button class="btn btn-outline-dark" type="submit" title="Buscar">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -65,13 +74,13 @@
             <div class="row">
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button">
+                        <li class="nav-item dropdown joyeria-mega-dropdown">
+                            <a class="nav-link" href="{{ route('joyas.buscar') }}" id="navbarDropdown" role="button">
                                 Joyería
                             </a>
 
                             <!-- Mega Menú -->
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu joyeria-mega-menu" aria-labelledby="navbarDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
                                 <div class="titulo-contenedor">
                                     <h3>JOYERIA</h3>

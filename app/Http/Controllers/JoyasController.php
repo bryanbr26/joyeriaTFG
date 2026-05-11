@@ -20,15 +20,44 @@ class JoyasController extends Controller
         return $mapa[$categoria] ?? $categoria;
     }
 
+    public function indexAll(Request $request)
+    {
+        return $this->listado($request, null);
+    }
+
     public function index(Request $request, $categoria)
     {
+        return $this->listado($request, $categoria);
+    }
+
+    private function listado(Request $request, $categoria = null)
+    {
         $categoriaDB = $this->getCategoriaDB($categoria);
+        $baseQuery = Producto::query();
 
-        // Precio máximo real de la categoría para el slider
+        if ($categoria) {
+            $baseQuery->where('categoria', $categoriaDB);
+        }
+
+        // Precio máximo real para el slider.
         // No usamos el precioMax porque ese es despues del filtro y no de todos los productos
-        $precioMaximo = (int) ceil(Producto::where('categoria', $categoriaDB)->max('precio') ?? 1000);
+        $precioMaximo = (int) ceil((clone $baseQuery)->max('precio') ?? 1000);
+        $precioMaximo = max($precioMaximo, 1);
 
-        $query = Producto::with('imagenes')->where('categoria', $categoriaDB);
+        $query = (clone $baseQuery)->with('imagenes');
+
+        // Búsqueda por texto desde la barra superior.
+        if ($request->filled('q')) {
+            $busqueda = trim($request->input('q'));
+
+            $query->where(function ($subquery) use ($busqueda) {
+                $subquery->where('nombre', 'like', "%{$busqueda}%")
+                    ->orWhere('marca', 'like', "%{$busqueda}%")
+                    ->orWhere('descripcion', 'like', "%{$busqueda}%")
+                    ->orWhere('material', 'like', "%{$busqueda}%")
+                    ->orWhere('color', 'like', "%{$busqueda}%");
+            });
+        }
 
         // Filtro marca
         if ($request->filled('marca')) {
@@ -69,13 +98,41 @@ class JoyasController extends Controller
             $query->orderBy('precio', 'asc');
         } elseif ($orden === 'precio_desc') {
             $query->orderBy('precio', 'desc');
+        } else {
+            $query->orderBy('fecha_agregado', 'desc')->orderBy('id', 'desc');
         }
+
+        $marcas = (clone $baseQuery)->whereNotNull('marca')->distinct()->orderBy('marca')->pluck('marca');
+        $generos = (clone $baseQuery)->whereNotNull('genero')->distinct()->orderBy('genero')->pluck('genero');
+        $colores = (clone $baseQuery)->whereNotNull('color')->distinct()->orderBy('color')->pluck('color');
+        $materiales = (clone $baseQuery)->whereNotNull('material')->distinct()->orderBy('material')->pluck('material');
+        $tallas = (clone $baseQuery)->whereNotNull('talla')->distinct()->orderBy('talla')->pluck('talla');
+        $categoriaUrlByDb = [
+            'collar' => 'collares',
+            'anillo' => 'anillos',
+            'pulsera' => 'pulseras',
+            'pendiente' => 'pendientes',
+        ];
 
         // appends($request->query()) mantiene los parámetros de la URL al paginar
         $productos = $query->paginate(8)->appends($request->query());
-        $titulo = ucfirst($categoria);
+        $titulo = $categoria ? ucfirst($categoria) : 'Joyería';
 
-        return view('joyas.index', compact('productos', 'categoria', 'titulo', 'precioMaximo', 'precioMin', 'precioMax', 'orden'));
+        return view('joyas.index', compact(
+            'productos',
+            'categoria',
+            'titulo',
+            'precioMaximo',
+            'precioMin',
+            'precioMax',
+            'orden',
+            'marcas',
+            'generos',
+            'colores',
+            'materiales',
+            'tallas',
+            'categoriaUrlByDb'
+        ));
     }
 
     public function create($categoria)

@@ -19,13 +19,13 @@ use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
 use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 
-// Página de inicio
-Route::get('/', [HomeController::class, 'index'])->name('index');
+// Página de inicio: listado de todos los productos
+Route::get('/', [JoyasController::class, 'indexAll'])->name('index');
 
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [JoyasController::class, 'indexAll'])->name('home');
 
 // PANEL DE ADMINISTRACIÓN
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -40,6 +40,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 // CRUD JOYAS POR CATEGORÍA
+Route::get('/joyeria', [JoyasController::class, 'indexAll'])->name('joyas.buscar');
+
 Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|pendientes'])->name('joyas.')->group(function () {
     Route::get('/', [JoyasController::class, 'index'])->name('index');
     Route::get('/create', [JoyasController::class, 'create'])->name('create');
@@ -93,5 +95,7 @@ Route::post('/contacto', [ContactoController::class, 'enviar'])->name('contacto.
 
 // RUTAS PERSONALIZA
 Route::get('/personaliza-tus-joyas', [PersonalizaController::class, 'personaliza'])->name('personaliza');
-Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
-Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
+Route::middleware('auth')->group(function () {
+    Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
+    Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
+});

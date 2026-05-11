@@ -9,9 +9,13 @@
         <h2>{{ $titulo }}</h2>
 
         <div>
-            <form method="GET" action="{{ route('joyas.index', $categoria) }}" id="filterSortForm">
+            <form method="GET" action="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" id="filterSortForm">
+                @if(request('q'))
+                    <input type="hidden" name="q" value="{{ request('q') }}">
+                @endif
+
                 <!-- Dropdown de filtros -->
-                <div class="dropdown mb-3 d-inline-block me-2">
+                <div class="dropdown shop-filter-dropdown mb-3 d-inline-block me-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFiltrar" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Filtrar por
                     </button>
@@ -21,10 +25,10 @@
                         <!-- Marca -->
                         <div class="mb-3">
                             <label class="form-label fw-bold">Marca</label>
-                            @foreach(['marca1', 'marca2', 'marca3'] as $marca)
+                            @foreach($marcas as $marca)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="marca[]" value="{{ $marca }}" id="marca{{ $loop->index + 1 }}" {{ in_array($marca, request('marca', [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="marca{{ $loop->index + 1 }}">{{ ucfirst($marca) }}</label>
+                                <label class="form-check-label" for="marca{{ $loop->index + 1 }}">{{ $marca }}</label>
                             </div>
                             @endforeach
                         </div>
@@ -32,32 +36,20 @@
                         <!-- Género -->
                         <div class="mb-3">
                             <label class="form-label fw-bold">Género</label>
-                            @foreach(['hombre', 'mujer', 'unisex'] as $genero)
+                            @foreach($generos as $genero)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="genero[]" value="{{ $genero }}" id="genero{{ ucfirst($genero) }}" {{ in_array($genero, request('genero', [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="genero{{ ucfirst($genero) }}">{{ ucfirst($genero) }}</label>
+                                <input class="form-check-input" type="checkbox" name="genero[]" value="{{ $genero }}" id="genero{{ $loop->index + 1 }}" {{ in_array($genero, request('genero', [])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="genero{{ $loop->index + 1 }}">{{ ucfirst($genero) }}</label>
                             </div>
                             @endforeach
                         </div>
-                    
-                    <!-- Color -->
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Color</label>
-                        @foreach(['oro', 'plata', 'acero'] as $color)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="color[]" value="{{ $color }}" id="color{{ ucfirst($color) }}" {{ in_array($color, request('color', [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="color{{ ucfirst($color) }}">{{ ucfirst($color) }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                    
                     <!-- Material -->
                     <div class="mb-3">
                         <label class="form-label fw-bold">Material</label>
-                        @foreach(['oro', 'plata', 'acero'] as $material)
+                        @foreach($materiales as $material)
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="material[]" value="{{ $material }}" id="material{{ ucfirst($material) }}" {{ in_array($material, request('material', [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="material{{ ucfirst($material) }}">{{ ucfirst($material) }}</label>
+                            <input class="form-check-input" type="checkbox" name="material[]" value="{{ $material }}" id="material{{ $loop->index + 1 }}" {{ in_array($material, request('material', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="material{{ $loop->index + 1 }}">{{ ucfirst($material) }}</label>
                         </div>
                         @endforeach
                     </div>
@@ -74,27 +66,15 @@
                             <span id="precioMaxValor">{{ $precioMax }}</span> €
                         </div>
                     </div>
-                    
-                    <!-- Talla -->
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Talla</label>
-                        @foreach(['S', 'M', 'L', 'XL'] as $talla)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="talla[]" value="{{ $talla }}" id="talla{{ $talla }}" {{ in_array($talla, request('talla', [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="talla{{ $talla }}">{{ $talla }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                    
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary btn-sm">Aplicar filtros</button>
-                        <a href="{{ route('joyas.index', $categoria) }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+                        <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
                     </div>
                 </div>
             </div>
             
             <!-- Dropdown de ordenar -->
-            <div class="dropdown mb-3 d-inline-block">
+            <div class="dropdown shop-sort-dropdown mb-3 d-inline-block">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownOrdenar" data-bs-toggle="dropdown" aria-expanded="false">
                     Ordenar por
                 </button>
@@ -106,12 +86,6 @@
             </div>
         </form>
     </div>
-    <!--
-        TODO: Meter para admin estilo dashboard
-            <a href="{{ route('joyas.create', $categoria) }}" class="btn btn-dark">
-                <i class="bi bi-plus-lg"></i> Nuevo {{ $categoria }}
-            </a>
-    -->
     </div>
 
     @if(session('success'))
@@ -124,7 +98,7 @@
     <div class="row g-3">
         @forelse($productos as $producto)
         <div class="col-md-3">
-            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="text-decoration-none text-dark">
+            <a href="{{ route('joyas.show', [$categoria ?: ($categoriaUrlByDb[$producto->categoria] ?? 'collares'), $producto]) }}" class="text-decoration-none text-dark">
             <div class="card h-100">
                 @if($producto->imagen_principal_url)
                     <img src="{{ $producto->imagen_principal_url }}" class="card-img-top" alt="{{ $producto->nombre }}" style="height: 200px; object-fit: cover;">
@@ -141,27 +115,12 @@
                     <p class="card-text"><small class="text-muted">Stock: {{ $producto->stock }}</small></p>
                 </div>
             </a>
-                <!--
-                    TODO: Meter para admin estilo dashboard
-                        <div class="card-footer d-flex gap-2">
-                            <a href="{{ route('joyas.edit', [$categoria, $producto]) }}" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil"></i> Editar
-                            </a>
-                            <form action="{{ route('joyas.destroy', [$categoria, $producto]) }}" method="POST" onsubmit="return confirm('¿Eliminar este producto?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                            </form>
-                        </div>
-                -->
             </div>
         </div>
         @empty
         <div class="col-12">
             <div class="alert alert-info text-center">
-                No hay {{ strtolower($titulo) }} registrados. <a href="{{ route('joyas.create', $categoria) }}">Crear uno</a>.
+                No hay productos que coincidan con tu búsqueda.
             </div>
         </div>
         @endforelse
