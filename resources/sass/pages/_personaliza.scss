@@ -1,0 +1,154 @@
+.container:has(#barra_herramientas) {
+    background-color: #E8EEF1;
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+#barra_herramientas h2 {
+    font-family: $font-logo;
+    font-size: 2.2rem;
+    color: $primary-color;
+    letter-spacing: 1px;
+}
+
+#barra_herramientas .producto-vinculado {
+    background-color: #fff;
+    border: 1px solid #D0DBDF;
+    border-left: 4px solid $primary-color;
+    border-radius: 8px;
+    @include shadow(1);
+    @include transition;
+
+    &:hover {
+        @include shadow(2);
+    }
+
+    h5 {
+        color: $primary-color;
+        font-family: $font-logo;
+    }
+}
+
+#barra_herramientas {
+    background-color: #fff;
+    border: 1px solid #D0DBDF;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    @include shadow(1);
+
+    .btn-outline-dark {
+        border-color: $primary-color;
+        color: $primary-color;
+        border-radius: 8px;
+        @include transition;
+
+        &:hover,
+        &.active {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: #fff;
+        }
+    }
+
+    .btn-outline-secondary {
+        border-color: $gray;
+        color: $gray;
+        border-radius: 8px;
+        @include transition;
+
+        &:hover {
+            background-color: $gray;
+            color: #fff;
+        }
+    }
+
+    .btn-dark {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        border-radius: 8px;
+        @include transition;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+            border-color: darken($primary-color, 10%);
+        }
+    }
+
+    .form-control-color {
+        border-color: #D0DBDF;
+        border-radius: 8px;
+    }
+
+    .form-select {
+        border-color: #D0DBDF;
+        border-radius: 8px;
+        color: $dark;
+
+        &:focus {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.2);
+        }
+    }
+}
+
+#canvas-contenedor {
+    border-radius: 12px;
+    overflow: hidden;
+    @include shadow(2);
+
+    #canvas-joya {
+        border: none !important;
+        border-radius: 12px;
+    }
+}
+
+.container>.d-flex>.btn-outline-dark {
+    border-color: $primary-color;
+    color: $primary-color;
+    border-radius: 8px;
+    @include transition;
+
+    &:hover {
+        background-color: $primary-color;
+        color: #fff;
+    }
+}
+
+#loginModal {
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        @include shadow(2);
+    }
+
+    .modal-title {
+        color: $primary-color;
+        font-family: $font-logo;
+    }
+
+    .btn-dark {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+    }
+
+    .btn-outline-dark {
+        border-color: $primary-color;
+        color: $primary-color;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: $primary-color;
+            color: #fff;
+        }
+    }
+
+    .bi-person-lock {
+        color: $primary-color !important;
+    }
+}

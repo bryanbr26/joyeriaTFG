@@ -20987,4 +20987,137 @@ body {
   background: rgba(0, 0, 0, 0.5);
 }
 
+.container:has(#barra_herramientas) {
+  background-color: #E8EEF1;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+#barra_herramientas h2, #barra_herramientas .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2.2rem;
+  color: #25434E;
+  letter-spacing: 1px;
+}
+
+#barra_herramientas .producto-vinculado {
+  background-color: #fff;
+  border: 1px solid #D0DBDF;
+  border-left: 4px solid #25434E;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+#barra_herramientas .producto-vinculado:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+#barra_herramientas .producto-vinculado h5, #barra_herramientas .producto-vinculado .h5 {
+  color: #25434E;
+  font-family: "Italiana", serif;
+}
+
+#barra_herramientas {
+  background-color: #fff;
+  border: 1px solid #D0DBDF;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#barra_herramientas .btn-outline-dark {
+  border-color: #25434E;
+  color: #25434E;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+#barra_herramientas .btn-outline-dark:hover, #barra_herramientas .btn-outline-dark.active {
+  background-color: #25434E;
+  border-color: #25434E;
+  color: #fff;
+}
+#barra_herramientas .btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+#barra_herramientas .btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+#barra_herramientas .btn-dark {
+  background-color: #25434E;
+  border-color: #25434E;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+#barra_herramientas .btn-dark:hover {
+  background-color: rgb(20.5913043478, 37.2869565217, 43.4086956522);
+  border-color: rgb(20.5913043478, 37.2869565217, 43.4086956522);
+}
+#barra_herramientas .form-control-color {
+  border-color: #D0DBDF;
+  border-radius: 8px;
+}
+#barra_herramientas .form-select {
+  border-color: #D0DBDF;
+  border-radius: 8px;
+  color: #1a1a1a;
+}
+#barra_herramientas .form-select:focus {
+  border-color: #25434E;
+  box-shadow: 0 0 0 0.2rem rgba(37, 67, 78, 0.2);
+}
+
+#canvas-contenedor {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+#canvas-contenedor #canvas-joya {
+  border: none !important;
+  border-radius: 12px;
+}
+
+.container > .d-flex > .btn-outline-dark {
+  border-color: #25434E;
+  color: #25434E;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.container > .d-flex > .btn-outline-dark:hover {
+  background-color: #25434E;
+  color: #fff;
+}
+
+#loginModal .modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+#loginModal .modal-title {
+  color: #25434E;
+  font-family: "Italiana", serif;
+}
+#loginModal .btn-dark {
+  background-color: #25434E;
+  border-color: #25434E;
+  border-radius: 8px;
+}
+#loginModal .btn-dark:hover {
+  background-color: rgb(20.5913043478, 37.2869565217, 43.4086956522);
+}
+#loginModal .btn-outline-dark {
+  border-color: #25434E;
+  color: #25434E;
+  border-radius: 8px;
+}
+#loginModal .btn-outline-dark:hover {
+  background-color: #25434E;
+  color: #fff;
+}
+#loginModal .bi-person-lock {
+  color: #25434E !important;
+}
+
 /*# sourceMappingURL=app.css.map*/

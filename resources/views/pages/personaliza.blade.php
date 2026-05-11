@@ -3,31 +3,31 @@
 @section("content")
 
 <div class="container my-5">
-    <h2 class="text-center mb-4">Personaliza tus Joyas</h2>
+    <!-- Barra de herramientas -->
+     <div id="barra_herramientas">
+        <h2 class="text-center mb-4">Personaliza tus joyas</h2>
 
-    {{-- Si hay un producto vinculado, mostrar su info --}}
-    @if($producto)
-    <div class="row justify-content-center mb-4">
-        <div class="col-lg-8">
-            <div class="d-flex align-items-center gap-3 p-3 bg-white border">
-                <div style="width: 80px; height: 80px; flex-shrink: 0;" class="d-flex align-items-center justify-content-center border bg-light">
-                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
-                    @else
-                        <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>
-                    @endif
-                </div>
-                <div>
-                    <h5 class="fw-bold mb-1">{{ $producto->nombre }}</h5>
-                    <p class="text-muted small mb-0">{{ $producto->marca }} · {{ number_format($producto->precio, 2) }}€</p>
+        {{-- Si hay un producto vinculado, mostrar su info --}}
+        @if($producto)
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <div class="producto-vinculado d-flex align-items-center gap-3 p-3">
+                    <div style="width: 80px; height: 80px; flex-shrink: 0;" class="d-flex align-items-center justify-content-center border bg-light">
+                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                        @else
+                            <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>
+                        @endif
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">{{ $producto->nombre }}</h5>
+                        <p class="text-muted small mb-0">{{ $producto->marca }} · {{ number_format($producto->precio, 2) }}€</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    @endif
-
-    <!-- Barra de herramientas -->
-    <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap align-items-center">
+        @endif 
+       <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap align-items-center">
         <!-- Botón lápiz para dibujo libre -->
         <button class="btn btn-outline-dark active" id="btn-lapiz" title="Dibujar con lápiz" type="button">
             <i class="bi bi-pencil-fill"></i> Dibujar
@@ -79,7 +79,9 @@
                 <i class="bi bi-download"></i> Guardar
             </button>
         @endif
-    </div>
+    </div> 
+</div>
+    
 
     <!--
         Zona de dibujo: dos canvas superpuestos.
