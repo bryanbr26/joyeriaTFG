@@ -1,125 +1,228 @@
+
 #portada_regalos {
     display: flex;
-    align-items: center;
-    gap: 2rem;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+
+    @include mobile {
+        flex-direction: column;
+    }
 }
 
 #imagen_portada_regalos {
     flex: 1;
-}
+    overflow: hidden;
 
-#imagen_portada_regalos img {
-    width: 100%;
-    height: auto;
+    svg,
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 }
 
 #texto_portada_regalos {
     flex: 1;
     background-color: #83AAB8;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 4rem;
+
+    h2 {
+        font-family: $font-logo;
+        font-size: 3rem;
+        font-weight: 400;
+        color: white;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    h4 {
+        font-family: $font-logo;
+        font-size: 1.2rem;
+        font-weight: 400;
+        font-style: italic;
+        color: white;
+        line-height: 1.5;
+    }
+
+    @include mobile {
+        padding: 2rem;
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+        }
+    }
 }
 
-#opciones_regalos .card {
-    position: relative;
-    overflow: hidden;
-    border: none;
-}
+#opciones_regalos {
+    padding: 1rem 0;
 
-#opciones_regalos .card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
+    .row {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
 
-#opciones_regalos .card:hover img {
-    transform: scale(1.1);
-}
+    .card {
+        position: relative;
+        overflow: hidden;
+        border: none;
+        border-radius: 12px;
 
-#opciones_regalos .card h3 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 1rem;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
+        svg,
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            @include transition(transform, 0.4s);
+        }
+
+        &:hover svg,
+        &:hover img {
+            transform: scale(1.05);
+        }
+
+        h3 {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-family: $font-logo;
+            font-size: 1.6rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.3;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            background: transparent;
+            z-index: 2;
+        }
+    }
 }
 
 #conjuntos_regalos {
+    display: none;
+}
+
+#imagenes_grandes_regalos {
     display: flex;
-    align-items: center;
-    gap: 2rem;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    @include mobile {
+        flex-direction: column;
+    }
+
+    #imagen1,
+    #imagen2 {
+        flex: 1;
+        overflow: hidden;
+
+        svg,
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
 }
 
-#texto_conjuntos {
-    flex: 1;
-    background-color: #83AAB8;
-    padding: 20px;
-}
+#imagenes_peques_regalos {
+    .row {
+        --bs-gutter-x: 4px;
+        --bs-gutter-y: 4px;
+        margin-left: 0;
+        margin-right: 0;
+    }
 
-#imagen_conjuntos {
-    flex: 1;
-}
+    .col {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
 
-#imagen_conjuntos img {
-    width: 100%;
-    height: auto;
-}
+    .card {
+        position: relative;
+        overflow: hidden;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 0 !important;
 
-#imagenes_peques_regalos .card {
-    position: relative;
-    overflow: hidden;
-    border: none;
-}
+        svg,
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            @include transition(transform, 0.4s);
+        }
 
-#imagenes_peques_regalos .card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
+        &:hover svg,
+        &:hover img {
+            transform: scale(1.05);
+        }
 
-#imagenes_peques_regalos .card:hover img {
-    transform: scale(1.1);
-}
-
-#imagenes_peques_regalos .card h3 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 1rem;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
+        h3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-family: $font-logo;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-align: center;
+            background: transparent;
+            z-index: 2;
+            white-space: nowrap;
+        }
+    }
 }
 
 #imagenes_grande_regalos {
     position: relative;
     overflow: hidden;
-}
+    margin-top: 4px;
 
-#imagenes_grande_regalos img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    border-radius: 20px;
-}
+    svg,
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0;
+        @include transition(transform, 0.4s);
+    }
 
-#imagenes_grande_regalos:hover img {
-    transform: scale(1.1);
-}
+    &:hover svg,
+    &:hover img {
+        transform: scale(1.05);
+    }
 
-#imagenes_grande_regalos h4 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 1rem;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
+    h4 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        padding: 0.5rem 1rem;
+        color: white;
+        font-family: $font-logo;
+        font-size: 1.4rem;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-align: center;
+        background: transparent;
+        z-index: 2;
+        white-space: nowrap;
+    }
 }
