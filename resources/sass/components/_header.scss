@@ -1,3 +1,7 @@
+// ============================================
+// HEADER - ESTILOS PRINCIPALES
+// ============================================
+
 header {
     position: absolute;
     top: 0;
@@ -9,7 +13,9 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-
+// ============================================
+// LOGO
+// ============================================
 
 .LogoLetra a {
     font-family: $font-logo;
@@ -19,13 +25,15 @@ header {
     display: flex;
     justify-content: center;
     margin-top: 10px;
-
 }
+
+// ============================================
+// HEADER GRID
+// ============================================
 
 #header {
     margin-top: 20px;
     display: grid;
-
     z-index: 2;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
@@ -38,11 +46,9 @@ header {
     }
 }
 
-#contenedor-iconos {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
+// ============================================
+// BUSCADOR (HEADER)
+// ============================================
 
 #contenedor-buscador {
     width: 100%;
@@ -67,12 +73,27 @@ header {
     background-color: #D0DBDF;
 }
 
+// ============================================
+// ICONOS
+// ============================================
+
 #contenedor-iconos {
     margin-right: 15%;
     grid-column: 4 / 5;
     justify-self: center;
     align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .header-icon-link {
+        color: $black !important;
+    }
 }
+
+// ============================================
+// NAVEGACIÓN PRINCIPAL
+// ============================================
 
 #nav-bar {
     margin-top: 1%;
@@ -84,6 +105,7 @@ header {
     background-color: transparent;
     visibility: hidden;
     transition: all 0.5s ease-in-out;
+    color: white;
 
     &.mostrar-nav {
         max-height: 500px;
@@ -94,6 +116,13 @@ header {
         top: 0;
         left: 0;
         width: 100%;
+        background-color: $primary-color;
+    }
+
+    &.nav-visible-defecto {
+        max-height: 500px;
+        opacity: 1;
+        visibility: visible;
         background-color: $primary-color;
     }
 
@@ -108,10 +137,12 @@ header {
     }
 }
 
-//Despegable de joyas
+// ============================================
+// DROPDOWN - JOYAS
+// ============================================
+
 .dropdown {
     position: static;
-
 }
 
 .dropdown-menu {
@@ -185,7 +216,6 @@ header {
     list-style: none;
     padding: 0;
     margin: 0;
-
 }
 
 .categoria-item {
@@ -266,9 +296,10 @@ header {
     transform: translateY(-2px);
 }
 
-//Fin de desplegale joyas
+// ============================================
+// DROPDOWN - REGALOS
+// ============================================
 
-//Desplegable de regalos
 .dropdown-regalos {
     position: absolute;
     top: 100%;
@@ -331,7 +362,6 @@ header {
     grid-column: 2 / 3;
     padding: 1rem 2rem 1rem 0;
     margin-right: 20%;
-
 }
 
 .lista-regalos {
@@ -341,130 +371,12 @@ header {
     list-style: none;
     padding: 0;
     margin: 0;
-
 }
 
-.categoria-regalos {
-    grid-column: 1 / 2;
-    padding: 1rem;
-    transition: all 0.3s ease;
-    gap: 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    text-decoration: underline;
-
-    a {
-        text-decoration: none;
-        color: #333;
-        font-size: 1rem;
-        font-family: $font-primary;
-        transition: all 0.3s ease;
-        display: inline-block;
-        padding: 5px 0;
-        position: relative;
-
-        &:hover {
-            color: $dark;
-            transform: translateX(5px);
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: $dark;
-            transition: width 0.3s ease;
-        }
-
-        &:hover::after {
-            width: 100%;
-        }
-    }
-}
-
-.ocasiones-item {
-    padding: 1rem;
-    transition: all 0.3s ease;
-    gap: 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    text-decoration: underline;
-
-    a {
-        text-decoration: none;
-        color: #333;
-        font-size: 1rem;
-        font-family: $font-primary;
-        transition: all 0.3s ease;
-        display: inline-block;
-        padding: 5px 0;
-        position: relative;
-
-        &:hover {
-            color: $dark;
-            transform: translateX(5px);
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: $dark;
-            transition: width 0.3s ease;
-        }
-
-        &:hover::after {
-            width: 100%;
-        }
-    }
-}
-
-.regalos-item {
-    padding: 1rem;
-    transition: all 0.3s ease;
-    gap: 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    text-decoration: underline;
-
-    a {
-        text-decoration: none;
-        color: #333;
-        font-size: 1rem;
-        font-family: $font-primary;
-        transition: all 0.3s ease;
-        display: inline-block;
-        padding: 5px 0;
-        position: relative;
-
-        &:hover {
-            color: $dark;
-            transform: translateX(5px);
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: $dark;
-            transition: width 0.3s ease;
-        }
-
-        &:hover::after {
-            width: 100%;
-        }
-    }
-}
-
+// Estilos compartidos para items de regalos
+.categoria-regalos,
+.ocasiones-item,
+.regalos-item,
 .presupuesto-item {
     padding: 1rem;
     transition: all 0.3s ease;
@@ -505,9 +417,14 @@ header {
     }
 }
 
-//Fin de desplegale regalos
+.categoria-regalos {
+    grid-column: 1 / 2;
+}
 
-//Inicio de desplegale personaliza
+// ============================================
+// DROPDOWN - PERSONALIZA
+// ============================================
+
 .dropdown-personaliza {
     position: absolute;
     top: 100%;
@@ -570,8 +487,6 @@ header {
     grid-column: 2 / 3;
     padding: 1rem 2rem 1rem 0;
     margin-right: 20%;
-
-
 }
 
 .lista-personaliza {
@@ -582,46 +497,8 @@ header {
     margin: 0;
 }
 
-.categoria-personaliza {
-    padding: 1rem;
-    transition: all 0.3s ease;
-    gap: 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    text-decoration: underline;
-
-    a {
-        text-decoration: none;
-        color: #333;
-        font-size: 1rem;
-        font-family: $font-primary;
-        transition: all 0.3s ease;
-        display: inline-block;
-        padding: 5px 0;
-        position: relative;
-
-        &:hover {
-            color: $dark;
-            transform: translateX(5px);
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: $dark;
-            transition: width 0.3s ease;
-        }
-
-        &:hover::after {
-            width: 100%;
-        }
-    }
-}
-
+// Estilos compartidos para items de personaliza
+.categoria-personaliza,
 .material-personaliza {
     padding: 1rem;
     transition: all 0.3s ease;
@@ -662,8 +539,6 @@ header {
     }
 }
 
-//Fin de desplegale personaliza
-
 // ============================================
 // OVERLAY DE BÚSQUEDA
 // ============================================
@@ -673,13 +548,14 @@ header {
     top: 0;
     left: 0;
     width: 100vw;
-    z-index: 10000; // Por encima de todo
+    z-index: 10000;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
     background-color: white;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
+    cursor: pointer;
 
     &.active {
         opacity: 1;
@@ -691,6 +567,9 @@ header {
         }
     }
 
+    .panel-buscador {
+        cursor: default;
+    }
 }
 
 .panel-buscador {
@@ -706,17 +585,13 @@ header {
     grid-column: 1/2;
     display: flex;
     flex-direction: column;
-
 }
 
 .contenedor-buscar {
     input {
         margin-top: 2%;
-
         border-bottom: 2px solid black;
         background-color: white;
-
-
     }
 }
 
@@ -725,7 +600,6 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-
 
     button {
         margin-right: 10%;
@@ -743,7 +617,6 @@ header {
     height: 100%;
     grid-template-columns: 30% 70%;
     gap: 2rem;
-
 }
 
 .contenedor-recomendaciones {
@@ -761,8 +634,11 @@ header {
 
 .contenedor-productos {
     grid-column: 2/3;
-
 }
+
+// ============================================
+// ANIMACIONES
+// ============================================
 
 @keyframes modalSlideIn {
     from {
@@ -776,13 +652,9 @@ header {
     }
 }
 
-.overlay-buscador {
-    cursor: pointer;
-
-    .panel-buscador {
-        cursor: default;
-    }
-}
+// ============================================
+// HOME PAGE - HEADER TRANSPARENTE
+// ============================================
 
 body.home-page {
     header {
@@ -801,17 +673,15 @@ body.home-page {
             a {
                 color: white !important;
             }
-
         }
 
-
-
-        .header-icon-link {
-            color: white !important;
+        #contenedor-iconos {
+            .header-icon-link {
+                color: white !important;
+            }
         }
 
         #nav-bar {
-
             border-top-color: rgba(255, 255, 255, 0.2) !important;
         }
 

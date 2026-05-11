@@ -1,0 +1,36 @@
+.page-joyas {
+    margin-top: -8%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.contenedor-titulo-filtros {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid red;
+
+    .contenedor-filtros {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 2rem;
+
+        .filtrar,
+        .ordenar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            i {
+                margin-left: 5px;
+            }
+        }
+    }
+
+    margin-bottom: 5%;
+}

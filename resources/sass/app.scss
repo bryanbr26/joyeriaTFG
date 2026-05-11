@@ -37,6 +37,7 @@
 // ============================================
 @import 'pages/home';
 @import 'pages/login';
+@import 'pages/joyas';
 //@import 'pages/productos';
 //@import 'pages/carrito';
 //@import 'pages/contacto';
@@ -53,7 +54,7 @@
 
 // Video de fondo (se mantiene detrás del header y del hero-content)
 .video-background {
-    position: absolute; 
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;

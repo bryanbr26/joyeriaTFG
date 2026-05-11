@@ -96,11 +96,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const mainNavBar = document.getElementById('nav-bar');
 
     if (headerIconContainer && mainNavBar) {
+        // Si no es la página principal, hacemos que el nav sea visible por defecto al inicio
+        const isHomePage = document.body.classList.contains('home-page');
+        if (!isHomePage) {
+            mainNavBar.classList.add('nav-visible-defecto');
+        }
+
         function checkScrollForNav() {
             // Umbral = la parte inferior de header-icon respecto al inicio del documento
             const threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
 
-            // Si hemos scrolleado más allá de ese punto, mostramos el nav
+            // Si hemos scrolleado más allá de ese punto, mostramos el nav (fixed al top)
             if (window.scrollY > threshold) {
                 mainNavBar.classList.add('mostrar-nav');
             } else {
