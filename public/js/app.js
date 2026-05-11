@@ -105,12 +105,14 @@
     }
   });
 })();
-
 document.addEventListener('DOMContentLoaded', function () {
   // Elementos del mega menú
   var categoriasItems = document.querySelectorAll('.categoria-item');
   var imagenElemento = document.querySelector('.img-drop-down img');
   var textoElemento = document.querySelector('.imagen-texto');
+  var botonBuscador = document.getElementById('boton-buscador');
+  var overlayBuscador = document.getElementById('overlay-buscador');
+  var cerrarBuscador = document.getElementById('cerrar-buscador');
 
   // Imagen por defecto
   var imagenDefault = {
@@ -159,6 +161,63 @@ document.addEventListener('DOMContentLoaded', function () {
         resetearImagen();
       });
     }
+  }
+  // Abrir overlay
+  if (botonBuscador) {
+    botonBuscador.addEventListener('click', function (e) {
+      e.preventDefault();
+      overlayBuscador.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Evita scroll del body
+
+      // Opcional: Enfocar el input
+      setTimeout(function () {
+        var input = document.getElementById('buscador');
+        if (input) input.focus();
+      }, 300);
+    });
+  }
+
+  // Cerrar overlay
+  function cerrarOverlay() {
+    overlayBuscador.classList.remove('active');
+    document.body.style.overflow = ''; // Restaurar scroll
+  }
+  if (cerrarBuscador) {
+    cerrarBuscador.addEventListener('click', cerrarOverlay);
+  }
+
+  // Cerrar al hacer clic fuera del panel
+  if (overlayBuscador) {
+    overlayBuscador.addEventListener('click', function (e) {
+      if (e.target === overlayBuscador) {
+        cerrarOverlay();
+      }
+    });
+  }
+
+  // Mostrar Nav al hacer scroll pasado el header-icon
+  var headerIconContainer = document.getElementById('header-icon');
+  var mainNavBar = document.getElementById('nav-bar');
+  if (headerIconContainer && mainNavBar) {
+    var checkScrollForNav = function checkScrollForNav() {
+      // Umbral = la parte inferior de header-icon respecto al inicio del documento
+      var threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
+
+      // Si hemos scrolleado más allá de ese punto, mostramos el nav (fixed al top)
+      if (window.scrollY > threshold) {
+        mainNavBar.classList.add('mostrar-nav');
+      } else {
+        mainNavBar.classList.remove('mostrar-nav');
+      }
+    }; // Escuchar evento de scroll
+    // Si no es la página principal, hacemos que el nav sea visible por defecto al inicio
+    var isHomePage = document.body.classList.contains('home-page');
+    if (!isHomePage) {
+      mainNavBar.classList.add('nav-visible-defecto');
+    }
+    window.addEventListener('scroll', checkScrollForNav);
+    // Llamar una vez por si se recargó la página con scroll
+    checkScrollForNav();
   }
 });
 

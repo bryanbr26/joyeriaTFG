@@ -24,19 +24,42 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Italiana&family=JetBrains+Mono:ital,wght@1,500&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Magra:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Italiana&family=JetBrains+Mono:ital,wght@1,500&family=Kaisei+Opti&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Magra:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
 </head>
 
-<body>
-    @include("layouts.Header")
+<body class="{{ Route::is('index') ? 'home-page' : '' }}">
 
-    <main class="py-4">
-        @yield("content")
-    </main>
+    @if(Route::is('index'))
+        <div class="hero-wrapper">
+            <div class="video-background">
+                <video autoplay muted loop playsinline>
+                    <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+
+            @include("layouts.Header")
+
+            @yield("hero")
+        </div>
+
+        <main class="main-content pb-4" style="padding-top: 0;">
+            @yield("content")
+        </main>
+    @else
+        @include("layouts.Header")
+
+        <main class="main-content pb-4">
+            @yield("content")
+        </main>
+    @endif
 
     @include("layouts.Footer")
-
     @stack('scripts')
-
 </body>
 
 </html>

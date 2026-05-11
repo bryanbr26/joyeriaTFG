@@ -1,0 +1,456 @@
+.hero-section {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    color: white;
+    height: 40vw;
+    /* Altura ajustada */
+    padding-top: 180px;
+    /* Compensa la altura del header transparente y absoluto */
+}
+
+.hero-content {
+    background: #428aa6;
+    background: linear-gradient(356deg, rgba(66, 138, 166, 1) 0%, rgba(42, 51, 50, 0.29) 100%);
+    margin-left: 6%;
+    margin-top: 3%;
+    height: 30vh;
+    border-radius: 10px;
+    width: 80vh;
+    animation: slideInLeft 1s ease-in-out forwards;
+
+
+}
+
+.contenedor-titulos {
+    margin-left: 4%;
+    padding: 10px;
+    height: 100%;
+    font-family: $font-logo;
+
+    .titulo {
+        margin-top: 5%;
+        border-radius: 10px;
+        padding: 10px;
+        width: 35vh;
+        background-color: rgba(115, 204, 199, 0.43);
+
+    }
+
+    .cont-btn {
+        margin-top: 5%;
+
+
+        button {
+            border-radius: 10px;
+            padding: 10px;
+            width: 15vh;
+            color: $light;
+            background-color: rgba(115, 204, 199, 0.43);
+        }
+    }
+}
+
+.container {
+    border: 2px solid blue;
+    height: 500px;
+}
+
+.section-categorias {
+    border: 2px solid green;
+    height: 500px;
+}
+
+.section-uno {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100vw;
+    height: 65vh;
+
+
+    .contenedor-img {
+        grid-column: 1/2;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            height: 55vh;
+            width: 65vh;
+            border-radius: 2rem;
+            object-fit: cover;
+        }
+    }
+
+    .contenedor-titulos {
+        align-items: start;
+        gap: 0 2rem;
+        position: relative;
+        padding: 2.5rem 2rem 2rem;
+        position: relative;
+        width: 100%;
+
+        h1 {
+            position: absolute;
+            font-family: $font-logo;
+            font-weight: 500; // peso ligero, elegante
+            font-size: 4.5rem;
+            line-height: 1.1;
+            width: 50vh;
+            color: $dark;
+            margin: 0 0 0.5rem 0;
+            top: 20%;
+            left: 5%;
+            z-index: 100;
+            // Kerning refinado
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            z-index: 200;
+            position: absolute;
+            font-family: $font-secundaria;
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.65;
+            color: $dark;
+            margin: 0;
+            width: 45vh;
+            top: 40%;
+            left: 35%;
+            padding-right: 5%;
+        }
+
+        .contenedor-btn-text {
+            position: absolute;
+            z-index: 300;
+            top: 80%;
+            left: 35%;
+
+            button {
+                border-radius: 10px;
+                padding: 10px;
+                width: 15vh;
+                color: $light;
+                background-color: rgba(115, 204, 199, 0.43);
+            }
+        }
+    }
+}
+
+.section-dos {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100vw;
+    height: 65vh;
+
+    .contenedor-text {
+        grid-column: 1/2;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $primary-color;
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            font-family: $font-secundaria;
+            color: $dark;
+            margin: 0;
+            width: 55vh;
+            top: 40%;
+            color: $light;
+            left: 35%;
+            padding-right: 5%;
+            text-align: justify;
+        }
+    }
+
+    .contenedor-animacion {
+        grid-column: 2/3;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            height: 45vh;
+            width: 35vh;
+            border-radius: 2rem;
+            object-fit: cover;
+        }
+    }
+}
+
+.section-tres {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100vw;
+    height: 65vh;
+
+    .contenedor-coleccion-uno {
+        position: relative;
+        grid-column: 1/2;
+        overflow: hidden;
+        border: 2px solid red;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            border-radius: 2rem;
+        }
+
+        h3 {
+            position: relative;
+            z-index: 200;
+            font-family: $font-logo;
+            font-weight: 500; // peso ligero, elegante
+            font-size: 4.5rem;
+            color: $light;
+            line-height: 1.1;
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+            // Kerning refinado
+            letter-spacing: -0.01em;
+        }
+
+        button {
+            position: relative;
+            z-index: 300;
+            border-radius: 10px;
+            padding: 10px;
+            width: 15vh;
+            color: $light;
+            background-color: rgba(115, 204, 199, 0.43);
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    .contenedor-coleccion-dos {
+        position: relative;
+        grid-column: 2/3;
+        overflow: hidden;
+        border: 2px solid rgb(38, 0, 255);
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            border-radius: 2rem;
+        }
+
+        h3 {
+            position: relative;
+            z-index: 200;
+            font-family: $font-logo;
+            font-weight: 500; // peso ligero, elegante
+            font-size: 4.5rem;
+            color: $light;
+            line-height: 1.1;
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+            // Kerning refinado
+            letter-spacing: -0.01em;
+        }
+
+        button {
+            position: relative;
+            z-index: 300;
+            border-radius: 10px;
+            padding: 10px;
+            width: 15vh;
+            color: $light;
+            background-color: rgba(115, 204, 199, 0.43);
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+}
+
+.section-cuatro {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 65vh;
+    background: linear-gradient(180deg, #F4F4F4 57.21%, #839AA9 87.98%, #11415E 100%);
+    overflow: hidden;
+
+    .carrusel-joyas {
+        display: flex;
+        gap: 10vw;
+        padding: 0 2vw;
+        width: 100%;
+        overflow-x: auto;
+        cursor: grab;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &.dragging {
+            cursor: grabbing;
+
+            .tarjeta {
+                pointer-events: none;
+                user-select: none;
+            }
+        }
+
+        .tarjeta {
+            flex: 0 0 30.666vw;
+            height: 40vh;
+            width: 35vh;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            user-select: none;
+            overflow: hidden;
+            /* Añadido: asegura que la imagen respete el border-radius */
+            position: relative;
+            /* Añadido: para posicionar correctamente los elementos */
+
+            img {
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                background-color: rgba(255, 255, 255, 0.3);
+                pointer-events: none;
+                object-fit: cover;
+            }
+
+            h3,
+            button {
+                position: relative;
+                z-index: 1;
+            }
+
+            h3 {
+
+                font-family: $font-logo;
+                font-size: 2.5rem;
+                margin: 1.5rem 0 1rem 0;
+                color: $dark;
+                text-align: center;
+            }
+
+            button {
+                border-radius: 10px;
+                padding: 10px 20px;
+                color: $light;
+                background-color: rgba(115, 204, 199, 0.6);
+                border: none;
+                cursor: pointer;
+                font-family: $font-secundaria;
+                font-size: 1.1rem;
+                font-weight: 500;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: rgba(115, 204, 199, 0.9);
+                }
+            }
+        }
+    }
+}
+
+.section-cinco {
+    width: 100vw;
+    height: 25vh;
+    background-color: $light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .contenedor-iconos-informativos {
+        margin-top: 5%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 80%;
+        height: 100%;
+
+        .targeta-icono {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 25%;
+            height: 100%;
+
+            i {
+                font-size: 5rem;
+                color: $dark;
+            }
+
+            .texto {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 50%;
+                height: 100%;
+
+                h4 {
+                    font-family: $font-secundaria;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    font-weight: 300;
+                    line-height: 1.65;
+                    color: $dark;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

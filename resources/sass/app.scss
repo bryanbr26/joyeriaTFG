@@ -36,8 +36,9 @@
 // ============================================
 // 5. PÁGINAS (Estilos específicos)
 // ============================================
-//@import 'pages/home';
+@import 'pages/home';
 @import 'pages/login';
+@import 'pages/joyas';
 //@import 'pages/productos';
 //@import 'pages/carrito';
 //@import 'pages/contacto';
@@ -46,3 +47,50 @@
 // 6. TEMAS (Opcional)
 // ============================================
 // @import 'themes/dark';
+// Contenedor principal que envuelve el header y el hero
+.hero-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+// Video de fondo (se mantiene detrás del header y del hero-content)
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    // Ocupa el 100% del contenedor padre (.hero-wrapper)
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; // Detrás de todo
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); // Oscurece el video para legibilidad
+    }
+}
+
+// El contenido principal debe tener un padding-top igual a la altura real del header
+// (ajusta este valor tras medir tu header: logo + iconos + nav ≈ 160‑200 px)
+.main-content {
+    padding-top: 180px; // Para que el contenido no se meta debajo del header
+    position: relative;
+    z-index: 1; // Encima del video
+}
+
+// Header y footer siempre por encima
+header,
+footer {
+    position: relative;
+    z-index: 2;
+}
