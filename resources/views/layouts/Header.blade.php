@@ -8,45 +8,6 @@
     </div>
 
     <!-- Fila 2: Buscador e Iconos -->
-<<<<<<< HEAD
-    <div class="container-fluid py-2 bg-white" id="header">
-
-        <!-- Buscador -->
-        <div class="col" id="contenedor-buscador">
-            <div class="d-flex justify-content-center">
-                @php
-                    $categoriaActual = request()->route('categoria');
-                    $buscadorAction = $categoriaActual
-                        ? route('joyas.index', $categoriaActual)
-                        : route('joyas.buscar');
-                @endphp
-                <form method="GET" action="{{ $buscadorAction }}" class="input-group bg-grey" style="max-width: 565px;" id="contenedor-input-buscador">
-                    <input type="search" class="form-control border-dark bg-grey" placeholder="BUSCAR" id="buscador" name="q" value="{{ request('q') }}">
-                    <button class="btn btn-outline-dark" type="submit" title="Buscar">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Iconos -->
-        <div class="col-auto" id="contenedor-iconos">
-            <div class="d-flex gap-3">
-                @auth
-                    <form action="{{ route('logout') }}" method="POST" class="m-0" onsubmit="return confirm('¿Quieres cerrar sesión?');">
-                        @csrf
-                        <button type="submit" class="btn btn-link text-dark p-0 border-0" title="Cerrar sesión">
-                            <i class="bi bi-box-arrow-right fs-5"></i>
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="text-dark" title="Iniciar sesión">
-                        <i class="bi bi-person fs-5"></i>
-                    </a>
-                @endauth
-                <a href="#" class="text-dark" title="ubicacion">
-                    <i class="bi bi-geo-alt"></i>
-=======
     <div class="container-fluid py-2 icon-bar-container" id="header-icon">
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
@@ -61,7 +22,6 @@
                 <!-- boton ubicacion-->
                 <a href="#" class="header-icon-link" title="ubicacion">
                     <i class="bi bi-geo-alt fs-5"></i>
->>>>>>> bryan
                 </a>
                 <a href="{{ route('favoritos.index') }}" class="header-icon-link" title="Favoritos">
                     <i class="bi bi-heart fs-5"></i>
@@ -231,14 +191,14 @@
                             </div>
                         </li>
                         <li class="nav-item">
-<<<<<<< HEAD
-                            <a class="nav-link fw-medium"href="{{ route('joyas.buscar') }}">Personaliza tus joyas</a>
+                            <<<<<<< HEAD <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}">Personaliza
+                                tus joyas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
-=======
+                            =======
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compra de Oro</a>
->>>>>>> bryan
+                            >>>>>>> bryan
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('orfebreria') }}">Orfebrería</a>

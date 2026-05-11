@@ -42,14 +42,13 @@
                 <a href="{{ route('joyas.index', $categoria) }}" class="btn-ver-mas">Ver colección</a>
             </div>
         </div>
-        <<<<<<< HEAD </a>
+        </a>
     </div>
 </div>
 @empty
     <div class="col-12">
         <div class="alert alert-info text-center">
-            No hay productos que coincidan con tu búsqueda.
-            =======
+
 
             {{-- Grid 2x2 de productos (derecha) --}}
             <div class="productos-secundarios">
@@ -196,7 +195,6 @@
         <a href="{{ route('joyas.create', $categoria) }}" class="btn-crear">
             <i class="bi bi-plus-circle"></i> Crear uno
         </a>
-        >>>>>>> bryan
     </div>
     @endif
 </div>
