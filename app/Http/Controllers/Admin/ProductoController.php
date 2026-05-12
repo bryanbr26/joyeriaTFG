@@ -12,6 +12,7 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $productos = Producto::query()
+            ->with('imagenes')
             ->when($request->filled('buscar'), function ($query) use ($request) {
                 $buscar = $request->input('buscar');
                 $query->where(function ($subquery) use ($buscar) {
@@ -37,28 +38,29 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         $datos = $this->validateProducto($request, true);
-        $datos['ruta_grabado'] = $request->file('imagen')->store('productos', 'public');
+        unset($datos['imagenes']);
+        $datos['ruta_grabado'] = '';
 
-        Producto::create($datos);
+        $producto = Producto::create($datos);
+        $this->storeProductoImages($request, $producto);
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto creado correctamente.');
     }
 
     public function edit(Producto $producto)
     {
+        $producto->load('imagenes');
+
         return view('admin.productos.edit', compact('producto'));
     }
 
     public function update(Request $request, Producto $producto)
     {
         $datos = $this->validateProducto($request, false);
-
-        if ($request->hasFile('imagen')) {
-            $this->deleteProductoImage($producto);
-            $datos['ruta_grabado'] = $request->file('imagen')->store('productos', 'public');
-        }
+        unset($datos['imagenes']);
 
         $producto->update($datos);
+        $this->storeProductoImages($request, $producto);
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado correctamente.');
     }
@@ -76,7 +78,7 @@ class ProductoController extends Controller
 
     public function destroy(Producto $producto)
     {
-        $this->deleteProductoImage($producto);
+        $this->deleteProductoImages($producto);
         $producto->delete();
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto eliminado correctamente.');
@@ -96,14 +98,41 @@ class ProductoController extends Controller
             'material' => 'nullable|string|max:255',
             'peso' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'imagen' => ($creating ? 'required' : 'nullable') . '|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'imagenes' => ($creating ? 'required' : 'nullable') . '|array|min:1',
+            'imagenes.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
         ]);
     }
 
-    private function deleteProductoImage(Producto $producto): void
+    private function storeProductoImages(Request $request, Producto $producto): void
     {
-        if ($producto->ruta_grabado && Storage::disk('public')->exists($producto->ruta_grabado)) {
-            Storage::disk('public')->delete($producto->ruta_grabado);
+        if (!$request->hasFile('imagenes')) {
+            return;
+        }
+
+        $hasPrincipal = $producto->imagenes()->where('principal', true)->exists();
+
+        foreach ($request->file('imagenes') as $index => $imagen) {
+            $ruta = $imagen->store('productos', 's3');
+
+            $producto->imagenes()->create([
+                'url' => $ruta,
+                'principal' => !$hasPrincipal && $index === 0,
+            ]);
+
+            if ($index === 0) {
+                $producto->update(['ruta_grabado' => $ruta]);
+            }
+        }
+    }
+
+    private function deleteProductoImages(Producto $producto): void
+    {
+        foreach ($producto->imagenes as $imagen) {
+            if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
+                Storage::disk('s3')->delete($imagen->url);
+            }
+
+            $imagen->delete();
         }
     }
 }

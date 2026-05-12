@@ -27,8 +27,8 @@
         {{-- ===================== COLUMNA IZQUIERDA: IMAGEN ===================== --}}
         <div class="col-lg-6">
             <div class="mb-3">
-                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}"
+                @if($producto->imagen_principal_url)
+                    <img src="{{ $producto->imagen_principal_url }}"
                          class="img-fluid rounded w-100" alt="{{ $producto->nombre }}"
                          style="max-height: 450px; object-fit: cover;">
                 @else
@@ -38,6 +38,16 @@
                     </div>
                 @endif
             </div>
+            @if($producto->imagenes->count() > 1)
+                <div class="d-flex gap-2 flex-wrap">
+                    @foreach($producto->imagenes as $imagen)
+                        <img src="{{ $imagen->url_completa }}"
+                             alt="{{ $producto->nombre }}"
+                             class="border rounded"
+                             style="width: 76px; height: 76px; object-fit: cover;">
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         {{-- ===================== COLUMNA DERECHA: INFORMACIÓN ===================== --}}
@@ -107,7 +117,7 @@
                         <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
                     </button>
                 @else
-                    <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCestaGuest"
+                    <button class="btn btn-dark btn-lg flex-grow-1" type="button"
                             data-bs-toggle="modal" data-bs-target="#loginModal"
                             {{ $producto->stock <= 0 ? 'disabled' : '' }}>
                         <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
@@ -122,7 +132,7 @@
                         <i class="bi {{ $esFavorito ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
                     </button>
                 @else
-                    <button class="btn btn-outline-dark btn-lg" id="btnFavoritoGuest"
+                    <button class="btn btn-outline-dark btn-lg" type="button"
                             data-bs-toggle="modal" data-bs-target="#loginModal"
                             title="Añadir a favoritos">
                         <i class="bi bi-heart"></i>
@@ -131,24 +141,31 @@
             </div>
 
             {{-- Botón personalizar joya --}}
-            <a href="{{ route('personaliza.producto', $producto) }}" class="btn btn-outline-secondary w-100">
-                <i class="bi bi-brush me-2"></i>Personalizar joya
-            </a>
+            @auth
+                <a href="{{ route('personaliza.producto', $producto) }}" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-brush me-2"></i>Personalizar joya
+                </a>
+            @else
+                <button class="btn btn-outline-secondary w-100" type="button"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="bi bi-brush me-2"></i>Personalizar joya
+                </button>
+            @endauth
         </div>
     </div>
 </div>
 
-{{-- Modal de Autenticación (para carrito y favoritos) --}}
+{{-- Modal de Autenticación (para carrito, favoritos y personalización) --}}
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold" id="loginModalLabel">Inicia sesión</h5>
+                <h5 class="modal-title fw-bold" id="loginModalLabel">Necesitas iniciar sesión</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body text-center pb-4">
                 <i class="bi bi-person-lock text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 mb-4">Para añadir productos a la cesta o a favoritos debes iniciar sesión o crear una cuenta nueva.</p>
+                <p class="mt-3 mb-4">Para usar esta función debes iniciar sesión o crear una cuenta nueva.</p>
                 <div class="d-grid gap-2">
                     <a href="{{ route('login') }}" class="btn btn-dark">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="btn btn-outline-dark">Registrarse</a>
@@ -180,8 +197,18 @@
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                        loginModal.show();
+                        return null;
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
+                    if (!data) return;
+
                     this.disabled = false;
                     this.innerHTML = originalHTML;
 
@@ -220,8 +247,18 @@
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                        loginModal.show();
+                        return null;
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
+                    if (!data) return;
+
                     if(data.success) {
                         if(data.favorito) {
                             // Añadido a favoritos

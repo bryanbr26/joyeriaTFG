@@ -133,8 +133,8 @@
                     <div class="item-box" id="item-{{ $item->id }}">
                         <!-- Img Container -->
                         <div class="item-image">
-                            @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $item->producto->ruta_grabado) }}" 
+                            @if($item->producto->imagen_principal_url)
+                                <img src="{{ $item->producto->imagen_principal_url }}"
                                      alt="{{ $item->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
                             @else
                                 <i class="bi bi-gem text-muted" style="font-size: 3rem;"></i>
@@ -207,7 +207,7 @@
                         <p class="fs-5 fw-semibold text-muted mb-1">Total: <span class="text-dark" id="totalPrice">{{ number_format($totalPrice, 2) }}€</span></p>
                     </div>
                     <div class="d-flex justify-content-center mt-2 mb-4">
-                        <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra por {{ number_format($totalPrice, 2) }}€?')">
+                        <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra?')">
                             @csrf
                             <button type="submit" class="btn btn-dark btn-lg px-5 py-3 rounded-0 fw-bold fs-5 shadow" style="min-width: 300px;">
                                 <i class="bi bi-bag-check me-2"></i>Pasar por caja [<span id="totalItems">{{ $totalItems }}</span>]

@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\RedsysController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
 use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 // CRUD JOYAS POR CATEGORÍA
+Route::get('/joyeria', [JoyasController::class, 'indexAll'])->name('joyas.buscar');
+
 Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|pendientes'])->name('joyas.')->group(function () {
     Route::get('/', [JoyasController::class, 'index'])->name('index');
     Route::get('/create', [JoyasController::class, 'create'])->name('create');
@@ -65,6 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrito/checkout', [CarritoController::class, 'checkout'])->name('carrito.checkout');
 });
 
+// RUTAS REDSYS
+Route::post('/redsys/notificacion', [RedsysController::class, 'notification'])->name('redsys.notification');
+Route::match(['get', 'post'], '/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+Route::match(['get', 'post'], '/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
+
 // RUTAS FAVORITOS
 // Toggle va fuera del middleware auth para devolver JSON 401 en AJAX
 Route::post('/favoritos/toggle/{producto}', [FavoritoController::class, 'toggle'])->name('favoritos.toggle');
@@ -87,5 +95,7 @@ Route::post('/contacto', [ContactoController::class, 'enviar'])->name('contacto.
 
 // RUTAS PERSONALIZA
 Route::get('/personaliza-tus-joyas', [PersonalizaController::class, 'personaliza'])->name('personaliza');
-Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
-Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
+Route::middleware('auth')->group(function () {
+    Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
+    Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
+});

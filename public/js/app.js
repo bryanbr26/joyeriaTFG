@@ -8,11 +8,111 @@
 /***/ (() => {
 
 // resources/js/app.js
+(function () {
+  function closeDropdown(dropdown) {
+    var toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
+    var menu = dropdown.querySelector('.dropdown-menu');
+    if (!toggle || !menu) return;
+    toggle.classList.remove('show');
+    toggle.setAttribute('aria-expanded', 'false');
+    menu.classList.remove('show');
+  }
+  function closeAllDropdowns() {
+    var exceptDropdown = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+      if (dropdown !== exceptDropdown && !dropdown.classList.contains('joyeria-mega-dropdown')) {
+        closeDropdown(dropdown);
+      }
+    });
+  }
+  function openModal(modal) {
+    if (!modal) return;
+    closeModal(document.querySelector('.modal.show'));
+    var backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop fade show';
+    backdrop.dataset.generatedBackdrop = 'true';
+    document.body.appendChild(backdrop);
+    modal.style.display = 'block';
+    modal.removeAttribute('aria-hidden');
+    modal.setAttribute('aria-modal', 'true');
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
+    var closeButton = modal.querySelector('[data-bs-dismiss="modal"], .btn-close');
+    if (closeButton) {
+      closeButton.focus();
+    }
+  }
+  function closeModal(modal) {
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+    document.body.classList.remove('modal-open');
+    document.querySelectorAll('[data-generated-backdrop="true"]').forEach(function (backdrop) {
+      return backdrop.remove();
+    });
+  }
+  window.bootstrap = window.bootstrap || {};
+  window.bootstrap.Modal = window.bootstrap.Modal || function (modal) {
+    return {
+      show: function show() {
+        openModal(modal);
+      },
+      hide: function hide() {
+        closeModal(modal);
+      }
+    };
+  };
+  document.addEventListener('click', function (event) {
+    var dropdownToggle = event.target.closest('[data-bs-toggle="dropdown"]');
+    if (dropdownToggle) {
+      event.preventDefault();
+      var dropdown = dropdownToggle.closest('.dropdown');
+      var menu = dropdown ? dropdown.querySelector('.dropdown-menu') : null;
+      if (!dropdown || !menu || dropdown.classList.contains('joyeria-mega-dropdown')) return;
+      var isOpen = menu.classList.contains('show');
+      closeAllDropdowns(dropdown);
+      dropdownToggle.classList.toggle('show', !isOpen);
+      dropdownToggle.setAttribute('aria-expanded', String(!isOpen));
+      menu.classList.toggle('show', !isOpen);
+      return;
+    }
+    var modalToggle = event.target.closest('[data-bs-toggle="modal"]');
+    if (modalToggle) {
+      event.preventDefault();
+      openModal(document.querySelector(modalToggle.dataset.bsTarget));
+      return;
+    }
+    var dismissModal = event.target.closest('[data-bs-dismiss="modal"]');
+    if (dismissModal) {
+      event.preventDefault();
+      closeModal(dismissModal.closest('.modal'));
+      return;
+    }
+    var openedDropdown = event.target.closest('.dropdown');
+    if (!openedDropdown || openedDropdown.querySelector('[data-bs-auto-close="outside"]') === null) {
+      closeAllDropdowns(openedDropdown);
+    }
+    if (event.target.classList.contains('modal')) {
+      closeModal(event.target);
+    }
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeAllDropdowns();
+      closeModal(document.querySelector('.modal.show'));
+    }
+  });
+})();
 document.addEventListener('DOMContentLoaded', function () {
   // Elementos del mega menú
   var categoriasItems = document.querySelectorAll('.categoria-item');
   var imagenElemento = document.querySelector('.img-drop-down img');
   var textoElemento = document.querySelector('.imagen-texto');
+  var botonBuscador = document.getElementById('boton-buscador');
+  var overlayBuscador = document.getElementById('overlay-buscador');
+  var cerrarBuscador = document.getElementById('cerrar-buscador');
 
   // Imagen por defecto
   var imagenDefault = {
@@ -55,12 +155,69 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Resetear cuando el mouse sale del menú
-    var dropdownMenu = document.querySelector('.dropdown-menu');
+    var dropdownMenu = document.querySelector('.joyeria-mega-menu');
     if (dropdownMenu) {
       dropdownMenu.addEventListener('mouseleave', function () {
         resetearImagen();
       });
     }
+  }
+  // Abrir overlay
+  if (botonBuscador) {
+    botonBuscador.addEventListener('click', function (e) {
+      e.preventDefault();
+      overlayBuscador.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Evita scroll del body
+
+      // Opcional: Enfocar el input
+      setTimeout(function () {
+        var input = document.getElementById('buscador');
+        if (input) input.focus();
+      }, 300);
+    });
+  }
+
+  // Cerrar overlay
+  function cerrarOverlay() {
+    overlayBuscador.classList.remove('active');
+    document.body.style.overflow = ''; // Restaurar scroll
+  }
+  if (cerrarBuscador) {
+    cerrarBuscador.addEventListener('click', cerrarOverlay);
+  }
+
+  // Cerrar al hacer clic fuera del panel
+  if (overlayBuscador) {
+    overlayBuscador.addEventListener('click', function (e) {
+      if (e.target === overlayBuscador) {
+        cerrarOverlay();
+      }
+    });
+  }
+
+  // Mostrar Nav al hacer scroll pasado el header-icon
+  var headerIconContainer = document.getElementById('header-icon');
+  var mainNavBar = document.getElementById('nav-bar');
+  if (headerIconContainer && mainNavBar) {
+    var checkScrollForNav = function checkScrollForNav() {
+      // Umbral = la parte inferior de header-icon respecto al inicio del documento
+      var threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
+
+      // Si hemos scrolleado más allá de ese punto, mostramos el nav (fixed al top)
+      if (window.scrollY > threshold) {
+        mainNavBar.classList.add('mostrar-nav');
+      } else {
+        mainNavBar.classList.remove('mostrar-nav');
+      }
+    }; // Escuchar evento de scroll
+    // Si no es la página principal, hacemos que el nav sea visible por defecto al inicio
+    var isHomePage = document.body.classList.contains('home-page');
+    if (!isHomePage) {
+      mainNavBar.classList.add('nav-visible-defecto');
+    }
+    window.addEventListener('scroll', checkScrollForNav);
+    // Llamar una vez por si se recargó la página con scroll
+    checkScrollForNav();
   }
 });
 

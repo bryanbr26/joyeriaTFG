@@ -36,3 +36,11 @@ body {
 .mt-3 {
     margin-top: 1.5rem;
 }
+
+body {
+    overflow-x: hidden;
+
+    &.home-page {
+        overflow-y: auto;
+    }
+}

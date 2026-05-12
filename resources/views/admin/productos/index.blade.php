@@ -50,8 +50,8 @@
                     @forelse($productos as $producto)
                         <tr>
                             <td>
-                                @if($producto->ruta_grabado)
-                                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" class="admin-product-thumb">
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}" alt="{{ $producto->nombre }}" class="admin-product-thumb">
                                 @else
                                     <span class="text-muted">Sin imagen</span>
                                 @endif
