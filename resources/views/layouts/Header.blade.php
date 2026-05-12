@@ -199,11 +199,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-<<<<<<< HEAD
                             <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compro Oro</a>
-=======
-                            <a class="nav-link fw-medium" href="{{ route('comproOro') }}">Compra de Oro</a>
->>>>>>> 888453589d2b165258d152ea9369137514804a65
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('orfebreria') }}">Orfebrería</a>
