@@ -21199,4 +21199,193 @@ body {
   color: #25434E !important;
 }
 
+.historia-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.historia-hero .video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300vw;
+  height: 150vh;
+  transform: translate(-50%, -50%);
+  border: none;
+  z-index: 0;
+  pointer-events: none;
+}
+.historia-hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.historia-hero .content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+.compro-hero {
+  background-color: #25434E;
+  color: #fff;
+  padding: 5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.compro-hero__content {
+  max-width: 700px;
+}
+.compro-hero__content h1, .compro-hero__content .h1 {
+  font-family: "Italiana", serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.compro-hero__content p {
+  font-size: 1.15rem;
+  opacity: 0.85;
+}
+
+.compro-intro {
+  padding: 4rem 1rem;
+}
+.compro-intro h2, .compro-intro .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #25434E;
+}
+.compro-intro p {
+  max-width: 750px;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: #6c757d;
+}
+
+.compro-pasos {
+  padding: 3rem 1rem 4rem;
+}
+.compro-pasos h2, .compro-pasos .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: #25434E;
+}
+.compro-pasos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 768px) {
+  .compro-pasos__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.compro-paso {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+.compro-paso:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+.compro-paso__numero {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background-color: #ffd700;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.compro-paso h3, .compro-paso .h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+}
+.compro-paso p {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.compro-tipos {
+  padding: 3rem 1rem 4rem;
+}
+.compro-tipos h2, .compro-tipos .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: #25434E;
+}
+.compro-tipos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 768px) {
+  .compro-tipos__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.compro-tipo {
+  padding: 2rem 1rem;
+}
+.compro-tipo i {
+  font-size: 2.5rem;
+  color: #ffd700;
+  margin-bottom: 1rem;
+  display: block;
+}
+.compro-tipo h4, .compro-tipo .h4 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+.compro-tipo p {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.compro-cta {
+  background-color: #25434E;
+  color: #fff;
+  padding: 4rem 1rem;
+}
+.compro-cta h2, .compro-cta .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.compro-cta p {
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+.compro-cta .btn {
+  display: inline-block;
+  padding: 0.75rem 2.5rem;
+  border: 2px solid #ffd700;
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.compro-cta .btn:hover {
+  background-color: #ffd700;
+  color: #1a1a1a;
+}
+
 /*# sourceMappingURL=app.css.map*/

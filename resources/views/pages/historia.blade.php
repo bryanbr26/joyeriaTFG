@@ -2,8 +2,16 @@
 
 @section("content")
 
-<div class="container my-5">
-    <div class="text-center py-5">
+<section class="historia-hero" id="texto_historia">
+    <iframe class="video"
+        src="https://www.youtube.com/embed/B3ERa7eA3K8?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist=B3ERa7eA3K8"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+
+    <div class="overlay"></div>
+
+    <div class="content container text-center py-5">
         <h1 class="mt-3">Historia</h1>
         <br><br>
         <h4>
@@ -15,7 +23,7 @@
             Aunque previamente había trabajado y aprendido bajo las óredenes del maestro Shifu, <br>
             quien le enseñó todo lo que hoy sabe de la orfebrería. <br><br>
 
-            Huyendo de la producción en masa y de la joyería comercial, Wilson empezó a diseñar en un pequeño local<br> 
+            Huyendo de la producción en masa y de la joyería comercial, Wilson empezó a diseñar en un pequeño local<br>
             combinando técnicas contemporáneas con la rica inspiración de la tierra soriana. <br><br>
 
             Hoy en día, el proyecto de Wilson se ha consolidado como un referente de la joyería de autor en la provincia. <br>
@@ -24,8 +32,8 @@
             Allí, Wilson continúa trabajando con el mismo mimo <br>
             que el primer día, demostrando que, con talento y dedicación, se puede crear arte vanguardista y de calidad <br>
             desde una ciudad pequeña, sin perder nunca el trato cercano con el cliente.
-</h4>
+        </h4>
     </div>
-</div>
+</section>
 
 @endsection

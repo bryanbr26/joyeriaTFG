@@ -1,0 +1,35 @@
+
+
+.historia-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300vw;
+        height: 150vh;
+        transform: translate(-50%, -50%);
+        border: none;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .overlay {
+        position: absolute;
+        inset: 0;         
+        background: rgba(0, 0, 0, 0.50);
+        z-index: 1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+    }
+}

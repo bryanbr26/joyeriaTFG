@@ -1,0 +1,178 @@
+
+.compro-hero {
+    background-color: $primary-color;
+    color: #fff;
+    padding: 5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+        max-width: 700px;
+
+        h1 {
+            font-family: $font-logo;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.15rem;
+            opacity: 0.85;
+        }
+    }
+}
+
+.compro-intro {
+    padding: 4rem 1rem;
+
+    h2 {
+        font-family: $font-logo;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: $primary-color;
+    }
+
+    p {
+        max-width: 750px;
+        margin: 0 auto;
+        line-height: 1.8;
+        color: $gray;
+    }
+}
+
+.compro-pasos {
+    padding: 3rem 1rem 4rem;
+
+    h2 {
+        font-family: $font-logo;
+        font-size: 2rem;
+        margin-bottom: 2.5rem;
+        color: $primary-color;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        @media (max-width: $tablet) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.compro-paso {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    &__numero {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        background-color: $secondary-color;
+        color: $dark;
+        font-weight: 700;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        color: $dark;
+    }
+
+    p {
+        color: $gray;
+        line-height: 1.6;
+    }
+}
+
+.compro-tipos {
+    padding: 3rem 1rem 4rem;
+
+    h2 {
+        font-family: $font-logo;
+        font-size: 2rem;
+        margin-bottom: 2.5rem;
+        color: $primary-color;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        @media (max-width: $tablet) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.compro-tipo {
+    padding: 2rem 1rem;
+
+    i {
+        font-size: 2.5rem;
+        color: $secondary-color;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    h4 {
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+        color: $dark;
+    }
+
+    p {
+        color: $gray;
+        line-height: 1.6;
+    }
+}
+
+.compro-cta {
+    background-color: $primary-color;
+    color: #fff;
+    padding: 4rem 1rem;
+
+    h2 {
+        font-family: $font-logo;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        opacity: 0.85;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 2.5rem;
+        border: 2px solid $secondary-color;
+        color: $secondary-color;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        
+    }
+    
+    .btn:hover {
+            background-color: $secondary-color;
+            color: $dark;
+        }
+}
