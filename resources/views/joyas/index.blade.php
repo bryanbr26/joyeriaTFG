@@ -205,67 +205,93 @@
             {{-- Mantener el orden actual si existe --}}
             <input type="hidden" name="orden" id="ordenInput" value="{{ request('orden') }}">
 
-            <div class="filter-group">
-                <label>Marca</label>
-                <select name="marca" class="filter-select">
-                    <option value="">Todas las marcas</option>
+            <div class="filter-group dropdown-custom" id="dropdown-marca">
+                <div class="dropdown-header">
+                    <label>Marca</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class="dropdown-content">
                     @foreach(['Cartier', 'Armani', 'Pandora', 'Tous', 'Swarovski', 'Lotus'] as $marca)
-                        <option value="{{ $marca }}" {{ request('marca') == $marca ? 'selected' : '' }}>{{ $marca }}</option>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="marca[]" value="{{ $marca }}" id="marca-{{ $marca }}" {{ in_array($marca, (array) request('marca')) ? 'checked' : '' }}>
+                            <label for="marca-{{ $marca }}">{{ $marca }}</label>
+                        </div>
                     @endforeach
-                </select>
+                </div>
             </div>
 
-            <div class="filter-group">
-                <label>Género</label>
-                <div class="filter-pills">
+            <div class="filter-group dropdown-custom" id="dropdown-genero">
+                <div class="dropdown-header">
+                    <label>Género</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class="dropdown-content">
                     @foreach(['mujer', 'hombre', 'unisex'] as $gen)
-                        <div class="pill-item">
-                            <input type="radio" name="genero" value="{{ $gen }}" id="gen-{{ $gen }}" class="btn-check" {{ request('genero') == $gen ? 'checked' : '' }}>
-                            <label class="btn btn-outline-dark btn-sm" for="gen-{{ $gen }}">{{ ucfirst($gen) }}</label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="genero[]" value="{{ $gen }}" id="gen-{{ $gen }}" {{ in_array($gen, (array) request('genero')) ? 'checked' : '' }}>
+                            <label for="gen-{{ $gen }}">{{ ucfirst($gen) }}</label>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-            <div class="filter-group">
-                <label>Color</label>
-                <div class="filter-colors">
+            <div class="filter-group dropdown-custom" id="dropdown-color">
+                <div class="dropdown-header">
+                    <label>Color</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class="dropdown-content">
                     @foreach(['blanco', 'negro', 'plata', 'azul', 'dorado'] as $color)
-                        <div class="color-item">
-                            <input type="radio" name="color" value="{{ $color }}" id="color-{{ $color }}" class="btn-check" {{ request('color') == $color ? 'checked' : '' }}>
-                            <label class="color-pill color-{{ $color }}" for="color-{{ $color }}"
-                                title="{{ ucfirst($color) }}"></label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color[]" value="{{ $color }}" id="color-{{ $color }}" {{ in_array($color, (array) request('color')) ? 'checked' : '' }}>
+                            <label for="color-{{ $color }}" class="d-flex align-items-center gap-2">
+                                <span class="color-circle color-{{ $color }}"></span>
+                                {{ ucfirst($color) }}
+                            </label>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-            <div class="filter-group">
-                <label>Material</label>
-                <select name="material" class="filter-select">
-                    <option value="">Todos los materiales</option>
+            <div class="filter-group dropdown-custom" id="dropdown-material">
+                <div class="dropdown-header">
+                    <label>Material</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class="dropdown-content">
                     @foreach(['oro', 'acero', 'plata', 'perla'] as $mat)
-                        <option value="{{ $mat }}" {{ request('material') == $mat ? 'selected' : '' }}>{{ ucfirst($mat) }}
-                        </option>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="material[]" value="{{ $mat }}" id="mat-{{ $mat }}" {{ in_array($mat, (array) request('material')) ? 'checked' : '' }}>
+                            <label for="mat-{{ $mat }}">{{ ucfirst($mat) }}</label>
+                        </div>
                     @endforeach
-                </select>
+                </div>
             </div>
 
             <div class="filter-group">
                 <label>Precio: <span id="precioMinValor">{{ request('precio_min', 0) }}</span>€ - <span
-                        id="precioMaxValor">{{ request('precio_max', 1000) }}</span>€</label>
+                        id="precioMaxValor">{{ request('precio_max', $precioMaximo) }}</span>€</label>
                 <div class="range-slider-container">
-                    <input type="range" name="precio_min" id="precioMin" min="0" max="1000"
-                        value="{{ request('precio_min', 0) }}" class="form-range">
-                    <input type="range" name="precio_max" id="precioMax" min="0" max="1000"
-                        value="{{ request('precio_max', 1000) }}" class="form-range">
+                    <input type="range" name="precio_min" id="precioMin" min="0" max="{{ $precioMaximo }}"
+                        value="{{ request('precio_min', 0) }}">
+                    <input type="range" name="precio_max" id="precioMax" min="0" max="{{ $precioMaximo }}"
+                        value="{{ request('precio_max', $precioMaximo) }}">
                 </div>
             </div>
 
-            <div class="filter-group">
-                <label>Talla</label>
-                <input type="text" name="talla" class="form-control" placeholder="Ej: 16, 50cm, S..."
-                    value="{{ request('talla') }}">
+            <div class="filter-group dropdown-custom" id="dropdown-talla">
+                <div class="dropdown-header">
+                    <label>Talla</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class="dropdown-content">
+                    @for($i = 46; $i <= 68; $i += 2)
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="talla[]" value="{{ $i }}" id="talla-{{ $i }}" {{ in_array((string) $i, (array) request('talla')) ? 'checked' : '' }}>
+                            <label for="talla-{{ $i }}">{{ $i }}</label>
+                        </div>
+                    @endfor
+                </div>
             </div>
 
             <div class="panel-footer">
@@ -291,7 +317,7 @@
             </button>
             <button type="button" class="sort-option {{ request('orden') == 'ventas' ? 'active' : '' }}"
                 data-sort-value="ventas">
-                <i class="bi bi-fire"></i> Más vendidos
+                <i class="bi bi-award"></i> Más vendidos
             </button>
         </div>
     </div>

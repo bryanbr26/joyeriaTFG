@@ -44,27 +44,32 @@ class JoyasController extends Controller
 
         // Filtro marca
         if ($request->filled('marca')) {
-            $query->where('marca', $request->input('marca'));
+            $marcas = (array) $request->input('marca');
+            $query->whereIn('marca', $marcas);
         }
 
         // Filtro género
         if ($request->filled('genero')) {
-            $query->where('genero', $request->input('genero'));
+            $generos = (array) $request->input('genero');
+            $query->whereIn('genero', $generos);
         }
 
         // Filtro color
         if ($request->filled('color')) {
-            $query->where('color', $request->input('color'));
+            $colores = (array) $request->input('color');
+            $query->whereIn('color', $colores);
         }
 
         // Filtro material
         if ($request->filled('material')) {
-            $query->where('material', $request->input('material'));
+            $materiales = (array) $request->input('material');
+            $query->whereIn('material', $materiales);
         }
 
         // Filtro talla
         if ($request->filled('talla')) {
-            $query->where('talla', $request->input('talla'));
+            $tallas = (array) $request->input('talla');
+            $query->whereIn('talla', $tallas);
         }
 
         // Filtro rango de precio

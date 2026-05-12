@@ -343,22 +343,19 @@ function initJoyasIndex() {
   }
   if (closeFilter) closeFilter.addEventListener('click', closePanels);
   if (closeSort) closeSort.addEventListener('click', closePanels);
-
-  // Doble slider de precio
   var precioMinInput = document.getElementById('precioMin');
   var precioMaxInput = document.getElementById('precioMax');
   var precioMinValor = document.getElementById('precioMinValor');
   var precioMaxValor = document.getElementById('precioMaxValor');
   if (precioMinInput && precioMaxInput && precioMinValor && precioMaxValor) {
-    var updatePriceValues = function updatePriceValues() {
+    var updatePriceValues = function updatePriceValues(e) {
       var minVal = parseInt(precioMinInput.value);
       var maxVal = parseInt(precioMaxInput.value);
       if (minVal > maxVal) {
-        // Cambia los valores si se pasa el min al max
-        if (this === precioMinInput) {
+        if (e && e.target === precioMinInput) {
           precioMaxInput.value = minVal;
           maxVal = minVal;
-        } else {
+        } else if (e && e.target === precioMaxInput) {
           precioMinInput.value = maxVal;
           minVal = maxVal;
         }
@@ -366,14 +363,24 @@ function initJoyasIndex() {
       precioMinValor.textContent = minVal;
       precioMaxValor.textContent = maxVal;
     };
-    precioMinInput.addEventListener('input', updatePriceValues);
-    precioMaxInput.addEventListener('input', updatePriceValues);
+    precioMinInput.addEventListener('input', function (e) {
+      updatePriceValues(e);
+    });
+    precioMaxInput.addEventListener('input', function (e) {
+      updatePriceValues(e);
+    });
 
-    // Inicializamos los valores
+    // Asegurar que el que se toca se pone encima inmediatamente
+    var handlePointer = function handlePointer(e) {
+      e.target.style.zIndex = "3";
+      (e.target === precioMinInput ? precioMaxInput : precioMinInput).style.zIndex = "2";
+    };
+    precioMinInput.addEventListener('pointerdown', handlePointer);
+    precioMaxInput.addEventListener('pointerdown', handlePointer);
+
+    // Inicialización
     updatePriceValues();
   }
-
-  // Ordenar
   var sortOptions = document.querySelectorAll('.sort-option');
   var ordenInput = document.getElementById('ordenInput');
   var filterSortForm = document.getElementById('filterSortForm');
@@ -385,6 +392,16 @@ function initJoyasIndex() {
       });
     });
   }
+  var dropdowns = document.querySelectorAll('.dropdown-custom');
+  dropdowns.forEach(function (dropdown) {
+    var header = dropdown.querySelector('.dropdown-header');
+    header.addEventListener('click', function () {
+      dropdowns.forEach(function (other) {
+        if (other !== dropdown) other.classList.remove('open');
+      });
+      dropdown.classList.toggle('open');
+    });
+  });
 }
 
 /***/ }),
