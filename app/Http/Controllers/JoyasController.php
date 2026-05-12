@@ -187,8 +187,14 @@ class JoyasController extends Controller
     public function show($categoria, Producto $producto)
     {
         $titulo = $producto->nombre;
+        $categoriaDB = $this->getCategoriaDB($categoria);
 
-        return view('joyas.show', compact('producto', 'categoria', 'titulo'));
+        // Obtenemos otros productos de la misma categoría para el carrusel/showcase
+        $productos = Producto::where('categoria', $categoriaDB)
+            ->where('id', '!=', $producto->id)
+            ->get();
+
+        return view('joyas.show', compact('producto', 'categoria', 'titulo', 'productos'));
     }
 
 }

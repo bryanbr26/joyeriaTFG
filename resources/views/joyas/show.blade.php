@@ -4,245 +4,337 @@
 
 @section("content")
 
-@php
-    $esFavorito = false;
-    if(Auth::check()) {
-        $esFavorito = \App\Models\Favorito::where('id_usuario', Auth::id())
-                        ->where('id_producto', $producto->id)
-                        ->exists();
-    }
-@endphp
+    @php
+        $esFavorito = false;
+        if (Auth::check()) {
+            $esFavorito = \App\Models\Favorito::where('id_usuario', Auth::id())
+                ->where('id_producto', $producto->id)
+                ->exists();
+        }
+    @endphp
 
-<div class="container my-4">
-    {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('joyas.index', $categoria) }}">{{ ucfirst($categoria) }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $producto->nombre }}</li>
-        </ol>
-    </nav>
-
-    <div class="row g-4">
-        {{-- ===================== COLUMNA IZQUIERDA: IMAGEN ===================== --}}
-        <div class="col-lg-6">
-            <div class="mb-3">
-                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}"
-                         class="img-fluid rounded w-100" alt="{{ $producto->nombre }}"
-                         style="max-height: 450px; object-fit: cover;">
-                @else
-                    <div class="bg-light d-flex align-items-center justify-content-center rounded"
-                         style="height: 450px;">
-                        <i class="bi bi-gem" style="font-size: 5rem; color: #ccc;"></i>
+    <div class="producto-detalle" id="producto-show">
+        <div class="producto-detalle-grid">
+            {{-- ===================== COLUMNA IZQUIERDA: IMAGEN ===================== --}}
+            <div class="producto-detalle-imagen">
+                <div class="contenedor-imagen-principal">
+                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-principal-producto" alt="{{ $producto->nombre }}">
+                    @else
+                        <div class="imagen-placeholder">
+                            <i class="bi bi-gem icono-placeholder"></i>
+                        </div>
+                    @endif
+                </div>
+                <div class="contenedor-imagenes-miniatura">
+                    <div class="imagen-mini">
+                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                        @else
+                            <div class="imagen-mini-placeholder">
+                                <i class="bi bi-gem icono-placeholder"></i>
+                            </div>
+                        @endif
                     </div>
-                @endif
-            </div>
-        </div>
-
-        {{-- ===================== COLUMNA DERECHA: INFORMACIÓN ===================== --}}
-        <div class="col-lg-6">
-            <h2 class="fw-bold mb-1">{{ $producto->nombre }}</h2>
-            <p class="text-muted mb-3">{{ $producto->marca }}</p>
-
-            <h3 class="text-dark mb-4">{{ number_format($producto->precio, 2) }} €</h3>
-
-            {{-- Descripción --}}
-            <p class="mb-4">{{ $producto->descripcion }}</p>
-
-            {{-- Detalles del producto --}}
-            <div class="mb-4">
-                <table class="table table-sm table-borderless">
-                    <tbody>
-                        @if($producto->material)
-                        <tr>
-                            <td class="fw-bold text-muted" style="width: 120px;">Material</td>
-                            <td>{{ ucfirst($producto->material) }}</td>
-                        </tr>
+                    <div class="imagen-mini">
+                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                        @else
+                            <div class="imagen-mini-placeholder">
+                                <i class="bi bi-gem icono-placeholder"></i>
+                            </div>
                         @endif
-                        @if($producto->color)
-                        <tr>
-                            <td class="fw-bold text-muted">Color</td>
-                            <td>{{ ucfirst($producto->color) }}</td>
-                        </tr>
+                    </div>
+                    <div class="imagen-mini">
+                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                        @else
+                            <div class="imagen-mini-placeholder">
+                                <i class="bi bi-gem icono-placeholder"></i>
+                            </div>
                         @endif
-                        @if($producto->genero)
-                        <tr>
-                            <td class="fw-bold text-muted">Género</td>
-                            <td>{{ ucfirst($producto->genero) }}</td>
-                        </tr>
+                    </div>
+                    <div class="imagen-mini">
+                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                        @else
+                            <div class="imagen-mini-placeholder">
+                                <i class="bi bi-gem icono-placeholder"></i>
+                            </div>
                         @endif
-                        @if($producto->talla)
-                        <tr>
-                            <td class="fw-bold text-muted">Talla</td>
-                            <td>{{ $producto->talla }}</td>
-                        </tr>
-                        @endif
-                        @if($producto->peso)
-                        <tr>
-                            <td class="fw-bold text-muted">Peso</td>
-                            <td>{{ $producto->peso }} g</td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td class="fw-bold text-muted">Disponibilidad</td>
-                            <td>
-                                @if($producto->stock > 0)
-                                    <span class="text-success"><i class="bi bi-check-circle"></i> En stock ({{ $producto->stock }})</span>
-                                @else
-                                    <span class="text-danger"><i class="bi bi-x-circle"></i> Agotado</span>
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="d-flex align-items-center gap-3 mb-4">
-                {{-- Añadir a la cesta: Lógica con Auth --}}
-                @auth
-                    <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCestaAuth"
-                            data-url="{{ route('carrito.agregar', $producto) }}"
+            {{-- ===================== COLUMNA DERECHA: INFORMACIÓN ===================== --}}
+            <div class="producto-info">
+                <h2 class="producto-nombre">{{ $producto->nombre }}</h2>
+                <p class="producto-marca">{{ $producto->marca }}</p>
+
+                <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
+
+                {{-- Descripción --}}
+                <p class="producto-descripcion">{{ $producto->descripcion }}</p>
+
+                {{-- Detalles del producto --}}
+                <div class="producto-detalles">
+                    <table class="tabla-detalles">
+                        <tbody>
+                            @if($producto->material)
+                                <tr>
+                                    <td class="detalle-etiqueta">Material</td>
+                                    <td class="detalle-valor">{{ ucfirst($producto->material) }}</td>
+                                </tr>
+                            @endif
+                            @if($producto->color)
+                                <tr>
+                                    <td class="detalle-etiqueta">Color</td>
+                                    <td class="detalle-valor">{{ ucfirst($producto->color) }}</td>
+                                </tr>
+                            @endif
+                            @if($producto->genero)
+                                <tr>
+                                    <td class="detalle-etiqueta">Género</td>
+                                    <td class="detalle-valor">{{ ucfirst($producto->genero) }}</td>
+                                </tr>
+                            @endif
+                            @if($producto->talla)
+                                <tr>
+                                    <td class="detalle-etiqueta">Talla</td>
+                                    <td class="detalle-valor">{{ $producto->talla }}</td>
+                                </tr>
+                            @endif
+                            @if($producto->peso)
+                                <tr>
+                                    <td class="detalle-etiqueta">Peso</td>
+                                    <td class="detalle-valor">{{ $producto->peso }} g</td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <td class="detalle-etiqueta">Disponibilidad</td>
+                                <td class="detalle-valor">
+                                    @if($producto->stock > 0)
+                                        <span class="stock-disponible">
+                                            <i class="bi bi-check-circle"></i> En stock ({{ $producto->stock }})
+                                        </span>
+                                    @else
+                                        <span class="stock-agotado">
+                                            <i class="bi bi-x-circle"></i> Agotado
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Botones de acción --}}
+                <div class="producto-acciones">
+                    {{-- Añadir a la cesta --}}
+                    @auth
+                        <button class="btn-carrito" id="btnAnadirCestaAuth"
+                            data-url="{{ route('carrito.agregar', $producto) }}" 
                             {{ $producto->stock <= 0 ? 'disabled' : '' }}>
-                        <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
-                    </button>
-                @else
-                    <button class="btn btn-dark btn-lg flex-grow-1" id="btnAnadirCestaGuest"
-                            data-bs-toggle="modal" data-bs-target="#loginModal"
-                            {{ $producto->stock <= 0 ? 'disabled' : '' }}>
-                        <i class="bi bi-cart-plus me-2"></i>Añadir a la cesta
-                    </button>
-                @endauth
+                            <i class="bi bi-cart-plus"></i>
+                            <span>Añadir a la cesta</span>
+                        </button>
+                    @else
+                        <button class="btn-carrito" id="btnAnadirCestaGuest" 
+                            onclick="abrirModal('loginModal')"                            
+                                {{ $producto->stock <= 0 ? 'disabled' : '' }}>
+                            <i class="bi bi-cart-plus"></i>
+                            <span>Añadir a la cesta</span>
+                        </button>
+                    @endauth
 
-                {{-- Favorito --}}
-                @auth
-                    <button class="btn btn-outline-dark btn-lg" id="btnFavorito"
-                            data-url="{{ route('favoritos.toggle', $producto) }}"
+                    {{-- Favorito --}}
+                    @auth
+                        <button class="btn-favorito {{ $esFavorito ? 'btn-favorito--activo' : '' }}" 
+                            id="btnFavorito"
+                            data-url="{{ route('favoritos.toggle', $producto) }}" 
                             title="Añadir a favoritos">
-                        <i class="bi {{ $esFavorito ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
-                    </button>
-                @else
-                    <button class="btn btn-outline-dark btn-lg" id="btnFavoritoGuest"
-                            data-bs-toggle="modal" data-bs-target="#loginModal"
+                            <i class="bi {{ $esFavorito ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                        </button>
+                    @else
+                        <button class="btn-favorito" id="btnFavoritoGuest" 
+                            onclick="abrirModal('loginModal')"
                             title="Añadir a favoritos">
-                        <i class="bi bi-heart"></i>
-                    </button>
-                @endauth
+                            <i class="bi bi-heart"></i>
+                        </button>
+                    @endauth
+                </div>
+
+                {{-- Botón personalizar --}}
+                <a href="{{ route('personaliza.producto', $producto) }}" class="btn-personalizar">
+                    <i class="bi bi-brush"></i>
+                    <span>Personalizar joya</span>
+                </a>
             </div>
-
-            {{-- Botón personalizar joya --}}
-            <a href="{{ route('personaliza.producto', $producto) }}" class="btn btn-outline-secondary w-100">
-                <i class="bi bi-brush me-2"></i>Personalizar joya
-            </a>
         </div>
     </div>
-</div>
 
-{{-- Modal de Autenticación (para carrito y favoritos) --}}
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold" id="loginModalLabel">Inicia sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h5 class="modal-titulo">Inicia sesión</h5>
+                <button class="modal-cerrar" onclick="cerrarModal('loginModal')">✕</button>
             </div>
-            <div class="modal-body text-center pb-4">
-                <i class="bi bi-person-lock text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 mb-4">Para añadir productos a la cesta o a favoritos debes iniciar sesión o crear una cuenta nueva.</p>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-dark">Iniciar sesión</a>
-                    <a href="{{ route('register') }}" class="btn btn-outline-dark">Registrarse</a>
+            <div class="modal-body">
+                <i class="bi bi-person-lock modal-icono"></i>
+                <p>Para añadir productos a la cesta o a favoritos debes iniciar sesión o crear una cuenta nueva.</p>
+                <div class="modal-botones">
+                    <a href="{{ route('login') }}" class="btn-login">Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="btn-registro">Registrarse</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    @if(isset($productos) && $productos->count() > 0)
+        <div class="productos-relacionados-showcase">
+            <h3 class="showcase-titulo">También te puede interesar</h3>
+            <div class="productos-relacionados-fila">
+                @foreach($productos->take(4) as $relacionado)
+                    <div class="producto-item">
+                        <a href="{{ route('joyas.show', [$categoria, $relacionado]) }}" class="producto-enlace">
+                            <div class="producto-card">
+                                @if($relacionado->ruta_grabado && file_exists(public_path('storage/' . $relacionado->ruta_grabado)))
+                                    <img src="{{ asset('storage/' . $relacionado->ruta_grabado) }}" class="producto-imagen"
+                                        alt="{{ $relacionado->nombre }}">
+                                @else
+                                    <div class="producto-imagen--placeholder">
+                                        <i class="bi bi-gem icono-placeholder"></i>
+                                    </div>
+                                @endif
+                                <div class="producto-info">
+                                    <h4 class="producto-titulo">{{ Str::limit($relacionado->nombre, 30) }}</h4>
+                                    <p class="producto-marca">{{ $relacionado->marca }}</p>
+                                    <p class="producto-descripcion">{{ Str::limit($relacionado->descripcion, 40) }}</p>
+                                    <p class="producto-precio">{{ number_format($relacionado->precio, 2) }} €</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    <section class="section-cinco">
+        <div class="contenedor-iconos-informativos">
+            <div class="targeta-icono">
+                <i class="bi bi-box-seam-fill"></i>
+                <div class="texto">
+                    <h4>Devolucion gratuita en 15 dias</h4>
+                </div>
+            </div>
+            <div class="targeta-icono">
+                <i class="bi bi-truck"></i>
+                <div class="texto">
+                    <h4>Envio gratis a partir de 40€</h4>
+
+                </div>
+            </div>
+            <div class="targeta-icono">
+                <i class="bi bi-gift-fill"></i>
+                <div class="texto">
+                    <h4>Cajas regalo disponibles</h4>
+
+                </div>
+            </div>
+            <div class="targeta-icono">
+                <i class="bi bi-calendar-check"></i>
+                <div class="texto">
+                    <h4>Reserva tu cita con nosotros</h4>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Botón añadir a la cesta (Usuario Autenticado)
-        const btnCestaAuth = document.getElementById('btnAnadirCestaAuth');
-        if (btnCestaAuth) {
-            btnCestaAuth.addEventListener('click', function() {
-                const url = this.dataset.url;
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Botón añadir a la cesta (Usuario Autenticado)
+            const btnCestaAuth = document.getElementById('btnAnadirCestaAuth');
+            if (btnCestaAuth) {
+                btnCestaAuth.addEventListener('click', function () {
+                    const url = this.dataset.url;
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                // Deshabilitar botón temporalmente para evitar doble click
-                this.disabled = true;
-                const originalHTML = this.innerHTML;
-                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Añadiendo...';
+                    // Deshabilitar botón temporalmente para evitar doble click
+                    this.disabled = true;
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Añadiendo...';
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    this.disabled = false;
-                    this.innerHTML = originalHTML;
-
-                    if(data.success) {
-                        const cartCount = document.getElementById('cart-count');
-                        if (cartCount && data.totalItems !== undefined) {
-                            cartCount.textContent = data.totalItems;
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
                         }
-                        alert(data.message); // Muestra éxito temporalmente
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(err => {
-                    this.disabled = false;
-                    this.innerHTML = originalHTML;
-                    console.error('Error:', err);
-                    alert('Hubo un error al añadir a la cesta.');
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.disabled = false;
+                            this.innerHTML = originalHTML;
+
+                            if (data.success) {
+                                const cartCount = document.getElementById('cart-count');
+                                if (cartCount && data.totalItems !== undefined) {
+                                    cartCount.textContent = data.totalItems;
+                                }
+                                alert(data.message); // Muestra éxito temporalmente
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(err => {
+                            this.disabled = false;
+                            this.innerHTML = originalHTML;
+                            console.error('Error:', err);
+                            alert('Hubo un error al añadir a la cesta.');
+                        });
                 });
-            });
-        }
+            }
 
-        // Botón favorito (Usuario Autenticado) - AJAX toggle
-        const btnFav = document.getElementById('btnFavorito');
-        if (btnFav) {
-            btnFav.addEventListener('click', function() {
-                const url = this.dataset.url;
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                const icon = this.querySelector('i');
+            // Botón favorito (Usuario Autenticado) - AJAX toggle
+            const btnFav = document.getElementById('btnFavorito');
+            if (btnFav) {
+                btnFav.addEventListener('click', function () {
+                    const url = this.dataset.url;
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    const icon = this.querySelector('i');
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success) {
-                        if(data.favorito) {
-                            // Añadido a favoritos
-                            icon.classList.remove('bi-heart');
-                            icon.classList.add('bi-heart-fill', 'text-danger');
-                        } else {
-                            // Eliminado de favoritos
-                            icon.classList.remove('bi-heart-fill', 'text-danger');
-                            icon.classList.add('bi-heart');
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
                         }
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                    alert('Hubo un error al actualizar favoritos.');
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                if (data.favorito) {
+                                    // Añadido a favoritos
+                                    icon.classList.remove('bi-heart');
+                                    icon.classList.add('bi-heart-fill', 'text-danger');
+                                } else {
+                                    // Eliminado de favoritos
+                                    icon.classList.remove('bi-heart-fill', 'text-danger');
+                                    icon.classList.add('bi-heart');
+                                }
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error:', err);
+                            alert('Hubo un error al actualizar favoritos.');
+                        });
                 });
-            });
-        }
-    });
-</script>
+            }
+        });
+    </script>
 
 @endsection

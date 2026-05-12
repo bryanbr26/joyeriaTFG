@@ -3,6 +3,7 @@ import { initBuscador } from './components/buscador.js';
 import { initNavbar } from './components/navbar.js';
 import { initHomeCarousel } from './pages/home.js';
 import { initJoyasIndex } from './pages/joyas-index.js';
+import { initProductosShow } from './pages/show.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar componentes globales
@@ -13,6 +14,5 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializar scripts de páginas específicas
     initHomeCarousel();
     initJoyasIndex();
+    initProductosShow();
 });
-
-
