@@ -10,11 +10,11 @@
             <div class="contenedor-filtros">
                 <div class="filtrar">
                     <p>Filtrar Por: </p>
-                    <i class="bi bi-list"></i>
+                    <a id="boton-filter"><i class="bi bi-list"></i></a>
                 </div>
                 <div class="ordenar">
                     <p>Ordenar Por: </p>
-                    <i class="bi bi-list"></i>
+                    <a id="boton-ordenar"><i class="bi bi-list"></i></a>
                 </div>
             </div>
 
@@ -195,50 +195,108 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $productos->links() }}
     </div>
+
+    <div class="panel-filtrar" id="panelFiltrar">
+        <div class="panel-header">
+            <h3>Filtrar</h3>
+            <button type="button" class="btn-close" id="closeFilter"></button>
+        </div>
+        <form action="{{ route('joyas.index', $categoria) }}" method="GET" id="filterSortForm">
+            {{-- Mantener el orden actual si existe --}}
+            <input type="hidden" name="orden" id="ordenInput" value="{{ request('orden') }}">
+
+            <div class="filter-group">
+                <label>Marca</label>
+                <select name="marca" class="filter-select">
+                    <option value="">Todas las marcas</option>
+                    @foreach(['Cartier', 'Armani', 'Pandora', 'Tous', 'Swarovski', 'Lotus'] as $marca)
+                        <option value="{{ $marca }}" {{ request('marca') == $marca ? 'selected' : '' }}>{{ $marca }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Género</label>
+                <div class="filter-pills">
+                    @foreach(['mujer', 'hombre', 'unisex'] as $gen)
+                        <div class="pill-item">
+                            <input type="radio" name="genero" value="{{ $gen }}" id="gen-{{ $gen }}" class="btn-check" {{ request('genero') == $gen ? 'checked' : '' }}>
+                            <label class="btn btn-outline-dark btn-sm" for="gen-{{ $gen }}">{{ ucfirst($gen) }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Color</label>
+                <div class="filter-colors">
+                    @foreach(['blanco', 'negro', 'plata', 'azul', 'dorado'] as $color)
+                        <div class="color-item">
+                            <input type="radio" name="color" value="{{ $color }}" id="color-{{ $color }}" class="btn-check" {{ request('color') == $color ? 'checked' : '' }}>
+                            <label class="color-pill color-{{ $color }}" for="color-{{ $color }}"
+                                title="{{ ucfirst($color) }}"></label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Material</label>
+                <select name="material" class="filter-select">
+                    <option value="">Todos los materiales</option>
+                    @foreach(['oro', 'acero', 'plata', 'perla'] as $mat)
+                        <option value="{{ $mat }}" {{ request('material') == $mat ? 'selected' : '' }}>{{ ucfirst($mat) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Precio: <span id="precioMinValor">{{ request('precio_min', 0) }}</span>€ - <span
+                        id="precioMaxValor">{{ request('precio_max', 1000) }}</span>€</label>
+                <div class="range-slider-container">
+                    <input type="range" name="precio_min" id="precioMin" min="0" max="1000"
+                        value="{{ request('precio_min', 0) }}" class="form-range">
+                    <input type="range" name="precio_max" id="precioMax" min="0" max="1000"
+                        value="{{ request('precio_max', 1000) }}" class="form-range">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Talla</label>
+                <input type="text" name="talla" class="form-control" placeholder="Ej: 16, 50cm, S..."
+                    value="{{ request('talla') }}">
+            </div>
+
+            <div class="panel-footer">
+                <a href="{{ route('joyas.index', $categoria) }}" class="btn-limpiar">Limpiar</a>
+                <button type="submit" class="btn-aplicar">Aplicar Filtros</button>
+            </div>
+        </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Doble slider de precio
-            const precioMinInput = document.getElementById('precioMin');
-            const precioMaxInput = document.getElementById('precioMax');
-            const precioMinValor = document.getElementById('precioMinValor');
-            const precioMaxValor = document.getElementById('precioMaxValor');
+    <div class="panel-ordenar" id="panelOrdenar">
+        <div class="panel-header">
+            <h3>Ordenar por</h3>
+            <button type="button" class="btn-close" id="closeSort"></button>
+        </div>
+        <div class="sort-options-list">
+            <button type="button" class="sort-option {{ request('orden') == 'precio_asc' ? 'active' : '' }}"
+                data-sort-value="precio_asc">
+                <i class="bi bi-sort-numeric-down"></i> Precio: Menor a mayor
+            </button>
+            <button type="button" class="sort-option {{ request('orden') == 'precio_desc' ? 'active' : '' }}"
+                data-sort-value="precio_desc">
+                <i class="bi bi-sort-numeric-up-alt"></i> Precio: Mayor a menor
+            </button>
+            <button type="button" class="sort-option {{ request('orden') == 'ventas' ? 'active' : '' }}"
+                data-sort-value="ventas">
+                <i class="bi bi-fire"></i> Más vendidos
+            </button>
+        </div>
+    </div>
 
-            function updatePriceValues() {
-                let minVal = parseInt(precioMinInput.value);
-                let maxVal = parseInt(precioMaxInput.value);
 
-                if (minVal > maxVal) {
-                    // Cambia los valores si se pasa el min al max
-                    [minVal, maxVal] = [maxVal, minVal];
-                    precioMinInput.value = minVal;
-                    precioMaxInput.value = maxVal;
-                }
-
-                precioMinValor.textContent = minVal;
-                precioMaxValor.textContent = maxVal;
-            }
-
-            precioMinInput.addEventListener('input', updatePriceValues);
-            precioMaxInput.addEventListener('input', updatePriceValues);
-
-            // Inicializamos los valores
-            updatePriceValues();
-
-            // Ordenar
-            const sortOptions = document.querySelectorAll('.sort-option');
-            const ordenInput = document.getElementById('ordenInput');
-            const filterSortForm = document.getElementById('filterSortForm');
-
-            // Logica de que al pulsar en la ordenacion haga submit al de filtros y ordene
-            sortOptions.forEach(button => {
-                button.addEventListener('click', function () {
-                    ordenInput.value = this.dataset.sortValue;
-                    filterSortForm.submit();
-                });
-            });
-        });
-    </script>
+    <div class="panel-overlay" id="panelOverlay"></div>
 
 @endsection

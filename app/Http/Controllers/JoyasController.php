@@ -30,32 +30,44 @@ class JoyasController extends Controller
 
         $query = Producto::where('categoria', $categoriaDB);
 
+        // Búsqueda por texto (desde la barra superior)
+        if ($request->filled('q')) {
+            $busqueda = trim($request->input('q'));
+            $query->where(function ($subquery) use ($busqueda) {
+                $subquery->where('nombre', 'like', "%{$busqueda}%")
+                    ->orWhere('marca', 'like', "%{$busqueda}%")
+                    ->orWhere('descripcion', 'like', "%{$busqueda}%")
+                    ->orWhere('material', 'like', "%{$busqueda}%")
+                    ->orWhere('color', 'like', "%{$busqueda}%");
+            });
+        }
+
         // Filtro marca
         if ($request->filled('marca')) {
-            $query->whereIn('marca', $request->input('marca'));
+            $query->where('marca', $request->input('marca'));
         }
 
         // Filtro género
         if ($request->filled('genero')) {
-            $query->whereIn('genero', $request->input('genero'));
+            $query->where('genero', $request->input('genero'));
         }
 
         // Filtro color
         if ($request->filled('color')) {
-            $query->whereIn('color', $request->input('color'));
+            $query->where('color', $request->input('color'));
         }
 
         // Filtro material
         if ($request->filled('material')) {
-            $query->whereIn('material', $request->input('material'));
+            $query->where('material', $request->input('material'));
         }
 
         // Filtro talla
         if ($request->filled('talla')) {
-            $query->whereIn('talla', $request->input('talla'));
+            $query->where('talla', $request->input('talla'));
         }
 
-        // Filtro rango de precio (usamos has() en vez de filled() porque filled() toma el 0 como vacio)
+        // Filtro rango de precio
         $precioMin = $request->has('precio_min') ? (float) $request->input('precio_min') : 0;
         $precioMax = $request->has('precio_max') ? (float) $request->input('precio_max') : $precioMaximo;
 
@@ -69,6 +81,10 @@ class JoyasController extends Controller
             $query->orderBy('precio', 'asc');
         } elseif ($orden === 'precio_desc') {
             $query->orderBy('precio', 'desc');
+        } elseif ($orden === 'ventas') {
+            $query->orderBy('id', 'desc'); // Placeholder para más vendidos
+        } else {
+            $query->orderBy('fecha_agregado', 'desc');
         }
 
         // appends($request->query()) mantiene los parámetros de la URL al paginar

@@ -80,16 +80,12 @@
 }
 
 // El contenido principal debe tener un padding-top igual a la altura real del header
-// (ajusta este valor tras medir tu header: logo + iconos + nav ≈ 160‑200 px)
 .main-content {
-    padding-top: 180px; // Para que el contenido no se meta debajo del header
-    position: relative;
-    z-index: 1; // Encima del video
+    padding-top: 180px; 
 }
 
-// Header y footer siempre por encima
+// Header y footer 
 header,
 footer {
     position: relative;
-    z-index: 2;
 }
