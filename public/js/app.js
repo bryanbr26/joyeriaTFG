@@ -9686,6 +9686,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_home_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/home.js */ "./resources/js/pages/home.js");
 /* harmony import */ var _pages_joyas_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/joyas-index.js */ "./resources/js/pages/joyas-index.js");
 /* harmony import */ var _pages_show_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/show.js */ "./resources/js/pages/show.js");
+/* harmony import */ var _pages_panel_carrito_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/panel-carrito.js */ "./resources/js/pages/panel-carrito.js");
+
 
 
 
@@ -9702,6 +9704,7 @@ document.addEventListener('DOMContentLoaded', function () {
   (0,_pages_home_js__WEBPACK_IMPORTED_MODULE_3__.initHomeCarousel)();
   (0,_pages_joyas_index_js__WEBPACK_IMPORTED_MODULE_4__.initJoyasIndex)();
   (0,_pages_show_js__WEBPACK_IMPORTED_MODULE_5__.initProductosShow)();
+  (0,_pages_panel_carrito_js__WEBPACK_IMPORTED_MODULE_6__.initPanelCarrito)();
 });
 
 /***/ }),
@@ -10075,6 +10078,66 @@ function initJoyasIndex() {
       });
       dropdown.classList.toggle('open');
     });
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/pages/panel-carrito.js":
+/*!*********************************************!*\
+  !*** ./resources/js/pages/panel-carrito.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initPanelCarrito: () => (/* binding */ initPanelCarrito)
+/* harmony export */ });
+function initPanelCarrito() {
+  var panelCarrito = document.getElementById('panelCarrito');
+  var panelOverlay = document.getElementById('panelOverlayCarrito');
+  var btnClose = document.getElementById('closeCarrito');
+  // We use event delegation or attach directly. For Seguir comprando it might be replaced on DOM update.
+
+  function openPanel() {
+    if (panelCarrito) {
+      panelCarrito.classList.add('activo');
+      if (panelOverlay) {
+        panelOverlay.classList.add('activo');
+      }
+      document.body.style.overflow = 'hidden'; // Evitar scroll
+    }
+  }
+  function closePanel() {
+    if (panelCarrito) {
+      panelCarrito.classList.remove('activo');
+      if (panelOverlay) {
+        panelOverlay.classList.remove('activo');
+      }
+      document.body.style.overflow = ''; // Restaurar scroll
+    }
+  }
+
+  // Escuchar el evento personalizado lanzado cuando se añade a la cesta
+  document.addEventListener('openCartPanel', openPanel);
+
+  // Eventos para cerrar el panel
+  if (btnClose) {
+    btnClose.addEventListener('click', closePanel);
+  }
+  if (panelOverlay) {
+    panelOverlay.addEventListener('click', closePanel);
+  }
+
+  // Delegación de eventos porque los botones pueden ser reemplazados por AJAX
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'btnSeguirComprando') {
+      closePanel();
+    }
+    // Cerrar al pulsar el botón de cerrar dinámico también
+    if (e.target && e.target.id === 'closeCarrito') {
+      closePanel();
+    }
   });
 }
 

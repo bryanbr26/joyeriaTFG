@@ -250,6 +250,8 @@
         </div>
     </section>
 
+    @include('joyas.partials.panel-carrito')
+
 <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Botón añadir a la cesta (Usuario Autenticado)
@@ -282,7 +284,19 @@
                                 if (cartCount && data.totalItems !== undefined) {
                                     cartCount.textContent = data.totalItems;
                                 }
-                                alert(data.message); // Muestra éxito temporalmente
+                                
+                                // Update panel html if provided
+                                if (data.cartHtml) {
+                                    const tempDiv = document.createElement('div');
+                                    tempDiv.innerHTML = data.cartHtml;
+                                    const newPanel = tempDiv.querySelector('.panel-carrito');
+                                    if (newPanel) {
+                                        document.getElementById('panelCarrito').innerHTML = newPanel.innerHTML;
+                                    }
+                                }
+                                
+                                // Open the panel by dispatching an event
+                                document.dispatchEvent(new CustomEvent('openCartPanel'));
                             } else {
                                 alert('Error: ' + data.message);
                             }

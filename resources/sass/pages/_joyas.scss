@@ -679,7 +679,8 @@ $transition-bg: background 0.3s ease;
 // PANELES DE FILTRO Y ORDENACIÓN (OFF-CANVAS)
 // ==========================================
 .panel-filtrar,
-.panel-ordenar {
+.panel-ordenar,
+.panel-carrito {
     position: fixed;
     top: 0;
     right: -80vh; // Oculto por defecto
@@ -1153,7 +1154,8 @@ $transition-bg: background 0.3s ease;
 @media (max-width: 768px) {
 
     .panel-filtrar,
-    .panel-ordenar {
+    .panel-ordenar,
+    .panel-carrito {
         width: 100%;
         right: -100%;
         padding: 1.5rem;

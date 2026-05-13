@@ -22057,7 +22057,8 @@ body.home-page header .nav-link {
 }
 
 .panel-filtrar,
-.panel-ordenar {
+.panel-ordenar,
+.panel-carrito {
   position: fixed;
   top: 0;
   right: -80vh;
@@ -22073,11 +22074,13 @@ body.home-page header .nav-link {
   overflow-y: auto;
 }
 .panel-filtrar.activo,
-.panel-ordenar.activo {
+.panel-ordenar.activo,
+.panel-carrito.activo {
   right: 0;
 }
 .panel-filtrar .panel-header,
-.panel-ordenar .panel-header {
+.panel-ordenar .panel-header,
+.panel-carrito .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22087,7 +22090,9 @@ body.home-page header .nav-link {
 }
 .panel-filtrar .panel-header h3, .panel-filtrar .panel-header .h3,
 .panel-ordenar .panel-header h3,
-.panel-ordenar .panel-header .h3 {
+.panel-ordenar .panel-header .h3,
+.panel-carrito .panel-header h3,
+.panel-carrito .panel-header .h3 {
   font-size: 1rem;
   font-weight: 500;
   margin: 0;
@@ -22095,12 +22100,14 @@ body.home-page header .nav-link {
   text-transform: uppercase;
 }
 .panel-filtrar .panel-header .btn-close,
-.panel-ordenar .panel-header .btn-close {
+.panel-ordenar .panel-header .btn-close,
+.panel-carrito .panel-header .btn-close {
   background-size: 0.8rem;
   transition: transform 0.3s ease;
 }
 .panel-filtrar .panel-header .btn-close:hover,
-.panel-ordenar .panel-header .btn-close:hover {
+.panel-ordenar .panel-header .btn-close:hover,
+.panel-carrito .panel-header .btn-close:hover {
   transform: rotate(90deg);
 }
 
@@ -22474,7 +22481,8 @@ body.home-page header .nav-link {
 
 @media (max-width: 768px) {
   .panel-filtrar,
-  .panel-ordenar {
+  .panel-ordenar,
+  .panel-carrito {
     width: 100%;
     right: -100%;
     padding: 1.5rem;

@@ -4,6 +4,7 @@ import { initNavbar } from './components/navbar.js';
 import { initHomeCarousel } from './pages/home.js';
 import { initJoyasIndex } from './pages/joyas-index.js';
 import { initProductosShow } from './pages/show.js';
+import { initPanelCarrito } from './pages/panel-carrito.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar componentes globales
@@ -15,4 +16,5 @@ document.addEventListener('DOMContentLoaded', function () {
     initHomeCarousel();
     initJoyasIndex();
     initProductosShow();
+    initPanelCarrito();
 });
