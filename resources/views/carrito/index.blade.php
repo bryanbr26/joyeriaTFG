@@ -4,130 +4,27 @@
 
 @section("content")
 
-<style>
-    .carrito-bg {
-        background-color: #f8f9fa;
-        min-height: 80vh;
-        padding: 40px 0;
-    }
-    
-    .item-box {
-        border: 2px solid #dee2e6;
-        background-color: transparent;
-        padding: 20px;
-        margin-bottom: 30px;
-        display: flex;
-        gap: 20px;
-    }
+<div class="fondo-carrito">
+    <div class="carrito-bg">
 
-    .item-image {
-        background-color: white;
-        border: 1px solid #e9ecef;
-        width: 150px;
-        height: 150px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .item-details {
-        background-color: white;
-        border: 1px solid #e9ecef;
-        flex-grow: 1;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .qty-control {
-        display: flex;
-        align-items: center;
-        gap: 0;
-    }
-
-    .qty-control button {
-        width: 32px;
-        height: 32px;
-        border: 1px solid #dee2e6;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .qty-control button:hover {
-        background-color: #f8f9fa;
-    }
-
-    .qty-control button:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
-
-    .qty-control .qty-value {
-        width: 40px;
-        height: 32px;
-        border-top: 1px solid #dee2e6;
-        border-bottom: 1px solid #dee2e6;
-        border-left: none;
-        border-right: none;
-        text-align: center;
-        font-weight: 600;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: white;
-    }
-
-    /* Responsividad básica */
-    @media (max-width: 768px) {
-        .item-box {
-            flex-direction: column;
-        }
-        .item-image {
-            width: 100%;
-            height: 200px;
-        }
-    }
-</style>
-
-<div class="carrito-bg">
-    <div class="container">
-        
-        <!-- Botones superiores -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="javascript:history.back()" class="btn btn-outline-dark">
-                <i class="bi bi-arrow-left me-2"></i>Volver atrás
-            </a>
-            <a href="{{ route('pedidos.index') }}" class="btn btn-outline-dark">
-                <i class="bi bi-clock-history me-2"></i>Historial de pedidos
-            </a>
-        </div>
-
-        <h2 class="text-dark text-center mb-4" style="font-family: 'Italiana', serif;">Tu Cesta</h2>
+        <h2 class="titulo-cesta">Tu Cesta</h2>
 
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show mb-4">
+            <div class="alert alert-success">
                 {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show mb-4">
+            <div class="alert alert-danger">
                 {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
             </div>
         @endif
 
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
+        <div class="carrito-grid">
+            <div class="cart-items">
                 
                 @forelse($items as $item)
                     <div class="item-box" id="item-{{ $item->id }}">
@@ -135,50 +32,49 @@
                         <div class="item-image">
                             @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
                                 <img src="{{ asset('storage/' . $item->producto->ruta_grabado) }}" 
-                                     alt="{{ $item->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                                     alt="{{ $item->producto->nombre }}" class="img-full">
                             @else
-                                <i class="bi bi-gem text-muted" style="font-size: 3rem;"></i>
+                                <i class="bi bi-gem text-muted icon-placeholder"></i>
                             @endif
                         </div>
 
                         <!-- Detalles Container -->
                         <div class="item-details">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="fw-bold mb-1">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <h5 class="item-title">
                                         {{ $item->producto->nombre }}
                                         @if($item->ruta_grabado_personalizado)
-                                            <span class="badge bg-dark ms-2" style="font-size: 0.65rem;">
-                                                <i class="bi bi-brush me-1"></i>Personalizado
+                                            <span class="badge-personalizado">
+                                                <i class="bi bi-brush"></i>Personalizado
                                             </span>
                                         @endif
                                     </h5>
-                                    <p class="text-muted small mb-0">{{ Str::limit($item->producto->descripcion, 70) }}</p>
+                                    <p class="item-desc">{{ Str::limit($item->producto->descripcion, 70) }}</p>
                                     @if($item->ruta_grabado_personalizado && file_exists(public_path('storage/' . $item->ruta_grabado_personalizado)))
-                                        <a href="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" target="_blank" class="d-inline-block mt-2">
-                                            <img src="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" alt="Grabado" 
-                                                 style="height: 50px; border: 1px solid #dee2e6; border-radius: 4px;">
-                                            <small class="d-block text-muted">Ver grabado</small>
+                                        <a href="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" target="_blank" class="grabado-link">
+                                            <img src="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" alt="Grabado" class="grabado-img">
+                                            <small>Ver grabado</small>
                                         </a>
                                     @endif
                                 </div>
-                                <div class="text-end ms-3">
-                                    <div class="fw-bold fs-5" style="white-space: nowrap;" id="subtotal-{{ $item->id }}">
+                                <div class="item-precio">
+                                    <div class="precio-total" id="subtotal-{{ $item->id }}">
                                         {{ number_format($item->producto->precio * $item->cantidad, 2) }}€
                                     </div>
-                                    <small class="text-muted">{{ number_format($item->producto->precio, 2) }}€/ud</small>
+                                    <small class="precio-unitario">{{ number_format($item->producto->precio, 2) }}€/ud</small>
                                 </div>
                             </div>
                             
-                            <div class="d-flex justify-content-between align-items-end mt-4">
+                            <div class="item-footer">
                                 <form action="{{ route('carrito.eliminar', $item->id) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este producto?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold">Eliminar</button>
+                                    <button type="submit" class="btn-eliminar">Eliminar</button>
                                 </form>
                                 
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="fw-semibold text-muted small">Cantidad</span>
+                                <div class="cantidad-control">
+                                    <span class="cantidad-label">Cantidad</span>
                                     <div class="qty-control">
                                         <button type="button" class="btn-qty-minus" 
                                                 data-item-id="{{ $item->id }}"
@@ -189,34 +85,49 @@
                                                 data-max-stock="{{ $item->maxDisponible }}"
                                                 {{ $item->cantidad >= $item->maxDisponible ? 'disabled' : '' }}>+</button>
                                     </div>
-                                    <small class="text-muted" id="stock-info-{{ $item->id }}">({{ $item->maxDisponible }} máx.)</small>
+                                    <small class="stock-info" id="stock-info-{{ $item->id }}">({{ $item->maxDisponible }} máx.)</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="text-center p-5 text-muted" style="border: 2px dashed #ced4da;">
+                    <div class="cesta-vacia">
                         <h4>Tu cesta está vacía</h4>
-                        <a href="{{ route('index') }}" class="btn btn-dark mt-3">Seguir comprando</a>
+                        <a href="{{ route('index') }}" class="btn-seguir-comprando">Seguir comprando</a>
                     </div>
                 @endforelse
 
-                @if($items->count() > 0)
-                    <!-- Total y Checkout -->
-                    <div class="text-center mt-4 mb-2">
-                        <p class="fs-5 fw-semibold text-muted mb-1">Total: <span class="text-dark" id="totalPrice">{{ number_format($totalPrice, 2) }}€</span></p>
-                    </div>
-                    <div class="d-flex justify-content-center mt-2 mb-4">
+            </div>
+
+            @if($items->count() > 0)
+                <!-- Panel de Pago -->
+                <div class="cart-pago">
+                    <div class="checkout-section">
+                        <div class="total-label">
+                            <p class="total-title">Resumen del pedido</p>
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <span class="total-amount">{{ number_format($totalPrice, 2) }}€</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Envío:</span>
+                                <span>3,50€</span>
+                            </div>
+                            <div class="total-row total-final">
+                                <span>Total:</span>
+                                <span class="total-amount">{{ number_format($totalPrice + 3.50, 2) }}€</span>
+                            </div>
+                        </div>
                         <form action="{{ route('carrito.checkout') }}" method="POST" onsubmit="return confirm('¿Confirmar compra por {{ number_format($totalPrice, 2) }}€?')">
                             @csrf
-                            <button type="submit" class="btn btn-dark btn-lg px-5 py-3 rounded-0 fw-bold fs-5 shadow" style="min-width: 300px;">
-                                <i class="bi bi-bag-check me-2"></i>Pasar por caja [<span id="totalItems">{{ $totalItems }}</span>]
+                            <button type="submit" class="btn-checkout">
+                                <i class="bi bi-bag-check"></i>Pago 
                             </button>
                         </form>
                     </div>
-                @endif
+                </div>
+            @endif
                 
-            </div>
         </div>
     </div>
 </div>
