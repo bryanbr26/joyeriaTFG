@@ -1,0 +1,42 @@
+# Dependencias (se instalan dentro del contenedor)
+/node_modules
+/vendor
+
+# Git
+/.git
+/.gitattributes
+/.gitignore
+
+# Entorno y secrets
+/.env
+/.env.*
+!.env.example
+
+# Laravel storage, symlinks y caches
+/public/storage
+/storage/*.key
+/storage/framework/cache/**
+/storage/framework/sessions/**
+/storage/framework/views/**
+/storage/logs/**
+/bootstrap/cache/**
+
+# Docker
+/docker-compose*.yml
+/Dockerfile
+/.docker
+
+# IDEs y OS
+/.idea
+/.vscode
+/.vagrant
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs y temporales
+npm-debug.log
+yarn-error.log
+composer.lock.bak

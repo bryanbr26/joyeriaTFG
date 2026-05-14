@@ -7,6 +7,77 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Joyas Pérez </title>
 
+    <!-- Precarga del logo para el loader -->
+    <link rel="preload" href="{{ asset('images/logo.svg') }}" as="image">
+
+    <!-- CSS crítico inline: loader -->
+    <style>
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
+        }
+
+        #page-loader.loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            width: 150px;
+            height: auto;
+            animation: loaderPulse 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 576px) {
+            .loader-logo {
+                width: 110px;
+            }
+        }
+
+        .loader-spinner {
+            width: 36px;
+            height: 36px;
+            margin-top: 24px;
+            border: 3px solid rgba(0, 0, 0, 0.08);
+            border-top-color: #c9a96e;
+            border-radius: 50%;
+            animation: loaderSpin 1s linear infinite;
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes loaderSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Noscript: ocultar loader inmediatamente */
+        noscript #page-loader {
+            display: none !important;
+        }
+    </style>
+
     <!-- Bootstrap CSS (compilado desde app.scss) -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
@@ -32,10 +103,20 @@
 
 <body class="{{ Route::is('index') ? 'home-page' : '' }}">
 
+    <!-- Page Loader -->
+    <div id="page-loader" aria-hidden="true">
+        <img src="{{ asset('images/logo.svg') }}" alt="Joyas Pérez" class="loader-logo" aria-hidden="true">
+        <div class="loader-spinner" aria-hidden="true"></div>
+    </div>
+
+    <noscript>
+        <style>#page-loader { display: none !important; }</style>
+    </noscript>
+
     @if(Route::is('index'))
         <div class="hero-wrapper">
             <div class="video-background">
-                <video autoplay muted loop playsinline>
+                <video autoplay muted loop playsinline preload="metadata" poster="{{ asset('images/joyas/banner-1.png') }}" id="hero-video">
                     <source src="{{ asset('images/videos/video-fondo-home.mp4') }}" type="video/mp4">
                 </video>
                 <div class="video-overlay"></div>

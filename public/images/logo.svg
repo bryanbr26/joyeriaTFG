@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" width="400" height="80">
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+        font-family="'Italiana', 'Playfair Display', 'Georgia', serif"
+        font-size="42" font-weight="400" fill="#1a1a1a" letter-spacing="4">
+    JOYAS PÉREZ
+  </text>
+  <line x1="80" y1="62" x2="320" y2="62" stroke="#c9a96e" stroke-width="1.5"/>
+</svg>

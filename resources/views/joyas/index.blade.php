@@ -50,8 +50,12 @@
                             <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
-                                            alt="{{ $producto->nombre }}">
+                                        <img src="{{ $producto->placeholder }}"
+                                             data-src="{{ $producto->imagenUrl('medium') }}"
+                                             loading="lazy"
+                                             decoding="async"
+                                             class="lazy-image blur-up producto-imagen"
+                                             alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
                                             <i class="bi bi-gem icono-placeholder"></i>
@@ -81,8 +85,12 @@
                             <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
-                                            alt="{{ $producto->nombre }}">
+                                        <img src="{{ $producto->placeholder }}"
+                                             data-src="{{ $producto->imagenUrl('medium') }}"
+                                             loading="lazy"
+                                             decoding="async"
+                                             class="lazy-image blur-up producto-imagen"
+                                             alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
                                             <i class="bi bi-gem icono-placeholder"></i>
@@ -114,8 +122,11 @@
                                 <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
                                     <div class="producto-card">
                                         @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
-                                                alt="{{ $producto->nombre }}">
+                                            <img src="{{ $producto->placeholder }}"
+                                                 data-src="{{ $producto->imagenUrl('medium') }}"
+                                                 class="lazy-image blur-up producto-imagen"
+                                                 alt="{{ $producto->nombre }}"
+                                                 loading="lazy" decoding="async">
                                         @else
                                             <div class="producto-imagen--placeholder">
                                                 <i class="bi bi-gem icono-placeholder"></i>
@@ -158,8 +169,12 @@
                             <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
-                                            alt="{{ $producto->nombre }}">
+                                        <img src="{{ $producto->placeholder }}"
+                                             data-src="{{ $producto->imagenUrl('medium') }}"
+                                             loading="lazy"
+                                             decoding="async"
+                                             class="lazy-image blur-up producto-imagen"
+                                             alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
                                             <i class="bi bi-gem icono-placeholder"></i>

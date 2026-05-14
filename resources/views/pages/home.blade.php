@@ -23,7 +23,7 @@
 @section('content')
     <section class="section-uno animar-seccion-izquierda">
         <div class="contenedor-img animar-entrada-izquierda">
-            <img src="{{ asset('images/joyas/banner-1.png') }}" alt="Colección exclusiva de joyas artesanales">
+            <img src="{{ asset('images/joyas/banner-1.png') }}" alt="Colección exclusiva de joyas artesanales" loading="lazy" decoding="async">
         </div>
         <div class="contenedor-titulos">
             <h1>Arte y elegancia en cada pieza</h1>
@@ -41,18 +41,18 @@
             </p>
         </div>
         <div class="contenedor-animacion animar-entrada-derecha">
-            <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="Anillos de oro y plata artesanales">
+            <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="Anillos de oro y plata artesanales" loading="lazy" decoding="async">
         </div>
     </section>
     <section class="section-tres">
         <div class="contenedor-coleccion-uno animar-entrada-arriba">
-            <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="Colección de collares elegantes">
+            <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="Colección de collares elegantes" loading="lazy" decoding="async">
             <h3>Colección 1</h3>
             <a href="{{ route('joyas.index', 'collares') }}" class="btn-coleccion">Descúbrelo</a>
              
         </div>
         <div class="contenedor-coleccion-dos animar-entrada-arriba-retrasada">
-            <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="Colección de pulseras exclusivas">
+            <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="Colección de pulseras exclusivas" loading="lazy" decoding="async">
             <h3>Colección 2</h3>
             <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-coleccion">Descúbrelo</a>
         </div>
@@ -60,22 +60,22 @@
     <section class="section-cuatro">
         <div class="carrusel-joyas">
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="Anillos exclusivos">
+                <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="Anillos exclusivos" loading="lazy" decoding="async">
                 <h3>Anillos</h3>
                 <a href="{{ route('joyas.index', 'anillos') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="Pendientes elegantes">
+                <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="Pendientes elegantes" loading="lazy" decoding="async">
                 <h3>Pendientes</h3>
                 <a href="{{ route('joyas.index', 'pendientes') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="Collares refinados">
+                <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="Collares refinados" loading="lazy" decoding="async">
                 <h3>Collares</h3>
                 <a href="{{ route('joyas.index', 'collares') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="Pulseras artesanales">
+                <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="Pulseras artesanales" loading="lazy" decoding="async">
                 <h3>Pulseras</h3>
                 <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-carrusel">Descúbrelo</a>
             </div>

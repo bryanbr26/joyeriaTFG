@@ -3218,11 +3218,205 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/mega-menu.js */ "./resources/js/components/mega-menu.js");
 /* harmony import */ var _components_buscador_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/buscador.js */ "./resources/js/components/buscador.js");
 /* harmony import */ var _components_navbar_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/navbar.js */ "./resources/js/components/navbar.js");
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 
 
 
 
+
+// ==========================================================
+// Loader – Lógica completa de espera y ocultación
+// ==========================================================
+var loaderHidden = false;
+var LOADER_TIMEOUT = 8000; // 8 segundos máximo (fallback de seguridad)
+
+function hideLoader() {
+  if (loaderHidden) return;
+  loaderHidden = true;
+  var loader = document.getElementById('page-loader');
+  if (!loader) return;
+
+  // Agregar clase de salida para transición suave
+  loader.classList.add('loader-hidden');
+
+  // Avisar a lectores de pantalla
+  loader.removeAttribute('aria-hidden');
+  loader.setAttribute('role', 'alert');
+  loader.setAttribute('aria-live', 'polite');
+  loader.setAttribute('aria-label', 'Página completamente cargada');
+
+  // Eliminar del DOM tras la animación (700ms inline CSS + margen)
+  setTimeout(function () {
+    loader.style.display = 'none';
+  }, 750);
+}
+
+/**
+ * Espera a que un elemento multimedia (video/audio) esté listo.
+ */
+function waitForMedia(media) {
+  return new Promise(function (resolve) {
+    if (!media) return resolve();
+    if (media.readyState >= 2) return resolve(); // HAVE_CURRENT_DATA
+
+    var _onReady = function onReady() {
+      media.removeEventListener('loadedmetadata', _onReady);
+      media.removeEventListener('canplay', _onReady);
+      media.removeEventListener('error', _onReady);
+      resolve();
+    };
+    media.addEventListener('loadedmetadata', _onReady);
+    media.addEventListener('canplay', _onReady);
+    media.addEventListener('error', _onReady); // No bloquear por error
+  });
+}
+
+/**
+ * Espera a que todas las imágenes con src real (no placeholders lazy)
+ * que están en el viewport inicial terminen de cargar.
+ * También espera las imágenes eager.
+ */
+function waitForVisibleImages() {
+  return new Promise(function (resolve) {
+    var allImages = Array.from(document.querySelectorAll('img'));
+    var viewportH = window.innerHeight || document.documentElement.clientHeight;
+    var criticalImages = allImages.filter(function (img) {
+      // Ignorar imágenes sin src o con src de placeholder SVG inline
+      if (!img.src || img.src.startsWith('data:image/svg+xml')) return false;
+
+      // Si tiene data-src y NO está en el viewport, no es crítica ahora
+      if (img.dataset.src) {
+        var rect = img.getBoundingClientRect();
+        var inViewport = rect.top < viewportH && rect.bottom > 0;
+        return inViewport;
+      }
+
+      // Imágenes con loading="eager" o sin lazy explícito son críticas
+      return img.loading !== 'lazy';
+    });
+    if (criticalImages.length === 0) return resolve();
+    var pending = criticalImages.length;
+    var onDone = function onDone() {
+      pending--;
+      if (pending <= 0) resolve();
+    };
+    criticalImages.forEach(function (img) {
+      if (img.complete && img.naturalWidth > 0) {
+        onDone();
+      } else {
+        img.addEventListener('load', onDone, {
+          once: true
+        });
+        img.addEventListener('error', onDone, {
+          once: true
+        });
+      }
+    });
+
+    // Fallback por si alguna imagen nunca dispara evento
+    setTimeout(resolve, 3000);
+  });
+}
+
+/**
+ * Espera a que los scripts con defer se hayan ejecutado.
+ * En la práctica, cuando DOMContentLoaded + window.onload han pasado,
+ * los scripts defer ya corrieron. Pero verificamos explícitamente
+ * que los componentes globales estén inicializados.
+ */
+function waitForDeferredScripts() {
+  return new Promise(function (resolve) {
+    // Los scripts defer corren después de DOMContentLoaded y antes de window.onload
+    // Si window.onload ya pasó, estamos seguros.
+    if (document.readyState === 'complete') return resolve();
+    window.addEventListener('load', resolve, {
+      once: true
+    });
+  });
+}
+
+/**
+ * Pipeline de carga completa.
+ */
+function initLoader() {
+  return _initLoader.apply(this, arguments);
+} // Iniciar pipeline del loader inmediatamente
+function _initLoader() {
+  _initLoader = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+    var startTime, timeoutId, heroVideo, elapsed, _t;
+    return _regenerator().w(function (_context) {
+      while (1) switch (_context.p = _context.n) {
+        case 0:
+          startTime = performance.now(); // 1. Timeout máximo de seguridad (fallback)
+          timeoutId = setTimeout(function () {
+            if (!loaderHidden) {
+              console.warn('[Loader] Timeout de 8 segundos alcanzado. Ocultando loader forzosamente.');
+              hideLoader();
+            }
+          }, LOADER_TIMEOUT);
+          _context.p = 1;
+          if (!(document.readyState === 'loading')) {
+            _context.n = 2;
+            break;
+          }
+          _context.n = 2;
+          return new Promise(function (r) {
+            return document.addEventListener('DOMContentLoaded', r, {
+              once: true
+            });
+          });
+        case 2:
+          _context.n = 3;
+          return waitForDeferredScripts();
+        case 3:
+          if (!(document.fonts && document.fonts.ready)) {
+            _context.n = 4;
+            break;
+          }
+          _context.n = 4;
+          return document.fonts.ready;
+        case 4:
+          _context.n = 5;
+          return waitForVisibleImages();
+        case 5:
+          // Paso 5: Video listo (metadata suficiente para reproducir)
+          heroVideo = document.getElementById('hero-video');
+          _context.n = 6;
+          return waitForMedia(heroVideo);
+        case 6:
+          _context.n = 7;
+          return new Promise(function (r) {
+            return setTimeout(r, 400);
+          });
+        case 7:
+          clearTimeout(timeoutId);
+          hideLoader();
+          elapsed = Math.round(performance.now() - startTime);
+          console.log("[Loader] Ocultado tras ".concat(elapsed, "ms."));
+          _context.n = 9;
+          break;
+        case 8:
+          _context.p = 8;
+          _t = _context.v;
+          clearTimeout(timeoutId);
+          console.error('[Loader] Error en pipeline de carga:', _t);
+          hideLoader();
+        case 9:
+          return _context.a(2);
+      }
+    }, _callee, null, [[1, 8]]);
+  }));
+  return _initLoader.apply(this, arguments);
+}
+initLoader();
+
+// ==========================================================
+// Lazy loading de imágenes con Intersection Observer
+// ==========================================================
 document.addEventListener('DOMContentLoaded', function () {
   // Inicializar componentes globales
   (0,_components_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.initMegaMenu)();
@@ -3236,8 +3430,7 @@ function initLazyLoading() {
   if (!('IntersectionObserver' in window)) {
     // Fallback: cargar todas las imágenes inmediatamente
     document.querySelectorAll('img[data-src]').forEach(function (img) {
-      img.src = img.dataset.src;
-      img.removeAttribute('data-src');
+      loadLazyImage(img);
     });
     return;
   }
@@ -3245,20 +3438,45 @@ function initLazyLoading() {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         var img = entry.target;
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-          img.removeAttribute('data-src');
-        }
+        loadLazyImage(img);
         observer.unobserve(img);
       }
     });
   }, {
-    rootMargin: '50px 0px',
+    rootMargin: '100px 0px',
     threshold: 0.01
   });
   document.querySelectorAll('img[data-src]').forEach(function (img) {
     imageObserver.observe(img);
   });
+}
+
+/**
+ * Carga una imagen lazy con efecto blur-up.
+ * Si la imagen tiene la clase .blur-up, espera a que cargue para quitar el desenfoque.
+ */
+function loadLazyImage(img) {
+  if (!img.dataset.src) {
+    return;
+  }
+  var newSrc = img.dataset.src;
+  if (img.classList.contains('blur-up')) {
+    var tempImg = new Image();
+    tempImg.onload = function () {
+      img.src = newSrc;
+      img.classList.add('loaded');
+      img.removeAttribute('data-src');
+    };
+    tempImg.onerror = function () {
+      img.src = newSrc;
+      img.classList.add('loaded');
+      img.removeAttribute('data-src');
+    };
+    tempImg.src = newSrc;
+  } else {
+    img.src = newSrc;
+    img.removeAttribute('data-src');
+  }
 }
 
 /***/ }),

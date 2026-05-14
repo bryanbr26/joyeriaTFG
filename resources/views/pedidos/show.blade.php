@@ -105,8 +105,11 @@
                         <!-- Imagen -->
                         <div class="detalle-image">
                             @if($detalle->producto && $detalle->producto->ruta_grabado && file_exists(public_path('storage/' . $detalle->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $detalle->producto->ruta_grabado) }}" 
-                                     alt="{{ $detalle->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                                <img src="{{ $detalle->producto->placeholder }}"
+                                     data-src="{{ $detalle->producto->imagenUrl('small') }}"
+                                     alt="{{ $detalle->producto->nombre }}" class="lazy-image blur-up img-fluid"
+                                     style="object-fit: cover; width: 100%; height: 100%;"
+                                     loading="lazy" decoding="async">
                             @else
                                 <i class="bi bi-gem text-muted" style="font-size: 2rem;"></i>
                             @endif

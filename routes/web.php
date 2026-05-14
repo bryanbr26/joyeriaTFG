@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JoyasController;
 use App\Http\Controllers\RegalosController;
 use App\Http\Controllers\PersonalizaController;
@@ -17,6 +18,12 @@ use App\Http\Controllers\PedidoController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
+
+// Ruta de imágenes optimizadas
+Route::get('/img/{size}/{path}', [ImageController::class, 'show'])
+    ->where('size', 'thumbnail|small|medium|large|placeholder|webp')
+    ->where('path', '.*')
+    ->name('imagen.optimizada');
 
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');

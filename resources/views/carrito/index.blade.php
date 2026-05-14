@@ -31,8 +31,10 @@
                         <!-- Img Container -->
                         <div class="item-image">
                             @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $item->producto->ruta_grabado) }}" 
-                                     alt="{{ $item->producto->nombre }}" class="img-full">
+                                <img src="{{ $item->producto->placeholder }}"
+                                     data-src="{{ $item->producto->imagenUrl('small') }}"
+                                     alt="{{ $item->producto->nombre }}" class="lazy-image blur-up img-full"
+                                     loading="lazy" decoding="async">
                             @else
                                 <i class="bi bi-gem text-muted icon-placeholder"></i>
                             @endif

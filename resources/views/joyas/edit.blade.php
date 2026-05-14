@@ -79,7 +79,7 @@
             <label for="imagen" class="form-label">Imagen del producto</label>
             @if($producto->ruta_grabado)
                 <div class="mb-2">
-                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded">
+                    <img src="{{ $producto->imagenUrl('thumbnail') }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded" loading="lazy">
                     <small class="d-block text-muted">Imagen actual</small>
                 </div>
             @endif

@@ -19,7 +19,7 @@
             <div class="producto-detalle-imagen">
                 <div class="contenedor-imagen-principal">
                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-principal-producto" alt="{{ $producto->nombre }}">
+                        <img src="{{ $producto->imagenUrl('large') }}" class="imagen-principal-producto" alt="{{ $producto->nombre }}" loading="eager">
                     @else
                         <div class="imagen-placeholder">
                             <i class="bi bi-gem icono-placeholder"></i>
@@ -29,7 +29,7 @@
                 <div class="contenedor-imagenes-miniatura">
                     <div class="imagen-mini">
                         @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                            <img src="{{ $producto->placeholder }}" data-src="{{ $producto->imagenUrl('thumbnail') }}" class="lazy-image blur-up imagen-producto-mini" alt="{{ $producto->nombre }}" loading="lazy" decoding="async">
                         @else
                             <div class="imagen-mini-placeholder">
                                 <i class="bi bi-gem icono-placeholder"></i>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="imagen-mini">
                         @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                            <img src="{{ $producto->placeholder }}" data-src="{{ $producto->imagenUrl('thumbnail') }}" class="lazy-image blur-up imagen-producto-mini" alt="{{ $producto->nombre }}" loading="lazy" decoding="async">
                         @else
                             <div class="imagen-mini-placeholder">
                                 <i class="bi bi-gem icono-placeholder"></i>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="imagen-mini">
                         @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                            <img src="{{ $producto->placeholder }}" data-src="{{ $producto->imagenUrl('thumbnail') }}" class="lazy-image blur-up imagen-producto-mini" alt="{{ $producto->nombre }}" loading="lazy" decoding="async">
                         @else
                             <div class="imagen-mini-placeholder">
                                 <i class="bi bi-gem icono-placeholder"></i>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="imagen-mini">
                         @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="imagen-producto-mini" alt="{{ $producto->nombre }}">
+                            <img src="{{ $producto->placeholder }}" data-src="{{ $producto->imagenUrl('thumbnail') }}" class="lazy-image blur-up imagen-producto-mini" alt="{{ $producto->nombre }}" loading="lazy" decoding="async">
                         @else
                             <div class="imagen-mini-placeholder">
                                 <i class="bi bi-gem icono-placeholder"></i>
@@ -198,8 +198,8 @@
                         <a href="{{ route('joyas.show', [$categoria, $relacionado]) }}" class="producto-enlace">
                             <div class="producto-card">
                                 @if($relacionado->ruta_grabado && file_exists(public_path('storage/' . $relacionado->ruta_grabado)))
-                                    <img src="{{ asset('storage/' . $relacionado->ruta_grabado) }}" class="producto-imagen"
-                                        alt="{{ $relacionado->nombre }}">
+                                    <img src="{{ $relacionado->placeholder }}" data-src="{{ $relacionado->imagenUrl('medium') }}" class="lazy-image blur-up producto-imagen"
+                                        alt="{{ $relacionado->nombre }}" loading="lazy" decoding="async">
                                 @else
                                     <div class="producto-imagen--placeholder">
                                         <i class="bi bi-gem icono-placeholder"></i>

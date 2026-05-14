@@ -52,6 +52,61 @@ class Producto extends Model
         return $this->hasMany(ImagenProducto::class, 'id_producto');
     }
 
+    /**
+     * SVG placeholder por defecto cuando no hay imagen.
+     */
+    protected function placeholderSvg(): string
+    {
+        return 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%22.3em%22 text-anchor=%22middle%22 x=%2250%22 y=%2250%22%3EImagen%3C/text%3E%3C/svg%3E';
+    }
+
+    /**
+     * Genera la URL de la imagen optimizada al tamaño solicitado.
+     *
+     * @param string $tamaño thumbnail|small|medium|large
+     */
+    public function imagenUrl(string $tamaño = 'medium'): string
+    {
+        if (empty($this->ruta_grabado)) {
+            return $this->placeholderSvg();
+        }
+
+        return route('imagen.optimizada', [
+            'size' => $tamaño,
+            'path' => $this->ruta_grabado,
+        ]);
+    }
+
+    /**
+     * Accessor para obtener la URL de la imagen optimizada por defecto.
+     */
+    public function getImagenOptimizadaAttribute(): string
+    {
+        if (empty($this->ruta_grabado)) {
+            return $this->placeholderSvg();
+        }
+
+        return route('imagen.optimizada', [
+            'size' => 'medium',
+            'path' => $this->ruta_grabado,
+        ]);
+    }
+
+    /**
+     * Accessor para obtener la URL del placeholder borroso (LQIP).
+     */
+    public function getPlaceholderAttribute(): string
+    {
+        if (empty($this->ruta_grabado)) {
+            return $this->placeholderSvg();
+        }
+
+        return route('imagen.optimizada', [
+            'size' => 'placeholder',
+            'path' => $this->ruta_grabado,
+        ]);
+    }
+
     //Muestra todos los collares
     public static function mostrarCollares()
     {

@@ -22,8 +22,10 @@
                     <div class="item-grid">
                         <div class="item-panel-image">
                             @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
-                                <img src="{{ asset('storage/' . $item->producto->ruta_grabado) }}" 
-                                     alt="{{ $item->producto->nombre }}" class="item-img">
+                                <img src="{{ $item->producto->placeholder }}"
+                                     data-src="{{ $item->producto->imagenUrl('thumbnail') }}"
+                                     alt="{{ $item->producto->nombre }}" class="lazy-image blur-up item-img"
+                                     loading="lazy" decoding="async">
                             @else
                                 <div class="item-image-placeholder">
                                     <i class="bi bi-gem text-muted fs-4"></i>
