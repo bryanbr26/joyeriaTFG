@@ -99,3 +99,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
     Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
 });
+
+Route::get('/instalar-bd', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return "¡Tablas creadas con éxito!";
+});
