@@ -100,3 +100,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
 });
 
+Route::get('/instalar-bd', function () {
+    // Limpia la caché de rutas para que Laravel detecte esta URL nueva
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    
+    // Ejecuta las migraciones (crea las tablas) en la BD de España
+    // El parámetro --force es obligatorio en entornos de producción
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    
+    return "¡Tablas creadas con éxito en la base de datos de España!";
+});
+
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/ejecutar-seeder', function () {
+    // Añadimos el '--force' => true para que no pregunte nada
+    Artisan::call('db:seed', [
+        '--class' => 'UsuarioSeeder',
+        '--force' => true
+    ]);
+    
+    return '¡UsuarioSeeder ejecutado con éxito por la fuerza! Ya puedes iniciar sesión.';
+});
