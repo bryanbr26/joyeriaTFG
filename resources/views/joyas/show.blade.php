@@ -29,6 +29,7 @@
             <div class="mb-3">
                 @if($producto->imagen_principal_url)
                     <img src="{{ $producto->imagen_principal_url }}"
+                         id="producto-imagen-principal"
                          class="img-fluid rounded w-100" alt="{{ $producto->nombre }}"
                          style="max-height: 450px; object-fit: cover;">
                 @else
@@ -43,8 +44,9 @@
                     @foreach($producto->imagenes as $imagen)
                         <img src="{{ $imagen->url_completa }}"
                              alt="{{ $producto->nombre }}"
-                             class="border rounded"
-                             style="width: 76px; height: 76px; object-fit: cover;">
+                             class="border rounded producto-miniatura"
+                             data-full-src="{{ $imagen->url_completa }}"
+                             style="width: 76px; height: 76px; object-fit: cover; cursor: pointer;">
                     @endforeach
                 </div>
             @endif
@@ -177,6 +179,19 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const imagenPrincipal = document.getElementById('producto-imagen-principal');
+        const miniaturas = document.querySelectorAll('.producto-miniatura');
+
+        miniaturas.forEach(function(miniatura) {
+            miniatura.addEventListener('click', function() {
+                if (!imagenPrincipal) return;
+
+                imagenPrincipal.src = this.dataset.fullSrc;
+                miniaturas.forEach(img => img.classList.remove('border-dark'));
+                this.classList.add('border-dark');
+            });
+        });
+
         // Botón añadir a la cesta (Usuario Autenticado)
         const btnCestaAuth = document.getElementById('btnAnadirCestaAuth');
         if (btnCestaAuth) {

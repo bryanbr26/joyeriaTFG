@@ -74,14 +74,21 @@
             @if($producto && $producto->imagenes->isNotEmpty())
                 <div class="d-flex gap-2 flex-wrap mb-2">
                     @foreach($producto->imagenes as $imagen)
-                        <div>
+                        <div class="border rounded p-2">
                             <img src="{{ $imagen->url_completa }}" alt="{{ $producto->nombre }}" class="admin-product-thumb">
                             @if($imagen->principal)
                                 <span class="badge bg-dark d-block mt-1">Principal</span>
                             @endif
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" name="imagenes_eliminar[]" value="{{ $imagen->id }}" id="eliminar-imagen-{{ $imagen->id }}">
+                                <label class="form-check-label small text-danger" for="eliminar-imagen-{{ $imagen->id }}">
+                                    Eliminar
+                                </label>
+                            </div>
                         </div>
                     @endforeach
                 </div>
+                <small class="text-muted d-block mb-2">Marca las imágenes que quieras eliminar y guarda el producto.</small>
             @endif
             <input type="file" id="imagenes" name="imagenes[]" class="form-control" accept="image/*" multiple {{ $imageRequired ? 'required' : '' }}>
             <small class="text-muted">Puedes subir una o varias imágenes. La primera será la principal. En edición, las nuevas imágenes se añaden a las existentes. JPEG, PNG, GIF o WebP. Máximo 2MB por imagen.</small>
