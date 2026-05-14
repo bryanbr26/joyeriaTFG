@@ -5,10 +5,10 @@
         <div class="hero-content">
             <div class="contenedor-titulos">
                 <div class="titulo">
-                    <h1>What is lorem ipsum?</h1>
+                    <h1>Joyas Pérez</h1>
                 </div>
                 <div class="cont-btn">
-                    <button>Lorem Impsum</button>
+                    <button>Descubre la colección</button>
 
                 </div>
             </div>
@@ -22,22 +22,20 @@
             <img src="{{ asset('images/joyas/banner-1.png') }}" alt="img">
         </div>
         <div class="contenedor-titulos">
-            <h1>What is lorem ipsum?</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vulputate leo neque, in dapibus lorem
-                porttitor ut. Phasellus a tellus congue, porta ante eu, sodales purus. </p>
+            <h1>Joyería con historia y detalle</h1>
+            <p>Seleccionamos piezas elegantes para acompañar momentos especiales: anillos, collares, pulseras y pendientes
+                pensados para regalar, celebrar y recordar.</p>
             <div class="contenedor-btn-text">
-                <button>Lorem Impsum</button>
+                <button>Ver novedades</button>
             </div>
         </div>
     </section>
     <section class="section-dos">
         <div class="contenedor-text">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vulputate leo neque, in dapibus lorem
-                porttitor ut. Phasellus a tellus congue, porta ante eu, sodales purus. Praesent eleifend eleifend arcu
-                consequat fermentum. Nullam ornare ornare leo, vitae facilisis lacus lobortis sagittis. Phasellus
-                sollicitudin magna nisl. In accumsan odio vitae lectus commodo, ut pretium massa pellentesque. Etiam sed
-                ullamcorper enim. Nullam cursus mollis lorem, id mollis diam vestibulum
+                En Joyas Pérez cuidamos cada detalle, desde la elección de materiales hasta la presentación final.
+                Trabajamos con diseños clásicos y actuales para que encuentres una joya que encaje con tu estilo,
+                tu historia y la ocasión que quieres celebrar.
             </p>
         </div>
         <div class="contenedor-animacion">
@@ -47,13 +45,13 @@
     <section class="section-tres">
         <div class="contenedor-coleccion-uno">
             <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="">
-            <h3>Coleccion 1</h3>
-            <button>Descrubelo</button>
+            <h3>Colección elegante</h3>
+            <button>Descúbrelo</button>
         </div>
         <div class="contenedor-coleccion-dos">
             <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="">
-            <h3>Coleccion 2</h3>
-            <button>Descrubelo</button>
+            <h3>Detalles para regalar</h3>
+            <button>Descúbrelo</button>
         </div>
     </section>
     <section class="section-cuatro">
@@ -61,22 +59,22 @@
             <div class="tarjeta">
                 <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="">
                 <h3>Anillos</h3>
-                <button>Descrubelo</button>
+                <button>Descúbrelo</button>
             </div>
             <div class="tarjeta">
                 <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="">
                 <h3>Pendientes</h3>
-                <button>Descrubelo</button>
+                <button>Descúbrelo</button>
             </div>
             <div class="tarjeta">
                 <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="">
                 <h3>Collares</h3>
-                <button>Descrubelo</button>
+                <button>Descúbrelo</button>
             </div>
             <div class="tarjeta">
                 <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="">
                 <h3>Pulseras</h3>
-                <button>Descrubelo</button>
+                <button>Descúbrelo</button>
             </div>
         </div>
     </section>
@@ -85,13 +83,13 @@
             <div class="targeta-icono">
                 <i class="bi bi-box-seam-fill"></i>
                 <div class="texto">
-                    <h4>Devolucion gratuita en 15 dias</h4>
+                    <h4>Devolución gratuita en 15 días</h4>
                 </div>
             </div>
             <div class="targeta-icono">
                 <i class="bi bi-truck"></i>
                 <div class="texto">
-                    <h4>Envio gratis a partir de 40€</h4>
+                    <h4>Envío gratis a partir de 40€</h4>
 
                 </div>
             </div>
