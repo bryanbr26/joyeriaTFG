@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/instalar-bd', function () {
+    \Illuminate\Support\Facades\Artisan::call('route:clear'); // Limpiamos caché por si acaso
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     return "¡Tablas creadas con éxito!";
 });
