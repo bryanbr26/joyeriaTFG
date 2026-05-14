@@ -26,7 +26,7 @@
                     </a>
                 @endauth
                 <!-- boton ubicacion-->
-                <a href="#" class="header-icon-link" title="ubicacion">
+                <a href="{{ route('contacto') }}" class="header-icon-link" title="ubicacion">
                     <i class="bi bi-geo-alt fs-5"></i>
                 </a>
                 <a href="{{ route('favoritos.index') }}" class="header-icon-link" title="Favoritos">

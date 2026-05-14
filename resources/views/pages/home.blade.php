@@ -3,13 +3,11 @@
 @section('hero')
     <div class="hero-section">
         <div class="hero-content">
-            <div class="contenedor-titulos">
+            <div class="contenedor-home-titulos">
                 <div class="titulo">
-                    <h1>Joyería Perez</h1>
-                </div>
-                <div class="cont-btn">
-                    <a href="{{ route('joyas.index', 'anillos') }}" class="btn-hero">Descubre más</a>
-
+                    <h1>Las cuentas doradas se convinan con pierdas preciosas</h1>
+                    <p>Nuestras coleccion de joyas estan diseñada con artesania fina</p>
+                    <a href="{{ route('joyas.index', 'anillos') }}">Explora nuestra coleccion</a>
                 </div>
             </div>
         </div>
@@ -35,11 +33,13 @@
     </section>
     
     <section class="section-dos animar-seccion-derecha">
+
         <div class="contenedor-text">
             <p>
                 Joyas Perez ha sido sinónimo de calidad y distinción. Combinamos técnicas tradicionales con diseños vanguardistas para crear piezas que enamoran a primera vista. Cada anillo, collar y pulsera es elaborado a mano con los más altos estándares de calidad, utilizando oro de 18 quilates, plata esterlina y gemas cuidadosamente seleccionadas. Te invitamos a descubrir una experiencia única donde el lujo y la artesanía se fusionan en perfecta armonía.
             </p>
         </div>
+
         <div class="contenedor-animacion animar-entrada-derecha">
             <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="Anillos de oro y plata artesanales" loading="lazy" decoding="async">
         </div>

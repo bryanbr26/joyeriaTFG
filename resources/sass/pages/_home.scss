@@ -10,50 +10,90 @@
 }
 
 .hero-content {
-    background: #428aa6;
-    background: linear-gradient(356deg, rgba(66, 138, 166, 1) 0%, rgba(42, 51, 50, 0.29) 100%);
-    margin-left: 6%;
-    margin-top: 3%;
+    position: relative;
+    top:3%;
+    left:10%;
     height: 30vh;
     border-radius: 10px;
     width: 80vh;
+   // background: rgba(25, 55, 56, 0.49);
+    border-radius: 55px;
     animation: slideInLeft 1s ease-in-out forwards;
 
 
 }
 
-.contenedor-titulos {
+.contenedor-home-titulos {
     margin-left: 4%;
-    padding: 10px;
     height: 100%;
+    width: 80vh; 
     font-family: $font-logo;
-
+   // border: 2px solid red;
     .titulo {
-        margin-top: 5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         border-radius: 10px;
         padding: 10px;
         width: 35vh;
-        background-color: rgba(115, 204, 199, 0.43);
-
-    }
-
-    .cont-btn {
-        margin-top: 5%;
-
-
-        button {
-            border-radius: 10px;
-            padding: 10px;
-            width: 15vh;
+        gap:0,5rem;
+        h1 {
+            text-align: center;
+            //border:2px solid blue;
+            font-size: 2.5rem;
+            line-height: 1.1;
             color: $light;
-            background-color: rgba(115, 204, 199, 0.43);
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.01em;
+            width: 70vh;
+        }
+        p{
+            text-align: center;
+            font-family: $font-logo;
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.65;
+            color: $light;
+            margin: 0;
+            width: 70vh;
+        }
+        a{
+            text-align: center;
+            text-decoration: none;
+            color: $light;
+            font-size: 1rem;
+            font-family: $font-logo;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            padding: 5px 0;
+
+            &:hover {
+                color: $light;
+                transform: translateX(5px);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $light;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
         }
     }
+
 }
 
-.container {
-    height: 500px;
-}
+
 
 .section-categorias {
     border: 2px solid green;

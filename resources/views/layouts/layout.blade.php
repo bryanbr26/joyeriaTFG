@@ -50,7 +50,7 @@
             height: 36px;
             margin-top: 24px;
             border: 3px solid rgba(0, 0, 0, 0.08);
-            border-top-color: #c9a96e;
+            border-top-color: #707070;
             border-radius: 50%;
             animation: loaderSpin 1s linear infinite;
         }

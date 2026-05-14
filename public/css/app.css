@@ -21022,42 +21022,78 @@ body.home-page header .nav-link {
 }
 
 .hero-content {
-  background: #428aa6;
-  background: linear-gradient(356deg, rgb(66, 138, 166) 0%, rgba(42, 51, 50, 0.29) 100%);
-  margin-left: 6%;
-  margin-top: 3%;
+  position: relative;
+  top: 3%;
+  left: 10%;
   height: 30vh;
   border-radius: 10px;
   width: 80vh;
+  border-radius: 55px;
   animation: slideInLeft 1s ease-in-out forwards;
 }
 
-.contenedor-titulos {
+.contenedor-home-titulos {
   margin-left: 4%;
-  padding: 10px;
   height: 100%;
+  width: 80vh;
   font-family: "Italiana", serif;
 }
-.contenedor-titulos .titulo {
-  margin-top: 5%;
+.contenedor-home-titulos .titulo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
   padding: 10px;
   width: 35vh;
-  background-color: rgba(115, 204, 199, 0.43);
+  gap: 0, 5rem;
 }
-.contenedor-titulos .cont-btn {
-  margin-top: 5%;
-}
-.contenedor-titulos .cont-btn button {
-  border-radius: 10px;
-  padding: 10px;
-  width: 15vh;
+.contenedor-home-titulos .titulo h1, .contenedor-home-titulos .titulo .h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  line-height: 1.1;
   color: #f8f9fa;
-  background-color: rgba(115, 204, 199, 0.43);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.01em;
+  width: 70vh;
 }
-
-.container {
-  height: 500px;
+.contenedor-home-titulos .titulo p {
+  text-align: center;
+  font-family: "Italiana", serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #f8f9fa;
+  margin: 0;
+  width: 70vh;
+}
+.contenedor-home-titulos .titulo a {
+  text-align: center;
+  text-decoration: none;
+  color: #f8f9fa;
+  font-size: 1rem;
+  font-family: "Italiana", serif;
+  transition: all 0.3s ease;
+  display: inline-block;
+  position: relative;
+  padding: 5px 0;
+}
+.contenedor-home-titulos .titulo a:hover {
+  color: #f8f9fa;
+  transform: translateX(5px);
+}
+.contenedor-home-titulos .titulo a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #f8f9fa;
+  transition: width 0.3s ease;
+}
+.contenedor-home-titulos .titulo a:hover::after {
+  width: 100%;
 }
 
 .section-categorias {
@@ -24461,6 +24497,294 @@ body.home-page header .nav-link {
   .contenedor-productos-orfebres,
   .contenedor-ReservarCita {
     padding: 3rem 1.5rem;
+  }
+}
+.contact-hero {
+  position: relative;
+  width: 100%;
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.contact-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/fondos/fondo-orfebreria.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.contact-hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.55);
+}
+.contact-hero__panel {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  padding: 3.5rem 4rem;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid rgba(197, 164, 126, 0.35);
+}
+.contact-hero__panel h1, .contact-hero__panel .h1 {
+  font-family: "Italiana", serif;
+  font-size: 2.4rem;
+  color: #1e1e1e;
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+.contact-hero__panel .contact-subtitle {
+  font-family: "Kaisei Opti", serif;
+  font-size: 1rem;
+  color: #050505;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.contact-hero .contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.contact-hero .contact-info .info-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  color: #444;
+  letter-spacing: 0.5px;
+}
+.contact-hero .contact-info .info-item i {
+  color: #050505;
+  font-size: 1.1rem;
+}
+.contact-hero .contact-info .info-item span {
+  line-height: 1.4;
+}
+
+.contact-atelier {
+  background-color: #f8f9fa;
+  padding: 5rem 0;
+  color: #f8f9fa;
+}
+.contact-atelier .row {
+  align-items: stretch;
+  min-height: 550px;
+}
+.contact-atelier__image .atelier-block {
+  height: 100%;
+  background-color: #25434E;
+  color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.contact-atelier__image .atelier-block::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  width: 80%;
+  height: 80%;
+  border: 1px solid rgba(197, 164, 126, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.contact-atelier__image .atelier-block::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -20%;
+  width: 60%;
+  height: 60%;
+  border: 1px solid rgba(197, 164, 126, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.contact-atelier__image .atelier-block h2, .contact-atelier__image .atelier-block .h2 {
+  font-family: "Italiana", serif;
+  font-size: 2.2rem;
+  color: #f8f9fa;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+.contact-atelier__image .atelier-block p {
+  font-family: "Kaisei Opti", serif;
+  font-size: 1.05rem;
+  color: #b8b6b6;
+  line-height: 1.7;
+  max-width: 340px;
+  position: relative;
+  z-index: 1;
+}
+.contact-atelier__image .atelier-block .atelier-signature {
+  margin-top: 2rem;
+  font-family: "Italiana", serif;
+  font-size: 1.1rem;
+  color: #f8f9fa;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+.contact-atelier__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2.5rem;
+  background: #fff;
+  border-left: 1px solid #e0d5c7;
+}
+.contact-atelier__form .form-header {
+  margin-bottom: 2.5rem;
+}
+.contact-atelier__form .form-header h3, .contact-atelier__form .form-header .h3 {
+  font-family: "Italiana", serif;
+  font-size: 1.6rem;
+  color: #1e1e1e;
+  margin-bottom: 0.5rem;
+}
+.contact-atelier__form .form-header p {
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  color: #777;
+  letter-spacing: 0.5px;
+}
+.contact-atelier__form .form-group-luxury {
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+.contact-atelier__form .form-group-luxury label {
+  display: block;
+  font-family: "Lato", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+.contact-atelier__form .form-group-luxury .luxury-input,
+.contact-atelier__form .form-group-luxury .luxury-select,
+.contact-atelier__form .form-group-luxury .luxury-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e0d5c7;
+  border-radius: 0;
+  padding: 0.6rem 0;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  color: #1e1e1e;
+  transition: border-color 0.3s ease;
+}
+.contact-atelier__form .form-group-luxury .luxury-input:focus,
+.contact-atelier__form .form-group-luxury .luxury-select:focus,
+.contact-atelier__form .form-group-luxury .luxury-textarea:focus {
+  outline: none;
+  border-bottom-color: #050505;
+  box-shadow: none;
+}
+.contact-atelier__form .form-group-luxury .luxury-input::-moz-placeholder, .contact-atelier__form .form-group-luxury .luxury-select::-moz-placeholder, .contact-atelier__form .form-group-luxury .luxury-textarea::-moz-placeholder {
+  color: #bbb;
+}
+.contact-atelier__form .form-group-luxury .luxury-input::placeholder,
+.contact-atelier__form .form-group-luxury .luxury-select::placeholder,
+.contact-atelier__form .form-group-luxury .luxury-textarea::placeholder {
+  color: #bbb;
+}
+.contact-atelier__form .form-group-luxury .luxury-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.contact-atelier__form .btn-luxury-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: #1e1e1e;
+  color: #fff;
+  font-family: "Lato", sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 1rem 3rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 0.5rem;
+}
+.contact-atelier__form .btn-luxury-submit:hover {
+  background: #050505;
+  transform: translateY(-1px);
+}
+.contact-atelier__form .btn-luxury-submit i {
+  font-size: 1rem;
+}
+
+@media (max-width: 991px) {
+  .contact-hero {
+    min-height: 55vh;
+  }
+  .contact-hero__panel {
+    padding: 2.5rem 2rem;
+  }
+  .contact-hero__panel h1, .contact-hero__panel .h1 {
+    font-size: 2rem;
+  }
+  .contact-atelier {
+    padding: 3rem 0;
+  }
+  .contact-atelier__form {
+    border-left: none;
+    border-top: 1px solid #e0d5c7;
+    padding: 2.5rem 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .contact-hero {
+    min-height: 50vh;
+  }
+  .contact-hero__panel {
+    padding: 2rem 1.5rem;
+    width: 95%;
+  }
+  .contact-hero__panel h1, .contact-hero__panel .h1 {
+    font-size: 1.7rem;
+  }
+  .contact-hero__panel .contact-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1.75rem;
+  }
+  .contact-hero .contact-info .info-item {
+    font-size: 0.85rem;
+  }
+  .contact-atelier__image .atelier-block {
+    padding: 2rem 1.5rem;
+  }
+  .contact-atelier__image .atelier-block h2, .contact-atelier__image .atelier-block .h2 {
+    font-size: 1.8rem;
+  }
+  .contact-atelier__form {
+    padding: 2rem 1rem;
+  }
+  .contact-atelier__form .btn-luxury-submit {
+    width: 100%;
+    padding: 1rem 1.5rem;
   }
 }
 .hero-wrapper {
