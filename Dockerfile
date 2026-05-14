@@ -45,4 +45,5 @@ USER www
 WORKDIR /var/www/html
 
 EXPOSE 9000
+RUN php artisan optimize:clear
 CMD ["php-fpm"]

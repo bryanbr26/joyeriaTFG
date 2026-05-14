@@ -12,11 +12,11 @@ class UsuarioSeeder extends Seeder
     {
         DB::table('USUARIO')->insert([
             [
-                'nombre' => 'Ana',
+                'nombre' => 'admin',
                 'rol' => 'admin',
-                'apellidos' => 'García López',
-                'email' => 'ana.garcia@email.com',
-                'password' => Hash::make('password123'),
+                'apellidos' => 'admin admin',
+                'email' => 'admin@admin.com',
+                'password' => Hash::make('adminP4ssw0rd_'),
                 'telefono' => '612345678',
             ],
             [
