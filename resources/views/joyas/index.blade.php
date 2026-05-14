@@ -49,8 +49,8 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
                                         alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
@@ -81,8 +81,8 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
                                         alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
@@ -115,8 +115,8 @@
                         <div class="producto-item">
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
-                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                    @if($producto->imagen_principal_url)
+                                        <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
                                             alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
@@ -160,8 +160,8 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                    <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" class="producto-imagen"
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
                                         alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
@@ -210,6 +210,10 @@
         const precioMaxInput = document.getElementById('precioMax');
         const precioMinValor = document.getElementById('precioMinValor');
         const precioMaxValor = document.getElementById('precioMaxValor');
+
+        if (!precioMinInput || !precioMaxInput || !precioMinValor || !precioMaxValor) {
+            return;
+        }
 
         function updatePriceValues() {
             let minVal = parseInt(precioMinInput.value);

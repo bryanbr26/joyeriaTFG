@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Imagen por defecto
   var imagenDefault = {
-    url: '/images/joyas/default.jpg',
+    url: '/images/joyas/exclusiva.webp',
     texto: 'Descubre nuestra colección exclusiva'
   };
 
@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (botonBuscador) {
     botonBuscador.addEventListener('click', function (e) {
       e.preventDefault();
+      if (!overlayBuscador) return;
       overlayBuscador.classList.add('active');
       document.body.style.overflow = 'hidden'; // Evita scroll del body
 
@@ -179,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Cerrar overlay
   function cerrarOverlay() {
+    if (!overlayBuscador) return;
     overlayBuscador.classList.remove('active');
     document.body.style.overflow = ''; // Restaurar scroll
   }

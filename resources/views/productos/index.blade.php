@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ $producto->id }}</td>
                     <td>
-                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                            <img src="{{ asset('storage/' . $producto->ruta_grabado) }}" alt="{{ $producto->nombre }}" width="60" height="60" style="object-fit: cover;">
+                        @if($producto->imagen_principal_url)
+                            <img src="{{ $producto->imagen_principal_url }}" alt="{{ $producto->nombre }}" width="60" height="60" style="object-fit: cover;">
                         @else
                             <span class="text-muted">Sin imagen</span>
                         @endif

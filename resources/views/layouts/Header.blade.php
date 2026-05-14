@@ -92,7 +92,7 @@
 
                                 <!-- Columna Derecha: Imagen dinámica -->
                                 <div class="img-drop-down">
-                                    <img id="categoria-imagen" src="{{ asset('images/joyas/default.jpg') }}"
+                                    <img id="categoria-imagen" src="{{ asset('images/joyas/exclusiva.webp') }}"
                                         alt="Categoría destacada">
                                     <div class="imagen-texto">Pasa el mouse sobre una categoría</div>
                                 </div>
