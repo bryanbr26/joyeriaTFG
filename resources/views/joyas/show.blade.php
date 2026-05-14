@@ -139,8 +139,8 @@
                             <span>Añadir a la cesta</span>
                         </button>
                     @else
-                        <button class="btn-carrito" id="btnAnadirCestaGuest" 
-                            onclick="abrirModal('loginModal')"                            
+                        <button class="btn-carrito" id="btnAnadirCestaGuest"
+                            data-modal-target="loginModal"
                                 {{ $producto->stock <= 0 ? 'disabled' : '' }}>
                             <i class="bi bi-cart-plus"></i>
                             <span>Añadir a la cesta</span>
@@ -156,8 +156,8 @@
                             <i class="bi {{ $esFavorito ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                         </button>
                     @else
-                        <button class="btn-favorito" id="btnFavoritoGuest" 
-                            onclick="abrirModal('loginModal')"
+                        <button class="btn-favorito" id="btnFavoritoGuest"
+                            data-modal-target="loginModal"
                             title="Añadir a favoritos">
                             <i class="bi bi-heart"></i>
                         </button>
@@ -177,7 +177,7 @@
         <div class="modal-contenido">
             <div class="modal-header">
                 <h5 class="modal-titulo">Inicia sesión</h5>
-                <button class="modal-cerrar" onclick="cerrarModal('loginModal')">✕</button>
+                <button class="modal-cerrar" data-modal-close>✕</button>
             </div>
             <div class="modal-body">
                 <i class="bi bi-person-lock modal-icono"></i>
@@ -252,103 +252,9 @@
 
     @include('joyas.partials.panel-carrito')
 
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Botón añadir a la cesta (Usuario Autenticado)
-            const btnCestaAuth = document.getElementById('btnAnadirCestaAuth');
-            if (btnCestaAuth) {
-                btnCestaAuth.addEventListener('click', function () {
-                    const url = this.dataset.url;
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                    // Deshabilitar botón temporalmente para evitar doble click
-                    this.disabled = true;
-                    const originalHTML = this.innerHTML;
-                    this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Añadiendo...';
-
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            this.disabled = false;
-                            this.innerHTML = originalHTML;
-
-                            if (data.success) {
-                                const cartCount = document.getElementById('cart-count');
-                                if (cartCount && data.totalItems !== undefined) {
-                                    cartCount.textContent = data.totalItems;
-                                }
-                                
-                                // Update panel html if provided
-                                if (data.cartHtml) {
-                                    const tempDiv = document.createElement('div');
-                                    tempDiv.innerHTML = data.cartHtml;
-                                    const newPanel = tempDiv.querySelector('.panel-carrito');
-                                    if (newPanel) {
-                                        document.getElementById('panelCarrito').innerHTML = newPanel.innerHTML;
-                                    }
-                                }
-                                
-                                // Open the panel by dispatching an event
-                                document.dispatchEvent(new CustomEvent('openCartPanel'));
-                            } else {
-                                alert('Error: ' + data.message);
-                            }
-                        })
-                        .catch(err => {
-                            this.disabled = false;
-                            this.innerHTML = originalHTML;
-                            console.error('Error:', err);
-                            alert('Hubo un error al añadir a la cesta.');
-                        });
-                });
-            }
-
-            // Botón favorito (Usuario Autenticado) - AJAX toggle
-            const btnFav = document.getElementById('btnFavorito');
-            if (btnFav) {
-                btnFav.addEventListener('click', function () {
-                    const url = this.dataset.url;
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    const icon = this.querySelector('i');
-
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                if (data.favorito) {
-                                    // Añadido a favoritos
-                                    icon.classList.remove('bi-heart');
-                                    icon.classList.add('bi-heart-fill', 'text-danger');
-                                } else {
-                                    // Eliminado de favoritos
-                                    icon.classList.remove('bi-heart-fill', 'text-danger');
-                                    icon.classList.add('bi-heart');
-                                }
-                            } else {
-                                alert('Error: ' + data.message);
-                            }
-                        })
-                        .catch(err => {
-                            console.error('Error:', err);
-                            alert('Hubo un error al actualizar favoritos.');
-                        });
-                });
-            }
-        });
-    </script>
-
 @endsection
+
+@push('scripts')
+    <script src="{{ mix('js/pages/panel-carrito.js') }}" defer></script>
+    <script src="{{ mix('js/pages/show.js') }}" defer></script>
+@endpush

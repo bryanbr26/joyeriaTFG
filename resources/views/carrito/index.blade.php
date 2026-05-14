@@ -132,79 +132,8 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        function actualizarCantidad(itemId, nuevaCantidad) {
-            fetch(`/carrito/${itemId}/cantidad`, {
-                method: 'PATCH',
-                headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ cantidad: nuevaCantidad })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    // Actualizar cantidad mostrada del item modificado
-                    document.getElementById('qty-' + itemId).textContent = data.cantidad;
-                    // Actualizar subtotal del item
-                    document.getElementById('subtotal-' + itemId).textContent = data.subtotal + '€';
-                    // Actualizar total general
-                    document.getElementById('totalPrice').textContent = data.totalPrice + '€';
-                    document.getElementById('totalItems').textContent = data.totalItems;
-                    const cartCount = document.getElementById('cart-count');
-                    if (cartCount) {
-                        cartCount.textContent = data.totalItems;
-                    }
-
-                    // Actualizar botones de TODAS las líneas del mismo producto
-                    if (data.itemsActualizados) {
-                        data.itemsActualizados.forEach(function(linea) {
-                            const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${linea.id}"]`);
-                            const plusBtn = document.querySelector(`.btn-qty-plus[data-item-id="${linea.id}"]`);
-                            const stockInfo = document.getElementById('stock-info-' + linea.id);
-
-                            if (minusBtn) minusBtn.disabled = (linea.cantidad <= 1);
-                            if (plusBtn) {
-                                plusBtn.dataset.maxStock = linea.maxDisponible;
-                                plusBtn.disabled = (linea.cantidad >= linea.maxDisponible);
-                            }
-                            if (stockInfo) stockInfo.textContent = '(' + linea.maxDisponible + ' máx.)';
-                        });
-                    }
-                }
-            })
-            .catch(err => {
-                console.error('Error:', err);
-            });
-        }
-
-        // Botones de incrementar/decrementar cantidad
-        document.querySelectorAll('.btn-qty-minus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                const currentQty = parseInt(document.getElementById('qty-' + itemId).textContent);
-                if (currentQty > 1) {
-                    actualizarCantidad(itemId, currentQty - 1);
-                }
-            });
-        });
-
-        document.querySelectorAll('.btn-qty-plus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                const currentQty = parseInt(document.getElementById('qty-' + itemId).textContent);
-                const maxStock = parseInt(this.dataset.maxStock);
-                if (currentQty < maxStock) {
-                    actualizarCantidad(itemId, currentQty + 1);
-                }
-            });
-        });
-    });
-</script>
+@push('scripts')
+    <script src="{{ mix('js/pages/panel-carrito.js') }}" defer></script>
+@endpush
 
 @endsection

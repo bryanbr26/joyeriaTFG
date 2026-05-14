@@ -1,0 +1,590 @@
+// ============================================
+// PÁGINA: ORFEBRERÍA
+// ============================================
+
+// Variables locales
+$color-oro: #c9a96e;
+$color-oro-claro: #e8d5b5;
+$color-fondo-oscuro: #1a1a1a;
+$color-texto-claro: #f5f5f5;
+$color-texto-muted: #a0a0a0;
+$transition-smooth: all 0.4s ease;
+
+// ============================================
+// 1. CONTENEDOR IMAGEN PRINCIPAL
+// ============================================
+.contenedor-imagenPrincipal {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+}
+
+.imagen-principal-wrapper {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 700px;
+    overflow: hidden;
+
+    .imagen-principal {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .imagen-principal-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icono-placeholder {
+            font-size: 5rem;
+            color: $color-oro;
+            opacity: 0.6;
+        }
+    }
+
+    .imagen-principal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .titulo-orfebreria {
+        font-family: 'Italiana', serif;
+        font-size: 4rem;
+        color: $color-texto-claro;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .subtitulo-orfebreria {
+        font-family: 'Lato', sans-serif;
+        font-size: 1.25rem;
+        color: $color-oro-claro;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+    }
+}
+
+// ============================================
+// 2. CONTENEDOR INFORMATIVO
+// ============================================
+.contenedor-Informativo {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-image: url('/images/fondos/fondo-madera.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 5rem 2rem;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 26, 26, 0.85);
+    }
+}
+
+.informativo-grid {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.informativo-imagen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+    .img-informativa {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: $transition-smooth;
+    }
+
+    &:hover .img-informativa {
+        transform: scale(1.05);
+    }
+
+    .informativo-imagen-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icono-placeholder {
+            font-size: 4rem;
+            color: $color-oro;
+            opacity: 0.5;
+        }
+    }
+}
+
+.informativo-texto {
+    color: $color-texto-claro;
+    padding: 1rem;
+
+    .informativo-titulo {
+        font-family: 'Italiana', serif;
+        font-size: 2.5rem;
+        color: $color-oro;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.05em;
+    }
+
+    .informativo-parrafo {
+        font-family: 'Lato', sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: $color-texto-muted;
+        margin-bottom: 1rem;
+    }
+}
+
+// ============================================
+// 3. CONTENEDOR PRODUCTOS ORFEBRES
+// ============================================
+.contenedor-productos-orfebres {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background: $color-fondo-oscuro;
+    padding: 5rem 2rem;
+    overflow: hidden;
+
+    .productos-orfebres-titulo {
+        font-family: 'Italiana', serif;
+        font-size: 2.5rem;
+        color: $color-oro;
+        text-align: center;
+        margin-bottom: 4rem;
+        letter-spacing: 0.1em;
+    }
+}
+
+.productos-orfebres-marco {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 700px;
+
+    .orfebre-imagen {
+        position: absolute;
+        overflow: hidden;
+        border-radius: 4px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: $transition-smooth;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: $transition-smooth;
+        }
+
+        &:hover {
+            z-index: 10;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+
+            img {
+                transform: scale(1.08);
+            }
+        }
+
+        .orfebre-imagen-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .icono-placeholder {
+                font-size: 2.5rem;
+                color: $color-oro;
+                opacity: 0.5;
+            }
+        }
+    }
+
+    // Posiciones desordenadas para crear marco no estático
+    .orfebre-imagen-1 {
+        top: 0;
+        left: 5%;
+        width: 280px;
+        height: 320px;
+        z-index: 2;
+    }
+
+    .orfebre-imagen-2 {
+        top: 8%;
+        right: 10%;
+        width: 240px;
+        height: 280px;
+        z-index: 3;
+    }
+
+    .orfebre-imagen-3 {
+        top: 35%;
+        left: 30%;
+        width: 300px;
+        height: 220px;
+        z-index: 4;
+    }
+
+    .orfebre-imagen-4 {
+        bottom: 10%;
+        left: 8%;
+        width: 250px;
+        height: 260px;
+        z-index: 2;
+    }
+
+    .orfebre-imagen-5 {
+        bottom: 5%;
+        right: 5%;
+        width: 320px;
+        height: 300px;
+        z-index: 3;
+    }
+}
+
+// ============================================
+// 4. CONTENEDOR RESERVAR CITA
+// ============================================
+.contenedor-ReservarCita {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+    padding: 5rem 2rem;
+}
+
+.reservar-cita-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+
+    .reservar-cita-titulo {
+        font-family: 'Italiana', serif;
+        font-size: 2.5rem;
+        color: $color-oro;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+    }
+
+    .reservar-cita-subtitulo {
+        font-family: 'Lato', sans-serif;
+        color: $color-texto-muted;
+        margin-bottom: 3rem;
+        font-weight: 300;
+    }
+}
+
+.form-reservar-cita {
+    text-align: left;
+
+    .form-label {
+        display: block;
+        color: $color-texto-claro;
+        font-family: 'Lato', sans-serif;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+        color: $color-texto-claro;
+        font-family: 'Lato', sans-serif;
+        font-size: 1rem;
+        transition: $transition-smooth;
+
+        &:focus {
+            outline: none;
+            border-color: $color-oro;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
+        }
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+}
+
+.div-proposito {
+    margin-bottom: 2rem;
+
+    .grupo-proposito {
+        border: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+
+        legend {
+            font-family: 'Lato', sans-serif;
+            color: $color-texto-claro;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+    }
+
+    .opciones-radio {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        color: $color-texto-muted;
+        font-family: 'Lato', sans-serif;
+        font-size: 0.95rem;
+        transition: $transition-smooth;
+
+        &:hover {
+            color: $color-texto-claro;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: $transition-smooth;
+
+            &:checked {
+                border-color: $color-oro;
+                background: $color-oro;
+            }
+
+            &:checked::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 6px;
+                height: 6px;
+                background: #fff;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .grupo-motivo {
+        margin-top: 1rem;
+    }
+}
+
+.div-detalles-cita {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.div-comentarios {
+    margin-bottom: 2rem;
+}
+
+.btn-confirmar-cita {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: $color-oro;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:hover {
+        background: darken($color-oro, 8%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(201, 169, 110, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.mensaje-confirmacion {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    border-radius: 4px;
+    text-align: center;
+    animation: fadeInUp 0.5s ease;
+
+    i {
+        font-size: 3rem;
+        color: #28a745;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    p {
+        color: $color-texto-claro;
+        font-family: 'Lato', sans-serif;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+@media (max-width: 992px) {
+    .informativo-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .informativo-imagen {
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .productos-orfebres-marco {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+
+        .orfebre-imagen {
+            position: relative;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 80% !important;
+            max-width: 350px;
+            height: 300px !important;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .imagen-principal-wrapper {
+        height: 50vh;
+        min-height: 300px;
+
+        .titulo-orfebreria {
+            font-size: 2.5rem;
+        }
+
+        .subtitulo-orfebreria {
+            font-size: 1rem;
+        }
+    }
+
+    .div-detalles-cita {
+        grid-template-columns: 1fr;
+    }
+
+    .opciones-radio {
+        flex-direction: column;
+        gap: 0.75rem !important;
+    }
+
+    .contenedor-Informativo,
+    .contenedor-productos-orfebres,
+    .contenedor-ReservarCita {
+        padding: 3rem 1.5rem;
+    }
+}

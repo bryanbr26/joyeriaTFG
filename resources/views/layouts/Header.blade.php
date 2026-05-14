@@ -16,9 +16,15 @@
                 <a id="boton-buscador" style="cursor: pointer;" class="header-icon-link" title="Buscador"><i
                         class="bi bi-search fs-5"></i></a>
                 <!-- boton gestion usuarios-->
-                <a href="{{ route('login') }}" class="header-icon-link" title="Gestión Usuarios">
-                    <i class="bi bi-person fs-5"></i>
-                </a>
+                @auth
+                    <a href="{{ route('panel.usuario') }}" class="header-icon-link" title="Mi Cuenta">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="header-icon-link" title="Gestión Usuarios">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
+                @endauth
                 <!-- boton ubicacion-->
                 <a href="#" class="header-icon-link" title="ubicacion">
                     <i class="bi bi-geo-alt fs-5"></i>

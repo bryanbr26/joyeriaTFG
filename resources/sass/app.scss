@@ -40,6 +40,9 @@
 @import 'pages/joyas';
 @import 'pages/show';
 @import 'pages/carrito';
+@import 'pages/panel-usuario';
+@import 'pages/favoritos';
+@import 'pages/orfebreria';
 //@import 'pages/productos';
 //@import 'pages/carrito';
 //@import 'pages/contacto';
@@ -83,7 +86,7 @@
 
 // El contenido principal debe tener un padding-top igual a la altura real del header
 .main-content {
-    padding-top: 80px;
+    padding-top: 50px;
 }
 
 // Header y footer 

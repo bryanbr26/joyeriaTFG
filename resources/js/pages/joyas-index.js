@@ -1,4 +1,8 @@
-export function initJoyasIndex() {
+if (document.getElementById('page-joyas')) {
+    initJoyasIndex();
+}
+
+function initJoyasIndex() {
     // Toggles de Paneles
     const botonFilter = document.getElementById('boton-filter');
     const botonOrdenar = document.getElementById('boton-ordenar');
@@ -108,5 +112,3 @@ export function initJoyasIndex() {
         });
     });
 }
-
-

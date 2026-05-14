@@ -326,3 +326,7 @@
     <div class="panel-overlay" id="panelOverlay"></div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ mix('js/pages/joyas-index.js') }}" defer></script>
+@endpush

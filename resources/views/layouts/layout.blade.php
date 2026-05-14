@@ -9,8 +9,6 @@
 
     <!-- Bootstrap CSS (compilado desde app.scss) -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <!-- Bootstrap js -->
-    <script src="{{ mix('js/app.js') }}"></script>
 
     <!-- Bootstrap Icons (ya incluidos en app.css) -->
     <!-- estilos css personalizados -->
@@ -29,6 +27,7 @@
         href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Italiana&family=JetBrains+Mono:ital,wght@1,500&family=Kaisei+Opti&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Magra:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
+    @stack('styles')
 </head>
 
 <body class="{{ Route::is('index') ? 'home-page' : '' }}">
@@ -37,7 +36,7 @@
         <div class="hero-wrapper">
             <div class="video-background">
                 <video autoplay muted loop playsinline>
-                    <source src="{{ asset('images/videos/video-banner.mp4') }}" type="video/mp4">
+                    <source src="{{ asset('images/videos/video-fondo-home.mp4') }}" type="video/mp4">
                 </video>
                 <div class="video-overlay"></div>
             </div>
@@ -59,6 +58,12 @@
     @endif
 
     @include("layouts.Footer")
+
+    <!-- Scripts globales -->
+    <script src="{{ mix('js/manifest.js') }}" defer></script>
+    <script src="{{ mix('js/vendor.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
+
     @stack('scripts')
 </body>
 

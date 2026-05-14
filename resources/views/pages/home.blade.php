@@ -5,78 +5,79 @@
         <div class="hero-content">
             <div class="contenedor-titulos">
                 <div class="titulo">
-                    <h1>What is lorem ipsum?</h1>
+                    <h1>Joyería Perez</h1>
                 </div>
                 <div class="cont-btn">
-                    <button>Lorem Impsum</button>
+                    <a href="{{ route('joyas.index', 'anillos') }}" class="btn-hero">Descubre más</a>
 
                 </div>
             </div>
         </div>
     </div>
+@push('scripts')
+    <script src="{{ mix('js/pages/home.js') }}" defer></script>
+@endpush
+
 @endsection
 
 @section('content')
-    <section class="section-uno">
-        <div class="contenedor-img">
-            <img src="{{ asset('images/joyas/banner-1.png') }}" alt="img">
+    <section class="section-uno animar-seccion-izquierda">
+        <div class="contenedor-img animar-entrada-izquierda">
+            <img src="{{ asset('images/joyas/banner-1.png') }}" alt="Colección exclusiva de joyas artesanales">
         </div>
         <div class="contenedor-titulos">
-            <h1>What is lorem ipsum?</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vulputate leo neque, in dapibus lorem
-                porttitor ut. Phasellus a tellus congue, porta ante eu, sodales purus. </p>
+            <h1>Arte y elegancia en cada pieza</h1>
+            <p>En Joyas Perez transformamos metales preciosos y gemas exclusivas en joyas únicas que cuentan historias. Cada diseño refleja décadas de tradición orfebre y una pasión inquebrantable por la excelencia. Descubre piezas que perduran para siempre.</p>
             <div class="contenedor-btn-text">
-                <button>Lorem Impsum</button>
+                <a href="{{ route('joyas.index', 'anillos') }}" class="btn-seccion">Ver colección</a>
             </div>
         </div>
     </section>
-    <section class="section-dos">
+    
+    <section class="section-dos animar-seccion-derecha">
         <div class="contenedor-text">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vulputate leo neque, in dapibus lorem
-                porttitor ut. Phasellus a tellus congue, porta ante eu, sodales purus. Praesent eleifend eleifend arcu
-                consequat fermentum. Nullam ornare ornare leo, vitae facilisis lacus lobortis sagittis. Phasellus
-                sollicitudin magna nisl. In accumsan odio vitae lectus commodo, ut pretium massa pellentesque. Etiam sed
-                ullamcorper enim. Nullam cursus mollis lorem, id mollis diam vestibulum
+                Joyas Perez ha sido sinónimo de calidad y distinción. Combinamos técnicas tradicionales con diseños vanguardistas para crear piezas que enamoran a primera vista. Cada anillo, collar y pulsera es elaborado a mano con los más altos estándares de calidad, utilizando oro de 18 quilates, plata esterlina y gemas cuidadosamente seleccionadas. Te invitamos a descubrir una experiencia única donde el lujo y la artesanía se fusionan en perfecta armonía.
             </p>
         </div>
-        <div class="contenedor-animacion">
-            <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="">
+        <div class="contenedor-animacion animar-entrada-derecha">
+            <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="Anillos de oro y plata artesanales">
         </div>
     </section>
     <section class="section-tres">
-        <div class="contenedor-coleccion-uno">
-            <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="">
-            <h3>Coleccion 1</h3>
-            <button>Descrubelo</button>
+        <div class="contenedor-coleccion-uno animar-entrada-arriba">
+            <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="Colección de collares elegantes">
+            <h3>Colección 1</h3>
+            <a href="{{ route('joyas.index', 'collares') }}" class="btn-coleccion">Descúbrelo</a>
+             
         </div>
-        <div class="contenedor-coleccion-dos">
-            <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="">
-            <h3>Coleccion 2</h3>
-            <button>Descrubelo</button>
+        <div class="contenedor-coleccion-dos animar-entrada-arriba-retrasada">
+            <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="Colección de pulseras exclusivas">
+            <h3>Colección 2</h3>
+            <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-coleccion">Descúbrelo</a>
         </div>
     </section>
     <section class="section-cuatro">
         <div class="carrusel-joyas">
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="">
+                <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="Anillos exclusivos">
                 <h3>Anillos</h3>
-                <button>Descrubelo</button>
+                <a href="{{ route('joyas.index', 'anillos') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="">
+                <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="Pendientes elegantes">
                 <h3>Pendientes</h3>
-                <button>Descrubelo</button>
+                <a href="{{ route('joyas.index', 'pendientes') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="">
+                <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="Collares refinados">
                 <h3>Collares</h3>
-                <button>Descrubelo</button>
+                <a href="{{ route('joyas.index', 'collares') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="">
+                <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="Pulseras artesanales">
                 <h3>Pulseras</h3>
-                <button>Descrubelo</button>
+                <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
         </div>
     </section>
@@ -85,13 +86,13 @@
             <div class="targeta-icono">
                 <i class="bi bi-box-seam-fill"></i>
                 <div class="texto">
-                    <h4>Devolucion gratuita en 15 dias</h4>
+                    <h4>Devolución gratuita en 15 días</h4>
                 </div>
             </div>
             <div class="targeta-icono">
                 <i class="bi bi-truck"></i>
                 <div class="texto">
-                    <h4>Envio gratis a partir de 40€</h4>
+                    <h4>Envío gratis a partir de 40€</h4>
 
                 </div>
             </div>

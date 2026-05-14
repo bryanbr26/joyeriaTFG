@@ -49,7 +49,11 @@ header {
 // ============================================
 // BUSCADOR (HEADER)
 // ============================================
-
+#contenedor-iconos{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 #contenedor-buscador {
     width: 100%;
     grid-column: 1 / 4;

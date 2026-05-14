@@ -4,62 +4,9 @@
 
 @section("content")
 
-<style>
-    .favoritos-bg {
-        background-color: #f8f9fa;
-        min-height: 80vh;
-        padding: 40px 0;
-    }
-    
-    .item-box {
-        border: 2px solid #dee2e6;
-        background-color: transparent;
-        padding: 20px;
-        margin-bottom: 30px;
-        display: flex;
-        gap: 20px;
-    }
-
-    .item-image {
-        background-color: white;
-        border: 1px solid #e9ecef;
-        width: 150px;
-        height: 150px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .item-details {
-        background-color: white;
-        border: 1px solid #e9ecef;
-        flex-grow: 1;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    /* Responsividad básica */
-    @media (max-width: 768px) {
-        .item-box {
-            flex-direction: column;
-        }
-        .item-image {
-            width: 100%;
-            height: 200px;
-        }
-    }
-</style>
-
 <div class="favoritos-bg">
-    <div class="container">
+    <div class="container-favoritos">
         
-        <!-- Botón de volver atrás -->
-        <a href="javascript:history.back()" class="btn btn-outline-dark mb-4">
-            <i class="bi bi-arrow-left me-2"></i>Volver atrás
-        </a>
 
         <h2 class="text-dark text-center mb-4" style="font-family: 'Italiana', serif;">Mis Favoritos</h2>
 
@@ -83,7 +30,7 @@
                 @forelse($favoritos as $favorito)
                     <div class="item-box">
                         <!-- Img Container -->
-                        <div class="item-image">
+                        <div class="item-favoritos-image">
                             @if($favorito->producto->ruta_grabado && file_exists(public_path('storage/' . $favorito->producto->ruta_grabado)))
                                 <img src="{{ asset('storage/' . $favorito->producto->ruta_grabado) }}" 
                                      alt="{{ $favorito->producto->nombre }}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
