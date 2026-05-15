@@ -8,10 +8,16 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
+/**
+ * AppServiceProvider - Proveedor de servicios principal de la aplicación.
+ *
+ * Registra y bootea servicios globales como la paginación Bootstrap
+ * y el composer de vistas para el contador del carrito.
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra servicios de la aplicación.
      *
      * @return void
      */
@@ -21,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootea servicios de la aplicación.
+     *
+     * Configura la paginación con Bootstrap y comparte el total de items
+     * del carrito con la vista del header.
      *
      * @return void
      */

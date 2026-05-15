@@ -8,10 +8,18 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * FavoritoController - Gestiona la lista de productos favoritos del usuario.
+ *
+ * Permite marcar/desmarcar favoritos, listarlos, eliminarlos y
+ * transferirlos directamente al carrito de compras.
+ */
 class FavoritoController extends Controller
 {
     /**
      * Muestra la lista de favoritos del usuario logueado.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -28,7 +36,12 @@ class FavoritoController extends Controller
 
     /**
      * Añade o elimina un producto de favoritos (toggle).
+     *
      * Devuelve JSON para peticiones AJAX.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto Producto a alternar en favoritos
+     * @return \Illuminate\Http\JsonResponse
      */
     public function toggle(Request $request, Producto $producto)
     {
@@ -66,6 +79,9 @@ class FavoritoController extends Controller
 
     /**
      * Elimina un favorito por su ID (desde la página de favoritos).
+     *
+     * @param int $id Identificador del favorito
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function eliminar($id)
     {
@@ -77,7 +93,13 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Añade un producto de favoritos al carrito y opcionalmente lo elimina de favoritos.
+     * Añade un producto de favoritos al carrito.
+     *
+     * Si el producto ya está en el carrito incrementa la cantidad.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id Identificador del favorito
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function agregarAlCarrito(Request $request, $id)
     {

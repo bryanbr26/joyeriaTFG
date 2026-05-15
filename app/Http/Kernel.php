@@ -4,12 +4,18 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * Kernel - Núcleo HTTP de la aplicación Laravel.
+ *
+ * Define la pila de middleware global, los grupos de middleware para rutas
+ * web y api, y los middleware de ruta asignables individualmente.
+ */
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * La pila de middleware HTTP global de la aplicación.
      *
-     * These middleware are run during every request to your application.
+     * Estos middleware se ejecutan en cada solicitud.
      *
      * @var array<int, class-string|string>
      */
@@ -24,7 +30,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * Los grupos de middleware de rutas de la aplicación.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -47,9 +53,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware.
+     * Los middleware de ruta de la aplicación.
      *
-     * These middleware may be assigned to groups or used individually.
+     * Estos middleware pueden asignarse a grupos o usarse individualmente.
      *
      * @var array<string, class-string|string>
      */

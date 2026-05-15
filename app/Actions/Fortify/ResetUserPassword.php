@@ -7,14 +7,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
 
+/**
+ * ResetUserPassword - Acción de Fortify para restablecer la contraseña olvidada.
+ *
+ * Valida la nueva contraseña y la guarda de forma segura hasheada.
+ */
 class ResetUserPassword implements ResetsUserPasswords
 {
     use PasswordValidationRules;
 
     /**
-     * Validate and reset the user's forgotten password.
+     * Valida y restablece la contraseña olvidada del usuario.
      *
-     * @param  array<string, string>  $input
+     * @param \App\Models\User $user Usuario a actualizar
+     * @param array<string, string> $input Datos del formulario de reset
+     * @return void
      */
     public function reset(User $user, array $input): void
     {

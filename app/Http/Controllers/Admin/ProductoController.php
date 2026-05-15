@@ -8,8 +8,20 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * ProductoController (Admin) - Gestión completa del catálogo de productos.
+ *
+ * Permite listar con búsqueda, crear, editar, actualizar stock y eliminar
+ * productos junto con el manejo de sus imágenes en S3.
+ */
 class ProductoController extends Controller
 {
+    /**
+     * Muestra el listado paginado de productos con filtros de búsqueda y categoría.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $productos = Producto::query()
@@ -31,11 +43,22 @@ class ProductoController extends Controller
         return view('admin.productos.index', compact('productos'));
     }
 
+    /**
+     * Muestra el formulario de creación de producto.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.productos.create');
     }
 
+    /**
+     * Almacena un nuevo producto en el catálogo.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $datos = $this->validateProducto($request, true);
@@ -48,6 +71,12 @@ class ProductoController extends Controller
         return redirect()->route('admin.productos.index')->with('success', 'Producto creado correctamente.');
     }
 
+    /**
+     * Muestra el formulario de edición de un producto.
+     *
+     * @param \App\Models\Producto $producto Producto a editar
+     * @return \Illuminate\View\View
+     */
     public function edit(Producto $producto)
     {
         $producto->load('imagenes');
@@ -55,6 +84,13 @@ class ProductoController extends Controller
         return view('admin.productos.edit', compact('producto'));
     }
 
+    /**
+     * Actualiza un producto existente y sincroniza sus imágenes.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto Producto a actualizar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Producto $producto)
     {
         $datos = $this->validateProducto($request, false);
@@ -69,6 +105,13 @@ class ProductoController extends Controller
         return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado correctamente.');
     }
 
+    /**
+     * Actualiza únicamente el stock de un producto.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto Producto a actualizar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateStock(Request $request, Producto $producto)
     {
         $request->validate([
@@ -80,6 +123,12 @@ class ProductoController extends Controller
         return back()->with('success', 'Stock actualizado correctamente.');
     }
 
+    /**
+     * Elimina un producto y todas sus imágenes asociadas.
+     *
+     * @param \App\Models\Producto $producto Producto a eliminar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Producto $producto)
     {
         $this->deleteProductoImages($producto);
@@ -88,6 +137,13 @@ class ProductoController extends Controller
         return redirect()->route('admin.productos.index')->with('success', 'Producto eliminado correctamente.');
     }
 
+    /**
+     * Valida los datos de un producto según si es creación o edición.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param bool $creating Indica si es una creación (true) o edición (false)
+     * @return array Datos validados
+     */
     private function validateProducto(Request $request, bool $creating): array
     {
         return $request->validate([
@@ -109,6 +165,13 @@ class ProductoController extends Controller
         ]);
     }
 
+    /**
+     * Elimina las imágenes seleccionadas de un producto.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto
+     * @return void
+     */
     private function deleteSelectedProductoImages(Request $request, Producto $producto): void
     {
         $imageIds = $request->input('imagenes_eliminar', []);
@@ -127,6 +190,13 @@ class ProductoController extends Controller
         }
     }
 
+    /**
+     * Almacena las imágenes subidas para un producto en S3.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto
+     * @return void
+     */
     private function storeProductoImages(Request $request, Producto $producto): void
     {
         if (!$request->hasFile('imagenes')) {
@@ -149,6 +219,12 @@ class ProductoController extends Controller
         }
     }
 
+    /**
+     * Elimina todas las imágenes de un producto incluyendo los archivos en S3.
+     *
+     * @param \App\Models\Producto $producto
+     * @return void
+     */
     private function deleteProductoImages(Producto $producto): void
     {
         foreach ($producto->imagenes as $imagen) {
@@ -157,6 +233,12 @@ class ProductoController extends Controller
         }
     }
 
+    /**
+     * Elimina el archivo de imagen de S3 si no es una URL externa.
+     *
+     * @param \App\Models\ImagenProducto $imagen
+     * @return void
+     */
     private function deleteProductoImageFile(ImagenProducto $imagen): void
     {
         if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
@@ -164,6 +246,12 @@ class ProductoController extends Controller
         }
     }
 
+    /**
+     * Sincroniza la imagen principal del producto y actualiza la ruta de grabado.
+     *
+     * @param \App\Models\Producto $producto
+     * @return void
+     */
     private function syncPrincipalImage(Producto $producto): void
     {
         $producto->load('imagenes');

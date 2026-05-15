@@ -14,8 +14,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * CarritoController - Gestiona el carrito de compras y el proceso de checkout.
+ *
+ * Permite añadir productos, actualizar cantidades, eliminar items y
+ * iniciar el pago mediante Redsys, incluyendo control de stock y
+ * grabados personalizados.
+ */
 class CarritoController extends Controller
 {
+    /**
+     * Añade un producto al carrito del usuario autenticado.
+     *
+     * Verifica stock disponible y agrupa items sin personalización.
+     * Devuelve JSON para actualizar la interfaz del panel de carrito.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Producto $producto Producto a añadir
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function agregar(Request $request, Producto $producto)
     {
         // Requerir autenticación
@@ -66,6 +83,11 @@ class CarritoController extends Controller
         ]);
     }
 
+    /**
+     * Muestra la vista del carrito con totales y validación de stock.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function index()
     {
         // Requerir autenticación para ver el carrito
@@ -101,6 +123,12 @@ class CarritoController extends Controller
         return view('carrito.index', compact('items', 'totalPrice', 'totalItems'));
     }
 
+    /**
+     * Elimina un item específico del carrito del usuario.
+     *
+     * @param int $id Identificador del item en el carrito
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function eliminar($id)
     {
         $item = Carrito::where('id', $id)->where('id_usuario', Auth::id())->first();
@@ -111,7 +139,14 @@ class CarritoController extends Controller
     }
 
     /**
-     * Actualizar la cantidad de un item del carrito (AJAX).
+     * Actualiza la cantidad de un item del carrito vía AJAX.
+     *
+     * Valida stock disponible teniendo en cuenta otras líneas del mismo producto
+     * y devuelve los nuevos totales y límites actualizados.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id Identificador del item en el carrito
+     * @return \Illuminate\Http\JsonResponse
      */
     public function actualizarCantidad(Request $request, $id)
     {
@@ -187,7 +222,13 @@ class CarritoController extends Controller
     }
 
     /**
-     * Pasar por caja: crear pedido pendiente y redirigir a Redsys.
+     * Procesa el checkout: crea pedido pendiente y redirige a Redsys.
+     *
+     * Ejecuta dentro de una transacción para garantizar consistencia de stock,
+     * crea el pedido, los detalles, el registro de pago y vacía el carrito.
+     *
+     * @param \App\Services\RedsysService $redsys Servicio de integración con Redsys
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function checkout(RedsysService $redsys)
     {

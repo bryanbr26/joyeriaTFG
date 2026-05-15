@@ -6,8 +6,16 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 
+/**
+ * ImageService - Servicio de procesamiento y optimización de imágenes.
+ *
+ * Genera versiones redimensionadas, placeholders borrosos (LQIP) y
+ * conversiones a WebP/JPEG con cacheo en disco para mejorar el rendimiento
+ * de carga de imágenes del catálogo.
+ */
 class ImageService
 {
+    /** @var array<string, int> Mapa de tamaños de salida en píxeles de ancho */
     const SIZES = [
         'thumbnail' => 150,
         'small'     => 300,
@@ -15,10 +23,13 @@ class ImageService
         'large'     => 1200,
     ];
 
+    /** @var string Directorio relativo de cache dentro de storage/app/public */
     const CACHE_DIR = 'cache';
 
     /**
      * Determina si WebP está soportado por la instalación GD/Imagick.
+     *
+     * @return bool
      */
     protected function webpSupported(): bool
     {
@@ -27,6 +38,8 @@ class ImageService
 
     /**
      * Obtiene el formato de salida preferido y su extensión.
+     *
+     * @return array [string $extension, string $mimeType]
      */
     protected function outputFormat(): array
     {
@@ -39,6 +52,9 @@ class ImageService
     /**
      * Resuelve la ruta física absoluta de una imagen dada su ruta relativa pública.
      * Busca primero en storage/app/public/ y luego en public/
+     *
+     * @param string $path Ruta relativa de la imagen
+     * @return string|null Ruta absoluta o null si no existe
      */
     protected function resolvePath(string $path): ?string
     {
@@ -61,6 +77,11 @@ class ImageService
 
     /**
      * Genera la ruta relativa de cache para una imagen procesada.
+     *
+     * @param string $path Ruta original
+     * @param string $suffix Sufijo identificativo del procesamiento
+     * @param string $extension Extensión de salida
+     * @return string Ruta relativa del archivo cacheado
      */
     protected function cachePath(string $path, string $suffix, string $extension): string
     {
@@ -75,6 +96,9 @@ class ImageService
 
     /**
      * Obtiene la ruta física completa del archivo cacheado.
+     *
+     * @param string $cachePath Ruta relativa del cache
+     * @return string Ruta absoluta
      */
     protected function cachedFilePath(string $cachePath): string
     {

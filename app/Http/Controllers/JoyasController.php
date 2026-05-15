@@ -6,9 +6,20 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * JoyasController - Gestiona el catálogo público de joyas por categoría.
+ *
+ * Permite listar, filtrar, buscar y paginar productos del catálogo
+ * (collares, anillos, pulseras, pendientes) con filtros avanzados.
+ */
 class JoyasController extends Controller
 {
-    // Mapa de rutas a categorías de la BBDD
+    /**
+     * Mapa de rutas amigables a categorías de la base de datos.
+     *
+     * @param string $categoria Nombre de categoría en la URL
+     * @return string Nombre de categoría en la base de datos
+     */
     private function getCategoriaDB($categoria)
     {
         $mapa = [
@@ -20,16 +31,36 @@ class JoyasController extends Controller
         return $mapa[$categoria] ?? $categoria;
     }
 
+    /**
+     * Muestra el listado completo de joyas sin filtro de categoría.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
     public function indexAll(Request $request)
     {
         return $this->listado($request, null);
     }
 
+    /**
+     * Muestra el listado de joyas filtrado por categoría.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $categoria Categoría de la URL (collares|anillos|pulseras|pendientes)
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request, $categoria)
     {
         return $this->listado($request, $categoria);
     }
 
+    /**
+     * Construye la consulta de productos con filtros, búsqueda y ordenación.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string|null $categoria Categoría opcional
+     * @return \Illuminate\View\View
+     */
     private function listado(Request $request, $categoria = null)
     {
         $categoriaDB = $this->getCategoriaDB($categoria);
@@ -154,12 +185,25 @@ class JoyasController extends Controller
         ));
     }
 
+    /**
+     * Muestra el formulario de creación de una joya en una categoría.
+     *
+     * @param string $categoria Categoría de la URL
+     * @return \Illuminate\View\View
+     */
     public function create($categoria)
     {
         $titulo = ucfirst($categoria);
         return view('joyas.create', compact('categoria', 'titulo'));
     }
 
+    /**
+     * Almacena una nueva joya en el catálogo.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $categoria Categoría de la URL
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request, $categoria)
     {
         $categoriaDB = $this->getCategoriaDB($categoria);
@@ -189,6 +233,13 @@ class JoyasController extends Controller
         return redirect()->route('joyas.index', $categoria)->with('success', ucfirst($categoriaDB) . ' creado correctamente.');
     }
 
+    /**
+     * Muestra el formulario de edición de una joya.
+     *
+     * @param string $categoria Categoría de la URL
+     * @param \App\Models\Producto $producto Producto a editar
+     * @return \Illuminate\View\View
+     */
     public function edit($categoria, Producto $producto)
     {
         $producto->load('imagenes');
@@ -196,6 +247,14 @@ class JoyasController extends Controller
         return view('joyas.edit', compact('producto', 'categoria', 'titulo'));
     }
 
+    /**
+     * Actualiza una joya existente en el catálogo.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $categoria Categoría de la URL
+     * @param \App\Models\Producto $producto Producto a actualizar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $categoria, Producto $producto)
     {
         $request->validate([
@@ -221,6 +280,13 @@ class JoyasController extends Controller
         return redirect()->route('joyas.index', $categoria)->with('success', 'Producto actualizado correctamente.');
     }
 
+    /**
+     * Elimina una joya del catálogo y sus imágenes asociadas.
+     *
+     * @param string $categoria Categoría de la URL
+     * @param \App\Models\Producto $producto Producto a eliminar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($categoria, Producto $producto)
     {
         $this->deleteProductoImages($producto);
@@ -230,6 +296,13 @@ class JoyasController extends Controller
         return redirect()->route('joyas.index', $categoria)->with('success', 'Producto eliminado correctamente.');
     }
 
+    /**
+     * Muestra la ficha de detalle de una joya.
+     *
+     * @param string $categoria Categoría de la URL
+     * @param \App\Models\Producto $producto Producto a mostrar
+     * @return \Illuminate\View\View
+     */
     public function show($categoria, Producto $producto)
     {
         $producto->load('imagenes');
@@ -246,6 +319,9 @@ class JoyasController extends Controller
 
     /**
      * Búsqueda AJAX de productos para el header.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function buscar(Request $request)
     {
@@ -287,4 +363,3 @@ class JoyasController extends Controller
     }
 
 }
-

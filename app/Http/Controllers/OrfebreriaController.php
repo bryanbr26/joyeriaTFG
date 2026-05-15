@@ -7,13 +7,33 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * OrfebreriaController - Gestiona la sección de orfebrería y citas.
+ *
+ * Permite a los visitantes solicitar citas presenciales para encargos,
+ * diseños personalizados, reparaciones, tasaciones y otros servicios.
+ */
 class OrfebreriaController extends Controller
 {
+    /**
+     * Muestra la página de orfebrería.
+     *
+     * @return \Illuminate\View\View
+     */
     public function orfebreria()
     {
         return view('pages.orfebreria');
     }
 
+    /**
+     * Procesa y envía la solicitud de cita de orfebrería por correo.
+     *
+     * Valida los datos, comprueba que la fecha no sea pasada y notifica
+     * al equipo mediante OrfebreriaCitaMail.
+     *
+     * @param \Illuminate\Http\Request $request Datos del formulario de cita
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function enviarCita(Request $request)
     {
         $datos = $request->validate([

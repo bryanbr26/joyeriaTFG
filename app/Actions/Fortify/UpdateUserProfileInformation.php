@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
+/**
+ * UpdateUserProfileInformation - Acción de Fortify para actualizar el perfil.
+ *
+ * Actualiza nombre y email del usuario, gestionando la reverificación
+ * de correo cuando este cambia.
+ */
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
     /**
-     * Validate and update the given user's profile information.
+     * Valida y actualiza la información de perfil del usuario.
      *
-     * @param  array<string, string>  $input
+     * @param \App\Models\User $user Usuario a actualizar
+     * @param array<string, string> $input Datos del formulario de perfil
+     * @return void
      */
     public function update(User $user, array $input): void
     {
@@ -41,9 +49,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     }
 
     /**
-     * Update the given verified user's profile information.
+     * Actualiza la información de un usuario verificado cuyo email ha cambiado.
      *
-     * @param  array<string, string>  $input
+     * @param \App\Models\User $user Usuario a actualizar
+     * @param array<string, string> $input Datos del formulario
+     * @return void
      */
     protected function updateVerifiedUser(User $user, array $input): void
     {

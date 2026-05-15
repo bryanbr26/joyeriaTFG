@@ -5,10 +5,22 @@ namespace App\Http\Controllers;
 use App\Services\ImageService;
 use Illuminate\Support\Str;
 
+/**
+ * ImageController - Sirve imágenes optimizadas, placeholders y WebP con cache agresivo.
+ *
+ * Actúa como proxy de imágenes para generar versiones redimensionadas,
+ * convertir formatos y enviar headers de cache de larga duración.
+ */
 class ImageController extends Controller
 {
+    /** @var \App\Services\ImageService Servicio de procesamiento de imágenes */
     protected $imageService;
 
+    /**
+     * Constructor del controlador de imágenes.
+     *
+     * @param \App\Services\ImageService $imageService
+     */
     public function __construct(ImageService $imageService)
     {
         $this->imageService = $imageService;
@@ -19,6 +31,7 @@ class ImageController extends Controller
      *
      * @param string $size thumbnail|small|medium|large|placeholder|webp
      * @param string $path Ruta relativa de la imagen original
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
      */
     public function show(string $size, string $path)
     {

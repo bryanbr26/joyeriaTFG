@@ -20,26 +20,40 @@ use App\Http\Responses\CustomPasswordResetResponse;
 use Laravel\Fortify\Contracts\LoginResponse;
 use App\Http\Responses\LoginResponse as CustomLoginResponse;
 
+/**
+ * FortifyServiceProvider - Configuración del paquete Laravel Fortify.
+ *
+ * Registra las acciones personalizadas de autenticación, las vistas
+ * de login/registro/recuperación y los rate limiters de seguridad.
+ */
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra servicios de la aplicación.
+     *
+     * Sustituye las respuestas por defecto de Fortify por las personalizadas.
+     *
+     * @return void
      */
     public function register()
-{
-    $this->app->singleton(
-        PasswordResetResponse::class,
-        CustomPasswordResetResponse::class
-    );
+    {
+        $this->app->singleton(
+            PasswordResetResponse::class,
+            CustomPasswordResetResponse::class
+        );
 
-    $this->app->singleton(
-        LoginResponse::class,
-        CustomLoginResponse::class
-    );
-}
+        $this->app->singleton(
+            LoginResponse::class,
+            CustomLoginResponse::class
+        );
+    }
 
     /**
-     * Bootstrap any application services.
+     * Bootea los servicios de Fortify.
+     *
+     * Configura acciones, vistas personalizadas y limitación de peticiones.
+     *
+     * @return void
      */
     public function boot(): void
     {

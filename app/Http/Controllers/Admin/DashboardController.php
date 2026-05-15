@@ -11,8 +11,20 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * DashboardController - Panel de administración principal.
+ *
+ * Proporciona estadísticas de ventas, pedidos, usuarios y productos
+ * con capacidad de filtrado por período (mes, año, histórico).
+ */
 class DashboardController extends Controller
 {
+    /**
+     * Muestra el dashboard del administrador con métricas y resúmenes.
+     *
+     * @param \Illuminate\Http\Request $request Filtros de período (periodo, anio, mes)
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $periodo = $request->input('periodo', 'mes');
@@ -105,6 +117,14 @@ class DashboardController extends Controller
         return view('admin.dashboard', compact('stats', 'ultimosPedidos', 'productosStockBajo', 'productosMasVendidos', 'filtros'));
     }
 
+    /**
+     * Resuelve el rango de fechas según el período seleccionado.
+     *
+     * @param string $periodo Tipo de período (mes|anio|todo)
+     * @param int $anio Año seleccionado
+     * @param int $mes Mes seleccionado
+     * @return array [Carbon|null $inicio, Carbon|null $fin, string $label]
+     */
     private function resolvePeriodo(string $periodo, int $anio, int $mes): array
     {
         if ($periodo === 'todo') {

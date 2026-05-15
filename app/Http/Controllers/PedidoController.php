@@ -6,10 +6,21 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * PedidoController - Gestiona el historial y detalle de pedidos del usuario.
+ *
+ * Permite a los usuarios autenticados consultar sus pedidos realizados
+ * y visualizar el detalle completo de cada uno.
+ */
 class PedidoController extends Controller
 {
     /**
      * Muestra el historial de pedidos del usuario logueado.
+     *
+     * Carga los pedidos con sus detalles, productos, imágenes y pago Redsys
+     * ordenados por fecha descendente.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -26,7 +37,10 @@ class PedidoController extends Controller
     }
 
     /**
-     * Muestra los detalles de un pedido específico.
+     * Muestra los detalles de un pedido específico del usuario.
+     *
+     * @param int $id Identificador del pedido
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function show($id)
     {

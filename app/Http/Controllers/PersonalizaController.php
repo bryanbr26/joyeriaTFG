@@ -9,10 +9,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * PersonalizaController - Gestiona la personalización de productos con grabados.
+ *
+ * Permite a los usuarios diseñar grabados personalizados sobre productos
+ * de joyería y gestionar su visualización tanto en carrito como en pedidos.
+ */
 class PersonalizaController extends Controller
 {
     /**
      * Vista genérica de personalización (sin producto, acceso desde nav).
+     *
+     * @return \Illuminate\View\View
      */
     public function personaliza()
     {
@@ -21,6 +29,9 @@ class PersonalizaController extends Controller
 
     /**
      * Vista de personalización vinculada a un producto específico.
+     *
+     * @param \App\Models\Producto $producto Producto a personalizar
+     * @return \Illuminate\View\View
      */
     public function personalizaProducto(Producto $producto)
     {
@@ -31,6 +42,12 @@ class PersonalizaController extends Controller
 
     /**
      * Guarda la imagen del grabado y añade el producto personalizado al carrito.
+     *
+     * Decodifica una imagen base64, la almacena en disco y crea una entrada
+     * única en el carrito vinculada al grabado personalizado.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function guardarGrabado(Request $request)
     {
@@ -91,6 +108,12 @@ class PersonalizaController extends Controller
         ]);
     }
 
+    /**
+     * Muestra la imagen de grabado asociada a un item del carrito.
+     *
+     * @param \App\Models\Carrito $carrito Item del carrito
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function mostrarGrabadoCarrito(Carrito $carrito)
     {
         $usuario = Auth::user();
@@ -100,6 +123,12 @@ class PersonalizaController extends Controller
         return $this->respuestaGrabado($carrito->ruta_grabado_personalizado);
     }
 
+    /**
+     * Muestra la imagen de grabado asociada a un detalle de pedido.
+     *
+     * @param \App\Models\DetallePedido $detalle Línea de detalle del pedido
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function mostrarGrabadoPedido(DetallePedido $detalle)
     {
         $usuario = Auth::user();
@@ -113,6 +142,12 @@ class PersonalizaController extends Controller
         return $this->respuestaGrabado($detalle->ruta_grabado_personalizado);
     }
 
+    /**
+     * Genera la respuesta HTTP con la imagen del grabado desde disco.
+     *
+     * @param string|null $ruta Ruta relativa del archivo en disco público
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     private function respuestaGrabado(?string $ruta)
     {
         abort_if(!$ruta || strpos($ruta, 'grabados/') !== 0 || strpos($ruta, '..') !== false, 404);
