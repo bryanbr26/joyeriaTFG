@@ -141,9 +141,8 @@
                     <div class="detalle-box">
                         <!-- Imagen -->
                         <div class="detalle-image">
-                            @if($detalle->producto && $detalle->producto->ruta_grabado && file_exists(public_path('storage/' . $detalle->producto->ruta_grabado)))
-                                <img src="{{ $detalle->producto->placeholder }}"
-                                     data-src="{{ $detalle->producto->imagenUrl('small') }}"
+                            @if($detalle->producto && $detalle->producto->imagen_principal_url)
+                                <img src="{{ $detalle->producto->imagen_principal_url }}"
                                      alt="{{ $detalle->producto->nombre }}" class="lazy-image blur-up img-fluid"
                                      style="object-fit: cover; width: 100%; height: 100%;"
                                      loading="lazy" decoding="async">

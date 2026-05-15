@@ -65,6 +65,19 @@ function initProductosShow() {
     // Ejecutar al inicio
     evaluarMediaQuery(mediaQuery);
 
+    const imagenPrincipal = document.getElementById('producto-imagen-principal');
+    const miniaturas = document.querySelectorAll('.producto-miniatura');
+
+    miniaturas.forEach(miniatura => {
+        miniatura.addEventListener('click', function () {
+            if (!imagenPrincipal) return;
+
+            imagenPrincipal.src = this.dataset.fullSrc;
+            miniaturas.forEach(img => img.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
     // ==========================================
     // Botón añadir a la cesta (Usuario Autenticado)
     // ==========================================

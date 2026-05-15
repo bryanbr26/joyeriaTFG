@@ -31,9 +31,8 @@
                     <div class="item-box">
                         <!-- Img Container -->
                         <div class="item-favoritos-image">
-                            @if($favorito->producto->ruta_grabado && file_exists(public_path('storage/' . $favorito->producto->ruta_grabado)))
-                                <img src="{{ $favorito->producto->placeholder }}"
-                                     data-src="{{ $favorito->producto->imagenUrl('small') }}"
+                            @if($favorito->producto->imagen_principal_url)
+                                <img src="{{ $favorito->producto->imagen_principal_url }}"
                                      alt="{{ $favorito->producto->nombre }}" class="lazy-image blur-up img-fluid"
                                      style="object-fit: cover; width: 100%; height: 100%;"
                                      loading="lazy" decoding="async">

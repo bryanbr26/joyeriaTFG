@@ -30,9 +30,8 @@
                     <div class="item-box" id="item-{{ $item->id }}">
                         <!-- Img Container -->
                         <div class="item-image">
-                            @if($item->producto->ruta_grabado && file_exists(public_path('storage/' . $item->producto->ruta_grabado)))
-                                <img src="{{ $item->producto->placeholder }}"
-                                     data-src="{{ $item->producto->imagenUrl('small') }}"
+                            @if($item->producto->imagen_principal_url)
+                                <img src="{{ $item->producto->imagen_principal_url }}"
                                      alt="{{ $item->producto->nombre }}" class="lazy-image blur-up img-full"
                                      loading="lazy" decoding="async">
                             @else

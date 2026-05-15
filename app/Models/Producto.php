@@ -52,6 +52,32 @@ class Producto extends Model
         return $this->hasMany(ImagenProducto::class, 'id_producto');
     }
 
+    public function imagenPrincipal()
+    {
+        return $this->hasOne(ImagenProducto::class, 'id_producto')->where('principal', true);
+    }
+
+    public function getImagenPrincipalUrlAttribute()
+    {
+        $imagen = $this->relationLoaded('imagenes')
+            ? $this->imagenes->firstWhere('principal', true) ?? $this->imagenes->first()
+            : $this->imagenPrincipal()->first();
+
+        if ($imagen) {
+            return $imagen->url_completa;
+        }
+
+        if ($this->ruta_grabado) {
+            if (env('AWS_IMAGES_PRIVATE', true)) {
+                return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->ruta_grabado, now()->addHours(6));
+            }
+
+            return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->ruta_grabado);
+        }
+
+        return null;
+    }
+
     /**
      * SVG placeholder por defecto cuando no hay imagen.
      */
@@ -67,14 +93,7 @@ class Producto extends Model
      */
     public function imagenUrl(string $tamaño = 'medium'): string
     {
-        if (empty($this->ruta_grabado)) {
-            return $this->placeholderSvg();
-        }
-
-        return route('imagen.optimizada', [
-            'size' => $tamaño,
-            'path' => $this->ruta_grabado,
-        ]);
+        return $this->imagen_principal_url ?? $this->placeholderSvg();
     }
 
     /**
@@ -82,14 +101,7 @@ class Producto extends Model
      */
     public function getImagenOptimizadaAttribute(): string
     {
-        if (empty($this->ruta_grabado)) {
-            return $this->placeholderSvg();
-        }
-
-        return route('imagen.optimizada', [
-            'size' => 'medium',
-            'path' => $this->ruta_grabado,
-        ]);
+        return $this->imagen_principal_url ?? $this->placeholderSvg();
     }
 
     /**
@@ -97,14 +109,7 @@ class Producto extends Model
      */
     public function getPlaceholderAttribute(): string
     {
-        if (empty($this->ruta_grabado)) {
-            return $this->placeholderSvg();
-        }
-
-        return route('imagen.optimizada', [
-            'size' => 'placeholder',
-            'path' => $this->ruta_grabado,
-        ]);
+        return $this->imagen_principal_url ?? $this->placeholderSvg();
     }
 
     //Muestra todos los collares

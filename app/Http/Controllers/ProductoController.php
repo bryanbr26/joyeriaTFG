@@ -39,7 +39,7 @@ class ProductoController extends Controller
         $datos = $request->except('imagen');
 
         if ($request->hasFile('imagen')) {
-            $ruta = $request->file('imagen')->store('productos', 'public');
+            $ruta = $request->file('imagen')->store('productos', 's3');
             $datos['ruta_grabado'] = $ruta;
         }
 
@@ -74,10 +74,10 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             // Eliminar imagen anterior si existe
-            if ($producto->ruta_grabado && Storage::disk('public')->exists($producto->ruta_grabado)) {
-                Storage::disk('public')->delete($producto->ruta_grabado);
+            if ($producto->ruta_grabado && Storage::disk('s3')->exists($producto->ruta_grabado)) {
+                Storage::disk('s3')->delete($producto->ruta_grabado);
             }
-            $ruta = $request->file('imagen')->store('productos', 'public');
+            $ruta = $request->file('imagen')->store('productos', 's3');
             $datos['ruta_grabado'] = $ruta;
         }
 
@@ -89,8 +89,8 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         // Eliminar imagen si existe
-        if ($producto->ruta_grabado && Storage::disk('public')->exists($producto->ruta_grabado)) {
-            Storage::disk('public')->delete($producto->ruta_grabado);
+        if ($producto->ruta_grabado && Storage::disk('s3')->exists($producto->ruta_grabado)) {
+            Storage::disk('s3')->delete($producto->ruta_grabado);
         }
 
         $producto->delete();

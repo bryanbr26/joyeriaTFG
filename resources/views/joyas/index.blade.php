@@ -50,12 +50,11 @@
                         <div class="producto-item">
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
-                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ $producto->placeholder }}"
-                                             data-src="{{ $producto->imagenUrl('medium') }}"
+                                    @if($producto->imagen_principal_url)
+                                        <img src="{{ $producto->imagen_principal_url }}"
                                              loading="lazy"
                                              decoding="async"
-                                             class="lazy-image blur-up producto-imagen"
+                                             class="producto-imagen"
                                              alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
@@ -86,12 +85,11 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                    <img src="{{ $producto->placeholder }}"
-                                         data-src="{{ $producto->imagenUrl('medium') }}"
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}"
                                          loading="lazy"
                                          decoding="async"
-                                         class="lazy-image blur-up producto-imagen"
+                                         class="producto-imagen"
                                          alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
@@ -124,12 +122,11 @@
                         <div class="producto-item">
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
-                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ $producto->placeholder }}"
-                                             data-src="{{ $producto->imagenUrl('medium') }}"
+                                    @if($producto->imagen_principal_url)
+                                        <img src="{{ $producto->imagen_principal_url }}"
                                              loading="lazy"
                                              decoding="async"
-                                             class="lazy-image blur-up producto-imagen"
+                                             class="producto-imagen"
                                              alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
@@ -173,12 +170,11 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                    <img src="{{ $producto->placeholder }}"
-                                         data-src="{{ $producto->imagenUrl('medium') }}"
+                                @if($producto->imagen_principal_url)
+                                    <img src="{{ $producto->imagen_principal_url }}"
                                          loading="lazy"
                                          decoding="async"
-                                         class="lazy-image blur-up producto-imagen"
+                                         class="producto-imagen"
                                          alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
