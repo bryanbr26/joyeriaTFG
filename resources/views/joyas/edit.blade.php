@@ -76,17 +76,11 @@
         </div>
 
         <div class="mb-3">
-            <label for="imagenes" class="form-label">Imágenes del producto</label>
-            @if($producto->imagenes->isNotEmpty())
-                <div class="d-flex gap-2 flex-wrap mb-2">
-                    @foreach($producto->imagenes as $imagen)
-                        <div>
-                            <img src="{{ $imagen->url_completa }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded">
-                            @if($imagen->principal)
-                                <small class="d-block text-muted">Principal</small>
-                            @endif
-                        </div>
-                    @endforeach
+            <label for="imagen" class="form-label">Imagen del producto</label>
+            @if($producto->ruta_grabado)
+                <div class="mb-2">
+                    <img src="{{ $producto->imagenUrl('thumbnail') }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded" loading="lazy">
+                    <small class="d-block text-muted">Imagen actual</small>
                 </div>
             @endif
             <input type="file" class="form-control" id="imagenes" name="imagenes[]" accept="image/*" multiple>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ImagenProducto;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -58,9 +59,12 @@ class ProductoController extends Controller
     {
         $datos = $this->validateProducto($request, false);
         unset($datos['imagenes']);
+        unset($datos['imagenes_eliminar']);
 
         $producto->update($datos);
+        $this->deleteSelectedProductoImages($request, $producto);
         $this->storeProductoImages($request, $producto);
+        $this->syncPrincipalImage($producto);
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado correctamente.');
     }
@@ -100,7 +104,27 @@ class ProductoController extends Controller
             'stock' => 'required|integer|min:0',
             'imagenes' => ($creating ? 'required' : 'nullable') . '|array|min:1',
             'imagenes.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'imagenes_eliminar' => 'nullable|array',
+            'imagenes_eliminar.*' => 'integer|exists:IMAGENES_PRODUCTO,id',
         ]);
+    }
+
+    private function deleteSelectedProductoImages(Request $request, Producto $producto): void
+    {
+        $imageIds = $request->input('imagenes_eliminar', []);
+
+        if (empty($imageIds)) {
+            return;
+        }
+
+        $imagenes = $producto->imagenes()
+            ->whereIn('id', $imageIds)
+            ->get();
+
+        foreach ($imagenes as $imagen) {
+            $this->deleteProductoImageFile($imagen);
+            $imagen->delete();
+        }
     }
 
     private function storeProductoImages(Request $request, Producto $producto): void
@@ -128,11 +152,30 @@ class ProductoController extends Controller
     private function deleteProductoImages(Producto $producto): void
     {
         foreach ($producto->imagenes as $imagen) {
-            if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
-                Storage::disk('s3')->delete($imagen->url);
-            }
-
+            $this->deleteProductoImageFile($imagen);
             $imagen->delete();
         }
+    }
+
+    private function deleteProductoImageFile(ImagenProducto $imagen): void
+    {
+        if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
+            Storage::disk('s3')->delete($imagen->url);
+        }
+    }
+
+    private function syncPrincipalImage(Producto $producto): void
+    {
+        $producto->load('imagenes');
+        $principal = $producto->imagenes->firstWhere('principal', true);
+
+        if (!$principal && $producto->imagenes->isNotEmpty()) {
+            $principal = $producto->imagenes->first();
+            $principal->update(['principal' => true]);
+        }
+
+        $producto->update([
+            'ruta_grabado' => $principal ? $principal->url : '',
+        ]);
     }
 }

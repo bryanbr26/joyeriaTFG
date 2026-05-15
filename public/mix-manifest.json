@@ -1,8 +1,22 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/js/app.js.map": "/js/app.js.map",
-    "/css/app.css": "/css/app.css",
-    "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?92ea18a81d737146ff044ddb52010366": "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?92ea18a81d737146ff044ddb52010366",
-    "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?1295669cd4e305c97f2cfc16d56614b8": "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?1295669cd4e305c97f2cfc16d56614b8",
-    "/css/app.css.map": "/css/app.css.map"
+    "/js/pages/home.js": "/js/pages/home.js?id=39ba3198968d329889153b8836afa679",
+    "/js/pages/home.js.map": "/js/pages/home.js.map?id=b2440d6042d035d71329eeeb1140e8d0",
+    "/js/pages/joyas-index.js": "/js/pages/joyas-index.js?id=a83c5bfbdb4fb0950ecf53de140ea2e2",
+    "/js/pages/joyas-index.js.map": "/js/pages/joyas-index.js.map?id=10c0c071c6691b7488be063b3d510d70",
+    "/js/pages/show.js": "/js/pages/show.js?id=86c6dd0c345d65921f1241ad5ce39089",
+    "/js/pages/show.js.map": "/js/pages/show.js.map?id=afcf0fc7cd31cc75dc4b8f82e21d15be",
+    "/js/pages/panel-carrito.js": "/js/pages/panel-carrito.js?id=ceefbbd8cb013360a057db2d7492f47d",
+    "/js/pages/panel-carrito.js.map": "/js/pages/panel-carrito.js.map?id=514bdbec12d62d51ac8c306e9999db29",
+    "/js/pages/orfebreria.js": "/js/pages/orfebreria.js?id=55ac2cd5700ab2ae6c57ae47f36e58af",
+    "/js/pages/orfebreria.js.map": "/js/pages/orfebreria.js.map?id=74a651b4469bdcca61880fd655488062",
+    "/js/app.js": "/js/app.js?id=ff2387319f4e80264c7e82506c00bf01",
+    "/js/app.js.map": "/js/app.js.map?id=f4ed5d7ec30e23d0b8d54406eff7b4a1",
+    "/js/manifest.js": "/js/manifest.js?id=f2e77032063b2e4481bf556637d9ac5d",
+    "/js/manifest.js.map": "/js/manifest.js.map?id=9fae0e607102d088bd6eb117a4b59fa1",
+    "/css/app.css": "/css/app.css?id=ca96acc60cc5763de9438095a322e992",
+    "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?92ea18a81d737146ff044ddb52010366": "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?92ea18a81d737146ff044ddb52010366?id=9ad5aa740d7d5e6a0191b309b9b1986c",
+    "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?1295669cd4e305c97f2cfc16d56614b8": "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?1295669cd4e305c97f2cfc16d56614b8?id=d1af9af6052c51b169be6c628ae99bb5",
+    "/css/app.css.map": "/css/app.css.map?id=f6394a28fd2d2f8084970cbf3df5b687",
+    "/js/vendor.js": "/js/vendor.js?id=0719544c352ae0972db5a0a616fa55a4",
+    "/js/vendor.js.map": "/js/vendor.js.map?id=75ab307ece5a07fc397493d8b768e675"
 }

@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Iniciar sesión</title>
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ mix('js/manifest.js') }}" defer></script>
+  <script src="{{ mix('js/vendor.js') }}" defer></script>
+  <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body>
@@ -110,10 +112,9 @@
           </form>
         </div>
         <div class="info-login">
-          <p>¿Busca el regalo perfecto? Únete a nuestra familia Pérez. Realice sus compras más rápido, rastree su pedido
-            y
-            programe citas para recibir orientación personalizada en la tienda, obtenga recomendaciones de regalos de
-            nuestros asesores y disfrute de un servicio de cuidado de por vida para sus piezas de Tiffany.</p>
+          <p>¿Buscas el regalo perfecto? Únete a Joyas Pérez para comprar más rápido, consultar tus pedidos y recibir
+            recomendaciones personalizadas. Nuestro equipo puede ayudarte a elegir la pieza adecuada y orientarte sobre
+            el cuidado de tus joyas para que conserven su brillo durante años.</p>
         </div>
       </div>
     </div>

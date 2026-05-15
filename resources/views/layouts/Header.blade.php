@@ -11,24 +11,23 @@
     <div class="container-fluid py-2 icon-bar-container" id="header-icon">
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-4 " id="contenedor-botones">
+            
+                <!-- boton buscador-->
+                <a id="boton-buscador" style="cursor: pointer;" class="header-icon-link" title="Buscador"><i
+                        class="bi bi-search fs-5"></i></a>
+                <!-- boton gestion usuarios-->
                 @auth
-                    <form action="{{ route('logout') }}" method="POST" class="m-0" onsubmit="return confirm('¿Quieres cerrar sesión?');">
-                        @csrf
-                        <button type="submit" class="btn btn-link text-dark p-0 border-0" title="Cerrar sesión">
-                            <i class="bi bi-box-arrow-right fs-5"></i>
-                        </button>
-                    </form>
+                    <a href="{{ route('panel.usuario') }}" class="header-icon-link" title="Mi Cuenta">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
                 @else
-                    <a href="{{ route('login') }}" class="text-dark" title="Iniciar sesión">
+                    <a href="{{ route('login') }}" class="header-icon-link" title="Gestión Usuarios">
                         <i class="bi bi-person fs-5"></i>
                     </a>
                 @endauth
-                <a href="https://maps.app.goo.gl/2nEWQXenbcLCjSgh6" class="text-dark" title="ubicacion">
-                    <i class="bi bi-geo-alt"></i>
-                </a>
                 <!-- boton ubicacion-->
-                <a href="#" class="header-icon-link" title="ubicacion">
+                <a href="{{ route('contacto') }}" class="header-icon-link" title="ubicacion">
                     <i class="bi bi-geo-alt fs-5"></i>
                 </a>
                 <a href="{{ route('favoritos.index') }}" class="header-icon-link" title="Favoritos">
@@ -40,13 +39,9 @@
                         {{ $totalItemsCarrito ?? 0 }}
                     </span>
                 </a>
-                @auth
-                    @if(auth()->user()->rol === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="text-dark" title="Panel de control">
-                            <i class="bi bi-gear fs-5"></i>
-                        </a>
-                    @endif
-                @endauth
+                 <a id="menu-toggle" class="header-icon-link menu-toggle" title="Menú">
+                    <i class="bi bi-list fs-5"></i>
+                </a>
             </div>
         </div>
 
@@ -54,11 +49,15 @@
 
     <!-- Navegación con Mega Menú -->
     <nav class="border-top navbar-light" id="nav-bar">
+        <button id="nav-close" class="nav-close" aria-label="Cerrar menú">
+            <i class="bi bi-x-lg"></i>
+        </button>
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
-                        <li class="nav-item dropdown joyeria-mega-dropdown">
+                        
+                        <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="navbarDropdown" role="button">
                                 Joyería
                             </a>
@@ -219,26 +218,31 @@
 
 <div id="overlay-buscador" class="overlay-buscador">
     <div class="panel-buscador">
-
         <div class="contenedor-buscador-padre">
             <div class="contenedor-buscar">
                 <div class="input-group" id="contenedor-input-buscador">
-                    <input type="text" class="form-control" placeholder="Buscar" id="buscador">
+                    <input type="text" class="form-control" placeholder="Buscar productos..." id="buscador" autocomplete="off">
                 </div>
             </div>
-            <div class="contenedor-categorias">
+            <div class="contenedor-categorias" id="contenedor-categorias-buscador">
                 <div class="contenedor-recomendaciones">
-                    <h3>Recomendaciones</h3>
+                    <h3>Categorías</h3>
+                    <ul class="lista-categorias-buscador">
+                        <li><a href="{{ route('joyas.index', 'collares') }}">Collares</a></li>
+                        <li><a href="{{ route('joyas.index', 'anillos') }}">Anillos</a></li>
+                        <li><a href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a></li>
+                        <li><a href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a></li>
+                    </ul>
                 </div>
                 <div class="contenedor-productos">
-                    <h3>Nuestros best sellers</h3>
-                    <div class="contenedor-productos-img">
-
+                    <h3>Resultados</h3>
+                    <div class="grid-productos" id="grid-productos-buscador" data-base-url="{{ url('') }}"></div>
+                    <div class="buscador-sin-resultados" id="sin-resultados-buscador" style="display: none;">
+                        <p>No se encontraron productos con ese nombre.</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="contenedor-cerrar">
             <button type="button" id="cerrar-buscador" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

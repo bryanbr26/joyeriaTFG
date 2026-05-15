@@ -89,7 +89,7 @@
                 <label for="imagen" class="form-label">Imagen del producto</label>
                 @if($producto->imagen_principal_url)
                     <div class="mb-2">
-                    <img src="{{ $producto->imagen_principal_url }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded">
+                        <img src="{{ $producto->imagenUrl('thumbnail') }}" alt="{{ $producto->nombre }}" width="100" height="100" style="object-fit: cover;" class="border rounded" loading="lazy">
                         <small class="d-block text-muted">Imagen actual</small>
                     </div>
                 @endif

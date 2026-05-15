@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JoyasController;
 use App\Http\Controllers\RegalosController;
 use App\Http\Controllers\PersonalizaController;
@@ -22,9 +23,17 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
+// Ruta de imágenes optimizadas
+Route::get('/img/{size}/{path}', [ImageController::class, 'show'])
+    ->where('size', 'thumbnail|small|medium|large|placeholder|webp')
+    ->where('path', '.*')
+    ->name('imagen.optimizada');
+
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/panel-usuario', [AuthController::class, 'panel'])->name('panel.usuario')->middleware('auth');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // PANEL DE ADMINISTRACIÓN
@@ -38,6 +47,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateEstado'])->name('pedidos.estado');
     Route::delete('/pedidos/{pedido}', [AdminPedidoController::class, 'destroy'])->name('pedidos.destroy');
 });
+
+// Búsqueda AJAX de productos (debe ir antes del prefijo {categoria})
+Route::get('/buscar-productos', [JoyasController::class, 'buscar'])->name('buscar.productos');
 
 // CRUD JOYAS POR CATEGORÍA
 Route::get('/joyeria', [JoyasController::class, 'indexAll'])->name('joyas.buscar');

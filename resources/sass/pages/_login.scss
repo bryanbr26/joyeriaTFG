@@ -183,3 +183,119 @@
         font-family: $font-primary;
     }
 }
+
+// ==========================================
+// RESPONSIVE - TABLET
+// ==========================================
+@media (max-width: 768px) {
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .contenedor-form-login {
+        order: -1;
+        width: 100%;
+        padding: 2rem 0;
+    }
+
+    .contenedor-imagen-login {
+        width: 100%;
+        height: auto;
+        min-height: 250px;
+
+        img {
+            padding: 2rem 4rem;
+            height: auto;
+            max-height: 350px;
+        }
+    }
+
+    .fila-form {
+        margin-top: 1rem;
+
+        .btn-opciones-login {
+            gap: 1.5rem;
+
+            a {
+                font-size: 1.1rem;
+            }
+        }
+
+        .info-login {
+            margin-top: 2rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    .fila-form-login {
+        margin-top: 2rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+// ==========================================
+// RESPONSIVE - MÓVIL
+// ==========================================
+@include mobile {
+    .login-container {
+        min-height: auto;
+    }
+
+    .contenedor-imagen-login {
+        min-height: 180px;
+
+        img {
+            padding: 1rem 2rem;
+            max-height: 250px;
+        }
+    }
+
+    .contenedor-form-login {
+        padding: 1.5rem 0;
+    }
+
+    .fila-btn-salir {
+        a {
+            height: 40px;
+            width: 40px;
+
+            i {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    .fila-form {
+        .btn-opciones-login {
+            gap: 1rem;
+
+            a {
+                font-size: 1rem;
+            }
+        }
+
+        .info-login {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+    }
+
+    .fila-form-login {
+        margin-top: 1.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        form {
+            gap: 1.2rem;
+        }
+    }
+}
