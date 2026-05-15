@@ -223,26 +223,31 @@
 
 <div id="overlay-buscador" class="overlay-buscador">
     <div class="panel-buscador">
-
         <div class="contenedor-buscador-padre">
             <div class="contenedor-buscar">
                 <div class="input-group" id="contenedor-input-buscador">
-                    <input type="text" class="form-control" placeholder="Buscar" id="buscador">
+                    <input type="text" class="form-control" placeholder="Buscar productos..." id="buscador" autocomplete="off">
                 </div>
             </div>
-            <div class="contenedor-categorias">
+            <div class="contenedor-categorias" id="contenedor-categorias-buscador">
                 <div class="contenedor-recomendaciones">
-                    <h3>Recomendaciones</h3>
+                    <h3>Categorías</h3>
+                    <ul class="lista-categorias-buscador">
+                        <li><a href="{{ route('joyas.index', 'collares') }}">Collares</a></li>
+                        <li><a href="{{ route('joyas.index', 'anillos') }}">Anillos</a></li>
+                        <li><a href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a></li>
+                        <li><a href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a></li>
+                    </ul>
                 </div>
                 <div class="contenedor-productos">
-                    <h3>Nuestros best sellers</h3>
-                    <div class="contenedor-productos-img">
-
+                    <h3>Resultados</h3>
+                    <div class="grid-productos" id="grid-productos-buscador" data-base-url="{{ url('') }}"></div>
+                    <div class="buscador-sin-resultados" id="sin-resultados-buscador" style="display: none;">
+                        <p>No se encontraron productos con ese nombre.</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="contenedor-cerrar">
             <button type="button" id="cerrar-buscador" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

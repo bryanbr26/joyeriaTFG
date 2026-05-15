@@ -197,5 +197,47 @@ class JoyasController extends Controller
         return view('joyas.show', compact('producto', 'categoria', 'titulo', 'productos'));
     }
 
+    /**
+     * Búsqueda AJAX de productos para el header.
+     */
+    public function buscar(Request $request)
+    {
+        $query = trim($request->input('q', ''));
+
+        if (empty($query) || strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $productos = Producto::where('nombre', 'like', "%{$query}%")
+            ->orWhere('marca', 'like', "%{$query}%")
+            ->orWhere('descripcion', 'like', "%{$query}%")
+            ->orWhere('material', 'like', "%{$query}%")
+            ->limit(4)
+            ->get();
+
+        $mapaCategorias = [
+            'collar' => 'collares',
+            'anillo' => 'anillos',
+            'pulsera' => 'pulseras',
+            'pendiente' => 'pendientes',
+        ];
+
+        $resultado = $productos->map(function ($producto) use ($mapaCategorias) {
+            return [
+                'id' => $producto->id,
+                'nombre' => $producto->nombre,
+                'marca' => $producto->marca,
+                'descripcion' => $producto->descripcion,
+                'precio' => $producto->precio,
+                'ruta_grabado' => $producto->ruta_grabado,
+                'imagen_url' => $producto->imagenUrl('medium'),
+                'placeholder_url' => $producto->placeholder,
+                'categoria' => $mapaCategorias[$producto->categoria] ?? $producto->categoria,
+            ];
+        });
+
+        return response()->json($resultado);
+    }
+
 }
 

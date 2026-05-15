@@ -35,6 +35,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // CRUD USUARIOS
 Route::resource('usuarios', UserController::class);
 
+// Búsqueda AJAX de productos (debe ir antes del prefijo {categoria})
+Route::get('/buscar-productos', [JoyasController::class, 'buscar'])->name('buscar.productos');
+
 // CRUD JOYAS POR CATEGORÍA
 Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|pendientes'])->name('joyas.')->group(function () {
     Route::get('/', [JoyasController::class, 'index'])->name('index');
