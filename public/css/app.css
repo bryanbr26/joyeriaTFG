@@ -20456,8 +20456,6 @@ header {
 #contenedor-iconos {
   margin-right: 15%;
   grid-column: 4/5;
-  justify-self: center;
-  align-self: center;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -20916,6 +20914,7 @@ header {
 }
 
 .panel-buscador {
+  position: relative;
   margin-top: 2%;
   display: grid;
   grid-template-columns: 70% 30%;
@@ -20973,8 +20972,9 @@ header {
 
 .contenedor-productos {
   grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
 }
-
 @keyframes modalSlideIn {
   from {
     transform: translateY(-50px);
@@ -20988,6 +20988,9 @@ header {
 .menu-toggle {
   display: none;
   cursor: pointer;
+}
+.menu-toggle i {
+  font-size: 1.3rem;
 }
 
 .nav-close {
@@ -21033,6 +21036,95 @@ body.home-page header .nav-link {
   color: white !important;
 }
 
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.producto-item-buscador .producto-card-buscador {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: box-shadow 0.2s ease;
+}
+.producto-item-buscador .producto-card-buscador:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.producto-item-buscador .producto-card-buscador .producto-imagen {
+  width: 100%;
+  height: 120px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.producto-item-buscador .producto-card-buscador .producto-imagen--placeholder {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+.producto-item-buscador .producto-card-buscador .producto-imagen--placeholder .icono-placeholder {
+  font-size: 2rem;
+  color: #adb5bd;
+}
+.producto-item-buscador .producto-card-buscador .producto-info {
+  padding: 0.5rem 0.75rem;
+}
+.producto-item-buscador .producto-card-buscador .producto-info .producto-titulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  color: #333;
+  line-height: 1.2;
+}
+.producto-item-buscador .producto-card-buscador .producto-info .producto-marca {
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 0.15rem;
+}
+.producto-item-buscador .producto-card-buscador .producto-info .producto-descripcion {
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+.producto-item-buscador .producto-card-buscador .producto-info .producto-precio {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0;
+}
+
+.lista-categorias-buscador {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+.lista-categorias-buscador li {
+  margin-bottom: 0.4rem;
+}
+.lista-categorias-buscador li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.lista-categorias-buscador li a:hover {
+  color: #25434E;
+  text-decoration: underline;
+}
+
+.buscador-sin-resultados {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
 @media (max-width: 991px) {
   .menu-toggle {
     display: flex !important;
@@ -21040,12 +21132,14 @@ body.home-page header .nav-link {
   }
   #header-icon {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     padding-left: 1rem;
     padding-right: 1rem;
   }
   #contenedor-iconos {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     margin-right: 0;
     grid-column: auto;
   }
@@ -21183,6 +21277,9 @@ body.home-page header .nav-link {
   .lista-personaliza {
     grid-template-columns: 1fr 1fr;
   }
+  .nav-close {
+    display: block;
+  }
   .panel-buscador {
     grid-template-columns: 1fr;
     height: auto;
@@ -21222,6 +21319,26 @@ body.home-page header .nav-link {
     margin-left: 0;
     margin-right: 0;
     padding: 1rem;
+    height: 100vh;
+    grid-template-columns: 1fr;
+    align-content: flex-start;
+  }
+  .overlay-buscador .panel-buscador .contenedor-cerrar {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  .overlay-buscador .panel-buscador .contenedor-cerrar button {
+    margin-right: 0;
+  }
+  .overlay-buscador .contenedor-buscador-padre {
+    width: 100%;
+  }
+  .overlay-buscador .contenedor-buscar {
+    margin-top: 2.5rem;
+  }
+  .overlay-buscador .contenedor-categorias {
+    display: none !important;
   }
 }
 .hero-section {
@@ -25556,7 +25673,7 @@ body.home-page header .nav-link {
 }
 
 .main-content {
-  padding-top: 50px;
+  padding-top: 70px;
 }
 
 header,

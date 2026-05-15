@@ -3532,6 +3532,9 @@ function initBuscador() {
   var botonBuscador = document.getElementById('boton-buscador');
   var overlayBuscador = document.getElementById('overlay-buscador');
   var cerrarBuscador = document.getElementById('cerrar-buscador');
+  var inputBuscador = document.getElementById('buscador');
+  var gridProductos = document.getElementById('grid-productos-buscador');
+  var sinResultados = document.getElementById('sin-resultados-buscador');
 
   // Abrir overlay
   if (botonBuscador) {
@@ -3540,10 +3543,8 @@ function initBuscador() {
       overlayBuscador.classList.add('active');
       document.body.style.overflow = 'hidden'; // Evita scroll del body
 
-      // Opcional: Enfocar el input
       setTimeout(function () {
-        var input = document.getElementById('buscador');
-        if (input) input.focus();
+        if (inputBuscador) inputBuscador.focus();
       }, 300);
     });
   }
@@ -3552,6 +3553,15 @@ function initBuscador() {
   function cerrarOverlay() {
     overlayBuscador.classList.remove('active');
     document.body.style.overflow = ''; // Restaurar scroll
+    if (inputBuscador) {
+      inputBuscador.value = '';
+    }
+    if (gridProductos) {
+      gridProductos.innerHTML = '';
+    }
+    if (sinResultados) {
+      sinResultados.style.display = 'none';
+    }
   }
   if (cerrarBuscador) {
     cerrarBuscador.addEventListener('click', cerrarOverlay);
@@ -3564,6 +3574,94 @@ function initBuscador() {
         cerrarOverlay();
       }
     });
+  }
+
+  // Búsqueda AJAX con debounce
+  if (inputBuscador && gridProductos) {
+    var timeout = null;
+    var baseUrl = gridProductos.dataset.baseUrl || '';
+    inputBuscador.addEventListener('input', function () {
+      var query = this.value.trim();
+      if (timeout) clearTimeout(timeout);
+      if (query.length < 2) {
+        gridProductos.innerHTML = '';
+        if (sinResultados) sinResultados.style.display = 'none';
+        return;
+      }
+      timeout = setTimeout(function () {
+        fetch("/buscar-productos?q=".concat(encodeURIComponent(query)), {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+          }
+        }).then(function (response) {
+          if (!response.ok) throw new Error('Error en la búsqueda');
+          return response.json();
+        }).then(function (productos) {
+          gridProductos.innerHTML = '';
+          if (!productos || productos.length === 0) {
+            if (sinResultados) sinResultados.style.display = 'block';
+            return;
+          }
+          if (sinResultados) sinResultados.style.display = 'none';
+          productos.forEach(function (producto) {
+            var card = crearProductoCard(producto, baseUrl);
+            gridProductos.appendChild(card);
+          });
+        })["catch"](function (error) {
+          console.error('Error buscando productos:', error);
+          gridProductos.innerHTML = '';
+          if (sinResultados) sinResultados.style.display = 'none';
+        });
+      }, 300);
+    });
+  }
+  function crearProductoCard(producto, baseUrl) {
+    var item = document.createElement('div');
+    item.className = 'producto-item-buscador';
+    var link = document.createElement('a');
+    link.href = "".concat(baseUrl, "/").concat(producto.categoria, "/").concat(producto.id);
+    link.className = 'producto-enlace';
+    var card = document.createElement('div');
+    card.className = 'producto-card producto-card-buscador';
+    if (producto.ruta_grabado) {
+      var img = document.createElement('img');
+      img.src = producto.placeholder_url;
+      img.dataset.src = producto.imagen_url;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.className = 'lazy-image blur-up producto-imagen';
+      img.alt = producto.nombre;
+      card.appendChild(img);
+    } else {
+      var placeholder = document.createElement('div');
+      placeholder.className = 'producto-imagen--placeholder';
+      placeholder.innerHTML = '<i class="bi bi-gem icono-placeholder"></i>';
+      card.appendChild(placeholder);
+    }
+    var info = document.createElement('div');
+    info.className = 'producto-info';
+    var titulo = document.createElement('h4');
+    titulo.className = 'producto-titulo';
+    titulo.textContent = producto.nombre.length > 28 ? producto.nombre.substring(0, 28) + '...' : producto.nombre;
+    var marca = document.createElement('p');
+    marca.className = 'producto-marca';
+    marca.textContent = producto.marca || '';
+    var descripcion = document.createElement('p');
+    descripcion.className = 'producto-descripcion';
+    var desc = producto.descripcion || '';
+    descripcion.textContent = desc.length > 35 ? desc.substring(0, 35) + '...' : desc;
+    var precio = document.createElement('p');
+    precio.className = 'producto-precio';
+    precio.textContent = parseFloat(producto.precio).toFixed(2) + ' €';
+    info.appendChild(titulo);
+    info.appendChild(marca);
+    info.appendChild(descripcion);
+    info.appendChild(precio);
+    card.appendChild(info);
+    link.appendChild(card);
+    item.appendChild(link);
+    return item;
   }
 }
 

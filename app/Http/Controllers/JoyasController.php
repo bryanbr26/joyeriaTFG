@@ -244,37 +244,46 @@ class JoyasController extends Controller
         return view('joyas.show', compact('producto', 'categoria', 'titulo', 'productos'));
     }
 
-    private function storeProductoImages(Request $request, Producto $producto): void
+    /**
+     * Búsqueda AJAX de productos para el header.
+     */
+    public function buscar(Request $request)
     {
-        if (!$request->hasFile('imagenes')) {
-            return;
+        $query = trim($request->input('q', ''));
+
+        if (empty($query) || strlen($query) < 2) {
+            return response()->json([]);
         }
 
-        $hasPrincipal = $producto->imagenes()->where('principal', true)->exists();
+        $productos = Producto::where('nombre', 'like', "%{$query}%")
+            ->orWhere('marca', 'like', "%{$query}%")
+            ->orWhere('descripcion', 'like', "%{$query}%")
+            ->orWhere('material', 'like', "%{$query}%")
+            ->limit(4)
+            ->get();
 
-        foreach ($request->file('imagenes') as $index => $imagen) {
-            $ruta = $imagen->store('productos', 's3');
+        $mapaCategorias = [
+            'collar' => 'collares',
+            'anillo' => 'anillos',
+            'pulsera' => 'pulseras',
+            'pendiente' => 'pendientes',
+        ];
 
-            $producto->imagenes()->create([
-                'url' => $ruta,
-                'principal' => !$hasPrincipal && $index === 0,
-            ]);
+        $resultado = $productos->map(function ($producto) use ($mapaCategorias) {
+            return [
+                'id' => $producto->id,
+                'nombre' => $producto->nombre,
+                'marca' => $producto->marca,
+                'descripcion' => $producto->descripcion,
+                'precio' => $producto->precio,
+                'ruta_grabado' => $producto->ruta_grabado,
+                'imagen_url' => $producto->imagenUrl('medium'),
+                'placeholder_url' => $producto->placeholder,
+                'categoria' => $mapaCategorias[$producto->categoria] ?? $producto->categoria,
+            ];
+        });
 
-            if ($index === 0) {
-                $producto->update(['ruta_grabado' => $ruta]);
-            }
-        }
-    }
-
-    private function deleteProductoImages(Producto $producto): void
-    {
-        foreach ($producto->imagenes as $imagen) {
-            if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
-                Storage::disk('s3')->delete($imagen->url);
-            }
-
-            $imagen->delete();
-        }
+        return response()->json($resultado);
     }
 
 }

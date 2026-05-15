@@ -48,6 +48,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/pedidos/{pedido}', [AdminPedidoController::class, 'destroy'])->name('pedidos.destroy');
 });
 
+// Búsqueda AJAX de productos (debe ir antes del prefijo {categoria})
+Route::get('/buscar-productos', [JoyasController::class, 'buscar'])->name('buscar.productos');
+
 // CRUD JOYAS POR CATEGORÍA
 Route::get('/joyeria', [JoyasController::class, 'indexAll'])->name('joyas.buscar');
 
