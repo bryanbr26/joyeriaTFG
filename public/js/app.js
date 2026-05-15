@@ -3588,7 +3588,7 @@ function initMegaMenu() {
 
   // Imagen por defecto
   var imagenDefault = {
-    url: '/images/joyas/exclusiva.webp',
+    url: '/images/joyas/default.jpg',
     texto: 'Descubre nuestra colección exclusiva'
   };
 
@@ -3627,7 +3627,7 @@ function initMegaMenu() {
     });
 
     // Resetear cuando el mouse sale del menú
-    var dropdownMenu = document.querySelector('.joyeria-mega-menu');
+    var dropdownMenu = document.querySelector('.dropdown-menu');
     if (dropdownMenu) {
       dropdownMenu.addEventListener('mouseleave', function () {
         resetearImagen();
