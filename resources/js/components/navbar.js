@@ -88,6 +88,8 @@ export function initNavbar() {
                 const href = link.getAttribute('href');
 
                 if (isOpen && href && href !== '#') {
+                    e.preventDefault();
+                    window.location.href = href;
                     return;
                 }
 

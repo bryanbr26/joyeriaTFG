@@ -13,7 +13,7 @@
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a href="{{ route('home') }}" class="nav-link p-0 text-dark">Joyería</a></li>
                     <li class="nav-item mb-2"><a href="{{ route('regalos') }}" class="nav-link p-0 text-dark">Regalos</a></li>
-                    <li class="nav-item mb-2"><a href="{{ route('joyas.buscar') }}" class="nav-link p-0 text-dark">Personaliza tus joyas</a></li>
+                    <li class="nav-item mb-2"><a href="{{ route('personaliza') }}" class="nav-link p-0 text-dark">Personaliza tus joyas</a></li>
                     <li class="nav-item mb-2"><a href="{{ route('comproOro') }}" class="nav-link p-0 text-dark">Compro oro</a></li>
                     <li class="nav-item mb-2"><a href="{{ route('orfebreria') }}" class="nav-link p-0 text-dark">Orfebrería</a></li>
                     <li class="nav-item mb-2"><a href="{{ route('historia') }}" class="nav-link p-0 text-dark">Historia</a></li>
@@ -55,7 +55,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-5 pt-4">
 
             <div class="mb-3 mb-md-0">
-                <p class="mb-0 text-dark">@Todos los derechos reservados 2025 JoyasPerez</p>
+                <p class="mb-0 text-dark">@Todos los derechos reservados 2026 JoyasPerez</p>
             </div>
 
             <div>

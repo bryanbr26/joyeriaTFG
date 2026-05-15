@@ -3834,6 +3834,8 @@ function initNavbar() {
         var isOpen = dropdown.classList.contains('show');
         var href = link.getAttribute('href');
         if (isOpen && href && href !== '#') {
+          e.preventDefault();
+          window.location.href = href;
           return;
         }
         e.preventDefault();

@@ -160,7 +160,7 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}" id="personalizaDropdown"
+                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}" id="personalizaDropdown"
                                 role="button">Personaliza tus joyas</a>
                             <div class="dropdown-personaliza" aria-labelledby="personalizaDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
