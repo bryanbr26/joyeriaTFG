@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de relaciones - Joyas Perez</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 6px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 30px 0 12px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .note {
+            background: #eef7fb;
+            border-left: 4px solid #0f3460;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 14px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lista de relaciones</h1>
+    <p class="subtitle">Proyecto Joyas Perez · Relaciones de base de datos y Eloquent</p>
+
+    <h2>Relaciones de base de datos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Cardinalidad</th>
+                <th>Acciones</th>
+                <th>Uso funcional</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>DIRECCIONES_ENVIO.id_usuario</code></td>
+                <td><code>USUARIO.id</code></td>
+                <td>Un usuario tiene muchas direcciones.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Guardar direcciones disponibles para pedidos.</td>
+            </tr>
+            <tr>
+                <td><code>PEDIDO.id_usuario</code></td>
+                <td><code>USUARIO.id</code></td>
+                <td>Un usuario realiza muchos pedidos.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Historial de compras por cliente.</td>
+            </tr>
+            <tr>
+                <td><code>PEDIDO.id_direcciones_envio</code></td>
+                <td><code>DIRECCIONES_ENVIO.id</code></td>
+                <td>Una direccion puede aparecer en muchos pedidos.</td>
+                <td>Update cascade, delete set null.</td>
+                <td>Direccion usada en el envio del pedido.</td>
+            </tr>
+            <tr>
+                <td><code>PEDIDO.id_metodos_pago</code></td>
+                <td><code>METODOS_PAGO.id</code></td>
+                <td>Un metodo de pago se usa en muchos pedidos.</td>
+                <td>Update cascade, delete set null.</td>
+                <td>Clasificar la forma de pago elegida.</td>
+            </tr>
+            <tr>
+                <td><code>DETALLES_PEDIDO.id_pedido</code></td>
+                <td><code>PEDIDO.id</code></td>
+                <td>Un pedido contiene muchas lineas.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Productos, cantidades y precios del pedido.</td>
+            </tr>
+            <tr>
+                <td><code>DETALLES_PEDIDO.id_producto</code></td>
+                <td><code>PRODUCTO.id</code></td>
+                <td>Un producto puede aparecer en muchas lineas de pedido.</td>
+                <td>Update cascade, delete set null.</td>
+                <td>Relacionar cada linea con la joya comprada.</td>
+            </tr>
+            <tr>
+                <td><code>PAGOS_REDSYS.id_pedido</code></td>
+                <td><code>PEDIDO.id</code></td>
+                <td>Un pedido tiene pago Redsys asociado.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Guardar autorizacion, estado y respuesta de Redsys.</td>
+            </tr>
+            <tr>
+                <td><code>CARRITO.id_usuario</code></td>
+                <td><code>USUARIO.id</code></td>
+                <td>Un usuario tiene muchos items de carrito.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Cesta activa del cliente.</td>
+            </tr>
+            <tr>
+                <td><code>CARRITO.id_producto</code></td>
+                <td><code>PRODUCTO.id</code></td>
+                <td>Un producto puede estar en muchos carritos.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Producto seleccionado antes de comprar.</td>
+            </tr>
+            <tr>
+                <td><code>FAVORITOS.id_usuario</code></td>
+                <td><code>USUARIO.id</code></td>
+                <td>Un usuario tiene muchos favoritos.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Lista de deseos del cliente.</td>
+            </tr>
+            <tr>
+                <td><code>FAVORITOS.id_producto</code></td>
+                <td><code>PRODUCTO.id</code></td>
+                <td>Un producto puede estar en muchos favoritos.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Producto guardado como favorito.</td>
+            </tr>
+            <tr>
+                <td><code>IMAGENES_PRODUCTO.id_producto</code></td>
+                <td><code>PRODUCTO.id</code></td>
+                <td>Un producto tiene muchas imagenes.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Galeria e imagen principal del producto.</td>
+            </tr>
+            <tr>
+                <td><code>LOGS_USUARIOS.id_usuario</code></td>
+                <td><code>USUARIO.id</code></td>
+                <td>Un usuario genera muchos logs.</td>
+                <td>Update cascade, delete cascade.</td>
+                <td>Registro de acciones de usuario.</td>
+            </tr>
+            <tr>
+                <td><code>PRODUCTO.id_detalles_pedido</code></td>
+                <td><code>DETALLES_PEDIDO.id</code></td>
+                <td>Relacion opcional heredada.</td>
+                <td>Update cascade, delete set null.</td>
+                <td>Campo existente en migraciones; no es la relacion principal de venta.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        En el modelo <code>Pedido</code>, <code>pagoRedsys()</code> se declara como <code>hasOne</code>. En base de datos
+        <code>PAGOS_REDSYS.id_pedido</code> no tiene restriccion <code>unique</code>, por lo que la intencion de la aplicacion
+        es 1:1 aunque la base de datos permitiria mas de un registro si se insertan manualmente.
+    </div>
+
+    <h2>Relaciones Eloquent</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Metodo</th>
+                <th>Tipo</th>
+                <th>Clave usada</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>User</code></td><td><code>direcciones()</code></td><td><code>hasMany(DireccionEnvio)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>User</code></td><td><code>pedidos()</code></td><td><code>hasMany(Pedido)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>User</code></td><td><code>carritos()</code></td><td><code>hasMany(Carrito)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>User</code></td><td><code>favoritos()</code></td><td><code>hasMany(Favorito)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>User</code></td><td><code>logs()</code></td><td><code>hasMany(LogUsuario)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>Producto</code></td><td><code>detallePedido()</code></td><td><code>belongsTo(DetallePedido)</code></td><td><code>id_detalles_pedido</code></td></tr>
+            <tr><td><code>Producto</code></td><td><code>detallesVentas()</code></td><td><code>hasMany(DetallePedido)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>Producto</code></td><td><code>imagenes()</code></td><td><code>hasMany(ImagenProducto)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>Producto</code></td><td><code>imagenPrincipal()</code></td><td><code>hasOne(ImagenProducto)</code></td><td><code>id_producto</code>, <code>principal = true</code></td></tr>
+            <tr><td><code>Pedido</code></td><td><code>usuario()</code></td><td><code>belongsTo(User)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>Pedido</code></td><td><code>direccionEnvio()</code></td><td><code>belongsTo(DireccionEnvio)</code></td><td><code>id_direcciones_envio</code></td></tr>
+            <tr><td><code>Pedido</code></td><td><code>metodoPago()</code></td><td><code>belongsTo(MetodoPago)</code></td><td><code>id_metodos_pago</code></td></tr>
+            <tr><td><code>Pedido</code></td><td><code>detalles()</code></td><td><code>hasMany(DetallePedido)</code></td><td><code>id_pedido</code></td></tr>
+            <tr><td><code>Pedido</code></td><td><code>pagoRedsys()</code></td><td><code>hasOne(PagoRedsys)</code></td><td><code>id_pedido</code></td></tr>
+            <tr><td><code>DetallePedido</code></td><td><code>pedido()</code></td><td><code>belongsTo(Pedido)</code></td><td><code>id_pedido</code></td></tr>
+            <tr><td><code>DetallePedido</code></td><td><code>producto()</code></td><td><code>belongsTo(Producto)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>Carrito</code></td><td><code>usuario()</code></td><td><code>belongsTo(User)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>Carrito</code></td><td><code>producto()</code></td><td><code>belongsTo(Producto)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>Favorito</code></td><td><code>usuario()</code></td><td><code>belongsTo(User)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>Favorito</code></td><td><code>producto()</code></td><td><code>belongsTo(Producto)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>DireccionEnvio</code></td><td><code>usuario()</code></td><td><code>belongsTo(User)</code></td><td><code>id_usuario</code></td></tr>
+            <tr><td><code>DireccionEnvio</code></td><td><code>pedidos()</code></td><td><code>hasMany(Pedido)</code></td><td><code>id_direcciones_envio</code></td></tr>
+            <tr><td><code>MetodoPago</code></td><td><code>pedidos()</code></td><td><code>hasMany(Pedido)</code></td><td><code>id_metodos_pago</code></td></tr>
+            <tr><td><code>PagoRedsys</code></td><td><code>pedido()</code></td><td><code>belongsTo(Pedido)</code></td><td><code>id_pedido</code></td></tr>
+            <tr><td><code>ImagenProducto</code></td><td><code>producto()</code></td><td><code>belongsTo(Producto)</code></td><td><code>id_producto</code></td></tr>
+            <tr><td><code>LogUsuario</code></td><td><code>usuario()</code></td><td><code>belongsTo(User)</code></td><td><code>id_usuario</code></td></tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

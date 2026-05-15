@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama ER - Joyas Perez</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 6px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 30px 0 12px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .note {
+            background: #fff9e6;
+            border-left: 4px solid #C9A84C;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 14px 0;
+        }
+
+        .diagram {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 22px;
+            margin: 18px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Diagrama Entidad-Relacion</h1>
+    <p class="subtitle">Proyecto Joyas Perez · Modelo basado en migraciones y modelos Eloquent</p>
+
+    <h2>Vista general</h2>
+    <p>
+        El sistema se organiza alrededor de usuarios, productos, pedidos, carrito, favoritos, direcciones de envio y pagos.
+        Las tablas del proyecto usan nombres en mayusculas y claves primarias numericas llamadas <code>id</code>.
+    </p>
+
+    <div class="note">
+        <strong>Nota:</strong> el diagrama refleja las claves foraneas definidas en migraciones. La relacion
+        <code>PRODUCTO.id_detalles_pedido</code> existe en base de datos, aunque la relacion operativa mas natural para
+        una linea de pedido es <code>DETALLES_PEDIDO.id_producto</code>.
+    </div>
+
+    <div class="diagram">
+        <pre class="mermaid">
+erDiagram
+    USUARIO {
+        int id PK
+        string nombre
+        string apellidos
+        string email UK
+        string password
+        string telefono
+        enum rol
+        timestamp email_verified_at
+        timestamp fecha_registro
+        string remember_token
+    }
+
+    PRODUCTO {
+        int id PK
+        enum categoria
+        string nombre
+        string marca
+        string descripcion
+        decimal precio
+        enum genero
+        string color
+        string talla
+        string ruta_grabado
+        string material
+        timestamp fecha_agregado
+        decimal peso
+        int stock
+        int id_detalles_pedido FK
+    }
+
+    IMAGENES_PRODUCTO {
+        int id PK
+        string url
+        boolean principal
+        int id_producto FK
+    }
+
+    CARRITO {
+        int id PK
+        int cantidad
+        int id_usuario FK
+        int id_producto FK
+        string ruta_grabado_personalizado
+    }
+
+    FAVORITOS {
+        int id PK
+        timestamp fecha_agregado
+        int id_usuario FK
+        int id_producto FK
+    }
+
+    DIRECCIONES_ENVIO {
+        int id PK
+        string direccion
+        string ciudad
+        string provincia
+        string codigo_postal
+        string pais
+        int id_usuario FK
+    }
+
+    PEDIDO {
+        int id PK
+        timestamp fecha
+        enum estado
+        decimal total
+        int id_usuario FK
+        int id_direcciones_envio FK
+        int id_metodos_pago FK
+    }
+
+    DETALLES_PEDIDO {
+        int id PK
+        int cantidad
+        decimal precio_unitario
+        int id_pedido FK
+        int id_producto FK
+        string ruta_grabado_personalizado
+    }
+
+    METODOS_PAGO {
+        int id PK
+        string nombre
+        string descripcion
+    }
+
+    PAGOS_REDSYS {
+        int id PK
+        string numero_pedido_redsys UK
+        decimal importe
+        string codigo_autorizacion
+        enum estado
+        timestamp fecha
+        json respuesta_json
+        int id_pedido FK
+    }
+
+    LOGS_USUARIOS {
+        int id PK
+        string accion
+        timestamp fecha_accion
+        int id_usuario FK
+    }
+
+    USUARIO ||--o{ DIRECCIONES_ENVIO : tiene
+    USUARIO ||--o{ PEDIDO : realiza
+    USUARIO ||--o{ CARRITO : guarda
+    USUARIO ||--o{ FAVORITOS : marca
+    USUARIO ||--o{ LOGS_USUARIOS : genera
+
+    DIRECCIONES_ENVIO ||--o{ PEDIDO : se_usa_en
+    METODOS_PAGO ||--o{ PEDIDO : se_usa_en
+    PEDIDO ||--o{ DETALLES_PEDIDO : contiene
+    PEDIDO ||--o| PAGOS_REDSYS : pago_redsys
+
+    PRODUCTO ||--o{ IMAGENES_PRODUCTO : imagenes
+    PRODUCTO ||--o{ CARRITO : aparece_en
+    PRODUCTO ||--o{ FAVORITOS : aparece_en
+    PRODUCTO ||--o{ DETALLES_PEDIDO : vendido_como
+    DETALLES_PEDIDO ||--o{ PRODUCTO : referencia_legacy
+        </pre>
+    </div>
+
+    <h2>Entidades principales</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Entidad</th>
+                <th>Responsabilidad</th>
+                <th>Campos clave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>USUARIO</code></td>
+                <td>Clientes y administradores autenticables.</td>
+                <td><code>email</code> unico, <code>rol</code>, datos personales.</td>
+            </tr>
+            <tr>
+                <td><code>PRODUCTO</code></td>
+                <td>Catalogo de joyas.</td>
+                <td><code>categoria</code>, <code>precio</code>, <code>stock</code>, <code>ruta_grabado</code>.</td>
+            </tr>
+            <tr>
+                <td><code>PEDIDO</code></td>
+                <td>Compra realizada por un usuario.</td>
+                <td><code>estado</code>, <code>total</code>, usuario, direccion y metodo de pago.</td>
+            </tr>
+            <tr>
+                <td><code>DETALLES_PEDIDO</code></td>
+                <td>Lineas de producto dentro de un pedido.</td>
+                <td><code>cantidad</code>, <code>precio_unitario</code>, producto y grabado personalizado.</td>
+            </tr>
+            <tr>
+                <td><code>CARRITO</code> y <code>FAVORITOS</code></td>
+                <td>Estado previo a compra y seleccion de productos guardados.</td>
+                <td>Usuario, producto, cantidad o fecha de agregado.</td>
+            </tr>
+            <tr>
+                <td><code>PAGOS_REDSYS</code></td>
+                <td>Resultado de pago con Redsys.</td>
+                <td><code>numero_pedido_redsys</code>, <code>importe</code>, <code>estado</code>, respuesta JSON.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+
+</html>

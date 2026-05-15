@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de estilos - Joyas Perez</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            line-height: 1.7;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 40px 50px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 6px;
+            color: #0f3460;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #0f3460;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 4px;
+            margin: 30px 0 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #333;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #f0f0f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9fc;
+        }
+
+        .swatches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin: 14px 0 18px;
+        }
+
+        .swatch {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .swatch-color {
+            height: 58px;
+        }
+
+        .swatch-body {
+            padding: 10px 12px;
+        }
+
+        .sample-logo {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 30px;
+            color: #1a1a1a;
+        }
+
+        .sample-ui {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Guia de estilos</h1>
+    <p class="subtitle">Proyecto Joyas Perez · Identidad visual, componentes y patrones de interfaz</p>
+
+    <h2>Personalidad visual</h2>
+    <p>
+        La interfaz combina una estetica de joyeria elegante con una estructura de tienda online funcional.
+        El estilo se apoya en fondos claros, imagenes grandes de producto, tipografia serif para marca y titulares,
+        y una paleta sobria con acentos azul verdoso y tonos tierra.
+    </p>
+
+    <h2>Paleta cromatica</h2>
+    <div class="swatches">
+        <div class="swatch">
+            <div class="swatch-color" style="background:#25434E"></div>
+            <div class="swatch-body"><strong>Primario</strong><br><code>#25434E</code><br>Header, bloques destacados, fondos institucionales.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#967259"></div>
+            <div class="swatch-body"><strong>Secundario</strong><br><code>#967259</code><br>Acento tierra asociado a lujo y calidez.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#1a1a1a"></div>
+            <div class="swatch-body"><strong>Texto oscuro</strong><br><code>#1a1a1a</code><br>Texto principal, iconos y acciones sobrias.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#f8f9fa"></div>
+            <div class="swatch-body"><strong>Fondo claro</strong><br><code>#f8f9fa</code><br>Fondo general y superficies neutras.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#6c757d"></div>
+            <div class="swatch-body"><strong>Gris texto</strong><br><code>#6c757d</code><br>Descripciones, textos secundarios y placeholders.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#28a745"></div>
+            <div class="swatch-body"><strong>Exito</strong><br><code>#28a745</code><br>Disponibilidad, confirmaciones y mensajes positivos.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#dc3545"></div>
+            <div class="swatch-body"><strong>Error</strong><br><code>#dc3545</code><br>Alertas, errores y acciones destructivas.</div>
+        </div>
+        <div class="swatch">
+            <div class="swatch-color" style="background:#D0DBDF"></div>
+            <div class="swatch-body"><strong>Buscador</strong><br><code>#D0DBDF</code><br>Fondo del campo de busqueda del header.</div>
+        </div>
+    </div>
+
+    <h2>Tipografia</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Uso</th>
+                <th>Fuente</th>
+                <th>Aplicacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Marca y titulares elegantes</td>
+                <td><code>Italiana</code></td>
+                <td>Logo textual, hero, titulos grandes como <code>Tu Cesta</code>.</td>
+            </tr>
+            <tr>
+                <td>Texto principal</td>
+                <td><code>Lato</code></td>
+                <td>Navegacion, formularios, tarjetas, descripciones y textos de compra.</td>
+            </tr>
+            <tr>
+                <td>Texto editorial secundario</td>
+                <td><code>Kaisei Opti</code></td>
+                <td>Parrafos destacados en secciones informativas de home.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Layout y espaciado</h2>
+    <ul>
+        <li>Contenedor general recomendado: <code>max-width: 1200px</code> con padding lateral de <code>15px</code>.</li>
+        <li>Header de referencia: <code>80px</code> de alto, con navegacion superior y menus desplegables a ancho completo.</li>
+        <li>Breakpoints SCSS: <code>576px</code>, <code>768px</code>, <code>992px</code> y <code>1200px</code>.</li>
+        <li>Las paginas de catalogo usan reticulas visuales: imagen destacada + grids de productos 2x2 o filas de 4.</li>
+        <li>La pagina de detalle usa dos columnas: imagen/galeria a la izquierda e informacion/acciones a la derecha.</li>
+        <li>El carrito usa dos columnas en escritorio: items al 70% y resumen al 30%; en tablet pasa a una sola columna.</li>
+    </ul>
+
+    <h2>Componentes principales</h2>
+    <h3>Header</h3>
+    <ul>
+        <li>Fondo blanco en estado base y navegacion desplegada en <code>#25434E</code>.</li>
+        <li>Logo con tipografia <code>Italiana</code>, color negro y tamano aproximado de <code>2rem</code>.</li>
+        <li>Iconografia mediante Bootstrap Icons: carrito, favoritos, usuario, buscador y menus.</li>
+        <li>Menus desplegables a pantalla completa con sombra suave y bloques visuales con imagen de fondo.</li>
+    </ul>
+
+    <h3>Hero de home</h3>
+    <ul>
+        <li>Video de fondo con <code>object-fit: cover</code> y overlay oscuro para legibilidad.</li>
+        <li>Texto en blanco, alineado hacia la izquierda, con animacion de entrada.</li>
+        <li>Titulares grandes en <code>Italiana</code> y enlaces con subrayado animado en hover.</li>
+    </ul>
+
+    <h3>Tarjeta de producto</h3>
+    <ul>
+        <li>Superficie blanca, radio entre <code>8px</code> y <code>12px</code>, sombra suave y elevacion al pasar el cursor.</li>
+        <li>Imagen grande con efecto de escala o brillo en hover.</li>
+        <li>Jerarquia textual: nombre, marca en mayusculas o texto secundario, descripcion corta y precio destacado.</li>
+        <li>Estado sin imagen con placeholder e icono <code>bi-gem</code>.</li>
+    </ul>
+
+    <h3>Detalle de producto</h3>
+    <ul>
+        <li>Imagen principal sobre fondo claro <code>#f8f6f2</code>, radio <code>8px</code> y sombra marcada.</li>
+        <li>Miniaturas cuadradas con borde claro y estado activo con outline oscuro.</li>
+        <li>Botones de accion: carrito, favorito y personalizacion, siempre junto a precio y disponibilidad.</li>
+        <li>Tablas de detalles con etiquetas en gris y valores oscuros.</li>
+    </ul>
+
+    <h3>Carrito</h3>
+    <ul>
+        <li>Fondo principal con gradiente azul verdoso.</li>
+        <li>Titulo grande en <code>Italiana</code>, blanco, centrado.</li>
+        <li>Items con borde claro, imagen cuadrada y panel interno claro para la informacion.</li>
+        <li>Resumen de pedido separado a la derecha en escritorio.</li>
+    </ul>
+
+    <h3>Formularios</h3>
+    <ul>
+        <li>Inputs limpios con borde inferior oscuro y fondo transparente.</li>
+        <li>Botones principales con fondo oscuro, texto blanco y transicion suave.</li>
+        <li>Login dividido en dos columnas: imagen a la izquierda y formulario a la derecha.</li>
+    </ul>
+
+    <h2>Iconografia e imagen</h2>
+    <ul>
+        <li>La libreria principal de iconos es Bootstrap Icons.</li>
+        <li>Las imagenes de producto deben mantenerse limpias, centradas y con <code>object-fit: contain</code> en detalle.</li>
+        <li>En catalogo y banners se permite <code>object-fit: cover</code> para composiciones editoriales.</li>
+        <li>El lazy loading usa el patron <code>blur-up</code> para suavizar la carga visual.</li>
+    </ul>
+
+    <h2>Reglas de consistencia</h2>
+    <ul>
+        <li>Usar <code>Italiana</code> solo para marca, hero y titulares expresivos; no para textos largos de lectura.</li>
+        <li>Mantener los CTAs principales en colores de alto contraste: oscuro sobre claro o blanco sobre fondo oscuro.</li>
+        <li>Evitar mezclar radios muy distintos dentro de la misma seccion; preferir <code>8px</code>, <code>10px</code> o <code>12px</code>.</li>
+        <li>Reservar el primario <code>#25434E</code> para zonas estructurales o destacadas, no para todo el texto.</li>
+        <li>Los estados de error y exito deben usar los tokens <code>$danger-color</code> y <code>$success-color</code>.</li>
+        <li>En nuevas vistas, importar estilos desde parciales SCSS siguiendo la estructura: abstracts, base, components, pages.</li>
+    </ul>
+
+    <h2>Referencias de implementacion</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Archivo</th>
+                <th>Contenido relevante</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>resources/sass/abstracts/_variables.scss</code></td>
+                <td>Tokens de color, fuentes, alturas y breakpoints.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/base/_global.scss</code></td>
+                <td>Reset basico, body, contenedor y utilidades.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/components/_header.scss</code></td>
+                <td>Header, buscador, iconos y desplegables.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/pages/_home.scss</code></td>
+                <td>Hero, video de fondo y secciones editoriales.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/pages/_joyas.scss</code></td>
+                <td>Catalogo, tarjetas de producto y showcase.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/pages/_show.scss</code></td>
+                <td>Detalle de producto, galeria y acciones.</td>
+            </tr>
+            <tr>
+                <td><code>resources/sass/pages/_carrito.scss</code></td>
+                <td>Carrito, items, resumen y controles de cantidad.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
