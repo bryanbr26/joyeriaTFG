@@ -68,6 +68,7 @@ Route::prefix('{categoria}')->where(['categoria' => 'collares|anillos|pulseras|p
 Route::get('/regalos', [RegalosController::class, 'regalos'])->name('regalos');
 Route::get('/compro-oro', [ComproOroController::class, 'comproOro'])->name('comproOro');
 Route::get('/orfebreria', [OrfebreriaController::class, 'orfebreria'])->name('orfebreria');
+Route::post('/orfebreria', [OrfebreriaController::class, 'enviarCita'])->name('orfebreria.enviar');
 Route::get('/historia', [HistoriaController::class, 'historia'])->name('historia');
 
 

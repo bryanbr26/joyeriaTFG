@@ -14,18 +14,16 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 function initFormularioCita() {
     const formulario = document.getElementById('form-reservar-cita');
-    const mensajeConfirmacion = document.getElementById('mensaje-confirmacion');
 
     if (!formulario) return;
 
     formulario.addEventListener('submit', function (event) {
-        event.preventDefault();
-
         // Validación básica
         const fecha = formulario.querySelector('#fecha-cita').value;
         const hora = formulario.querySelector('#hora-cita').value;
 
         if (!fecha || !hora) {
+            event.preventDefault();
             mostrarError('Por favor, completa la fecha y la hora de la cita.');
             return;
         }
@@ -35,42 +33,16 @@ function initFormularioCita() {
         const ahora = new Date();
 
         if (fechaSeleccionada < ahora) {
+            event.preventDefault();
             mostrarError('La fecha y hora de la cita no pueden ser anteriores al momento actual.');
             return;
         }
 
-        // Simular envío exitoso
-        // En producción, aquí iría el fetch/AJAX real
-        enviarFormularioSimulado(formulario, mensajeConfirmacion);
+        const botonSubmit = formulario.querySelector('.btn-confirmar-cita');
+        botonSubmit.disabled = true;
+        botonSubmit.textContent = 'Enviando...';
+        botonSubmit.style.opacity = '0.7';
     });
-}
-
-/**
- * Simula el envío del formulario y muestra mensaje de confirmación
- */
-function enviarFormularioSimulado(formulario, mensajeConfirmacion) {
-    const botonSubmit = formulario.querySelector('.btn-confirmar-cita');
-    const textoOriginal = botonSubmit.textContent;
-
-    // Estado de carga
-    botonSubmit.disabled = true;
-    botonSubmit.textContent = 'Enviando...';
-    botonSubmit.style.opacity = '0.7';
-
-    // Simular delay de red
-    setTimeout(() => {
-        // Ocultar formulario y mostrar mensaje
-        formulario.style.display = 'none';
-        mensajeConfirmacion.style.display = 'block';
-
-        // Reset del botón (por si el usuario vuelve atrás en el futuro)
-        botonSubmit.disabled = false;
-        botonSubmit.textContent = textoOriginal;
-        botonSubmit.style.opacity = '1';
-
-        // Scroll suave al mensaje
-        mensajeConfirmacion.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 1200);
 }
 
 /**

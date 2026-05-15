@@ -114,23 +114,63 @@
         <h2 class="reservar-cita-titulo">Reservar Cita</h2>
         <p class="reservar-cita-subtitulo">Solicita una cita con nuestros expertos en orfebrería</p>
 
-        <form id="form-reservar-cita" class="form-reservar-cita" method="POST" action="">
+        @if(session('success'))
+            <div class="mensaje-confirmacion mensaje-confirmacion--visible">
+                <i class="bi bi-check-circle-fill"></i>
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mensaje-error-cita">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <p>{{ session('error') }}</p>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="mensaje-error-cita">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <div>
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <form id="form-reservar-cita" class="form-reservar-cita" method="POST" action="{{ route('orfebreria.enviar') }}">
             @csrf
+
+            <div class="div-datos-contacto">
+                <div class="grupo-nombre">
+                    <label for="nombre-cita" class="form-label">Nombre</label>
+                    <input type="text" id="nombre-cita" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                </div>
+                <div class="grupo-email">
+                    <label for="email-cita" class="form-label">Email</label>
+                    <input type="email" id="email-cita" name="email" class="form-control" value="{{ old('email') }}" required>
+                </div>
+                <div class="grupo-telefono">
+                    <label for="telefono-cita" class="form-label">Teléfono</label>
+                    <input type="tel" id="telefono-cita" name="telefono" class="form-control" value="{{ old('telefono') }}">
+                </div>
+            </div>
 
             <div class="div-proposito">
                 <fieldset class="grupo-proposito">
                     <legend>¿Cuál es el propósito de su cita?</legend>
                     <div class="opciones-radio">
                         <label class="radio-label">
-                            <input type="radio" name="proposito" value="productos" checked>
+                            <input type="radio" name="proposito" value="productos" {{ old('proposito', 'productos') === 'productos' ? 'checked' : '' }}>
                             <span>Productos</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="proposito" value="servicios">
+                            <input type="radio" name="proposito" value="servicios" {{ old('proposito') === 'servicios' ? 'checked' : '' }}>
                             <span>Servicios</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="proposito" value="otro">
+                            <input type="radio" name="proposito" value="otro" {{ old('proposito') === 'otro' ? 'checked' : '' }}>
                             <span>Otro</span>
                         </label>
                     </div>
@@ -139,9 +179,12 @@
                 <div class="grupo-motivo">
                     <label for="motivo-cita" class="form-label">Motivo de su cita:</label>
                     <select id="motivo-cita" name="motivo" class="form-select">
-                        <option value="joyeria">Joyería</option>
-                        <option value="encargo">Encargo</option>
-                        <option value="diseno-propio">Diseño propio</option>
+                        <option value="joyeria" {{ old('motivo') === 'joyeria' ? 'selected' : '' }}>Joyería</option>
+                        <option value="encargo" {{ old('motivo') === 'encargo' ? 'selected' : '' }}>Encargo</option>
+                        <option value="diseno-propio" {{ old('motivo') === 'diseno-propio' ? 'selected' : '' }}>Diseño propio</option>
+                        <option value="reparacion" {{ old('motivo') === 'reparacion' ? 'selected' : '' }}>Reparación</option>
+                        <option value="tasacion" {{ old('motivo') === 'tasacion' ? 'selected' : '' }}>Tasación</option>
+                        <option value="otro" {{ old('motivo') === 'otro' ? 'selected' : '' }}>Otro</option>
                     </select>
                 </div>
             </div>
@@ -149,11 +192,11 @@
             <div class="div-detalles-cita">
                 <div class="grupo-fecha">
                     <label for="fecha-cita" class="form-label">Fecha</label>
-                    <input type="date" id="fecha-cita" name="fecha" class="form-control" required>
+                    <input type="date" id="fecha-cita" name="fecha" class="form-control" value="{{ old('fecha') }}" required>
                 </div>
                 <div class="grupo-hora">
                     <label for="hora-cita" class="form-label">Hora</label>
-                    <input type="time" id="hora-cita" name="hora" class="form-control" required>
+                    <input type="time" id="hora-cita" name="hora" class="form-control" value="{{ old('hora') }}" required>
                 </div>
             </div>
 
@@ -165,18 +208,14 @@
                     class="form-control"
                     rows="4"
                     placeholder="Cuéntanos más sobre lo que necesitas..."
-                ></textarea>
+                >{{ old('comentarios') }}</textarea>
             </div>
 
             <button type="submit" class="btn-confirmar-cita">
                 Confirmar cita
             </button>
         </form>
-
-        <div id="mensaje-confirmacion" class="mensaje-confirmacion" style="display: none;">
-            <i class="bi bi-check-circle-fill"></i>
-            <p>Se ha enviado y confirmado su cita.</p>
-        </div>
+        <div id="mensaje-confirmacion" class="mensaje-confirmacion" style="display: none;"></div>
     </div>
 </section>
 

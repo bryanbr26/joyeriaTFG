@@ -31,6 +31,8 @@
     grid-column: 2/3;
     background-color: $white;
     overflow-y: auto;
+    max-height: 100vh;
+    padding-bottom: 2rem;
 
     .fila-btn-salir {
 
@@ -120,7 +122,7 @@
 
 .fila-form-login {
 
-    margin-top: 4rem;
+    margin-top: 3rem;
     gap: 2rem;
     padding-left: 2rem;
     padding-right: 2rem;
@@ -138,6 +140,7 @@
             border-bottom: 1px solid $dark;
             display: inline-block;
             position: relative;
+            background: transparent;
 
             &:hover {
                 color: $dark;
@@ -181,6 +184,191 @@
         color: #333;
         font-size: 1rem;
         font-family: $font-primary;
+    }
+}
+
+.form-register {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+    padding-right: 0.35rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(26, 26, 26, 0.35) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(26, 26, 26, 0.35);
+        border-radius: 999px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem 1.25rem;
+    }
+
+    .campo-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .form-label {
+        margin: 0;
+        color: #333;
+        font-family: $font-primary;
+        font-size: 0.9rem;
+    }
+
+    .form-terms {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.5rem;
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: #333;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.auth-recovery-page {
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(rgba(251, 249, 247, 0.92), rgba(251, 249, 247, 0.92)),
+        url('/images/fondos/Logo-login.jpg') center / cover no-repeat;
+    font-family: $font-primary;
+}
+
+.auth-recovery-card {
+    width: min(100%, 460px);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 22px 60px rgba(26, 26, 26, 0.16);
+    padding: 2rem;
+}
+
+.auth-recovery-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+
+    &:hover {
+        color: $dark;
+    }
+}
+
+.auth-recovery-header {
+    margin-bottom: 1.5rem;
+
+    .auth-recovery-kicker {
+        display: block;
+        font-family: $font-logo;
+        font-size: 1rem;
+        color: #8a6f3a;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.45rem;
+    }
+
+    h1 {
+        margin: 0 0 0.75rem;
+        color: $dark;
+        font-family: $font-logo;
+        font-size: 2.2rem;
+        line-height: 1.1;
+    }
+
+    p {
+        margin: 0;
+        color: #666;
+        line-height: 1.6;
+    }
+}
+
+.auth-alert {
+    padding: 0.9rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+
+    p {
+        margin: 0;
+    }
+}
+
+.auth-alert--success {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.25);
+    color: #1e6b35;
+}
+
+.auth-alert--error {
+    background: rgba(220, 53, 69, 0.09);
+    border: 1px solid rgba(220, 53, 69, 0.22);
+    color: #9b1c2c;
+}
+
+.auth-recovery-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+
+    label {
+        color: #333;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    input {
+        width: 100%;
+        border: 1px solid rgba(26, 26, 26, 0.18);
+        border-radius: 6px;
+        padding: 0.85rem 1rem;
+        background: #fff;
+        color: $dark;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: #8a6f3a;
+            box-shadow: 0 0 0 3px rgba(138, 111, 58, 0.14);
+        }
+    }
+
+    button {
+        margin-top: 0.5rem;
+        width: 100%;
+        border: none;
+        border-radius: 6px;
+        background: $dark;
+        color: $white;
+        padding: 0.9rem 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+        &:hover {
+            background: #2b2b2b;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(26, 26, 26, 0.18);
+        }
     }
 }
 
@@ -236,6 +424,14 @@
         margin-top: 2rem;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+    }
+
+    .form-register {
+        max-height: none;
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
     }
 }
 
@@ -297,5 +493,18 @@
         form {
             gap: 1.2rem;
         }
+    }
+
+    .auth-recovery-page {
+        padding: 1rem;
+        align-items: flex-start;
+    }
+
+    .auth-recovery-card {
+        padding: 1.5rem;
+    }
+
+    .auth-recovery-header h1 {
+        font-size: 1.8rem;
     }
 }

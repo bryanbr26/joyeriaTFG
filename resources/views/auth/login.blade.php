@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar sesión</title>
   <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('css/global.css') }}">
@@ -25,8 +26,8 @@
       </div>
       <div class="fila-form">
         <div class="btn-opciones-login">
-          <a href="javascript:void(0)" id="btn-login" class="active">Iniciar Sesión</a>
-          <a href="javascript:void(0)" id="btn-register">Registrarse</a>
+          <a href="javascript:void(0)" id="btn-login" class="{{ empty($mostrarRegistro) ? 'active' : '' }}">Iniciar Sesión</a>
+          <a href="javascript:void(0)" id="btn-register" class="{{ !empty($mostrarRegistro) ? 'active' : '' }}">Registrarse</a>
         </div>
 
         <!-- ERRORES -->
@@ -49,51 +50,51 @@
 
         <div class="fila-form-login">
           <!--Formulario para el inicio de sesion !-->
-          <form action="{{ route('login') }}" method="post" class="form-login" id="form-login">
+          <form action="{{ route('login') }}" method="post" class="form-login" id="form-login" style="{{ !empty($mostrarRegistro) ? 'display: none;' : '' }}">
             @csrf
             <div class="form-group">
 
-              <input type="email" name="email" id="email" placeholder="Dirección de correo electrónico *">
+              <input type="email" name="email" id="login-email" placeholder="Dirección de correo electrónico *" autocomplete="email">
             </div>
             <div class="form-group">
 
-              <input type="password " name="password" id="password" placeholder="Contraseña *">
+              <input type="password" name="password" id="login-password" placeholder="Contraseña *" autocomplete="current-password">
             </div>
             <a class="contenedor-recuperar" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
             <button type="submit">Iniciar Sesión</button>
           </form>
           <!--Formulario para el registro !-->
-          <form action="{{ route('register') }}" method="POST" class="form-register" id="form-register" style="display: none;">
+          <form action="{{ route('register') }}" method="POST" class="form-register" id="form-register" style="{{ empty($mostrarRegistro) ? 'display: none;' : '' }}">
             @csrf
             <div class="form-grid">
               <div class="campo-form">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <label for="register-nombre" class="form-label">Nombre</label>
+                <input type="text" id="register-nombre" name="nombre" autocomplete="given-name" required>
               </div>
 
               <div class="campo-form">
-                <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" name="apellidos" id="apellidos" required>
+                <label for="register-apellidos" class="form-label">Apellidos</label>
+                <input type="text" name="apellidos" id="register-apellidos" autocomplete="family-name" required>
               </div>
 
               <div class="campo-form">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" name="email" id="email" required>
+                <label for="register-email" class="form-label">Correo electrónico</label>
+                <input type="email" name="email" id="register-email" autocomplete="email" required>
               </div>
 
               <div class="campo-form">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" name="telefono" id="telefono" required>
+                <label for="register-telefono" class="form-label">Teléfono</label>
+                <input type="text" name="telefono" id="register-telefono" autocomplete="tel" required>
               </div>
 
               <div class="campo-form">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" name="password" id="password" required>
+                <label for="register-password" class="form-label">Contraseña</label>
+                <input type="password" name="password" id="register-password" autocomplete="new-password" required>
               </div>
 
               <div class="campo-form">
-                <label for="password_confirmation" class="form-label">Confirmar contraseña</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" required>
+                <label for="register-password-confirmation" class="form-label">Confirmar contraseña</label>
+                <input type="password" name="password_confirmation" id="register-password-confirmation" autocomplete="new-password" required>
               </div>
             </div>
 
