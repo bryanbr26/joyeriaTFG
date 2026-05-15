@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Carrito;
+use App\Models\DetallePedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -88,5 +89,35 @@ class PersonalizaController extends Controller
             'message' => 'Producto personalizado añadido a la cesta correctamente',
             'totalItems' => Carrito::where('id_usuario', $userId)->sum('cantidad')
         ]);
+    }
+
+    public function mostrarGrabadoCarrito(Carrito $carrito)
+    {
+        $usuario = Auth::user();
+
+        abort_unless($usuario && ($carrito->id_usuario === $usuario->id || $usuario->rol === 'admin'), 403);
+
+        return $this->respuestaGrabado($carrito->ruta_grabado_personalizado);
+    }
+
+    public function mostrarGrabadoPedido(DetallePedido $detalle)
+    {
+        $usuario = Auth::user();
+        $detalle->loadMissing('pedido');
+
+        abort_unless(
+            $usuario && $detalle->pedido && ($detalle->pedido->id_usuario === $usuario->id || $usuario->rol === 'admin'),
+            403
+        );
+
+        return $this->respuestaGrabado($detalle->ruta_grabado_personalizado);
+    }
+
+    private function respuestaGrabado(?string $ruta)
+    {
+        abort_if(!$ruta || strpos($ruta, 'grabados/') !== 0 || strpos($ruta, '..') !== false, 404);
+        abort_unless(Storage::disk('public')->exists($ruta), 404);
+
+        return Storage::disk('public')->response($ruta);
     }
 }

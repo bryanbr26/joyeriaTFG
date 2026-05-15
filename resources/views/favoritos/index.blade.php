@@ -33,7 +33,7 @@
                         <div class="item-favoritos-image">
                             @if($favorito->producto->imagen_principal_url)
                                 <img src="{{ $favorito->producto->imagen_principal_url }}"
-                                     alt="{{ $favorito->producto->nombre }}" class="lazy-image blur-up img-fluid"
+                                     alt="{{ $favorito->producto->nombre }}" class="img-fluid"
                                      style="object-fit: cover; width: 100%; height: 100%;"
                                      loading="lazy" decoding="async">
                             @else

@@ -15,7 +15,9 @@
         <div class="contact-info">
             <div class="info-item">
                 <i class="bi bi-geo-alt"></i>
-                <span>Calle Mayor, 24 — 28013 Madrid</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=Joyas+P%C3%A9rez+Soria" target="_blank" rel="noopener">
+                    Joyas Pérez — Soria, Castilla y León
+                </a>
             </div>
             <div class="info-item">
                 <i class="bi bi-telephone"></i>

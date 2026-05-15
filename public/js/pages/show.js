@@ -9742,6 +9742,18 @@ function initProductosShow() {
 
   // Ejecutar al inicio
   evaluarMediaQuery(mediaQuery);
+  var imagenPrincipal = document.getElementById('producto-imagen-principal');
+  var miniaturas = document.querySelectorAll('.producto-miniatura');
+  miniaturas.forEach(function (miniatura) {
+    miniatura.addEventListener('click', function () {
+      if (!imagenPrincipal) return;
+      imagenPrincipal.src = this.dataset.fullSrc;
+      miniaturas.forEach(function (img) {
+        return img.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
 
   // ==========================================
   // Botón añadir a la cesta (Usuario Autenticado)

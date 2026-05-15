@@ -27,12 +27,17 @@
             <div class="cart-items">
                 
                 @forelse($items as $item)
+                    @php
+                        $grabadoDisponible = $item->ruta_grabado_personalizado
+                            && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->ruta_grabado_personalizado);
+                        $grabadoUrl = $grabadoDisponible ? route('grabados.carrito', $item) : null;
+                    @endphp
                     <div class="item-box" id="item-{{ $item->id }}">
                         <!-- Img Container -->
                         <div class="item-image">
                             @if($item->producto->imagen_principal_url)
                                 <img src="{{ $item->producto->imagen_principal_url }}"
-                                     alt="{{ $item->producto->nombre }}" class="lazy-image blur-up img-full"
+                                     alt="{{ $item->producto->nombre }}" class="img-full"
                                      loading="lazy" decoding="async">
                             @else
                                 <i class="bi bi-gem text-muted icon-placeholder"></i>
@@ -52,9 +57,9 @@
                                         @endif
                                     </h5>
                                     <p class="item-desc">{{ Str::limit($item->producto->descripcion, 70) }}</p>
-                                    @if($item->ruta_grabado_personalizado && file_exists(public_path('storage/' . $item->ruta_grabado_personalizado)))
-                                        <a href="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" target="_blank" class="grabado-link">
-                                            <img src="{{ asset('storage/' . $item->ruta_grabado_personalizado) }}" alt="Grabado" class="grabado-img">
+                                    @if($grabadoUrl)
+                                        <a href="{{ $grabadoUrl }}" target="_blank" class="grabado-link">
+                                            <img src="{{ $grabadoUrl }}" alt="Grabado" class="grabado-img">
                                             <small>Ver grabado</small>
                                         </a>
                                     @endif

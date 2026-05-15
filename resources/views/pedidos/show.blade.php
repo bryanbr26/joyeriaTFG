@@ -138,12 +138,17 @@
                 <h5 class="fw-bold mb-3">Productos</h5>
 
                 @foreach($pedido->detalles as $detalle)
+                    @php
+                        $grabadoDisponible = $detalle->ruta_grabado_personalizado
+                            && \Illuminate\Support\Facades\Storage::disk('public')->exists($detalle->ruta_grabado_personalizado);
+                        $grabadoUrl = $grabadoDisponible ? route('grabados.pedido', $detalle) : null;
+                    @endphp
                     <div class="detalle-box">
                         <!-- Imagen -->
                         <div class="detalle-image">
                             @if($detalle->producto && $detalle->producto->imagen_principal_url)
                                 <img src="{{ $detalle->producto->imagen_principal_url }}"
-                                     alt="{{ $detalle->producto->nombre }}" class="lazy-image blur-up img-fluid"
+                                     alt="{{ $detalle->producto->nombre }}" class="img-fluid"
                                      style="object-fit: cover; width: 100%; height: 100%;"
                                      loading="lazy" decoding="async">
                             @else
@@ -166,9 +171,9 @@
                                     @if($detalle->producto)
                                         <p class="text-muted small mb-0">{{ $detalle->producto->marca }}</p>
                                     @endif
-                                    @if($detalle->ruta_grabado_personalizado && file_exists(public_path('storage/' . $detalle->ruta_grabado_personalizado)))
-                                        <a href="{{ asset('storage/' . $detalle->ruta_grabado_personalizado) }}" target="_blank" class="d-inline-block mt-2">
-                                            <img src="{{ asset('storage/' . $detalle->ruta_grabado_personalizado) }}" alt="Grabado personalizado" 
+                                    @if($grabadoUrl)
+                                        <a href="{{ $grabadoUrl }}" target="_blank" class="d-inline-block mt-2">
+                                            <img src="{{ $grabadoUrl }}" alt="Grabado personalizado"
                                                  style="height: 50px; border: 1px solid #dee2e6; border-radius: 4px;">
                                             <small class="d-block text-muted">Ver grabado</small>
                                         </a>

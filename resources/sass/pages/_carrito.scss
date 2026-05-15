@@ -154,7 +154,6 @@ $cart-transition-fast: background 0.2s ease;
 
 // Imagen del producto
 .item-image {
-    border: 2px solid red;
     width: $cart-item-image-size;
     height: $cart-item-image-size;
     overflow: hidden;
@@ -171,7 +170,8 @@ $cart-transition-fast: background 0.2s ease;
 .img-full {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    display: block;
 }
 
 .icon-placeholder {
@@ -573,10 +573,12 @@ $cart-transition-fast: background 0.2s ease;
         grid-column: 1/2;
         width: 100%;
         height: 100%;
+        background: $light;
         .item-img{
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            display: block;
         }
     }
     .item-details {

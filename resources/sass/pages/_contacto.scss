@@ -85,6 +85,16 @@
             span {
                 line-height: 1.4;
             }
+
+            a {
+                color: inherit;
+                line-height: 1.4;
+                text-decoration: none;
+
+                &:hover {
+                    color: $secondary-color;
+                }
+            }
         }
     }
 }

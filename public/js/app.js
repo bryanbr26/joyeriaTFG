@@ -3680,60 +3680,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function initMegaMenu() {
   // El desplegable de joyeria ya no usa imagen dinamica.
-  return;
-  // Elementos del mega menú
-  var categoriasItems = document.querySelectorAll('.categoria-item');
-  var imagenElemento = document.querySelector('.img-drop-down img');
-  var textoElemento = document.querySelector('.imagen-texto');
-
-  // Imagen por defecto
-  var imagenDefault = {
-    url: '/images/joyas/exclusiva.webp',
-    texto: 'Descubre nuestra colección exclusiva'
-  };
-
-  // Función para cambiar imagen con fade
-  function cambiarImagen(nuevaUrl, nuevoTexto) {
-    if (!imagenElemento) return;
-
-    // Efecto fade out
-    imagenElemento.style.opacity = '0';
-    setTimeout(function () {
-      imagenElemento.src = nuevaUrl;
-      if (textoElemento) {
-        textoElemento.textContent = nuevoTexto;
-      }
-      // Efecto fade in
-      imagenElemento.style.opacity = '1';
-    }, 150);
-  }
-
-  // Función para resetear imagen
-  function resetearImagen() {
-    cambiarImagen(imagenDefault.url, imagenDefault.texto);
-  }
-
-  // Agregar event listeners a cada categoría
-  if (categoriasItems.length > 0) {
-    categoriasItems.forEach(function (item) {
-      item.addEventListener('mouseenter', function () {
-        var _this$querySelector;
-        var imagenUrl = this.getAttribute('data-imagen');
-        var texto = ((_this$querySelector = this.querySelector('a')) === null || _this$querySelector === void 0 ? void 0 : _this$querySelector.textContent) || 'Categoría';
-        if (imagenUrl) {
-          cambiarImagen(imagenUrl, "Explora nuestra colecci\xF3n de ".concat(texto.toLowerCase()));
-        }
-      });
-    });
-
-    // Resetear cuando el mouse sale del menú
-    var dropdownMenu = document.querySelector('.dropdown-menu');
-    if (dropdownMenu) {
-      dropdownMenu.addEventListener('mouseleave', function () {
-        resetearImagen();
-      });
-    }
-  }
 }
 
 /***/ }),

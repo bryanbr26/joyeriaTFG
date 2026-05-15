@@ -23,7 +23,7 @@
                         <div class="item-panel-image">
                             @if($item->producto->imagen_principal_url)
                                 <img src="{{ $item->producto->imagen_principal_url }}"
-                                     alt="{{ $item->producto->nombre }}" class="lazy-image blur-up item-img"
+                                     alt="{{ $item->producto->nombre }}" class="item-img"
                                      loading="lazy" decoding="async">
                             @else
                                 <div class="item-image-placeholder">

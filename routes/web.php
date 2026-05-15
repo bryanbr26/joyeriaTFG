@@ -111,6 +111,8 @@ Route::get('/personaliza-tus-joyas', [PersonalizaController::class, 'personaliza
 Route::middleware('auth')->group(function () {
     Route::post('/personaliza-tus-joyas/guardar', [PersonalizaController::class, 'guardarGrabado'])->name('personaliza.guardar');
     Route::get('/personaliza-tus-joyas/{producto}', [PersonalizaController::class, 'personalizaProducto'])->name('personaliza.producto');
+    Route::get('/grabados/carrito/{carrito}', [PersonalizaController::class, 'mostrarGrabadoCarrito'])->name('grabados.carrito');
+    Route::get('/grabados/pedido/{detalle}', [PersonalizaController::class, 'mostrarGrabadoPedido'])->name('grabados.pedido');
 });
 
 Route::get('/instalar-bd', function () {

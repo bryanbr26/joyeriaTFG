@@ -79,8 +79,8 @@
                             <td>{{ number_format($detalle->precio_unitario, 2) }}€</td>
                             <td>{{ number_format($detalle->precio_unitario * $detalle->cantidad, 2) }}€</td>
                             <td>
-                                @if($detalle->ruta_grabado_personalizado)
-                                    <a href="{{ asset('storage/' . $detalle->ruta_grabado_personalizado) }}" target="_blank">Ver grabado</a>
+                                @if($detalle->ruta_grabado_personalizado && \Illuminate\Support\Facades\Storage::disk('public')->exists($detalle->ruta_grabado_personalizado))
+                                    <a href="{{ route('grabados.pedido', $detalle) }}" target="_blank">Ver grabado</a>
                                 @else
                                     <span class="text-muted">No</span>
                                 @endif
