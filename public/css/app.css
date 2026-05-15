@@ -20523,17 +20523,15 @@ header {
   transition: opacity 0.3s ease, visibility 0.3s ease;
   visibility: hidden;
   z-index: 1050;
-  display: grid !important;
-  grid-template-columns: 400px 45% 30%;
+  display: none !important;
+  grid-template-columns: 40% 60%;
   gap: 2rem;
-  pointer-events: none;
 }
-#nav-bar .joyeria-mega-dropdown:hover .joyeria-mega-menu,
-#nav-bar .joyeria-mega-dropdown:focus-within .joyeria-mega-menu {
+#nav-bar .dropdown:hover .joyeria-mega-menu,
+#nav-bar .dropdown:focus-within .joyeria-mega-menu {
   display: grid !important;
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
 }
 
 .titulo-contenedor {
@@ -20567,14 +20565,14 @@ header {
 
 .lista-joyas-container {
   grid-column: 2/3;
-  margin-left: 20%;
-  margin-top: 1.2rem;
+  padding: 1rem 2rem 1rem 0;
+  margin-right: 20%;
 }
 
 .lista-joyas {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;

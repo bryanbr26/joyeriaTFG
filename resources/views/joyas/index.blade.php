@@ -27,21 +27,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
-    {{-- ========================================== --}}
-    {{-- FILA 1: Imagen grande izquierda + 4 productos --}}
-    {{-- ========================================== --}}
-    @if($productos && count($productos) > 0)
-
-    <div class="productos-showcase">
-        {{-- Imagen decorativa grande (izquierda) --}}
-        <div class="imagen-destacada">
-            <img src="{{ asset('images/joyas/exclusiva.webp') }}" alt="Joyería destacada" class="imagen-destacada-img">
-            <div class="imagen-destacada-overlay">
-                <h3>Colección Exclusiva</h3>
-                <p>Descubre nuestras piezas únicas</p>
-                <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn-ver-mas">Ver colección</a>
-            </div>
-        @endif
         {{-- ========================================== --}}
         {{-- FILA 1: Imagen grande izquierda + 4 productos --}}
         {{-- ========================================== --}}
@@ -54,57 +39,16 @@
                     <div class="imagen-destacada-overlay">
                         <h3>Colección Exclusiva</h3>
                         <p>Descubre nuestras piezas únicas</p>
-                        <a href="{{ route('joyas.index', $categoria) }}" class="btn-ver-mas">Ver colección</a>
+                        <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn-ver-mas">Ver colección</a>
                     </div>
                 </div>
 
                 {{-- Grid 2x2 de productos (derecha) --}}
                 <div class="productos-secundarios">
                     @foreach($productos->slice(0, 4) as $producto)
+                        @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
                         <div class="producto-item">
-                            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
-                                <div class="producto-card">
-                                    @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                        <img src="{{ $producto->placeholder }}"
-                                             data-src="{{ $producto->imagenUrl('medium') }}"
-                                             loading="lazy"
-                                             decoding="async"
-                                             class="lazy-image blur-up producto-imagen"
-                                             alt="{{ $producto->nombre }}">
-                                    @else
-                                        <div class="producto-imagen--placeholder">
-                                            <i class="bi bi-gem icono-placeholder"></i>
-                                        </div>
-                                    @endif
-
-                                    <div class="producto-info">
-                                        <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
-                                        <p class="producto-marca">{{ $producto->marca }}</p>
-                                        <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
-                                        <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
-                                    </div>
-                                @endif
-
-                                <div class="producto-info">
-                                    <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
-                                    <p class="producto-marca">{{ $producto->marca }}</p>
-                                    <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
-                                    <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            {{-- ========================================== --}}
-            {{-- FILA 2: 4 productos en grid normal --}}
-            {{-- ========================================== --}}
-            @if($productos->count() > 4)
-                <div class="productos-fila">
-                    @foreach($productos->slice(4, 4) as $producto)
-                        <div class="producto-item">
-                            <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
+                            <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                         <img src="{{ $producto->placeholder }}"
@@ -130,46 +74,7 @@
                         </div>
                     @endforeach
                 </div>
-            @endif
-
-            {{-- ========================================== --}}
-            {{-- FILA 3: 4 productos izquierda + Imagen grande derecha --}}
-            {{-- ========================================== --}}
-            @if($productos->count() > 8)
-                <div class="productos-showcase productos-showcase--invertido">
-                    {{-- Grid 2x2 de productos (izquierda) --}}
-                    <div class="productos-secundarios">
-                        @foreach($productos->slice(8, 4) as $producto)
-                            <div class="producto-item">
-                                <a href="{{ route('joyas.show', [$categoria, $producto]) }}" class="producto-enlace">
-                                    <div class="producto-card">
-                                        @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
-                                            <img src="{{ $producto->placeholder }}"
-                                                 data-src="{{ $producto->imagenUrl('medium') }}"
-                                                 class="lazy-image blur-up producto-imagen"
-                                                 alt="{{ $producto->nombre }}"
-                                                 loading="lazy" decoding="async">
-                                        @else
-                                            <div class="producto-imagen--placeholder">
-                                                <i class="bi bi-gem icono-placeholder"></i>
-                                            </div>
-                                        @endif
-
-                                        <div class="producto-info">
-                                            <h4 class="producto-titulo">{{ Str::limit($producto->nombre, 30) }}</h4>
-                                            <p class="producto-marca">{{ $producto->marca }}</p>
-                                            <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
-                                            <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
-
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
             </div>
-        </div>
 
         {{-- ========================================== --}}
         {{-- FILA 2: 4 productos en grid normal --}}
@@ -181,9 +86,13 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->imagen_principal_url)
-                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
-                                        alt="{{ $producto->nombre }}">
+                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                                    <img src="{{ $producto->placeholder }}"
+                                         data-src="{{ $producto->imagenUrl('medium') }}"
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="lazy-image blur-up producto-imagen"
+                                         alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
                                         <i class="bi bi-gem icono-placeholder"></i>
@@ -264,9 +173,13 @@
                     <div class="producto-item">
                         <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                             <div class="producto-card">
-                                @if($producto->imagen_principal_url)
-                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
-                                        alt="{{ $producto->nombre }}">
+                                @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
+                                    <img src="{{ $producto->placeholder }}"
+                                         data-src="{{ $producto->imagenUrl('medium') }}"
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="lazy-image blur-up producto-imagen"
+                                         alt="{{ $producto->nombre }}">
                                 @else
                                     <div class="producto-imagen--placeholder">
                                         <i class="bi bi-gem icono-placeholder"></i>
@@ -309,7 +222,7 @@
             <h3>Filtrar</h3>
             <button type="button" class="btn-close" id="closeFilter"></button>
         </div>
-        <form action="{{ route('joyas.index', $categoria) }}" method="GET" id="filterSortForm">
+        <form action="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" method="GET" id="filterSortForm">
             {{-- Mantener el orden actual si existe --}}
             <input type="hidden" name="orden" id="ordenInput" value="{{ request('orden') }}">
 
@@ -403,7 +316,7 @@
             </div>
 
             <div class="panel-footer">
-                <a href="{{ route('joyas.index', $categoria) }}" class="btn-limpiar">Limpiar</a>
+                <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn-limpiar">Limpiar</a>
                 <button type="submit" class="btn-aplicar">Aplicar Filtros</button>
             </div>
         </form>

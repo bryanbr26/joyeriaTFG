@@ -70,31 +70,21 @@
                                 </div>
                                 <div class="lista-joyas-container">
                                     <ul class="lista-joyas">
-                                        <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/carrusel-collares.png') }}">
+                                        <li class="categoria-item">
                                             <a href="{{ route('joyas.index', 'collares') }}">Collares</a>
                                         </li>
-                                        <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/carrusel-anillos.png') }}">
+                                        <li class="categoria-item">
                                             <a href="{{ route('joyas.index', 'anillos') }}">Anillos</a>
                                         </li>
-                                        <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/carrusel-pulseras.jpg') }}">
+                                        <li class="categoria-item">
                                             <a href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a>
                                         </li>
-                                        <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/carrusel-pendientes.png') }}">
+                                        <li class="categoria-item">
                                             <a href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a>
                                         </li>
                                     </ul>
                                 </div>
 
-                                <!-- Columna Derecha: Imagen dinámica -->
-                                <div class="img-drop-down">
-                                    <img id="categoria-imagen" src="{{ asset('images/joyas/exclusiva.webp') }}"
-                                        alt="Categoría destacada">
-                                    <div class="imagen-texto">Pasa el mouse sobre una categoría</div>
-                                </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

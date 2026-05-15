@@ -3679,6 +3679,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   initMegaMenu: () => (/* binding */ initMegaMenu)
 /* harmony export */ });
 function initMegaMenu() {
+  // El desplegable de joyeria ya no usa imagen dinamica.
+  return;
   // Elementos del mega menú
   var categoriasItems = document.querySelectorAll('.categoria-item');
   var imagenElemento = document.querySelector('.img-drop-down img');
