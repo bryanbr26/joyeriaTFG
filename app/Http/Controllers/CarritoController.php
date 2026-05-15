@@ -56,10 +56,13 @@ class CarritoController extends Controller
             ]);
         }
 
+        $cartHtml = view('joyas.partials.panel-carrito')->render();
+
         return response()->json([
             'success' => true,
             'message' => 'Producto añadido a la cesta correctamente',
-            'totalItems' => Carrito::where('id_usuario', $userId)->sum('cantidad')
+            'totalItems' => Carrito::where('id_usuario', $userId)->sum('cantidad'),
+            'cartHtml' => $cartHtml
         ]);
     }
 

@@ -22,7 +22,7 @@
 // 3. COMPONENTES (Elementos reutilizables)
 // ============================================
 @import 'components/header';
-@import 'components/admin-sidebar';
+@import 'components/loader';
 //@import 'components/footer';
 //@import 'components/buttons';
 //@import 'components/cards';
@@ -39,13 +39,14 @@
 @import 'pages/home';
 @import 'pages/login';
 @import 'pages/joyas';
+@import 'pages/show';
+@import 'pages/carrito';
+@import 'pages/panel-usuario';
+@import 'pages/favoritos';
+@import 'pages/orfebreria';
 //@import 'pages/productos';
 //@import 'pages/carrito';
-//@import 'pages/contacto';
-@import 'pages/regalos';
-@import 'pages/personaliza';
-@import 'pages/historia';
-@import 'pages/comproOro';
+@import 'pages/contacto';
 
 // ============================================
 // 6. TEMAS (Opcional)
@@ -85,16 +86,12 @@
 }
 
 // El contenido principal debe tener un padding-top igual a la altura real del header
-// (ajusta este valor tras medir tu header: logo + iconos + nav ≈ 160‑200 px)
 .main-content {
-    padding-top: 180px; // Para que el contenido no se meta debajo del header
-    position: relative;
-    z-index: 1; // Encima del video
+    padding-top: 50px;
 }
 
-// Header y footer siempre por encima
+// Header y footer 
 header,
 footer {
     position: relative;
-    z-index: 2;
 }

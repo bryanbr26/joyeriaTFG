@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Iniciar sesión</title>
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ mix('js/manifest.js') }}" defer></script>
+  <script src="{{ mix('js/vendor.js') }}" defer></script>
+  <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body>

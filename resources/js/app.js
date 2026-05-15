@@ -1,240 +1,240 @@
-// resources/js/app.js
-(function () {
-    function closeDropdown(dropdown) {
-        const toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
-        const menu = dropdown.querySelector('.dropdown-menu');
+import './bootstrap';
+import 'bootstrap';
 
-        if (!toggle || !menu) return;
+import { initMegaMenu } from './components/mega-menu.js';
+import { initBuscador } from './components/buscador.js';
+import { initNavbar } from './components/navbar.js';
 
-        toggle.classList.remove('show');
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.classList.remove('show');
-    }
+// ==========================================================
+// Loader – Lógica completa de espera y ocultación
+// ==========================================================
+let loaderHidden = false;
+const LOADER_TIMEOUT = 8000; // 8 segundos máximo (fallback de seguridad)
 
-    function closeAllDropdowns(exceptDropdown = null) {
-        document.querySelectorAll('.dropdown').forEach(dropdown => {
-            if (dropdown !== exceptDropdown && !dropdown.classList.contains('joyeria-mega-dropdown')) {
-                closeDropdown(dropdown);
-            }
-        });
-    }
+function hideLoader() {
+    if (loaderHidden) return;
+    loaderHidden = true;
 
-    function openModal(modal) {
-        if (!modal) return;
+    const loader = document.getElementById('page-loader');
+    if (!loader) return;
 
-        closeModal(document.querySelector('.modal.show'));
+    // Agregar clase de salida para transición suave
+    loader.classList.add('loader-hidden');
 
-        const backdrop = document.createElement('div');
-        backdrop.className = 'modal-backdrop fade show';
-        backdrop.dataset.generatedBackdrop = 'true';
-        document.body.appendChild(backdrop);
+    // Avisar a lectores de pantalla
+    loader.removeAttribute('aria-hidden');
+    loader.setAttribute('role', 'alert');
+    loader.setAttribute('aria-live', 'polite');
+    loader.setAttribute('aria-label', 'Página completamente cargada');
 
-        modal.style.display = 'block';
-        modal.removeAttribute('aria-hidden');
-        modal.setAttribute('aria-modal', 'true');
-        modal.classList.add('show');
-        document.body.classList.add('modal-open');
+    // Eliminar del DOM tras la animación (700ms inline CSS + margen)
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 750);
+}
 
-        const closeButton = modal.querySelector('[data-bs-dismiss="modal"], .btn-close');
-        if (closeButton) {
-            closeButton.focus();
-        }
-    }
+/**
+ * Espera a que un elemento multimedia (video/audio) esté listo.
+ */
+function waitForMedia(media) {
+    return new Promise((resolve) => {
+        if (!media) return resolve();
+        if (media.readyState >= 2) return resolve(); // HAVE_CURRENT_DATA
 
-    function closeModal(modal) {
-        if (!modal) return;
-
-        modal.classList.remove('show');
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        modal.removeAttribute('aria-modal');
-        document.body.classList.remove('modal-open');
-
-        document.querySelectorAll('[data-generated-backdrop="true"]').forEach(backdrop => backdrop.remove());
-    }
-
-    window.bootstrap = window.bootstrap || {};
-    window.bootstrap.Modal = window.bootstrap.Modal || function (modal) {
-        return {
-            show: function () {
-                openModal(modal);
-            },
-            hide: function () {
-                closeModal(modal);
-            }
+        const onReady = () => {
+            media.removeEventListener('loadedmetadata', onReady);
+            media.removeEventListener('canplay', onReady);
+            media.removeEventListener('error', onReady);
+            resolve();
         };
-    };
 
-    document.addEventListener('click', function (event) {
-        const dropdownToggle = event.target.closest('[data-bs-toggle="dropdown"]');
-        if (dropdownToggle) {
-            event.preventDefault();
-
-            const dropdown = dropdownToggle.closest('.dropdown');
-            const menu = dropdown ? dropdown.querySelector('.dropdown-menu') : null;
-            if (!dropdown || !menu || dropdown.classList.contains('joyeria-mega-dropdown')) return;
-
-            const isOpen = menu.classList.contains('show');
-            closeAllDropdowns(dropdown);
-
-            dropdownToggle.classList.toggle('show', !isOpen);
-            dropdownToggle.setAttribute('aria-expanded', String(!isOpen));
-            menu.classList.toggle('show', !isOpen);
-            return;
-        }
-
-        const modalToggle = event.target.closest('[data-bs-toggle="modal"]');
-        if (modalToggle) {
-            event.preventDefault();
-            openModal(document.querySelector(modalToggle.dataset.bsTarget));
-            return;
-        }
-
-        const dismissModal = event.target.closest('[data-bs-dismiss="modal"]');
-        if (dismissModal) {
-            event.preventDefault();
-            closeModal(dismissModal.closest('.modal'));
-            return;
-        }
-
-        const openedDropdown = event.target.closest('.dropdown');
-        if (!openedDropdown || openedDropdown.querySelector('[data-bs-auto-close="outside"]') === null) {
-            closeAllDropdowns(openedDropdown);
-        }
-
-        if (event.target.classList.contains('modal')) {
-            closeModal(event.target);
-        }
+        media.addEventListener('loadedmetadata', onReady);
+        media.addEventListener('canplay', onReady);
+        media.addEventListener('error', onReady); // No bloquear por error
     });
+}
 
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            closeAllDropdowns();
-            closeModal(document.querySelector('.modal.show'));
-        }
-    });
-})();
+/**
+ * Espera a que todas las imágenes con src real (no placeholders lazy)
+ * que están en el viewport inicial terminen de cargar.
+ * También espera las imágenes eager.
+ */
+function waitForVisibleImages() {
+    return new Promise((resolve) => {
+        const allImages = Array.from(document.querySelectorAll('img'));
+        const viewportH = window.innerHeight || document.documentElement.clientHeight;
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Elementos del mega menú
-    const categoriasItems = document.querySelectorAll('.categoria-item');
-    const imagenElemento = document.querySelector('.img-drop-down img');
-    const textoElemento = document.querySelector('.imagen-texto');
-    const botonBuscador = document.getElementById('boton-buscador');
-    const overlayBuscador = document.getElementById('overlay-buscador');
-    const cerrarBuscador = document.getElementById('cerrar-buscador');
+        const criticalImages = allImages.filter(img => {
+            // Ignorar imágenes sin src o con src de placeholder SVG inline
+            if (!img.src || img.src.startsWith('data:image/svg+xml')) return false;
 
-    // Imagen por defecto
-    const imagenDefault = {
-        url: '/images/joyas/exclusiva.webp',
-        texto: 'Descubre nuestra colección exclusiva'
-    };
-
-    // Función para cambiar imagen con fade
-    function cambiarImagen(nuevaUrl, nuevoTexto) {
-        if (!imagenElemento) return;
-
-        // Efecto fade out
-        imagenElemento.style.opacity = '0';
-
-        setTimeout(() => {
-            imagenElemento.src = nuevaUrl;
-            if (textoElemento) {
-                textoElemento.textContent = nuevoTexto;
+            // Si tiene data-src y NO está en el viewport, no es crítica ahora
+            if (img.dataset.src) {
+                const rect = img.getBoundingClientRect();
+                const inViewport = rect.top < viewportH && rect.bottom > 0;
+                return inViewport;
             }
-            // Efecto fade in
-            imagenElemento.style.opacity = '1';
-        }, 150);
-    }
 
-    // Función para resetear imagen
-    function resetearImagen() {
-        cambiarImagen(imagenDefault.url, imagenDefault.texto);
-    }
-
-    // Agregar event listeners a cada categoría
-    if (categoriasItems.length > 0) {
-        categoriasItems.forEach(item => {
-            item.addEventListener('mouseenter', function () {
-                const imagenUrl = this.getAttribute('data-imagen');
-                const texto = this.querySelector('a')?.textContent || 'Categoría';
-
-                if (imagenUrl) {
-                    cambiarImagen(imagenUrl, `Explora nuestra colección de ${texto.toLowerCase()}`);
-                }
-            });
+            // Imágenes con loading="eager" o sin lazy explícito son críticas
+            return img.loading !== 'lazy';
         });
 
-        // Resetear cuando el mouse sale del menú
-        const dropdownMenu = document.querySelector('.joyeria-mega-menu');
-        if (dropdownMenu) {
-            dropdownMenu.addEventListener('mouseleave', function () {
-                resetearImagen();
-            });
-        }
-    }
-    // Abrir overlay
-    if (botonBuscador) {
-        botonBuscador.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (!overlayBuscador) return;
-            overlayBuscador.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Evita scroll del body
+        if (criticalImages.length === 0) return resolve();
 
-            // Opcional: Enfocar el input
-            setTimeout(() => {
-                const input = document.getElementById('buscador');
-                if (input) input.focus();
-            }, 300);
-        });
-    }
+        let pending = criticalImages.length;
+        const onDone = () => {
+            pending--;
+            if (pending <= 0) resolve();
+        };
 
-    // Cerrar overlay
-    function cerrarOverlay() {
-        if (!overlayBuscador) return;
-        overlayBuscador.classList.remove('active');
-        document.body.style.overflow = ''; // Restaurar scroll
-    }
-
-    if (cerrarBuscador) {
-        cerrarBuscador.addEventListener('click', cerrarOverlay);
-    }
-
-    // Cerrar al hacer clic fuera del panel
-    if (overlayBuscador) {
-        overlayBuscador.addEventListener('click', function (e) {
-            if (e.target === overlayBuscador) {
-                cerrarOverlay();
-            }
-        });
-    }
-
-    // Mostrar Nav al hacer scroll pasado el header-icon
-    const headerIconContainer = document.getElementById('header-icon');
-    const mainNavBar = document.getElementById('nav-bar');
-
-    if (headerIconContainer && mainNavBar) {
-        // Si no es la página principal, hacemos que el nav sea visible por defecto al inicio
-        const isHomePage = document.body.classList.contains('home-page');
-        if (!isHomePage) {
-            mainNavBar.classList.add('nav-visible-defecto');
-        }
-
-        function checkScrollForNav() {
-            // Umbral = la parte inferior de header-icon respecto al inicio del documento
-            const threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
-
-            // Si hemos scrolleado más allá de ese punto, mostramos el nav (fixed al top)
-            if (window.scrollY > threshold) {
-                mainNavBar.classList.add('mostrar-nav');
+        criticalImages.forEach(img => {
+            if (img.complete && img.naturalWidth > 0) {
+                onDone();
             } else {
-                mainNavBar.classList.remove('mostrar-nav');
+                img.addEventListener('load', onDone, { once: true });
+                img.addEventListener('error', onDone, { once: true });
             }
+        });
+
+        // Fallback por si alguna imagen nunca dispara evento
+        setTimeout(resolve, 3000);
+    });
+}
+
+/**
+ * Espera a que los scripts con defer se hayan ejecutado.
+ * En la práctica, cuando DOMContentLoaded + window.onload han pasado,
+ * los scripts defer ya corrieron. Pero verificamos explícitamente
+ * que los componentes globales estén inicializados.
+ */
+function waitForDeferredScripts() {
+    return new Promise((resolve) => {
+        // Los scripts defer corren después de DOMContentLoaded y antes de window.onload
+        // Si window.onload ya pasó, estamos seguros.
+        if (document.readyState === 'complete') return resolve();
+        window.addEventListener('load', resolve, { once: true });
+    });
+}
+
+/**
+ * Pipeline de carga completa.
+ */
+async function initLoader() {
+    const startTime = performance.now();
+
+    // 1. Timeout máximo de seguridad (fallback)
+    const timeoutId = setTimeout(() => {
+        if (!loaderHidden) {
+            console.warn('[Loader] Timeout de 8 segundos alcanzado. Ocultando loader forzosamente.');
+            hideLoader();
+        }
+    }, LOADER_TIMEOUT);
+
+    try {
+        // Paso 1: HTML parseado
+        if (document.readyState === 'loading') {
+            await new Promise(r => document.addEventListener('DOMContentLoaded', r, { once: true }));
         }
 
-        // Escuchar evento de scroll
-        window.addEventListener('scroll', checkScrollForNav);
-        // Llamar una vez por si se recargó la página con scroll
-        checkScrollForNav();
+        // Paso 2: Scripts defer ejecutados
+        await waitForDeferredScripts();
+
+        // Paso 3: Fuentes web cargadas
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+
+        // Paso 4: Imágenes críticas del viewport inicial cargadas
+        await waitForVisibleImages();
+
+        // Paso 5: Video listo (metadata suficiente para reproducir)
+        const heroVideo = document.getElementById('hero-video');
+        await waitForMedia(heroVideo);
+
+        // Paso 6: Tiempo extra de seguridad para paint final
+        await new Promise(r => setTimeout(r, 400));
+
+        clearTimeout(timeoutId);
+        hideLoader();
+
+        const elapsed = Math.round(performance.now() - startTime);
+        console.log(`[Loader] Ocultado tras ${elapsed}ms.`);
+    } catch (err) {
+        clearTimeout(timeoutId);
+        console.error('[Loader] Error en pipeline de carga:', err);
+        hideLoader();
     }
+}
+
+// Iniciar pipeline del loader inmediatamente
+initLoader();
+
+// ==========================================================
+// Lazy loading de imágenes con Intersection Observer
+// ==========================================================
+document.addEventListener('DOMContentLoaded', function () {
+    // Inicializar componentes globales
+    initMegaMenu();
+    initBuscador();
+    initNavbar();
+
+    // Lazy loading de imágenes con Intersection Observer
+    initLazyLoading();
 });
+
+function initLazyLoading() {
+    if (!('IntersectionObserver' in window)) {
+        // Fallback: cargar todas las imágenes inmediatamente
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            loadLazyImage(img);
+        });
+        return;
+    }
+
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                loadLazyImage(img);
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '100px 0px',
+        threshold: 0.01
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+/**
+ * Carga una imagen lazy con efecto blur-up.
+ * Si la imagen tiene la clase .blur-up, espera a que cargue para quitar el desenfoque.
+ */
+function loadLazyImage(img) {
+    if (!img.dataset.src) {
+        return;
+    }
+
+    const newSrc = img.dataset.src;
+
+    if (img.classList.contains('blur-up')) {
+        const tempImg = new Image();
+        tempImg.onload = function () {
+            img.src = newSrc;
+            img.classList.add('loaded');
+            img.removeAttribute('data-src');
+        };
+        tempImg.onerror = function () {
+            img.src = newSrc;
+            img.classList.add('loaded');
+            img.removeAttribute('data-src');
+        };
+        tempImg.src = newSrc;
+    } else {
+        img.src = newSrc;
+        img.removeAttribute('data-src');
+    }
+}
