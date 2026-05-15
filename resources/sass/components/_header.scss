@@ -170,6 +170,15 @@ header {
     grid-template-columns: 40% 60%;
     gap: 2rem;
 
+    &::before {
+        content: "";
+        position: absolute;
+        top: -0.5rem;
+        left: 0;
+        right: 0;
+        height: 0.5rem;
+        background: transparent;
+    }
 }
 
 #nav-bar .dropdown:hover .joyeria-mega-menu,
@@ -327,6 +336,16 @@ header {
     grid-template-columns: 40% 60%;
     gap: 2rem;
 
+    &::before {
+        content: "";
+        position: absolute;
+        top: -0.5rem;
+        left: 0;
+        right: 0;
+        height: 0.5rem;
+        background: transparent;
+    }
+
     .dropdown:hover & {
         display: grid !important;
         opacity: 1;
@@ -451,6 +470,16 @@ header {
     display: grid !important;
     grid-template-columns: 40% 60%;
     gap: 2rem;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -0.5rem;
+        left: 0;
+        right: 0;
+        height: 0.5rem;
+        background: transparent;
+    }
 
     .dropdown:hover & {
         display: grid !important;

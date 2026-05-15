@@ -116,7 +116,7 @@ class JoyasController extends Controller
         } elseif ($orden === 'precio_desc') {
             $query->orderBy('precio', 'desc');
         } elseif ($orden === 'ventas') {
-            $query->orderBy('id', 'desc'); // Placeholder para más vendidos
+            $query->withCount('detallesVentas')->orderBy('detalles_ventas_count', 'desc');
         } else {
             $query->orderBy('fecha_agregado', 'desc');
         }

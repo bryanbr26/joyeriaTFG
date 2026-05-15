@@ -57,34 +57,45 @@
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
                         
-                        <li class="nav-item dropdown joyeria-mega-dropdown">
-                            <a class="nav-link" href="{{ route('joyas.buscar') }}" id="joyeriaDropdown" role="button">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}" id="joyeriaDropdown" role="button">
                                 Joyería
                             </a>
 
                             <!-- Mega Menú -->
-                            <div class="dropdown-menu joyeria-mega-menu" aria-labelledby="joyeriaDropdown">
+                            <div class="dropdown-personaliza" aria-labelledby="joyeriaDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
-                                <div class="titulo-contenedor">
+                                <div class="titulo-contenedor-personaliza">
                                     <h3>JOYERIA</h3>
                                 </div>
-                                <div class="lista-joyas-container">
-                                    <ul class="lista-joyas">
-                                        <li class="categoria-item">
+                                <div class="lista-personaliza-container">
+                                    <ul class="lista-personaliza">
+                                        <li class="categoria-personaliza">
+                                            <a href="{{ route('joyas.buscar') }}" style="font-weight: bold;">Categoría</a>
+                                            <br>
                                             <a href="{{ route('joyas.index', 'collares') }}">Collares</a>
-                                        </li>
-                                        <li class="categoria-item">
+                                            <br>
                                             <a href="{{ route('joyas.index', 'anillos') }}">Anillos</a>
-                                        </li>
-                                        <li class="categoria-item">
+                                            <br>
                                             <a href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a>
-                                        </li>
-                                        <li class="categoria-item">
+                                            <br>
                                             <a href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a>
+                                            <br>
+                                        </li>
+                                        <li class="material-personaliza">
+                                            <a href="{{ route('joyas.buscar') }}" style="font-weight: bold;">Material</a>
+                                            <br>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['plata']]) }}">Plata de 1º ley</a>
+                                            <br>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro 18k</a>
+                                            <br>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro rosa</a>
+                                            <br>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['acero']]) }}">Acero Inoxidable</a>
+                                            <br>
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -101,25 +112,25 @@
                                 <div class="lista-regalos-container">
                                     <ul class="lista-regalos">
                                         <li class="categoria-regalos">
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo', 'pendientes', 'collar', 'pulsera']) }}" style="font-weight: bold;">Categoria</a>
+                                            <a href="{{ route('joyas.buscar') }}" style="font-weight: bold;">Categoría</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo', 'pendientes', 'collar', 'pulsera']) }}">Mas Vendidos</a>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => ['anillo', 'pendientes', 'collar', 'pulsera']]) }}">Cojuntos de regalo</a>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo', 'pendientes', 'collar', 'pulsera']) }}">Regalos para grabar</a>
+                                            <a href="{{ route('joyas.buscar') }}">Mas Vendidos</a>
+                                            <a href="{{ route('joyas.buscar') }}">Cojuntos de regalo</a>
+                                            <a href="{{ route('joyas.buscar') }}">Regalos para grabar</a>
                                         </li>
 
                                         <li class="ocasiones-item">
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo', 'pendientes', 'collar', 'pulsera']) }}" style="font-weight: bold;">Ocasiones especiales</a>
+                                            <a href="{{ route('joyas.buscar') }}" style="font-weight: bold;">Ocasiones especiales</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo']) }}">Bodas</a>
+                                            <a href="{{ route('joyas.index', 'anillos') }}">Bodas</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo', 'pendientes', 'collar', 'pulsera']) }}">Comuniones</a>
+                                            <a href="{{ route('joyas.buscar') }}">Comuniones</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo']) }}">Compromisos</a>
+                                            <a href="{{ route('joyas.index', 'anillos') }}">Compromisos</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'pendientes', 'collar', 'pulsera']) }}">Aniversario</a>
+                                            <a href="{{ route('joyas.buscar') }}">Aniversario</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'pendientes']) }}">Bautizo</a>
+                                            <a href="{{ route('joyas.index', 'pendientes') }}">Bautizo</a>
                                             <br>
                                         </li>
                                         <li class="regalos-item">
@@ -131,9 +142,9 @@
                                             <br>
                                             <a href="{{ route('joyas.buscar', ['genero' => 'niño']) }}">Niños</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => 'anillo']) }}">Pareja</a>
+                                            <a href="{{ route('joyas.index', 'anillos') }}">Pareja</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['categoria' => ['anillo', 'pulsera', 'collar', 'pendiente']]) }}">Padres</a>
+                                            <a href="{{ route('joyas.buscar') }}">Padres</a>
                                             <br>
                                         </li>
                                         <li class="presupuesto-item">
@@ -149,7 +160,7 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}" id="personalizaDropdown"
+                            <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}" id="personalizaDropdown"
                                 role="button">Personaliza tus joyas</a>
                             <div class="dropdown-personaliza" aria-labelledby="personalizaDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
@@ -160,7 +171,7 @@
                                     <ul class="lista-personaliza">
                                         <li class="categoria-personaliza">
                                             <a href="{{ route('joyas.buscar') }}"
-                                                style="font-weight: bold;">Categoria</a>
+                                                style="font-weight: bold;">Categoría</a>
                                             <br>
                                             <a href="{{ route('joyas.index', 'anillos') }}">Grabado de anillos</a>
                                             <br>
@@ -172,13 +183,13 @@
                                             <br>
                                         </li>
                                         <li class="material-personaliza">
-                                            <a href="{{ route('joyas.buscar', ['material' => ['plata', 'oro blanco', 'oro rosa', 'acero']]) }}" style="font-weight: bold;">Material</a>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['plata', 'oro', 'acero']]) }}" style="font-weight: bold;">Material</a>
                                             <br>
                                             <a href="{{ route('joyas.buscar', ['material' => ['plata']]) }}">Plata de 1º ley</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['oro blanco']]) }}">Oro 18k</a>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro 18k</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['oro blanco']]) }}">Oro rosa</a>
+                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro rosa</a>
                                             <br>
                                             <a href="{{ route('joyas.buscar', ['material' => ['acero']]) }}">Acero Inoxidable</a>
                                             <br>

@@ -19,7 +19,7 @@
             <div class="producto-detalle-imagen">
                 <div class="contenedor-imagen-principal">
                     @if($producto->imagen_principal_url)
-                        <img src="{{ $producto->imagen_principal_url }}" id="producto-imagen-principal" class="imagen-principal-producto" alt="{{ $producto->nombre }}" loading="eager">
+                        <img src="{{ $producto->imagen_principal_url }}" id="producto-imagen-principal" class="imagen-producto" alt="{{ $producto->nombre }}" loading="eager">
                     @else
                         <div class="imagen-placeholder">
                             <i class="bi bi-gem icono-placeholder"></i>

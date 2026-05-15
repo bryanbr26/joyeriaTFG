@@ -23,19 +23,19 @@
 {{-- Pasos del proceso --}}
 <section class="compro-pasos container">
     <h2 class="text-center">¿Cómo funciona?</h2>
-    <div class="compro-pasos__grid">
-        <div class="compro-paso">
-            <div class="compro-paso__numero">1</div>
+    <div class="compro-pasos__grid d-flex flex-wrap justify-content-center gap-4">
+        <div class="compro-paso text-center">
+            <div class="compro-paso__numero mx-auto d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background-color: #d4af37; color: #333; font-weight: bold; margin-bottom: 1rem;">1</div>
             <h3>Trae tus joyas</h3>
             <p>Acércate a nuestra tienda con las piezas que desees vender. No es necesario cita previa.</p>
         </div>
-        <div class="compro-paso">
-            <div class="compro-paso__numero">2</div>
+        <div class="compro-paso text-center">
+            <div class="compro-paso__numero mx-auto d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background-color: #d4af37; color: #333; font-weight: bold; margin-bottom: 1rem;">2</div>
             <h3>Tasación gratuita</h3>
             <p>Nuestro experto evaluará tus piezas en el momento, sin compromiso y de forma totalmente gratuita.</p>
         </div>
-        <div class="compro-paso">
-            <div class="compro-paso__numero">3</div>
+        <div class="compro-paso text-center">
+            <div class="compro-paso__numero mx-auto d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background-color: #d4af37; color: #333; font-weight: bold; margin-bottom: 1rem;">3</div>
             <h3>Cobro inmediato</h3>
             <p>Si aceptas la oferta, recibirás el pago al instante en efectivo o transferencia bancaria.</p>
         </div>
@@ -45,7 +45,7 @@
 {{-- Qué compramos --}}
 <section class="compro-tipos container text-center">
     <h2>¿Qué compramos?</h2>
-    <div class="compro-tipos__grid">
+    <div class="compro-tipos__grid d-flex flex-wrap justify-content-center gap-4">
         <div class="compro-tipo">
             <i class="bi bi-gem"></i>
             <h4>Oro</h4>
@@ -68,7 +68,7 @@
 <section class="compro-cta text-center">
     <h2>¿Tienes joyas que ya no usas?</h2>
     <p>Ven a visitarnos o contacta con nosotros para más información.</p>
-    <a href="{{ route('contacto') }}" class="compro-cta__btn">Contactar</a>
+    <a href="{{ route('contacto') }}" class="compro-cta__btn btn">Contactar</a>
 </section>
 
 @endsection

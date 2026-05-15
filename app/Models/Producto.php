@@ -47,6 +47,11 @@ class Producto extends Model
         return $this->belongsTo(DetallePedido::class, 'id_detalles_pedido');
     }
 
+    public function detallesVentas()
+    {
+        return $this->hasMany(DetallePedido::class, 'id_producto');
+    }
+
     public function imagenes()
     {
         return $this->hasMany(ImagenProducto::class, 'id_producto');

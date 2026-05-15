@@ -8,11 +8,11 @@
     <div class="contenedor-titulo-filtros">
         <h2>{{ $titulo }}</h2>
         <div class="contenedor-filtros">
-            <div class="filtrar">
+            <div class="filtrar" id="boton-filter">
                 <p>Filtrar Por: </p>
                 <i class="bi bi-list"></i>
             </div>
-            <div class="ordenar">
+            <div class="ordenar" id="boton-ordenar">
                 <p>Ordenar Por: </p>
                 <i class="bi bi-list"></i>
             </div>
@@ -228,7 +228,7 @@
                     <i class="bi bi-chevron-down"></i>
                 </div>
                 <div class="dropdown-content">
-                    @foreach(['Cartier', 'Armani', 'Pandora', 'Tous', 'Swarovski', 'Lotus'] as $marca)
+                    @foreach($marcas as $marca)
                         <div class="checkbox-item">
                             <input type="checkbox" name="marca[]" value="{{ $marca }}" id="marca-{{ $marca }}" {{ in_array($marca, (array) request('marca')) ? 'checked' : '' }}>
                             <label for="marca-{{ $marca }}">{{ $marca }}</label>
@@ -243,7 +243,7 @@
                     <i class="bi bi-chevron-down"></i>
                 </div>
                 <div class="dropdown-content">
-                    @foreach(['mujer', 'hombre', 'unisex'] as $gen)
+                    @foreach($generos as $gen)
                         <div class="checkbox-item">
                             <input type="checkbox" name="genero[]" value="{{ $gen }}" id="gen-{{ $gen }}" {{ in_array($gen, (array) request('genero')) ? 'checked' : '' }}>
                             <label for="gen-{{ $gen }}">{{ ucfirst($gen) }}</label>
@@ -258,7 +258,7 @@
                     <i class="bi bi-chevron-down"></i>
                 </div>
                 <div class="dropdown-content">
-                    @foreach(['blanco', 'negro', 'plata', 'azul', 'dorado'] as $color)
+                    @foreach($colores as $color)
                         <div class="checkbox-item">
                             <input type="checkbox" name="color[]" value="{{ $color }}" id="color-{{ $color }}" {{ in_array($color, (array) request('color')) ? 'checked' : '' }}>
                             <label for="color-{{ $color }}" class="d-flex align-items-center gap-2">
@@ -276,7 +276,7 @@
                     <i class="bi bi-chevron-down"></i>
                 </div>
                 <div class="dropdown-content">
-                    @foreach(['oro', 'acero', 'plata', 'perla'] as $mat)
+                    @foreach($materiales as $mat)
                         <div class="checkbox-item">
                             <input type="checkbox" name="material[]" value="{{ $mat }}" id="mat-{{ $mat }}" {{ in_array($mat, (array) request('material')) ? 'checked' : '' }}>
                             <label for="mat-{{ $mat }}">{{ ucfirst($mat) }}</label>
@@ -302,12 +302,12 @@
                     <i class="bi bi-chevron-down"></i>
                 </div>
                 <div class="dropdown-content">
-                    @for($i = 46; $i <= 68; $i += 2)
+                    @foreach($tallas as $tallaVal)
                         <div class="checkbox-item">
-                            <input type="checkbox" name="talla[]" value="{{ $i }}" id="talla-{{ $i }}" {{ in_array((string) $i, (array) request('talla')) ? 'checked' : '' }}>
-                            <label for="talla-{{ $i }}">{{ $i }}</label>
+                            <input type="checkbox" name="talla[]" value="{{ $tallaVal }}" id="talla-{{ $tallaVal }}" {{ in_array((string) $tallaVal, (array) request('talla')) ? 'checked' : '' }}>
+                            <label for="talla-{{ $tallaVal }}">{{ $tallaVal }}</label>
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
 

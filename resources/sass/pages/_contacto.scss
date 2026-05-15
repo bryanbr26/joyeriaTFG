@@ -3,13 +3,6 @@
 // Inspirado en la estética de Van Cleef & Arpels
 // ============================================
 
-// Variables locales de contacto
-$contact-gold: #050505;
-$contact-gold-light: #d9bfa3;
-$contact-cream: #faf8f5;
-$contact-charcoal: #1e1e1e;
-$contact-border: #e0d5c7;
-
 // ============================================
 // 1. HERO DE CONTACTO — Full width + panel
 // ============================================
@@ -48,12 +41,12 @@ $contact-border: #e0d5c7;
         max-width: 600px;
         width: 90%;
         text-align: center;
-        border: 1px solid rgba(197, 164, 126, 0.35);
+        border: 1px solid rgba(150, 114, 89, 0.35);
 
         h1 {
             font-family: $font-logo;
             font-size: 2.4rem;
-            color: $contact-charcoal;
+            color: $dark;
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
             font-weight: 400;
@@ -62,7 +55,7 @@ $contact-border: #e0d5c7;
         .contact-subtitle {
             font-family: $font-secundaria;
             font-size: 1rem;
-            color: $contact-gold;
+            color: $secondary-color;
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 2.5rem;
@@ -85,7 +78,7 @@ $contact-border: #e0d5c7;
             letter-spacing: 0.5px;
 
             i {
-                color: $contact-gold;
+                color: $secondary-color;
                 font-size: 1.1rem;
             }
 
@@ -128,7 +121,7 @@ $contact-border: #e0d5c7;
                 right: -30%;
                 width: 80%;
                 height: 80%;
-                border: 1px solid rgba(197, 164, 126, 0.25);
+                border: 1px solid rgba(150, 114, 89, 0.25);
                 border-radius: 50%;
                 pointer-events: none;
             }
@@ -140,7 +133,7 @@ $contact-border: #e0d5c7;
                 left: -20%;
                 width: 60%;
                 height: 60%;
-                border: 1px solid rgba(197, 164, 126, 0.2);
+                border: 1px solid rgba(150, 114, 89, 0.2);
                 border-radius: 50%;
                 pointer-events: none;
             }
@@ -183,7 +176,7 @@ $contact-border: #e0d5c7;
         justify-content: center;
         padding: 3rem 2.5rem;
         background: #fff;
-        border-left: 1px solid $contact-border;
+        border-left: 1px solid rgba(150, 114, 89, 0.2);
 
         .form-header {
             margin-bottom: 2.5rem;
@@ -191,7 +184,7 @@ $contact-border: #e0d5c7;
             h3 {
                 font-family: $font-logo;
                 font-size: 1.6rem;
-                color: $contact-charcoal;
+                color: $dark;
                 margin-bottom: 0.5rem;
             }
 
@@ -223,17 +216,17 @@ $contact-border: #e0d5c7;
                 width: 100%;
                 background: transparent;
                 border: none;
-                border-bottom: 1px solid $contact-border;
+                border-bottom: 1px solid rgba(150, 114, 89, 0.2);
                 border-radius: 0;
                 padding: 0.6rem 0;
                 font-family: $font-primary;
                 font-size: 0.95rem;
-                color: $contact-charcoal;
-                transition: border-color 0.3s ease;
+                color: $dark;
+                @include transition(border-color, 0.3s);
 
                 &:focus {
                     outline: none;
-                    border-bottom-color: $contact-gold;
+                    border-bottom-color: $secondary-color;
                     box-shadow: none;
                 }
 
@@ -253,7 +246,7 @@ $contact-border: #e0d5c7;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            background: $contact-charcoal;
+            background: $dark;
             color: #fff;
             font-family: $font-primary;
             font-size: 0.8rem;
@@ -262,11 +255,11 @@ $contact-border: #e0d5c7;
             padding: 1rem 3rem;
             border: none;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            @include transition(all, 0.3s);
             margin-top: 0.5rem;
 
             &:hover {
-                background: $contact-gold;
+                background: $secondary-color;
                 transform: translateY(-1px);
             }
 
@@ -280,7 +273,7 @@ $contact-border: #e0d5c7;
 // ============================================
 // 3. RESPONSIVE
 // ============================================
-@media (max-width: 991px) {
+@media (max-width: #{$desktop - 1px}) {
     .contact-hero {
         min-height: 55vh;
 
@@ -298,13 +291,13 @@ $contact-border: #e0d5c7;
 
         &__form {
             border-left: none;
-            border-top: 1px solid $contact-border;
+            border-top: 1px solid rgba(150, 114, 89, 0.2);
             padding: 2.5rem 1.5rem;
         }
     }
 }
 
-@media (max-width: 576px) {
+@include mobile {
     .contact-hero {
         min-height: 50vh;
 

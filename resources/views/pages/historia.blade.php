@@ -2,16 +2,16 @@
 
 @section("content")
 
-<section class="historia-hero" id="texto_historia">
-    <iframe class="video"
+<section class="historia-hero" id="texto_historia" style="position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <iframe class="video" style="position: absolute; top: 50%; left: 50%; width: 300vw; height: 150vh; transform: translate(-50%, -50%); border: none; z-index: 0; pointer-events: none;"
         src="https://www.youtube.com/embed/B3ERa7eA3K8?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist=B3ERa7eA3K8"
         title="YouTube video player" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
 
-    <div class="overlay"></div>
+    <div class="overlay" style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.50); z-index: 1;"></div>
 
-    <div class="content container text-center py-5">
+    <div class="content container text-center py-5" style="position: relative; z-index: 2; color: #fff;">
         <h1 class="mt-3">Historia</h1>
         <br><br>
         <h4>

@@ -83,8 +83,10 @@ function initHomeCarousel() {
 
     carrusel.addEventListener('mouseup', () => {
         isDown = false;
-        isDragging = false;
         carrusel.classList.remove('dragging');
+        setTimeout(() => {
+            isDragging = false;
+        }, 50);
     });
 
     carrusel.addEventListener('mousemove', (e) => {
@@ -127,17 +129,13 @@ function initHomeCarousel() {
         checkBoundary();
     }, { passive: true });
 
-    // Permitir clics en botones del carrusel incluso durante el arrastre
-    tarjetas.forEach(tarjeta => {
-        const btn = tarjeta.querySelector('.btn-carrusel');
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                if (isDragging) {
-                    e.preventDefault();
-                }
-            });
+    // Interceptar clics en el carrusel si estábamos arrastrando
+    carrusel.addEventListener('click', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
         }
-    });
+    }, true);
 
     // Iniciar scroll automático
     rafId = requestAnimationFrame(autoScroll);
