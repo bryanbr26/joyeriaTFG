@@ -374,6 +374,21 @@ $transition-smooth: all 0.4s ease;
         }
     }
 
+    .form-select {
+        color-scheme: dark;
+
+        option {
+            background-color: $color-fondo-oscuro;
+            color: $color-texto-claro;
+        }
+
+        option:checked,
+        option:hover {
+            background-color: $color-oro;
+            color: #1a1a1a;
+        }
+    }
+
     textarea.form-control {
         resize: vertical;
         min-height: 120px;

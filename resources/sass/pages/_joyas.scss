@@ -190,13 +190,15 @@ $transition-bg: background 0.3s ease;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 1rem;
+    align-items: stretch;
 }
 
 // ==========================================
 // TARJETAS DE PRODUCTO
 // ==========================================
 .producto-item {
-    height: 50vh;
+    height: auto;
+    min-height: 360px;
 }
 
 .producto-card {
@@ -236,7 +238,8 @@ $transition-bg: background 0.3s ease;
 
     .producto-imagen {
         width: 100%;
-        height: 70%;
+        height: clamp(180px, 30vh, 320px);
+        flex: 0 0 auto;
         object-fit: cover;
         transition: $transition-filter, transform 0.3s ease;
         display: block;
@@ -244,7 +247,8 @@ $transition-bg: background 0.3s ease;
 
     .producto-imagen--placeholder {
         width: 100%;
-        height: 70%;
+        height: clamp(180px, 30vh, 320px);
+        flex: 0 0 auto;
         background: $color-background-light;
         display: flex;
         align-items: center;
@@ -264,19 +268,13 @@ $transition-bg: background 0.3s ease;
 
     .producto-info {
         width: 100%;
-        height: 35vh;
-        padding: 1.2rem 1.5rem;
+        min-height: 0;
+        padding: 1rem 1.2rem;
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        overflow-y: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
+        justify-content: flex-start;
+        overflow: visible;
 
         .producto-titulo {
             font-size: 1rem;
@@ -284,6 +282,10 @@ $transition-bg: background 0.3s ease;
             margin: 0 0 0.4rem 0;
             color: $color-text-dark;
             line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .producto-marca {
@@ -299,14 +301,17 @@ $transition-bg: background 0.3s ease;
             color: $color-text-light;
             margin: 0 0 0.6rem 0;
             line-height: 1.4;
-            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .producto-precio {
             font-size: 1.2rem;
             font-weight: 700;
             color: $dark;
-            margin: 0 0 0.3rem 0;
+            margin: auto 0 0.3rem 0;
 
             &::before {
                 content: '';
@@ -565,7 +570,7 @@ $transition-bg: background 0.3s ease;
 
     .producto-item {
         height: auto;
-        min-height: 260px;
+        min-height: 300px;
     }
 
     .producto-card {
