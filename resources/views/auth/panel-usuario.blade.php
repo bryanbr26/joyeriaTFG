@@ -12,9 +12,16 @@
             <div>
                 <h2>Bienvenid{{ auth()->user()->genero === 'hombre' ? 'o' : 'a' }}, {{ auth()->user()->nombre }}</h2>
             </div>
-            <a href="{{ route('logout') }}" class="btn btn-outline-dark">
-                <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
-            </a>
+            <div class="panel-usuario-actions">
+                @if(auth()->user()->rol === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-light">
+                        <i class="bi bi-speedometer2 me-2"></i>Ir al panel de admin
+                    </a>
+                @endif
+                <a href="{{ route('logout') }}" class="btn btn-outline-light">
+                    <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                </a>
+            </div>
         </div>
 
         <!-- Grid principal -->

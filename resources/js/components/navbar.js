@@ -83,10 +83,15 @@ export function initNavbar() {
             link.addEventListener('click', (e) => {
                 if (!isMobile()) return; // En desktop dejamos el comportamiento hover nativo
 
-                e.preventDefault();
-
                 // Si ya está abierto, lo cerramos; si no, cerramos los demás y abrimos este
                 const isOpen = dropdown.classList.contains('show');
+                const href = link.getAttribute('href');
+
+                if (isOpen && href && href !== '#') {
+                    return;
+                }
+
+                e.preventDefault();
 
                 // Cerrar todos los demás dropdowns del mismo nivel
                 dropdownItems.forEach(d => {

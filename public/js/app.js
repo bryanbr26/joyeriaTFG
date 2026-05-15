@@ -3686,7 +3686,7 @@ function initMegaMenu() {
 
   // Imagen por defecto
   var imagenDefault = {
-    url: '/images/joyas/default.jpg',
+    url: '/images/joyas/exclusiva.webp',
     texto: 'Descubre nuestra colección exclusiva'
   };
 
@@ -3828,10 +3828,13 @@ function initNavbar() {
       link.addEventListener('click', function (e) {
         if (!isMobile()) return; // En desktop dejamos el comportamiento hover nativo
 
-        e.preventDefault();
-
         // Si ya está abierto, lo cerramos; si no, cerramos los demás y abrimos este
         var isOpen = dropdown.classList.contains('show');
+        var href = link.getAttribute('href');
+        if (isOpen && href && href !== '#') {
+          return;
+        }
+        e.preventDefault();
 
         // Cerrar todos los demás dropdowns del mismo nivel
         dropdownItems.forEach(function (d) {

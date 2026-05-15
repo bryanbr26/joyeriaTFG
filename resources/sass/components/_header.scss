@@ -169,12 +169,16 @@ header {
     display: grid !important;
     grid-template-columns: 400px 45% 30%;
     gap: 2rem;
+    pointer-events: none;
 
-    .joyeria-mega-dropdown:hover & {
-        display: grid !important;
-        opacity: 1;
-        visibility: visible;
-    }
+}
+
+#nav-bar .joyeria-mega-dropdown:hover .joyeria-mega-menu,
+#nav-bar .joyeria-mega-dropdown:focus-within .joyeria-mega-menu {
+    display: grid !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .titulo-contenedor {

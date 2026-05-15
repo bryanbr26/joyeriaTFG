@@ -57,13 +57,13 @@
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
                         
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button">
+                        <li class="nav-item dropdown joyeria-mega-dropdown">
+                            <a class="nav-link" href="{{ route('joyas.buscar') }}" id="joyeriaDropdown" role="button">
                                 Joyería
                             </a>
 
                             <!-- Mega Menú -->
-                            <div class="dropdown-menu joyeria-mega-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu joyeria-mega-menu" aria-labelledby="joyeriaDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
                                 <div class="titulo-contenedor">
                                     <h3>JOYERIA</h3>
@@ -71,19 +71,19 @@
                                 <div class="lista-joyas-container">
                                     <ul class="lista-joyas">
                                         <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/collares.jpg') }}">
+                                            data-imagen="{{ asset('images/joyas/carrusel-collares.png') }}">
                                             <a href="{{ route('joyas.index', 'collares') }}">Collares</a>
                                         </li>
                                         <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/anillos.jpg') }}">
+                                            data-imagen="{{ asset('images/joyas/carrusel-anillos.png') }}">
                                             <a href="{{ route('joyas.index', 'anillos') }}">Anillos</a>
                                         </li>
                                         <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/pulseras.jpg') }}">
+                                            data-imagen="{{ asset('images/joyas/carrusel-pulseras.jpg') }}">
                                             <a href="{{ route('joyas.index', 'pulseras') }}">Pulseras</a>
                                         </li>
                                         <li class="categoria-item"
-                                            data-imagen="{{ asset('images/joyas/pendientes.jpg') }}">
+                                            data-imagen="{{ asset('images/joyas/carrusel-pendientes.png') }}">
                                             <a href="{{ route('joyas.index', 'pendientes') }}">Pendientes</a>
                                         </li>
                                     </ul>
@@ -98,12 +98,12 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button">
+                            <a class="nav-link" href="{{ route('regalos') }}" id="regalosDropdown" role="button">
                                 Regalos
                             </a>
 
                             <!-- Mega Menú -->
-                            <div class="dropdown-regalos" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-regalos" aria-labelledby="regalosDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
                                 <div class="titulo-contenedor-regalos">
                                     <h3>IDEAS PARA REGALOS</h3>
@@ -159,9 +159,9 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link fw-medium" href="{{ route('joyas.buscar') }}" id="navbarDropdown"
+                            <a class="nav-link fw-medium" href="{{ route('personaliza') }}" id="personalizaDropdown"
                                 role="button">Personaliza tus joyas</a>
-                            <div class="dropdown-personaliza" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-personaliza" aria-labelledby="personalizaDropdown">
                                 <!-- Columna Izquierda: Lista de categorías -->
                                 <div class="titulo-contenedor-personaliza">
                                     <h3>PERSONALIZA TUS JOYAS</h3>
@@ -169,16 +169,16 @@
                                 <div class="lista-personaliza-container">
                                     <ul class="lista-personaliza">
                                         <li class="categoria-personaliza">
-                                            <a href="{{ route('personaliza') }}"
+                                            <a href="{{ route('joyas.buscar') }}"
                                                 style="font-weight: bold;">Categoria</a>
                                             <br>
-                                            <a href="{{ route('personaliza') }}">Grabado de anillos</a>
+                                            <a href="{{ route('joyas.index', 'anillos') }}">Grabado de anillos</a>
                                             <br>
-                                            <a href="{{ route('personaliza') }}">Grabado de pendientes</a>
+                                            <a href="{{ route('joyas.index', 'pendientes') }}">Grabado de pendientes</a>
                                             <br>
-                                            <a href="{{ route('personaliza') }}">Grabado de colgantes</a>
+                                            <a href="{{ route('joyas.index', 'collares') }}">Grabado de colgantes</a>
                                             <br>
-                                            <a href="{{ route('personaliza') }}">Grabado de pulseras</a>
+                                            <a href="{{ route('joyas.index', 'pulseras') }}">Grabado de pulseras</a>
                                             <br>
                                         </li>
                                         <li class="material-personaliza">

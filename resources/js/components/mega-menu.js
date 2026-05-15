@@ -6,7 +6,7 @@ export function initMegaMenu() {
 
     // Imagen por defecto
     const imagenDefault = {
-        url: '/images/joyas/default.jpg',
+        url: '/images/joyas/exclusiva.webp',
         texto: 'Descubre nuestra colección exclusiva'
     };
 
