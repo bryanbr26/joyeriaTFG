@@ -4,7 +4,6 @@
 
 @section("content")
 
-<<<<<<< HEAD
 <div class="page-joyas" id="page-joyas">
     <div class="contenedor-titulo-filtros">
         <h2>{{ $titulo }}</h2>
@@ -16,20 +15,6 @@
             <div class="ordenar">
                 <p>Ordenar Por: </p>
                 <i class="bi bi-list"></i>
-=======
-    <div class="page-joyas" id="page-joyas">
-        <div class="contenedor-titulo-filtros">
-            <h2>{{ $titulo }}</h2>
-            <div class="contenedor-filtros">
-                <div class="filtrar">
-                    <p>Filtrar Por: </p>
-                    <a id="boton-filter"><i class="bi bi-list"></i></a>
-                </div>
-                <div class="ordenar">
-                    <p>Ordenar Por: </p>
-                    <a id="boton-ordenar"><i class="bi bi-list"></i></a>
-                </div>
->>>>>>> bryan
             </div>
         </div>
 
@@ -56,22 +41,6 @@
                 <p>Descubre nuestras piezas únicas</p>
                 <a href="{{ $categoria ? route('joyas.index', $categoria) : route('joyas.buscar') }}" class="btn-ver-mas">Ver colección</a>
             </div>
-<<<<<<< HEAD
-        </div>
-            {{-- Grid 2x2 de productos (derecha) --}}
-            <div class="productos-secundarios">
-                @foreach($productos->slice(0, 4) as $producto)
-                    @php($categoriaProducto = $categoria ?? ($categoriaUrlByDb[$producto->categoria] ?? $producto->categoria))
-                    <div class="producto-item">
-                        <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
-                            <div class="producto-card">
-                                @if($producto->imagen_principal_url)
-                                    <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
-                                        alt="{{ $producto->nombre }}">
-                                @else
-                                    <div class="producto-imagen--placeholder">
-                                        <i class="bi bi-gem icono-placeholder"></i>
-=======
         @endif
         {{-- ========================================== --}}
         {{-- FILA 1: Imagen grande izquierda + 4 productos --}}
@@ -113,7 +82,6 @@
                                         <p class="producto-marca">{{ $producto->marca }}</p>
                                         <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
                                         <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
->>>>>>> bryan
                                     </div>
                                 @endif
 
@@ -123,8 +91,6 @@
                                     <p class="producto-descripcion">{{ Str::limit($producto->descripcion, 40) }}</p>
                                     <p class="producto-precio">{{ number_format($producto->precio, 2) }} €</p>
                                 </div>
-<<<<<<< HEAD
-=======
                             </a>
                         </div>
                     @endforeach
@@ -198,7 +164,6 @@
                                         </div>
                                     </div>
                                 </a>
->>>>>>> bryan
                             </div>
                         </a>
                     </div>
@@ -250,11 +215,6 @@
                         <div class="producto-item">
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
-<<<<<<< HEAD
-                                    @if($producto->imagen_principal_url)
-                                        <img src="{{ $producto->imagen_principal_url }}" class="producto-imagen"
-                                            alt="{{ $producto->nombre }}">
-=======
                                     @if($producto->ruta_grabado && file_exists(public_path('storage/' . $producto->ruta_grabado)))
                                         <img src="{{ $producto->placeholder }}"
                                              data-src="{{ $producto->imagenUrl('medium') }}"
@@ -262,7 +222,6 @@
                                              decoding="async"
                                              class="lazy-image blur-up producto-imagen"
                                              alt="{{ $producto->nombre }}">
->>>>>>> bryan
                                     @else
                                         <div class="producto-imagen--placeholder">
                                             <i class="bi bi-gem icono-placeholder"></i>
