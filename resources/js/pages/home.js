@@ -25,6 +25,9 @@ function initHomeCarousel() {
     let isDragging = false;
     let rafId = null;
 
+    // Detectar si es pantalla pequeña (menor a 992px)
+    const isMobileOrTablet = window.matchMedia('(max-width: 991px)').matches;
+
     function checkBoundary() {
         const firstCard = originalChildren[0];
         const gap = parseFloat(getComputedStyle(carrusel).gap) || 0;
@@ -38,6 +41,9 @@ function initHomeCarousel() {
     }
 
     function autoScroll() {
+        // No auto-scroll en móvil/tablet para ahorrar batería y mejorar rendimiento
+        if (isMobileOrTablet) return;
+
         const targetSpeed = (hoverCount > 0 || isDown) ? 0 : baseSpeed;
 
         // Interpolación suave de velocidad

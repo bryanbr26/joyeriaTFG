@@ -28,6 +28,9 @@ function initHomeCarousel() {
   var hoverCount = 0; // Contador para manejar múltiples tarjetas en hover
   var isDragging = false;
   var rafId = null;
+
+  // Detectar si es pantalla pequeña (menor a 992px)
+  var isMobileOrTablet = window.matchMedia('(max-width: 991px)').matches;
   function checkBoundary() {
     var firstCard = originalChildren[0];
     var gap = parseFloat(getComputedStyle(carrusel).gap) || 0;
@@ -39,6 +42,8 @@ function initHomeCarousel() {
     }
   }
   function autoScroll() {
+    // No auto-scroll en móvil/tablet para ahorrar batería y mejorar rendimiento
+    if (isMobileOrTablet) return;
     var targetSpeed = hoverCount > 0 || isDown ? 0 : baseSpeed;
 
     // Interpolación suave de velocidad

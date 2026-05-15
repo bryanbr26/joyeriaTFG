@@ -3653,8 +3653,17 @@ function initNavbar() {
   // Mostrar Nav al hacer scroll pasado el header-icon
   var headerIconContainer = document.getElementById('header-icon');
   var mainNavBar = document.getElementById('nav-bar');
+  var menuToggle = document.getElementById('menu-toggle');
+  var body = document.body;
+  var MOBILE_BREAKPOINT = 991;
+  function isMobile() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
   if (headerIconContainer && mainNavBar) {
     var checkScrollForNav = function checkScrollForNav() {
+      // En mobile/tablet el nav se controla por el menú hamburguesa, no por scroll
+      if (isMobile()) return;
+
       // Umbral = la parte inferior de header-icon respecto al inicio del documento
       var threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;
 
@@ -3674,6 +3683,89 @@ function initNavbar() {
     // Llamar una vez por si se recargó la página con scroll
     checkScrollForNav();
   }
+
+  // ============================================
+  // MENÚ HAMBURGUESA
+  // ============================================
+  if (menuToggle && mainNavBar) {
+    menuToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      var estaAbierto = mainNavBar.classList.toggle('nav-abierto');
+
+      // Bloquear/desbloquear scroll del body cuando el menú esté abierto
+      if (estaAbierto) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+        // Cerrar dropdowns al cerrar el menú
+        mainNavBar.querySelectorAll('.dropdown.show').forEach(function (d) {
+          return d.classList.remove('show');
+        });
+      }
+    });
+  }
+
+  // ============================================
+  // BOTÓN CERRAR DEL NAV-BAR
+  // ============================================
+  var navClose = document.getElementById('nav-close');
+  if (navClose && mainNavBar) {
+    navClose.addEventListener('click', function () {
+      mainNavBar.classList.remove('nav-abierto');
+      body.style.overflow = '';
+      mainNavBar.querySelectorAll('.dropdown.show').forEach(function (d) {
+        return d.classList.remove('show');
+      });
+    });
+  }
+
+  // ============================================
+  // DROPDOWNS EN MOBILE/TABLET
+  // ============================================
+  if (mainNavBar) {
+    var dropdownItems = mainNavBar.querySelectorAll('.dropdown');
+    dropdownItems.forEach(function (dropdown) {
+      var link = dropdown.querySelector('.nav-link');
+      if (!link) return;
+      link.addEventListener('click', function (e) {
+        if (!isMobile()) return; // En desktop dejamos el comportamiento hover nativo
+
+        e.preventDefault();
+
+        // Si ya está abierto, lo cerramos; si no, cerramos los demás y abrimos este
+        var isOpen = dropdown.classList.contains('show');
+
+        // Cerrar todos los demás dropdowns del mismo nivel
+        dropdownItems.forEach(function (d) {
+          if (d !== dropdown) d.classList.remove('show');
+        });
+        dropdown.classList.toggle('show', !isOpen);
+      });
+    });
+
+    // Cerrar el menú completo al pulsar un link normal (sin dropdown)
+    mainNavBar.querySelectorAll('.nav-item:not(.dropdown) > .nav-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (isMobile() && mainNavBar.classList.contains('nav-abierto')) {
+          mainNavBar.classList.remove('nav-abierto');
+          body.style.overflow = '';
+        }
+      });
+    });
+  }
+
+  // ============================================
+  // LIMPIAR AL REDIMENSIONAR A DESKTOP
+  // ============================================
+  window.addEventListener('resize', function () {
+    if (!isMobile() && mainNavBar) {
+      mainNavBar.classList.remove('nav-abierto');
+      body.style.overflow = '';
+      mainNavBar.querySelectorAll('.dropdown.show').forEach(function (d) {
+        return d.classList.remove('show');
+      });
+    }
+  });
 }
 
 /***/ })

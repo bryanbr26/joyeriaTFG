@@ -12,6 +12,7 @@
         <!-- Iconos -->
         <div class="col-auto" id="contenedor-iconos">
             <div class="d-flex gap-4 " id="contenedor-botones">
+            
                 <!-- boton buscador-->
                 <a id="boton-buscador" style="cursor: pointer;" class="header-icon-link" title="Buscador"><i
                         class="bi bi-search fs-5"></i></a>
@@ -38,6 +39,9 @@
                         {{ $totalItemsCarrito ?? 0 }}
                     </span>
                 </a>
+                 <a id="menu-toggle" class="header-icon-link menu-toggle" title="Menú">
+                    <i class="bi bi-list fs-5"></i>
+                </a>
             </div>
         </div>
 
@@ -45,10 +49,14 @@
 
     <!-- Navegación con Mega Menú -->
     <nav class="border-top navbar-light" id="nav-bar">
+        <button id="nav-close" class="nav-close" aria-label="Cerrar menú">
+            <i class="bi bi-x-lg"></i>
+        </button>
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <ul class="nav justify-content-center py-2">
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="navbarDropdown" role="button">
                                 Joyería
@@ -106,7 +114,9 @@
                                             <a href="" style="font-weight: bold;">Categoria</a>
                                             <br>
                                             <a href="#">Mas Vendidos</a>
+                                            <br>
                                             <a href="#">Cojuntos de regalo</a>
+                                            <br>
                                             <a href="#">Regalos para grabar</a>
                                         </li>
 
@@ -142,8 +152,11 @@
                                             <a href="#" style="font-weight: bold;">Presupuesto</a>
                                             <br>
                                             <a href="#">Menos de 50€</a>
+                                            <br>
                                             <a href="#">Menos de 100€</a>
+                                            <br>
                                             <a href="#">Menos de 250€</a>
+                                            <br>
                                             <a href="#">Mas de 250€</a>
                                         </li>
                                     </ul>
