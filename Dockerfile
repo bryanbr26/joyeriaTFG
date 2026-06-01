@@ -49,5 +49,11 @@ USER www
 WORKDIR /var/www/html
 
 EXPOSE 9000
+# Instalamos las dependencias de Laravel
+RUN composer install --no-dev --optimize-autoloader
+
+# Limpiamos la caché
 RUN php artisan optimize:clear
+
+# Arrancamos el servidor
 CMD ["php-fpm"]

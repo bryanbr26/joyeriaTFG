@@ -24,7 +24,7 @@
 # Docker
 /docker-compose*.yml
 /Dockerfile
-/.docker
+# /.docker
 
 # IDEs y OS
 /.idea

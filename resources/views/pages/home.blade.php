@@ -5,7 +5,7 @@
         <div class="hero-content">
             <div class="contenedor-home-titulos">
                 <div class="titulo">
-                    <h1>Las cuentas doradas se convinan con pierdas preciosas</h1>
+                    <h1>Las cuentas doradas se combinan con piedras preciosas</h1>
                     <p>Nuestras coleccion de joyas estan diseñada con artesania fina</p>
                     <a href="{{ route('joyas.index', 'anillos') }}">Explora nuestra coleccion</a>
                 </div>
