@@ -58,8 +58,9 @@ class ImagenProducto extends Model
      * Si la URL ya es absoluta (http/https) la devuelve tal cual.
      * Si las imágenes están configuradas como privadas genera una URL temporal de S3;
      * de lo contrario devuelve la URL pública de S3.
+     * Si S3 no está configurado, devuelve null para que la vista muestre el placeholder.
      *
-     * @return string URL completa de la imagen
+     * @return string|null URL completa de la imagen o null
      */
     public function getUrlCompletaAttribute()
     {
@@ -67,10 +68,30 @@ class ImagenProducto extends Model
             return $this->url;
         }
 
-        if (env('AWS_IMAGES_PRIVATE', true)) {
-            return Storage::disk('s3')->temporaryUrl($this->url, now()->addHours(6));
+        if (empty(config('filesystems.disks.s3.bucket')) && empty(config('filesystems.disks.s3.key'))) {
+            return null;
         }
 
-        return Storage::disk('s3')->url($this->url);
+        try {
+            if (env('AWS_IMAGES_PRIVATE', true)) {
+                return Storage::disk('s3')->temporaryUrl($this->url, now()->addHours(6));
+            }
+
+            return Storage::disk('s3')->url($this->url);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Accessor para obtener la URL optimizada de la imagen.
+     *
+     * @return string URL optimizada o URL completa si no se puede optimizar
+     */
+    public function getUrlOptimizadaAttribute(): string
+    {
+        $url = $this->url_completa;
+        $optimizada = optimized_image_url($url, 'medium');
+        return $optimizada ?? $url;
     }
 }

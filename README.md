@@ -193,29 +193,4 @@ Para evitar errores `404` en entornos donde `public/storage` no esté disponible
 - El usuario propietario del carrito o pedido.
 - Un administrador.
 
-## Reparto de tareas
 
-### Diego Cuenca: Backend y lógica de negocio
-
-- Desarrollo de controladores Laravel para productos, pedidos, carrito, personalización y usuarios.
-- Implementación de autenticación con Laravel Fortify.
-- Validaciones de formularios, stock, pedidos y grabados personalizados.
-- Integración de correos y flujo de pago.
-
-### Juan Adiego: Frontend y experiencia de usuario
-
-- Maquetación responsive con Bootstrap 5 y Sass.
-- Diseño visual de catálogo, detalle de producto, contacto, orfebrería y autenticación.
-- Interacciones de carrito, favoritos, buscador y selección responsive.
-- Ajustes de accesibilidad visual, contraste, scroll y presentación de precios.
-
-### Bryan Pérez: Infraestructura, base de datos y DevOps
-
-- Diseño del esquema de base de datos y relaciones.
-- Configuración Docker, Nginx y servicios de desarrollo.
-- Gestión de migraciones, seeders y documentación técnica.
-- Preparación de entornos y guías de despliegue.
-
-## Estado del proyecto
-
-La web se encuentra en fase final de pulido: experiencia responsive, formularios conectados, carrito funcional, personalización de joyas, contacto con ubicación actualizada y mejoras visuales aplicadas para la entrega de 2026.

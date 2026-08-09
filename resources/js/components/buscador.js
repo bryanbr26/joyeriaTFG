@@ -88,6 +88,11 @@ export function initBuscador() {
                         const card = crearProductoCard(producto, baseUrl);
                         gridProductos.appendChild(card);
                     });
+
+                    // Activar lazy loading sobre las nuevas imágenes
+                    if (typeof window.initLazyLoading === 'function') {
+                        window.initLazyLoading(gridProductos);
+                    }
                 })
                 .catch(error => {
                     console.error('Error buscando productos:', error);

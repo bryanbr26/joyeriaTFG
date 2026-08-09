@@ -21,38 +21,45 @@
 @section('content')
     <section class="section-uno animar-seccion-izquierda">
         <div class="contenedor-img animar-entrada-izquierda">
-            <img src="{{ asset('images/joyas/banner-1.png') }}" alt="Colección exclusiva de joyas artesanales" loading="lazy" decoding="async">
+            {!! responsive_picture('frames/frame_001.webp', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
         </div>
         <div class="contenedor-titulos">
-            <h1>Arte y elegancia en cada pieza</h1>
-            <p>En Joyas Perez transformamos metales preciosos y gemas exclusivas en joyas únicas que cuentan historias. Cada diseño refleja décadas de tradición orfebre y una pasión inquebrantable por la excelencia. Descubre piezas que perduran para siempre.</p>
+            <h1>Arte y elegancia<br>
+          
+            en cada pieza</h1>
+            <p>En Joyas Pérez transformamos metales preciosos y gemas exclusivas en joyas únicas que cuentan historias. Cada diseño refleja décadas de tradición orfebre y una pasión inquebrantable por la excelencia. Descubre piezas que perduran para siempre.</p>
             <div class="contenedor-btn-text">
                 <a href="{{ route('joyas.index', 'anillos') }}" class="btn-seccion">Ver colección</a>
             </div>
         </div>
     </section>
-    
-    <section class="section-dos animar-seccion-derecha">
 
-        <div class="contenedor-text">
-            <p>
-                Joyas Perez ha sido sinónimo de calidad y distinción. Combinamos técnicas tradicionales con diseños vanguardistas para crear piezas que enamoran a primera vista. Cada anillo, collar y pulsera es elaborado a mano con los más altos estándares de calidad, utilizando oro de 18 quilates, plata esterlina y gemas cuidadosamente seleccionadas. Te invitamos a descubrir una experiencia única donde el lujo y la artesanía se fusionan en perfecta armonía.
-            </p>
+
+    <section class="section-dos animar-seccion-derecha">
+        <div class="contenedor-animacion animar-entrada-derecha">
+             <div class="contenedor-joyas-uno">
+            {!! responsive_picture('joyas/caba.png', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+        </div>
+           <div class="contenedor-joyas-dos">
+            {!! responsive_picture('joyas/colganteCeltivero.png', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+        </div>
         </div>
 
-        <div class="contenedor-animacion animar-entrada-derecha">
-            <img src="{{ asset('images/joyas/animacion-anillos.png') }}" alt="Anillos de oro y plata artesanales" loading="lazy" decoding="async">
+        <div class="contenedor-text">
+            <h1>El tiempo galopa pero el recuerdo permanece</h1>
+            <p>Enim aliqua ullamco sint ullamco tempor esse aliqua.</p>
+            <button class="btn-simple">Ver coleccion</button>
         </div>
     </section>
     <section class="section-tres">
         <div class="contenedor-coleccion-uno animar-entrada-arriba">
-            <img src="{{ asset('images/joyas/fondo-coleccion-uno.png') }}" alt="Colección de collares elegantes" loading="lazy" decoding="async">
+            {!! responsive_picture('joyas/fondo-coleccion-uno.png', 'Colección de collares elegantes', ['loading' => 'lazy', 'decoding' => 'async']) !!}
             <h3>Colección 1</h3>
             <a href="{{ route('joyas.index', 'collares') }}" class="btn-coleccion">Descúbrelo</a>
              
         </div>
         <div class="contenedor-coleccion-dos animar-entrada-arriba-retrasada">
-            <img src="{{ asset('images/joyas/fondo-coleccion-dos.png') }}" alt="Colección de pulseras exclusivas" loading="lazy" decoding="async">
+            {!! responsive_picture('joyas/fondo-coleccion-dos.png', 'Colección de pulseras exclusivas', ['loading' => 'lazy', 'decoding' => 'async']) !!}
             <h3>Colección 2</h3>
             <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-coleccion">Descúbrelo</a>
         </div>
@@ -60,22 +67,22 @@
     <section class="section-cuatro">
         <div class="carrusel-joyas">
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-anillos.png') }}" alt="Anillos exclusivos" loading="lazy" decoding="async">
+                {!! responsive_picture('joyas/carrusel-anillos.png', 'Anillos exclusivos', ['loading' => 'lazy', 'decoding' => 'async']) !!}
                 <h3>Anillos</h3>
                 <a href="{{ route('joyas.index', 'anillos') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pendientes.png') }}" alt="Pendientes elegantes" loading="lazy" decoding="async">
+                {!! responsive_picture('joyas/carrusel-pendientes.png', 'Pendientes elegantes', ['loading' => 'lazy', 'decoding' => 'async']) !!}
                 <h3>Pendientes</h3>
                 <a href="{{ route('joyas.index', 'pendientes') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-collares.png') }}" alt="Collares refinados" loading="lazy" decoding="async">
+                {!! responsive_picture('joyas/carrusel-collares.png', 'Collares refinados', ['loading' => 'lazy', 'decoding' => 'async']) !!}
                 <h3>Collares</h3>
                 <a href="{{ route('joyas.index', 'collares') }}" class="btn-carrusel">Descúbrelo</a>
             </div>
             <div class="tarjeta">
-                <img src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}" alt="Pulseras artesanales" loading="lazy" decoding="async">
+                {!! responsive_picture('joyas/carrusel-pulseras.jpg', 'Pulseras artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
                 <h3>Pulseras</h3>
                 <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-carrusel">Descúbrelo</a>
             </div>

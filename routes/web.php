@@ -29,10 +29,14 @@ Route::get('/img/{size}/{path}', [ImageController::class, 'show'])
     ->where('path', '.*')
     ->name('imagen.optimizada');
 
+Route::get('/img/remote/{size}', [ImageController::class, 'remote'])
+    ->where('size', 'thumbnail|small|medium|large|placeholder|webp')
+    ->name('imagen.optimizada.remota');
+
 // RUTAS DE AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 Route::get('/panel-usuario', [AuthController::class, 'panel'])->name('panel.usuario')->middleware('auth');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -101,6 +105,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
     Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
 });
+
+
 
 // RUTAS CONTACTO
 Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');

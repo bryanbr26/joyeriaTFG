@@ -3383,32 +3383,32 @@ function _initLoader() {
           _context.n = 5;
           return waitForVisibleImages();
         case 5:
-          // Paso 5: Video listo (metadata suficiente para reproducir)
+          // Paso 5: Video listo (metadata suficiente para reproducir) — no bloqueante
           heroVideo = document.getElementById('hero-video');
+          waitForMedia(heroVideo)["catch"](function () {});
+
+          // Paso 6: Tiempo extra de seguridad para paint final
           _context.n = 6;
-          return waitForMedia(heroVideo);
-        case 6:
-          _context.n = 7;
           return new Promise(function (r) {
             return setTimeout(r, 400);
           });
-        case 7:
+        case 6:
           clearTimeout(timeoutId);
           hideLoader();
           elapsed = Math.round(performance.now() - startTime);
           console.log("[Loader] Ocultado tras ".concat(elapsed, "ms."));
-          _context.n = 9;
+          _context.n = 8;
           break;
-        case 8:
-          _context.p = 8;
+        case 7:
+          _context.p = 7;
           _t = _context.v;
           clearTimeout(timeoutId);
           console.error('[Loader] Error en pipeline de carga:', _t);
           hideLoader();
-        case 9:
+        case 8:
           return _context.a(2);
       }
-    }, _callee, null, [[1, 8]]);
+    }, _callee, null, [[1, 7]]);
   }));
   return _initLoader.apply(this, arguments);
 }
@@ -3426,11 +3426,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Lazy loading de imágenes con Intersection Observer
   initLazyLoading();
 });
+
+// Exponer globalmente para poder re-inicializar en contenido dinámico (buscador AJAX)
+window.initLazyLoading = initLazyLoading;
 function initLazyLoading() {
+  var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+  var images = container.querySelectorAll('img[data-src]');
   if (!('IntersectionObserver' in window)) {
     // Fallback: cargar todas las imágenes inmediatamente
-    document.querySelectorAll('img[data-src]').forEach(function (img) {
-      loadLazyImage(img);
+    images.forEach(function (img) {
+      return loadLazyImage(img);
     });
     return;
   }
@@ -3443,39 +3448,47 @@ function initLazyLoading() {
       }
     });
   }, {
-    rootMargin: '100px 0px',
+    rootMargin: '150px 0px',
     threshold: 0.01
   });
-  document.querySelectorAll('img[data-src]').forEach(function (img) {
-    imageObserver.observe(img);
+  images.forEach(function (img) {
+    // Evitar observar la misma imagen dos veces
+    if (!img.dataset.lazyObserved) {
+      img.dataset.lazyObserved = 'true';
+      imageObserver.observe(img);
+    }
   });
 }
 
 /**
  * Carga una imagen lazy con efecto blur-up.
  * Si la imagen tiene la clase .blur-up, espera a que cargue para quitar el desenfoque.
+ * También actualiza el source WebP asociado (data-srcset -> srcset).
  */
 function loadLazyImage(img) {
   if (!img.dataset.src) {
     return;
   }
   var newSrc = img.dataset.src;
-  if (img.classList.contains('blur-up')) {
-    var tempImg = new Image();
-    tempImg.onload = function () {
-      img.src = newSrc;
-      img.classList.add('loaded');
-      img.removeAttribute('data-src');
-    };
-    tempImg.onerror = function () {
-      img.src = newSrc;
-      img.classList.add('loaded');
-      img.removeAttribute('data-src');
-    };
-    tempImg.src = newSrc;
-  } else {
+  var picture = img.closest('picture');
+  var applySource = function applySource() {
     img.src = newSrc;
     img.removeAttribute('data-src');
+    img.classList.add('loaded');
+    if (picture) {
+      picture.querySelectorAll('source[data-srcset]').forEach(function (source) {
+        source.srcset = source.dataset.srcset;
+        source.removeAttribute('data-srcset');
+      });
+    }
+  };
+  if (img.classList.contains('blur-up')) {
+    var tempImg = new Image();
+    tempImg.onload = applySource;
+    tempImg.onerror = applySource;
+    tempImg.src = newSrc;
+  } else {
+    applySource();
   }
 }
 
@@ -3608,6 +3621,11 @@ function initBuscador() {
             var card = crearProductoCard(producto, baseUrl);
             gridProductos.appendChild(card);
           });
+
+          // Activar lazy loading sobre las nuevas imágenes
+          if (typeof window.initLazyLoading === 'function') {
+            window.initLazyLoading(gridProductos);
+          }
         })["catch"](function (error) {
           console.error('Error buscando productos:', error);
           gridProductos.innerHTML = '';

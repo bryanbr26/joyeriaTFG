@@ -19,7 +19,7 @@
             <div class="producto-detalle-imagen">
                 <div class="contenedor-imagen-principal">
                     @if($producto->imagen_principal_url)
-                        <img src="{{ $producto->imagen_principal_url }}" id="producto-imagen-principal" class="imagen-producto" alt="{{ $producto->nombre }}" loading="eager">
+                        <img src="{{ $producto->imagen_optimizada }}" id="producto-imagen-principal" class="imagen-producto" alt="{{ $producto->nombre }}" loading="eager">
                     @else
                         <div class="imagen-placeholder">
                             <i class="bi bi-gem icono-placeholder"></i>
@@ -30,8 +30,8 @@
                     <div class="contenedor-imagenes-miniatura">
                         @foreach($producto->imagenes as $imagen)
                             <div class="imagen-mini">
-                                <img src="{{ $imagen->url_completa }}"
-                                     data-full-src="{{ $imagen->url_completa }}"
+                                <img src="{{ $imagen->url_optimizada }}"
+                                     data-full-src="{{ $imagen->url_optimizada }}"
                                      class="imagen-producto-mini producto-miniatura"
                                      alt="{{ $producto->nombre }}"
                                      loading="lazy"
@@ -174,8 +174,10 @@
                         <a href="{{ route('joyas.show', [$categoria, $relacionado]) }}" class="producto-enlace">
                             <div class="producto-card">
                                 @if($relacionado->imagen_principal_url)
-                                    <img src="{{ $relacionado->imagen_principal_url }}" class="producto-imagen"
-                                        alt="{{ $relacionado->nombre }}" loading="lazy" decoding="async">
+                                    <img src="{{ $relacionado->placeholder }}"
+                                         data-src="{{ $relacionado->imagen_optimizada }}"
+                                         class="producto-imagen lazy-image blur-up"
+                                         alt="{{ $relacionado->nombre }}" loading="lazy" decoding="async">
                                 @else
                                     <div class="producto-imagen--placeholder">
                                         <i class="bi bi-gem icono-placeholder"></i>

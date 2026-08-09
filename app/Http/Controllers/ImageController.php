@@ -51,6 +51,45 @@ class ImageController extends Controller
             $cachedPath = $this->imageService->optimizar($path, $size);
         }
 
+        return $this->serveCached($cachedPath);
+    }
+
+    /**
+     * Sirve una imagen remota (S3 u otro origen) optimizada.
+     *
+     * @param string $size thumbnail|small|medium|large|placeholder|webp
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+     */
+    public function remote(string $size, \Illuminate\Http\Request $request)
+    {
+        $url = $request->input('url');
+
+        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
+            abort(404);
+        }
+
+        $cachedPath = null;
+
+        if ($size === 'placeholder') {
+            $cachedPath = $this->imageService->generarPlaceholderUrl($url);
+        } elseif ($size === 'webp') {
+            $cachedPath = $this->imageService->convertirWebp($url);
+        } else {
+            $cachedPath = $this->imageService->optimizarUrl($url, $size);
+        }
+
+        return $this->serveCached($cachedPath);
+    }
+
+    /**
+     * Sirve un archivo cacheado con headers agresivos.
+     *
+     * @param string|null $cachedPath
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+     */
+    protected function serveCached(?string $cachedPath)
+    {
         if (!$cachedPath) {
             abort(404);
         }

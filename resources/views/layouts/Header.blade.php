@@ -47,6 +47,7 @@
 
     </div>
 
+    @if(empty($hideMegaMenu))
     <!-- Navegación con Mega Menú -->
     <nav class="border-top navbar-light" id="nav-bar">
         <button id="nav-close" class="nav-close" aria-label="Cerrar menú">
@@ -215,6 +216,7 @@
             </div>
         </div>
     </nav>
+    @endif
 </header>
 
 <div id="overlay-buscador" class="overlay-buscador">

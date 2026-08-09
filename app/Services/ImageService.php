@@ -106,6 +106,50 @@ class ImageService
     }
 
     /**
+     * Descarga una imagen remota a un archivo temporal.
+     *
+     * @param string $url URL de la imagen
+     * @return string|null Ruta temporal o null si falla
+     */
+    protected function downloadRemoteImage(string $url): ?string
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'img_');
+        try {
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => 60,
+                    'user_agent' => 'Mozilla/5.0 (compatible; ImageOptimizer/1.0)',
+                ],
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+            $data = @file_get_contents($url, false, $context);
+            if (!$data) {
+                @unlink($tempFile);
+                return null;
+            }
+            file_put_contents($tempFile, $data);
+            return $tempFile;
+        } catch (\Exception $e) {
+            @unlink($tempFile);
+            return null;
+        }
+    }
+
+    /**
+     * Genera una clave de cache segura para una URL remota.
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function remoteCacheKey(string $url): string
+    {
+        return hash('sha256', $url);
+    }
+
+    /**
      * Procesa una imagen: redimensiona manteniendo proporción, convierte al formato
      * optimizado y cachea. Si WebP no está disponible usa JPEG.
      *
@@ -134,10 +178,61 @@ class ImageService
             return $cacheRelative;
         }
 
+        return $this->processAndSave($sourcePath, $cacheFullPath, $width, $format);
+    }
+
+    /**
+     * Procesa una imagen remota descargándola, redimensionándola y cacheándola.
+     *
+     * @param string $url URL completa de la imagen (S3 u otro origen)
+     * @param string $size Clave del tamaño (thumbnail, small, medium, large)
+     * @return string|null Ruta relativa del archivo cacheado
+     */
+    public function optimizarUrl(string $url, string $size = 'medium'): ?string
+    {
+        if (!isset(self::SIZES[$size])) {
+            $size = 'medium';
+        }
+
+        if (!preg_match('/^https?:\/\//', $url)) {
+            return $this->optimizar($url, $size);
+        }
+
+        $width = self::SIZES[$size];
+        [$format, $mime] = $this->outputFormat();
+        $key = $this->remoteCacheKey($url);
+        $cacheRelative = self::CACHE_DIR . '/remote/' . $key . '-' . $size . '.' . $format;
+        $cacheFullPath = $this->cachedFilePath($cacheRelative);
+
+        if (file_exists($cacheFullPath)) {
+            return $cacheRelative;
+        }
+
+        $tempFile = $this->downloadRemoteImage($url);
+        if (!$tempFile) {
+            return null;
+        }
+
+        $result = $this->processAndSave($tempFile, $cacheFullPath, $width, $format);
+        @unlink($tempFile);
+
+        return $result;
+    }
+
+    /**
+     * Procesa y guarda una imagen local en el cache.
+     *
+     * @param string $sourcePath Ruta fuente
+     * @param string $cacheFullPath Ruta destino
+     * @param int $width Ancho máximo
+     * @param string $format Formato de salida (webp|jpg)
+     * @return string|null
+     */
+    protected function processAndSave(string $sourcePath, string $cacheFullPath, int $width, string $format): ?string
+    {
         try {
             $img = Image::make($sourcePath);
         } catch (\Exception $e) {
-            // Si no se puede leer (p.ej. WebP sin soporte), devolver null
             return null;
         }
 
@@ -154,13 +249,12 @@ class ImageService
         if ($format === 'webp') {
             $img->encode('webp', 85);
         } else {
-            // Para JPEG usamos fondo blanco en caso de transparencias
             $img->encode('jpg', 85);
         }
 
         $img->save($cacheFullPath);
 
-        return $cacheRelative;
+        return str_replace(storage_path('app/public/'), '', $cacheFullPath);
     }
 
     /**
@@ -177,8 +271,54 @@ class ImageService
             return null;
         }
 
+        return $this->generarPlaceholderFromSource($sourcePath, $path);
+    }
+
+    /**
+     * Genera un placeholder borroso para una URL remota.
+     *
+     * @param string $url URL completa de la imagen
+     * @return string|null Ruta relativa del placeholder cacheado
+     */
+    public function generarPlaceholderUrl(string $url): ?string
+    {
+        if (!preg_match('/^https?:\/\//', $url)) {
+            return $this->generarPlaceholder($url);
+        }
+
+        $key = $this->remoteCacheKey($url);
         [$format, $mime] = $this->outputFormat();
-        $cacheRelative = $this->cachePath($path, 'placeholder', $format);
+        $cacheRelative = self::CACHE_DIR . '/remote/' . $key . '-placeholder.' . $format;
+        $cacheFullPath = $this->cachedFilePath($cacheRelative);
+
+        if (file_exists($cacheFullPath)) {
+            return $cacheRelative;
+        }
+
+        $tempFile = $this->downloadRemoteImage($url);
+        if (!$tempFile) {
+            return null;
+        }
+
+        $result = $this->generarPlaceholderFromSource($tempFile, $cacheRelative);
+        @unlink($tempFile);
+
+        return $result;
+    }
+
+    /**
+     * Genera un placeholder desde una ruta fuente.
+     *
+     * @param string $sourcePath
+     * @param string $cacheKey
+     * @return string|null
+     */
+    protected function generarPlaceholderFromSource(string $sourcePath, string $cacheKey): ?string
+    {
+        [$format, $mime] = $this->outputFormat();
+        $cacheRelative = str_ends_with($cacheKey, '.' . $format)
+            ? $cacheKey
+            : $this->cachePath($cacheKey, 'placeholder', $format);
         $cacheFullPath = $this->cachedFilePath($cacheRelative);
 
         if (file_exists($cacheFullPath)) {

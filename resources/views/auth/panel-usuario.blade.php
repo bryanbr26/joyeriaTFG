@@ -18,7 +18,7 @@
                         <i class="bi bi-speedometer2 me-2"></i>Ir al panel de admin
                     </a>
                 @endif
-                <a href="{{ route('logout') }}" class="btn btn-outline-light">
+                <a href="{{ route('logout.get') }}" class="btn btn-outline-light">
                     <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
                 </a>
             </div>

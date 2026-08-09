@@ -35,7 +35,7 @@
             <div class="productos-showcase">
                 {{-- Imagen decorativa grande (izquierda) --}}
                 <div class="imagen-destacada">
-                    <img src="{{ asset('images/joyas/exclusiva.webp') }}" alt="Joyería destacada" class="imagen-destacada-img">
+                    {!! responsive_picture('joyas/exclusiva.webp', 'Joyería destacada', ['class' => 'imagen-destacada-img']) !!}
                     <div class="imagen-destacada-overlay">
                         <h3>Colección Exclusiva</h3>
                         <p>Descubre nuestras piezas únicas</p>
@@ -51,10 +51,11 @@
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->imagen_principal_url)
-                                        <img src="{{ $producto->imagen_principal_url }}"
+                                        <img src="{{ $producto->placeholder }}"
+                                             data-src="{{ $producto->imagen_optimizada }}"
                                              loading="lazy"
                                              decoding="async"
-                                             class="producto-imagen"
+                                             class="producto-imagen lazy-image blur-up"
                                              alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
@@ -123,10 +124,11 @@
                             <a href="{{ route('joyas.show', [$categoriaProducto, $producto]) }}" class="producto-enlace">
                                 <div class="producto-card">
                                     @if($producto->imagen_principal_url)
-                                        <img src="{{ $producto->imagen_principal_url }}"
+                                        <img src="{{ $producto->placeholder }}"
+                                             data-src="{{ $producto->imagen_optimizada }}"
                                              loading="lazy"
                                              decoding="async"
-                                             class="producto-imagen"
+                                             class="producto-imagen lazy-image blur-up"
                                              alt="{{ $producto->nombre }}">
                                     @else
                                         <div class="producto-imagen--placeholder">
@@ -149,8 +151,7 @@
 
                 {{-- Imagen decorativa grande (derecha) --}}
                 <div class="imagen-destacada">
-                    <img src="{{ asset('images/joyas/exclusiva-2.jpg') }}" alt="Artesanía en joyería"
-                        class="imagen-destacada-img">
+                    {!! responsive_picture('joyas/exclusiva-2.jpg', 'Artesanía en joyería', ['class' => 'imagen-destacada-img']) !!}
                     <div class="imagen-destacada-overlay">
                         <h3>Artesanía Única</h3>
                         <p>Cada pieza cuenta una historia</p>

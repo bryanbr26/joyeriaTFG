@@ -310,7 +310,8 @@ class JoyasController extends Controller
         $categoriaDB = $this->getCategoriaDB($categoria);
 
         // Obtenemos otros productos de la misma categoría para el carrusel/showcase
-        $productos = Producto::where('categoria', $categoriaDB)
+        $productos = Producto::with('imagenes')
+            ->where('categoria', $categoriaDB)
             ->where('id', '!=', $producto->id)
             ->get();
 
@@ -331,7 +332,8 @@ class JoyasController extends Controller
             return response()->json([]);
         }
 
-        $productos = Producto::where('nombre', 'like', "%{$query}%")
+        $productos = Producto::with('imagenes')
+            ->where('nombre', 'like', "%{$query}%")
             ->orWhere('marca', 'like', "%{$query}%")
             ->orWhere('descripcion', 'like', "%{$query}%")
             ->orWhere('material', 'like', "%{$query}%")

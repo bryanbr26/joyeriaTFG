@@ -118,13 +118,13 @@
     @if(Route::is('index'))
         <div class="hero-wrapper">
             <div class="video-background">
-                <video autoplay muted loop playsinline preload="metadata" poster="{{ asset('images/joyas/banner-1.png') }}" id="hero-video">
+                <video autoplay muted loop playsinline preload="metadata" poster="{{ asset('images/joyas/banner-1.webp') }}" id="hero-video">
                     <source src="{{ asset('images/videos/video-fondo-home.mp4') }}" type="video/mp4">
                 </video>
                 <div class="video-overlay"></div>
             </div>
 
-            @include("layouts.Header")
+            @include("layouts.Header", ["hideMegaMenu" => true])
 
             @yield("hero")
         </div>

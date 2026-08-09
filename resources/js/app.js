@@ -147,9 +147,9 @@ async function initLoader() {
         // Paso 4: Imágenes críticas del viewport inicial cargadas
         await waitForVisibleImages();
 
-        // Paso 5: Video listo (metadata suficiente para reproducir)
+        // Paso 5: Video listo (metadata suficiente para reproducir) — no bloqueante
         const heroVideo = document.getElementById('hero-video');
-        await waitForMedia(heroVideo);
+        waitForMedia(heroVideo).catch(() => {});
 
         // Paso 6: Tiempo extra de seguridad para paint final
         await new Promise(r => setTimeout(r, 400));
@@ -182,12 +182,15 @@ document.addEventListener('DOMContentLoaded', function () {
     initLazyLoading();
 });
 
-function initLazyLoading() {
+// Exponer globalmente para poder re-inicializar en contenido dinámico (buscador AJAX)
+window.initLazyLoading = initLazyLoading;
+
+function initLazyLoading(container = document) {
+    const images = container.querySelectorAll('img[data-src]');
+
     if (!('IntersectionObserver' in window)) {
         // Fallback: cargar todas las imágenes inmediatamente
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            loadLazyImage(img);
-        });
+        images.forEach(img => loadLazyImage(img));
         return;
     }
 
@@ -200,18 +203,23 @@ function initLazyLoading() {
             }
         });
     }, {
-        rootMargin: '100px 0px',
+        rootMargin: '150px 0px',
         threshold: 0.01
     });
 
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
+    images.forEach(img => {
+        // Evitar observar la misma imagen dos veces
+        if (!img.dataset.lazyObserved) {
+            img.dataset.lazyObserved = 'true';
+            imageObserver.observe(img);
+        }
     });
 }
 
 /**
  * Carga una imagen lazy con efecto blur-up.
  * Si la imagen tiene la clase .blur-up, espera a que cargue para quitar el desenfoque.
+ * También actualiza el source WebP asociado (data-srcset -> srcset).
  */
 function loadLazyImage(img) {
     if (!img.dataset.src) {
@@ -219,22 +227,27 @@ function loadLazyImage(img) {
     }
 
     const newSrc = img.dataset.src;
+    const picture = img.closest('picture');
+
+    const applySource = () => {
+        img.src = newSrc;
+        img.removeAttribute('data-src');
+        img.classList.add('loaded');
+
+        if (picture) {
+            picture.querySelectorAll('source[data-srcset]').forEach(source => {
+                source.srcset = source.dataset.srcset;
+                source.removeAttribute('data-srcset');
+            });
+        }
+    };
 
     if (img.classList.contains('blur-up')) {
         const tempImg = new Image();
-        tempImg.onload = function () {
-            img.src = newSrc;
-            img.classList.add('loaded');
-            img.removeAttribute('data-src');
-        };
-        tempImg.onerror = function () {
-            img.src = newSrc;
-            img.classList.add('loaded');
-            img.removeAttribute('data-src');
-        };
+        tempImg.onload = applySource;
+        tempImg.onerror = applySource;
         tempImg.src = newSrc;
     } else {
-        img.src = newSrc;
-        img.removeAttribute('data-src');
+        applySource();
     }
 }

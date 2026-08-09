@@ -145,11 +145,19 @@ class Producto extends Model
         }
 
         if ($this->ruta_grabado) {
-            if (env('AWS_IMAGES_PRIVATE', true)) {
-                return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->ruta_grabado, now()->addHours(6));
+            if (empty(config('filesystems.disks.s3.bucket')) && empty(config('filesystems.disks.s3.key'))) {
+                return null;
             }
 
-            return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->ruta_grabado);
+            try {
+                if (env('AWS_IMAGES_PRIVATE', true)) {
+                    return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->ruta_grabado, now()->addHours(6));
+                }
+
+                return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->ruta_grabado);
+            } catch (\Exception $e) {
+                return null;
+            }
         }
 
         return null;
@@ -173,7 +181,14 @@ class Producto extends Model
      */
     public function imagenUrl(string $tamaño = 'medium'): string
     {
-        return $this->imagen_principal_url ?? $this->placeholderSvg();
+        $url = $this->imagen_principal_url;
+
+        if (!$url) {
+            return $this->placeholderSvg();
+        }
+
+        $optimizada = optimized_image_url($url, $tamaño);
+        return $optimizada ?? $url;
     }
 
     /**
@@ -183,7 +198,7 @@ class Producto extends Model
      */
     public function getImagenOptimizadaAttribute(): string
     {
-        return $this->imagen_principal_url ?? $this->placeholderSvg();
+        return $this->imagenUrl('medium');
     }
 
     /**
@@ -193,7 +208,14 @@ class Producto extends Model
      */
     public function getPlaceholderAttribute(): string
     {
-        return $this->imagen_principal_url ?? $this->placeholderSvg();
+        $url = $this->imagen_principal_url;
+
+        if (!$url) {
+            return $this->placeholderSvg();
+        }
+
+        $placeholder = optimized_image_url($url, 'placeholder');
+        return $placeholder ?? $url;
     }
 
     /**
