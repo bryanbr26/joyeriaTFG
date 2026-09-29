@@ -1,221 +1,177 @@
 @extends("layouts.layout")
 
+@section("hero")
+
+<!-- 1. Hero Orfebrería (el fondo vive en layouts/layout.blade.php) -->
+<section class="contenedor-orfebreria-hero">
+
+    <div class="contenedor-principal-wrapper">
+        
+            
+        <div class="subtitulo">Orfebrería artesanal</div>
+
+        <h1 class="titulo-orfebreria">El arte del metal, forjado a mano</h1>
+        <p class="contenido-orfebreria">Ea esse occaecat culpa veniam tempor veniam est Lorem amet aliquip esse. Ad magna duis ipsum nostrud sit ea sint ex laboris.</p>
+
+        <div class="fila-botones">
+            <a href="{{ route('joyas.index', 'anillos') }}" class="btn btn-coleccion">Explorar colección</a>
+            <a href="{{ route('joyas.index', 'colecciones') }}" class="btn btn-proceso">Nuestro proceso</a>
+        </div>
+        <hr class="separador-hero">
+
+    </div>
+
+   
+
+</section>
+
+@endsection
+
 @section("content")
-
-<!-- 1. Contenedor Imagen Principal -->
-<section class="contenedor-imagenPrincipal">
-    <div class="imagen-principal-wrapper">
-        <img
-            src="{{ asset('images/fondos/fondo-orfebreria.png') }}"
-            alt="Orfebrería - Imagen principal"
-            class="imagen-principal"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-        >
-        <div class="imagen-principal-placeholder" style="display: none;">
-            <i class="bi bi-gem icono-placeholder"></i>
+<section class="contenedor-orfebreria-info">
+        <div class="img-orfebreria">
+            {!! responsive_picture('fondos/taller-orfebre.png', 'Fondo de la sección de orfebrería', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up']) !!}
         </div>
-        <div class="imagen-principal-overlay">
-            <h1 class="titulo-orfebreria">Orfebrería</h1>
-            <p class="subtitulo-orfebreria">Arte y tradición en cada pieza</p>
-        </div>
-    </div>
+        <div class="contendor-texto">
+            <h2 class="titulo-info"> Dolor eu minim est non magna ullamco deserunt laborum ex velit</h2>
+            <p class="contenido-info">duis do quis. Occaecat culpa do velit aliquip veniam irure exercitation. Fugiat esse sint veniam anim sunt in. Veniam et qu iint culpa consequat commodo dolore ullamco mollit ex aliquip. Consectetur veniam non incididuntduis do quis. Occaecat culpa do velit aliquip veniam irure exercitation. Fugiat esse sint veniam anim sunt in. Veniam et qu iint culpa consequat commodo dolore ullamco mollit ex aliquip. Consectetur veniam non incididunt</p>
+            <a href="{{ route('joyas.index', 'colecciones') }}" class="btn-info-proceso">Descubre más</a>
+        </div>    
 </section>
+<section class="contenedor-orfebreria-imagenes">
+   <div class="titulo-orfebreria">Nuestras creaciones propias</div>
 
-<!-- 2. Contenedor Informativo -->
-<section class="contenedor-Informativo">
-    <div class="informativo-grid">
-        <div class="informativo-imagen">
-            <img
-                src="{{ asset('images/img-informativas/orfebreria.jpg') }}"
-                alt="Proceso de orfebrería"
-                class="img-informativa"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="informativo-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
-        <div class="informativo-texto">
-            <h2 class="informativo-titulo">Nuestra Orfebrería</h2>
-            <p class="informativo-parrafo">
-                En nuestro taller combinamos técnicas centenarias con diseños contemporáneos
-                para crear piezas únicas que perduran en el tiempo. Cada joya es el resultado
-                de un meticuloso proceso artesanal donde la pasión y la precisión se funden
-                en oro, plata y piedras preciosas.
-            </p>
-            <p class="informativo-parrafo">
-                Desde anillos de compromiso hasta collares exclusivos, para materializar tus sueños en piezas
-                irrepetibles.
-            </p>
-        </div>
-    </div>
+   <div class="galeria-orfebre" id="galeria-orfebre">
+        {!! responsive_picture('joyas-orfebres/colgante-marco-beige.png', 'Colgante dorado', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up colgante-dorado']) !!}
+
+        {!! responsive_picture('joyas-orfebres/anillo-marco-verde.png', 'Anillo de plata', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up anillo-serpiente']) !!}
+
+        {!! responsive_picture('joyas-orfebres/colgante-marco-dorado.png', 'Anillo de oro', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up colgante-oro']) !!}
+
+        {!! responsive_picture('joyas-orfebres/colgante-marco-rosa-.png', 'Anillo de oro', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up colgante-rosa']) !!}
+
+        {!! responsive_picture('joyas-orfebres/collar-azul-marco-blanco.png', 'Anillo de oro', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up collar-azul']) !!}
+
+   </div>
 </section>
-
-<!-- 3. Contenedor Productos Orfebres -->
-<section class="contenedor-productos-orfebres">
-    <h2 class="productos-orfebres-titulo">Nuestras Creaciones</h2>
-    <div class="productos-orfebres-marco">
-        <div class="orfebre-imagen orfebre-imagen-1">
-            <img
-                src="{{ asset('images/joyas/collar.avif') }}"
-                alt="Collar artesanal"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="orfebre-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
-        <div class="orfebre-imagen orfebre-imagen-2">
-            <img
-                src="{{ asset('images/joyas/carrusel-anillos.png') }}"
-                alt="Anillos exclusivos"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="orfebre-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
-        <div class="orfebre-imagen orfebre-imagen-3">
-            <img
-                src="{{ asset('images/joyas/carrusel-pendientes.png') }}"
-                alt="Pendientes de autor"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="orfebre-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
-        <div class="orfebre-imagen orfebre-imagen-4">
-            <img
-                src="{{ asset('images/joyas/carrusel-pulseras.jpg') }}"
-                alt="Pulseras artesanales"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="orfebre-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
-        <div class="orfebre-imagen orfebre-imagen-5">
-            <img
-                src="{{ asset('images/joyas/exclusiva.webp') }}"
-                alt="Pieza exclusiva"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            >
-            <div class="orfebre-imagen-placeholder" style="display: none;">
-                <i class="bi bi-gem icono-placeholder"></i>
-            </div>
-        </div>
+<section class="contenedor-orfebreria-contacto">
+    <div class="titulo-formulario">
+        Contacta con nosotros
     </div>
-</section>
-
-<!-- 4. Contenedor Reservar Cita -->
-<section class="contenedor-ReservarCita">
-    <div class="reservar-cita-wrapper">
-        <h2 class="reservar-cita-titulo">Reservar Cita</h2>
-        <p class="reservar-cita-subtitulo">Solicita una cita con nuestros expertos en orfebrería</p>
-
-        @if(session('success'))
-            <div class="mensaje-confirmacion mensaje-confirmacion--visible">
-                <i class="bi bi-check-circle-fill"></i>
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="mensaje-error-cita">
-                <i class="bi bi-exclamation-circle-fill"></i>
-                <p>{{ session('error') }}</p>
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="mensaje-error-cita">
-                <i class="bi bi-exclamation-circle-fill"></i>
-                <div>
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            </div>
-        @endif
-
-        <form id="form-reservar-cita" class="form-reservar-cita" method="POST" action="{{ route('orfebreria.enviar') }}">
+    <div class="formulario-consultas-cita">
+        <form action="" method="POST" class="formulario-consultas">
             @csrf
-
-            <div class="div-datos-contacto">
-                <div class="grupo-nombre">
-                    <label for="nombre-cita" class="form-label">Nombre</label>
-                    <input type="text" id="nombre-cita" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
-                </div>
-                <div class="grupo-email">
-                    <label for="email-cita" class="form-label">Email</label>
-                    <input type="email" id="email-cita" name="email" class="form-control" value="{{ old('email') }}" required>
-                </div>
-                <div class="grupo-telefono">
-                    <label for="telefono-cita" class="form-label">Teléfono</label>
-                    <input type="tel" id="telefono-cita" name="telefono" class="form-control" value="{{ old('telefono') }}">
-                </div>
-            </div>
-
-            <div class="div-proposito">
-                <fieldset class="grupo-proposito">
-                    <legend>¿Cuál es el propósito de su cita?</legend>
-                    <div class="opciones-radio">
-                        <label class="radio-label">
-                            <input type="radio" name="proposito" value="productos" {{ old('proposito', 'productos') === 'productos' ? 'checked' : '' }}>
-                            <span>Productos</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="proposito" value="servicios" {{ old('proposito') === 'servicios' ? 'checked' : '' }}>
-                            <span>Servicios</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="proposito" value="otro" {{ old('proposito') === 'otro' ? 'checked' : '' }}>
-                            <span>Otro</span>
-                        </label>
+            <div class="encabezado-formulario">
+                <div class="primera-columna">
+                    <div class="campo-formulario">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required>
                     </div>
-                </fieldset>
 
-                <div class="grupo-motivo">
-                    <label for="motivo-cita" class="form-label">Motivo de su cita:</label>
-                    <select id="motivo-cita" name="motivo" class="form-select">
-                        <option value="joyeria" {{ old('motivo') === 'joyeria' ? 'selected' : '' }}>Joyería</option>
-                        <option value="encargo" {{ old('motivo') === 'encargo' ? 'selected' : '' }}>Encargo</option>
-                        <option value="diseno-propio" {{ old('motivo') === 'diseno-propio' ? 'selected' : '' }}>Diseño propio</option>
-                        <option value="reparacion" {{ old('motivo') === 'reparacion' ? 'selected' : '' }}>Reparación</option>
-                        <option value="tasacion" {{ old('motivo') === 'tasacion' ? 'selected' : '' }}>Tasación</option>
-                        <option value="otro" {{ old('motivo') === 'otro' ? 'selected' : '' }}>Otro</option>
-                    </select>
+                    <div class="campo-formulario">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="campo-formulario">
+                        <label for="telefono">Teléfono (opcional)</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                    <div class="campo-formulario">
+                        <label for="asunto">Motivo de la consulta</label>
+                        <select id="asunto" name="asunto" required>
+                            <option value="">Seleccione un motivo</option>
+                            <option value="consulta">Consulta</option>
+                            <option value="cita">Solicitud de cita</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="segunda-columna"> 
+                    <div class="campo-mensaje">
+                        <label for="mensaje">Cuéntanos tu idea:</label>
+                        <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+                    </div>
+                    <div class="campo-imagen">
+                        <span class="etiqueta-imagen">Imagen de referencia: <small>(opcional)</small></span>
+                        <label for="imagen" class="btn-cargar-imagen">Cargar imagen:</label>
+                        <input type="file" id="imagen" name="imagen" class="imagen" accept="image/*" hidden>
+                    </div>
                 </div>
             </div>
-
-            <div class="div-detalles-cita">
-                <div class="grupo-fecha">
-                    <label for="fecha-cita" class="form-label">Fecha</label>
-                    <input type="date" id="fecha-cita" name="fecha" class="form-control" value="{{ old('fecha') }}" required>
+            <div class="footer-formulario">
+                <div class="privacidad">
+                    <input type="checkbox" id="privacidad" name="privacidad" required>
+                    <label for="privacidad">He leído y acepto la <a href="#">Política de Privacidad</a> *</label>
                 </div>
-                <div class="grupo-hora">
-                    <label for="hora-cita" class="form-label">Hora</label>
-                    <input type="time" id="hora-cita" name="hora" class="form-control" value="{{ old('hora') }}" required>
-                </div>
+                <button type="submit" class="btn-enviar">Enviar solicitud</button>
             </div>
-
-            <div class="div-comentarios">
-                <label for="comentarios-cita" class="form-label">Comentarios adicionales</label>
-                <textarea
-                    id="comentarios-cita"
-                    name="comentarios"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Cuéntanos más sobre lo que necesitas..."
-                >{{ old('comentarios') }}</textarea>
-            </div>
-
-            <button type="submit" class="btn-confirmar-cita">
-                Confirmar cita
-            </button>
         </form>
-        <div id="mensaje-confirmacion" class="mensaje-confirmacion" style="display: none;"></div>
+    </div>
+
+    <div class="reloj-wrapper">
+        {!! responsive_picture('fondos/reloj_sin_agujas.png', 'Fondo de la sección de orfebrería', ['loading' => 'lazy', 'decoding' => 'async', 'class' => 'lazy-image blur-up reloj']) !!}
+
+        {{-- Agujas SVG animadas desde orfebreria.js. Pivote del mecanismo: (1456, 2306) del viewBox. --}}
+        <svg class="agujas" viewBox="0 0 3138 4832" aria-hidden="true">
+            <defs>
+                <linearGradient id="facetDark" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#5f3a20"/>
+                    <stop offset="0.25" stop-color="#7d5636"/>
+                    <stop offset="1" stop-color="#a07447"/>
+                </linearGradient>
+                <linearGradient id="facetLight" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#e8c491"/>
+                    <stop offset="0.45" stop-color="#c69660"/>
+                    <stop offset="0.85" stop-color="#d9a870"/>
+                    <stop offset="1" stop-color="#f0d3a4"/>
+                </linearGradient>
+                <linearGradient id="secGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#6e4426"/>
+                    <stop offset="0.5" stop-color="#e3b57e"/>
+                    <stop offset="1" stop-color="#6e4426"/>
+                </linearGradient>
+                <radialGradient id="capGold" cx=".38" cy=".35" r=".9">
+                    <stop offset="0" stop-color="#f4d8ab"/><stop offset=".55" stop-color="#c98f5c"/><stop offset="1" stop-color="#8a5530"/>
+                </radialGradient>
+                <filter id="handShadow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="10" dy="8" stdDeviation="9" flood-color="#3a2c1c" flood-opacity="0.35"/>
+                </filter>
+            </defs>
+
+            <g id="reloj-hora" filter="url(#handShadow)">
+                <path fill="url(#facetDark)"  d="M0,55 L-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 Z"/>
+                <path fill="url(#facetLight)" d="M0,55 L14,50 L45,-90 L44,-180 L40,-280 L34,-380 L27,-480 L19,-580 L10,-690 L0,-770 Z"/>
+                <path fill="#f7e3c0" opacity="0.45" d="M-1.5,-60 L0,-765 L1.5,-60 Z"/>
+                <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+                      d="M-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 L10,-690 L19,-580 L27,-480 L34,-380 L40,-280 L44,-180 L45,-90 L14,50"/>
+            </g>
+
+            <g id="reloj-minuto" filter="url(#handShadow)">
+                <path fill="url(#facetDark)"  d="M0,110 L-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 Z"/>
+                <path fill="url(#facetLight)" d="M0,110 L7,105 L40,-60 L39,-200 L32,-350 L26,-500 L17,-650 L11,-800 L6,-950 L2,-1060 L0,-1110 Z"/>
+                <path fill="#f7e3c0" opacity="0.45" d="M-1,100 L0,-1105 L1,100 Z"/>
+                <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+                      d="M-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 L2,-1060 L6,-950 L11,-800 L17,-650 L26,-500 L32,-350 L39,-200 L40,-60 L7,105"/>
+            </g>
+
+            <g id="reloj-segundo" filter="url(#handShadow)">
+                <path fill="url(#facetDark)"  d="M0,70 L-11,100 L-9,220 L-6,340 L-2,430 L0,445 Z"/>
+                <path fill="url(#facetLight)" d="M0,70 L11,100 L9,220 L6,340 L2,430 L0,445 Z"/>
+                <path fill="url(#secGrad)" d="M-4,-60 L-4,-1050 L-2,-1080 L2,-1080 L4,-1050 L4,-60 Z"/>
+                <circle cx="0" cy="0" r="20" fill="none" stroke="#b87a4e" stroke-width="7"/>
+                <circle cx="0" cy="0" r="20" fill="none" stroke="#f0d3a4" stroke-width="2" opacity="0.7"/>
+            </g>
+
+            <g id="reloj-tapa" transform="translate(1456 2306)">
+                <circle r="100" fill="none" stroke="#c9a06b" stroke-width="5" opacity="0.85"/>
+                <circle r="104" fill="none" stroke="#8a6a45" stroke-width="2" opacity="0.5"/>
+                <circle r="56" fill="url(#capGold)"/>
+                <circle r="56" fill="none" stroke="#7d4e2c" stroke-width="3"/>
+                <circle r="40" fill="none" stroke="#a06a3f" stroke-width="4"/>
+                <circle r="24" fill="none" stroke="#e8c491" stroke-width="2" opacity="0.8"/>
+            </g>
+        </svg>
     </div>
 </section>
 

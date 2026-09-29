@@ -14,13 +14,33 @@ export function initNavbar() {
     if (headerIconContainer && mainNavBar) {
         // Si no es la página principal, hacemos que el nav sea visible por defecto al inicio
         const isHomePage = document.body.classList.contains('home-page');
-        if (!isHomePage) {
+        const isOrfebreriaPage = document.body.classList.contains('orfebreria-page');
+        if (!isHomePage && !isOrfebreriaPage) {
             mainNavBar.classList.add('nav-visible-defecto');
         }
+
+        // Posición anterior del scroll para detectar la dirección (solo se usa en home)
+        let lastScrollY = window.scrollY;
 
         function checkScrollForNav() {
             // En mobile/tablet el nav se controla por el menú hamburguesa, no por scroll
             if (isMobile()) return;
+
+            // En la home el nav se muestra/oculta según la DIRECCIÓN del scroll:
+            // - Scroll hacia arriba -> se muestra (fijo al top)
+            // - Scroll hacia abajo o en el tope de la página -> se esconde
+            if (isHomePage || isOrfebreriaPage) {
+                const currentScrollY = window.scrollY;
+
+                if (currentScrollY <= 0 || currentScrollY > lastScrollY) {
+                    mainNavBar.classList.remove('mostrar-nav');
+                } else {
+                    mainNavBar.classList.add('mostrar-nav');
+                }
+
+                lastScrollY = currentScrollY;
+                return;
+            }
 
             // Umbral = la parte inferior de header-icon respecto al inicio del documento
             const threshold = headerIconContainer.offsetTop + headerIconContainer.offsetHeight;

@@ -19,9 +19,22 @@
 @endsection
 
 @section('content')
-    <section class="section-uno animar-seccion-izquierda">
+    <section class="section-uno">
         <div class="contenedor-img animar-entrada-izquierda">
-            {!! responsive_picture('frames/frame_001.webp', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+            {{-- Canvas para la animación frame-by-frame controlada por scroll.
+                 La configuración (ruta, total de frames, recorrido del pin) va en data-attributes. --}}
+            <canvas
+                class="frames-canvas"
+                role="img"
+                aria-label="Animación de una joya artesanal que avanza cuadro a cuadro al hacer scroll"
+                data-frames-base="{{ asset('images/frames') }}"
+                data-total-frames="119"
+                data-pin-end="+=200%"
+            ></canvas>
+            {{-- Fallback sin JavaScript: primer frame como imagen estática --}}
+            <noscript>
+                {!! responsive_picture('frames/frame_001.webp', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+            </noscript>
         </div>
         <div class="contenedor-titulos">
             <h1>Arte y elegancia<br>
@@ -36,20 +49,13 @@
 
 
     <section class="section-dos animar-seccion-derecha">
-        <div class="contenedor-animacion animar-entrada-derecha">
-             <div class="contenedor-joyas-uno">
-            {!! responsive_picture('joyas/caba.png', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
-        </div>
-           <div class="contenedor-joyas-dos">
-            {!! responsive_picture('joyas/colganteCeltivero.png', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
-        </div>
-        </div>
-
-        <div class="contenedor-text">
-            <h1>El tiempo galopa pero el recuerdo permanece</h1>
-            <p>Enim aliqua ullamco sint ullamco tempor esse aliqua.</p>
-            <button class="btn-simple">Ver coleccion</button>
-        </div>
+            {!! responsive_picture('fondos/caballo-de-soria.png', 'Colección exclusiva de joyas artesanales', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+            <div class="contenedor-text">
+                <h1>El tiempo galopa pero el recuerdo permanece</h1>
+                <p>Enim aliqua ullamco sint ullamco tempor esse aliqua.</p>
+                <a href="{{ route('joyas.index', 'colecciones') }}" class="enlace-simple">Ver colección</a>
+            </div>
+        
     </section>
     <section class="section-tres">
         <div class="contenedor-coleccion-uno animar-entrada-arriba">

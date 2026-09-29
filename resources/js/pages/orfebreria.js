@@ -2,12 +2,157 @@
  * Orfebrería Page Scripts
  * Maneja el formulario de reserva de citas y utilidades de la página
  */
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', function () {
     initFormularioCita();
     initLazyLoadingOrfebreria();
     initFechaMinima();
+    initGaleriaOrfebreria();
+    initRelojOrfebreria();
 });
+
+// ==========================================================
+// GALERÍA ORFEBRE — pin con ScrollTrigger
+// ==========================================================
+// PLANTILLA DE DISPOSICIÓN DE CADA IMAGEN
+//
+// Cada entrada define hacia dónde viaja una imagen mientras la
+// galería está pineada. Bajar el scroll la lleva de su posición
+// origen (la del SCSS) al punto final; subir revierte el recorrido.
+//
+//   selector   Clase de la imagen dentro de .galeria-orfebre
+//   x          Desplazamiento final en % del ANCHO de la galería
+//              (positivo = derecha, negativo = izquierda)
+//   y          Desplazamiento final en % del ALTO de la galería
+//              (positivo = abajo, negativo = arriba)
+//   rotacion   Grados de giro al llegar al punto final (0 = sin giro)
+//   escala     Escala al llegar al punto final (1 = sin cambio)
+//   xPercent / yPercent
+//              Desplazamiento base en % del tamaño de la PROPIA imagen.
+//              Se usa para centrar imágenes sin transform en el CSS
+//              (p. ej. la imagen central usa -50 / -50).
+// ==========================================================
+const GALERIA_ORFEBRE_CONFIG = {
+    // Cuándo empieza el pin: 'top top' = cuando el borde superior de la
+    // galería llega al borde superior del viewport.
+    start: 'top top',
+    // Distancia de scroll durante la que la galería queda pineada.
+    // '+=120%' = 120% del alto del viewport. Al superarla, el scroll continúa.
+    end: '+=120%',
+    imagenes: [
+        { selector: '.colgante-dorado',  x: -10, y: -5, rotacion: 0, escala: 1 },
+        { selector: '.anillo-serpiente', x: 0,   y: 0,   rotacion: 0,  escala: 1, xPercent: -50, yPercent: -50 },
+        { selector: '.colgante-oro',     x: 10,  y: 0, rotacion: 0,  escala: 1 },
+        { selector: '.colgante-rosa',    x: -5, y: 10,  rotacion: 0, escala: 1 },
+        { selector: '.collar-azul',      x: 10,  y: 10,  rotacion: 0,  escala: 1 },
+    ],
+};
+
+/** Gsap animation galeria de imagenes */
+function initGaleriaOrfebreria() {
+    const galeria = document.getElementById('galeria-orfebre');
+    if (!galeria) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add(
+        {
+            isDesktop: '(min-width: 992px)',
+            reduceMotion: '(prefers-reduced-motion: reduce)',
+        },
+        (context) => {
+            const { isDesktop, reduceMotion } = context.conditions;
+
+            // Móvil o movimiento reducido: sin pin, imágenes en su posición CSS
+            if (!isDesktop || reduceMotion) return;
+
+            // Posiciones base que no pueden vivir en el CSS (GSAP controla
+            // el transform completo durante la animación)
+            GALERIA_ORFEBRE_CONFIG.imagenes.forEach((cfg) => {
+                const img = galeria.querySelector(cfg.selector);
+                if (!img) return;
+                gsap.set(img, {
+                    xPercent: cfg.xPercent ?? 0,
+                    yPercent: cfg.yPercent ?? 0,
+                });
+            });
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: galeria,
+                    start: GALERIA_ORFEBRE_CONFIG.start,
+                    end: GALERIA_ORFEBRE_CONFIG.end,
+                    pin: true,
+                    scrub: 1,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                },
+            });
+
+            GALERIA_ORFEBRE_CONFIG.imagenes.forEach((cfg) => {
+                const img = galeria.querySelector(cfg.selector);
+                if (!img) return;
+
+                tl.to(img, {
+                    // Se calculan en px en cada refresh para que el %
+                    // siempre sea relativo al tamaño actual de la galería
+                    x: () => (galeria.offsetWidth * cfg.x) / 100,
+                    y: () => (galeria.offsetHeight * cfg.y) / 100,
+                    rotation: cfg.rotacion ?? 0,
+                    scale: cfg.escala ?? 1,
+                    ease: 'none',
+                }, 0); // todas las imágenes se mueven a la vez
+            });
+        }
+    );
+}
+
+
+
+
+// ==========================================================
+// RELOJ ORFEBRERÍA — agujas SVG en tiempo real
+// ==========================================================
+// El SVG de .contenedor-orfebreria-contacto comparte viewBox con
+// la imagen de la esfera (0 0 3138 4832), así que el pivote del
+// mecanismo se expresa en esas mismas coordenadas.
+//
+// requestAnimationFrame en vez de setInterval:
+//  - se sincroniza con el refresco de pantalla (sin tirones)
+//  - se pausa en pestañas ocultas (ahorra CPU/batería)
+//  - permite segundero fluido ("sweep") usando milisegundos
+function initRelojOrfebreria() {
+    const wrapper = document.querySelector('.contenedor-orfebreria-contacto .reloj-wrapper');
+    if (!wrapper) return;
+
+    // Pivote del mecanismo en coordenadas del viewBox
+    const PX = 1456, PY = 2306;
+
+    const hora = wrapper.querySelector('#reloj-hora');
+    const minuto = wrapper.querySelector('#reloj-minuto');
+    const segundo = wrapper.querySelector('#reloj-segundo');
+    if (!hora || !minuto || !segundo) return;
+
+    function tick() {
+        const now = new Date();
+        const s = now.getSeconds() + now.getMilliseconds() / 1000; // sweep continuo
+        const m = now.getMinutes() + s / 60;
+        const h = (now.getHours() % 12) + m / 60;
+
+        segundo.setAttribute('transform', `translate(${PX} ${PY}) rotate(${s * 6})`);
+        minuto.setAttribute('transform', `translate(${PX} ${PY}) rotate(${m * 6})`);
+        hora.setAttribute('transform', `translate(${PX} ${PY}) rotate(${h * 30})`);
+
+        requestAnimationFrame(tick);
+    }
+    tick();
+}
+
+
 
 /**
  * Inicializa el formulario de reserva de cita

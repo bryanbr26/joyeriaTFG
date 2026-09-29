@@ -18,7 +18,7 @@
 .hero-content {
     position: relative;
     top: 3%;
-    left: 10%;
+    left: 13%;
     height: 30vh;
     width: 80vh;
     border-radius: 55px;
@@ -39,11 +39,12 @@
         border-radius: 10px;
         padding: 10px;
         width: 35vh;
-        gap: 0.5rem;
+        gap: 0.75rem;
 
         h1 {
             text-align: center;
             font-size: 2.5rem;
+            font-weight: 500;
             line-height: 1.1;
             color: $light;
             margin: 0 0 0.5rem 0;
@@ -66,7 +67,7 @@
             text-align: center;
             text-decoration: none;
             color: $light;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-family: $font-logo;
             transition: all 0.3s ease;
             display: inline-block;
@@ -110,12 +111,7 @@
     display: grid;
     grid-template-columns: 50% 50%;
     width: 100vw;
-    height: 100vh;
-    &.animar-seccion-izquierda {
-        opacity: 0;
-        transform: translateX(-80px);
-        animation: slideInSectionLeft 1.1s ease-out forwards;
-    }
+    height: 51vw;
 
     .contenedor-img {
         grid-column: 1 / 2;
@@ -127,7 +123,7 @@
 
         img {
             height: 75vh;
-            width: 80vh;
+            width: 82vh;
             border-radius: 2rem;
             object-fit: cover;
             transition: transform 0.6s ease, box-shadow 0.6s ease;
@@ -136,6 +132,16 @@
                 transform: scale(1.03);
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
             }
+        }
+
+        // Canvas de la animación frame-by-frame: mismas dimensiones que la img.
+        // El recorte tipo object-fit: cover se calcula en JS dentro del drawImage.
+        canvas.frames-canvas {
+            display: block;
+            height: 75vh;
+            width: 82vh;
+            border-radius: 2rem;
+            background-color: $light;
         }
 
         &.animar-entrada-izquierda {
@@ -198,110 +204,74 @@
 // Section dos
 // ------------------------------------------------------------
 .section-dos {
-    display: grid;
-    grid-template-columns: 50% 50%;
     width: 100vw;
-    height: 915px;
-
-background: linear-gradient(90deg,rgba(85, 155, 180, 1) 22%, rgba(37, 67, 78, 1) 73%);
-    &.animar-seccion-derecha {
-        opacity: 0;
-        transform: translateX(80px);
-        animation: slideInSectionRight 1.1s ease-out 0.2s forwards;
-    }
-
-    .contenedor-animacion {
-        grid-column: 1 / 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        .contenedor-joyas-uno{
+    height: 581px;
+    background: linear-gradient(98.75deg, #D5DBDD 31.4%, #204451 62.99%);
+    position: relative;
+     img {
             position: absolute;
-            z-index: 2000;
-            top: 14vw;
-            left: 18vw;
-            transform: rotate(-16.19deg);
-            img {
-                height: 36vh;
-                width: 26vh;
-                border-radius: 2rem;
-                object-fit: cover;
-                transition: transform 0.6s ease, box-shadow 0.6s ease;
+            top: -10px;
+            left: 10%;
+            width: 460px;
+            height: 469px;
+    }
+    .contenedor-text {
+            position: absolute;
+            left: 55%;
+            top: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 3rem;
+            align-items: center;
+         
+             h1 {
+             
+                font-family: 'Source Serif Pro';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 40px;
+                width: 700px;
+                text-align: center; 
 
-            &:hover {
-                transform: scale(1.03);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+                color: $light;
+             }
+             p{
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 28px;
+                color: $light;
+             }
+            .enlace-simple{
+                position: relative;
+                font-size: 18px;
+                text-decoration: none;
+                color: $light;
+                font-family: $font-primary;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -3px;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: $light;
+                    transition: width 0.3s ease;
+                }
+
+                &:hover::after {
+                    width: 100%;
                 }
             }
-
-            &.animar-entrada-derecha {
-                opacity: 0;
-                transform: translateX(60px);
-                animation: fadeInRight 1s ease-out 0.3s forwards;
-            }
-
-        }
-        .contenedor-joyas-dos{
-            transform: rotate(24.92deg);
-            position: absolute;
-            z-index: 1000;
-            left: 10vw;
-            top: 10vw;
-            
-
-            img {
-                height: 45vh;
-                width: 35vh;
-                border-radius: 2rem;
-                object-fit: cover;
-                transition: transform 0.6s ease, box-shadow 0.6s ease;
-
-            &:hover {
-                transform: scale(1.03);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-                }
-            }
-
-            &.animar-entrada-derecha {
-                opacity: 0;
-                transform: translateX(60px);
-                animation: fadeInRight 1s ease-out 0.3s forwards;
-            }
-        }
-        
-    }
-     .contenedor-text {
-        grid-column: 2 / 3;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        h1 {
-            font-family: 'Source Serif Pro';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 50px;
-            line-height: 63px;
-            color: $light;
-            text-align: center;
-        }
-        p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            font-family: $font-secundaria;
-            margin: 0;
-            width: 55vh;
-            top: 40%;
-            left: 35%;
-            padding-right: 5%;
-            text-align: justify;
-            color: $light;
-        }
     }
 }
+
+
+    
+
 
 // ------------------------------------------------------------
 // Section tres
@@ -625,18 +595,6 @@ background: linear-gradient(90deg,rgba(85, 155, 180, 1) 22%, rgba(37, 67, 78, 1)
     }
 }
 
-@keyframes slideInSectionLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-80px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 @keyframes slideInSectionRight {
     from {
         opacity: 0;
@@ -689,7 +647,7 @@ background: linear-gradient(90deg,rgba(85, 155, 180, 1) 22%, rgba(37, 67, 78, 1)
     .section-dos {
         grid-template-columns: 1fr;
         height: auto;
-        min-height: 65vh;
+        min-height: 100vh;
     }
 
     .section-uno {
@@ -698,6 +656,12 @@ background: linear-gradient(90deg,rgba(85, 155, 180, 1) 22%, rgba(37, 67, 78, 1)
             height: 40vh;
 
             img {
+                height: 100%;
+                width: 90%;
+            }
+
+            // En móvil no hay pin: el canvas muestra el primer frame estático
+            canvas.frames-canvas {
                 height: 100%;
                 width: 90%;
             }
@@ -838,7 +802,6 @@ background: linear-gradient(90deg,rgba(85, 155, 180, 1) 22%, rgba(37, 67, 78, 1)
 @include mobile {
     .hero-content,
     .animar-entrada-izquierda,
-    .animar-seccion-izquierda,
     .animar-seccion-derecha,
     .animar-entrada-derecha,
     .animar-entrada-arriba,

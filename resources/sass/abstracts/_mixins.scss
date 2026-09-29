@@ -26,3 +26,44 @@
 @mixin transition($property: all, $duration: 0.3s) {
     transition: $property $duration ease;
 }
+
+@mixin glassmorphism(
+  $bg: rgba(255, 253, 247, 0.55),
+  $blur: 1px,        // Profundidad: 12
+  $blur-spread: 13px, // Dispersión: 13
+  $saturation: 2,   // Refracción: 100 ≈ leve boost
+  $distortion: false // true = efecto cristal líquido (requiere <filter id="glass-distortion"> en el DOM)
+) {
+  position: relative;
+  background: $bg;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  @if $distortion {
+    // Fallback para navegadores sin soporte de filtros SVG en backdrop-filter
+    -webkit-backdrop-filter: blur($blur) saturate($saturation);
+    backdrop-filter: blur($blur) saturate($saturation);
+
+    @supports (backdrop-filter: url(#x)) {
+      -webkit-backdrop-filter: url(#glass-distortion) blur(2px) saturate($saturation);
+      backdrop-filter: url(#glass-distortion) blur(2px) saturate($saturation);
+    }
+  } @else {
+    -webkit-backdrop-filter: blur($blur) saturate($saturation);
+    backdrop-filter: blur($blur) saturate($saturation);
+  }
+
+
+  // Luz: brillo direccional (-45° = desde arriba-izquierda)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,                       // -45° ≈ diagonal 135deg
+      rgba(255, 255, 255, 0.80) 0%,  // Luz al 80%
+      rgba(255, 255, 255, 0) 45%
+    );
+    pointer-events: none;
+  }
+}

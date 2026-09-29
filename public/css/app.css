@@ -21004,6 +21004,7 @@ header {
   display: flex;
   flex-direction: column;
 }
+
 @keyframes modalSlideIn {
   from {
     transform: translateY(-50px);
@@ -21040,29 +21041,67 @@ header {
   display: block;
 }
 
-body.home-page header {
+body.home-page header,
+body.orfebreria-page header {
   background-color: transparent !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
 body.home-page header .top-bar-container,
-body.home-page header .icon-bar-container {
+body.home-page header .icon-bar-container,
+body.orfebreria-page header .top-bar-container,
+body.orfebreria-page header .icon-bar-container {
   background-color: transparent !important;
 }
-body.home-page header .LogoLetra {
+body.home-page header .LogoLetra,
+body.orfebreria-page header .LogoLetra {
   width: 100vw;
 }
-body.home-page header .LogoLetra a {
+body.home-page header .LogoLetra a,
+body.orfebreria-page header .LogoLetra a {
   color: white !important;
 }
-body.home-page header #contenedor-iconos .header-icon-link {
+body.home-page header #contenedor-iconos .header-icon-link,
+body.orfebreria-page header #contenedor-iconos .header-icon-link {
   color: white !important;
 }
-body.home-page header #nav-bar {
+body.home-page header #nav-bar,
+body.orfebreria-page header #nav-bar {
   border-top-color: rgba(255, 255, 255, 0.2) !important;
 }
-body.home-page header .nav-link {
+body.home-page header .nav-link,
+body.orfebreria-page header .nav-link {
   color: white !important;
+}
+
+@media (min-width: 992px) {
+  body.home-page header #nav-bar,
+  body.orfebreria-page header #nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 500px;
+    background-color: #25434E;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+  }
+  body.home-page header #nav-bar.mostrar-nav,
+  body.orfebreria-page header #nav-bar.mostrar-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+body.orfebreria-page header .LogoLetra a {
+  color: black !important;
+}
+body.orfebreria-page header #contenedor-iconos .header-icon-link {
+  color: black !important;
 }
 
 .grid-productos {
@@ -21119,7 +21158,7 @@ body.home-page header .nav-link {
   margin-bottom: 0.15rem;
   color: #333;
   line-height: 1.2;
-  display: -webkit-box;
+  display: --webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -21209,7 +21248,7 @@ body.home-page header .nav-link {
   #nav-bar.nav-abierto {
     transform: translateX(0);
   }
-  body.home-page #nav-bar {
+  body.home-page #nav-bar, body.orfebreria-page #nav-bar {
     border: 2px solid red;
     background-color: #25434E !important;
   }
@@ -21400,7 +21439,7 @@ body.home-page header .nav-link {
 .hero-content {
   position: relative;
   top: 3%;
-  left: 10%;
+  left: 13%;
   height: 30vh;
   width: 80vh;
   border-radius: 55px;
@@ -21421,11 +21460,12 @@ body.home-page header .nav-link {
   border-radius: 10px;
   padding: 10px;
   width: 35vh;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 .contenedor-home-titulos .titulo h1, .contenedor-home-titulos .titulo .h1 {
   text-align: center;
   font-size: 2.5rem;
+  font-weight: 500;
   line-height: 1.1;
   color: #f8f9fa;
   margin: 0 0 0.5rem 0;
@@ -21446,7 +21486,7 @@ body.home-page header .nav-link {
   text-align: center;
   text-decoration: none;
   color: #f8f9fa;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: "Italiana", serif;
   transition: all 0.3s ease;
   display: inline-block;
@@ -21479,12 +21519,7 @@ body.home-page header .nav-link {
   display: grid;
   grid-template-columns: 50% 50%;
   width: 100vw;
-  height: 100vh;
-}
-.section-uno.animar-seccion-izquierda {
-  opacity: 0;
-  transform: translateX(-80px);
-  animation: slideInSectionLeft 1.1s ease-out forwards;
+  height: 51vw;
 }
 .section-uno .contenedor-img {
   grid-column: 1/2;
@@ -21495,7 +21530,7 @@ body.home-page header .nav-link {
 }
 .section-uno .contenedor-img img {
   height: 75vh;
-  width: 80vh;
+  width: 82vh;
   border-radius: 2rem;
   -o-object-fit: cover;
      object-fit: cover;
@@ -21504,6 +21539,13 @@ body.home-page header .nav-link {
 .section-uno .contenedor-img img:hover {
   transform: scale(1.03);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+.section-uno .contenedor-img canvas.frames-canvas {
+  display: block;
+  height: 75vh;
+  width: 82vh;
+  border-radius: 2rem;
+  background-color: #f8f9fa;
 }
 .section-uno .contenedor-img.animar-entrada-izquierda {
   opacity: 0;
@@ -21555,100 +21597,64 @@ body.home-page header .nav-link {
 }
 
 .section-dos {
-  display: grid;
-  grid-template-columns: 50% 50%;
   width: 100vw;
-  height: 915px;
-  background: linear-gradient(90deg, rgb(85, 155, 180) 22%, rgb(37, 67, 78) 73%);
-}
-.section-dos.animar-seccion-derecha {
-  opacity: 0;
-  transform: translateX(80px);
-  animation: slideInSectionRight 1.1s ease-out 0.2s forwards;
-}
-.section-dos .contenedor-animacion {
-  grid-column: 1/2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 581px;
+  background: linear-gradient(98.75deg, #D5DBDD 31.4%, #204451 62.99%);
   position: relative;
 }
-.section-dos .contenedor-animacion .contenedor-joyas-uno {
+.section-dos img {
   position: absolute;
-  z-index: 2000;
-  top: 14vw;
-  left: 18vw;
-  transform: rotate(-16.19deg);
-}
-.section-dos .contenedor-animacion .contenedor-joyas-uno img {
-  height: 36vh;
-  width: 26vh;
-  border-radius: 2rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
-}
-.section-dos .contenedor-animacion .contenedor-joyas-uno img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-.section-dos .contenedor-animacion .contenedor-joyas-uno.animar-entrada-derecha {
-  opacity: 0;
-  transform: translateX(60px);
-  animation: fadeInRight 1s ease-out 0.3s forwards;
-}
-.section-dos .contenedor-animacion .contenedor-joyas-dos {
-  transform: rotate(24.92deg);
-  position: absolute;
-  z-index: 1000;
-  left: 10vw;
-  top: 10vw;
-}
-.section-dos .contenedor-animacion .contenedor-joyas-dos img {
-  height: 45vh;
-  width: 35vh;
-  border-radius: 2rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
-}
-.section-dos .contenedor-animacion .contenedor-joyas-dos img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-.section-dos .contenedor-animacion .contenedor-joyas-dos.animar-entrada-derecha {
-  opacity: 0;
-  transform: translateX(60px);
-  animation: fadeInRight 1s ease-out 0.3s forwards;
+  top: -10px;
+  left: 10%;
+  width: 460px;
+  height: 469px;
 }
 .section-dos .contenedor-text {
-  grid-column: 2/3;
-  overflow: hidden;
+  position: absolute;
+  left: 55%;
+  top: 20%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
 }
 .section-dos .contenedor-text h1, .section-dos .contenedor-text .h1 {
   font-family: "Source Serif Pro";
   font-style: normal;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 63px;
-  color: #f8f9fa;
+  font-weight: 500;
+  font-size: 40px;
+  width: 700px;
   text-align: center;
+  color: #f8f9fa;
 }
 .section-dos .contenedor-text p {
-  font-size: 1.2rem;
-  font-weight: 300;
-  font-family: "Kaisei Opti", serif;
-  margin: 0;
-  width: 55vh;
-  top: 40%;
-  left: 35%;
-  padding-right: 5%;
-  text-align: justify;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
   color: #f8f9fa;
+}
+.section-dos .contenedor-text .enlace-simple {
+  position: relative;
+  font-size: 18px;
+  text-decoration: none;
+  color: #f8f9fa;
+  font-family: "Lato", sans-serif;
+}
+.section-dos .contenedor-text .enlace-simple::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #f8f9fa;
+  transition: width 0.3s ease;
+}
+.section-dos .contenedor-text .enlace-simple:hover::after {
+  width: 100%;
 }
 
 .section-tres {
@@ -21940,16 +21946,6 @@ body.home-page header .nav-link {
     transform: translateX(0);
   }
 }
-@keyframes slideInSectionLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-80px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 @keyframes slideInSectionRight {
   from {
     opacity: 0;
@@ -21991,13 +21987,17 @@ body.home-page header .nav-link {
   .section-dos {
     grid-template-columns: 1fr;
     height: auto;
-    min-height: 65vh;
+    min-height: 100vh;
   }
   .section-uno .contenedor-img {
     grid-column: 1/-1;
     height: 40vh;
   }
   .section-uno .contenedor-img img {
+    height: 100%;
+    width: 90%;
+  }
+  .section-uno .contenedor-img canvas.frames-canvas {
     height: 100%;
     width: 90%;
   }
@@ -22109,7 +22109,6 @@ body.home-page header .nav-link {
 @media (max-width: 576px) {
   .hero-content,
   .animar-entrada-izquierda,
-  .animar-seccion-izquierda,
   .animar-seccion-derecha,
   .animar-entrada-derecha,
   .animar-entrada-arriba,
@@ -25109,510 +25108,518 @@ body.home-page header .nav-link {
     height: 200px;
   }
 }
-.contenedor-imagenPrincipal {
-  width: 100vw;
+.orfebreria-wrapper {
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  overflow: hidden;
+  width: 100%;
+  height: 125vh;
 }
 
-.imagen-principal-wrapper {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  min-height: 400px;
-  max-height: 700px;
-  overflow: hidden;
-}
-.imagen-principal-wrapper .imagen-principal {
+.orfebreria-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  overflow: hidden;
+  z-index: -1;
+  background: linear-gradient(180deg, #F5F0E8 90.1%, #D8D1C6 100%);
+}
+.orfebreria-fondo picture {
+  position: absolute;
+  top: 0;
+  left: 67.5%;
+  z-index: 3;
+  height: 700px; /* header (~105px) + ~65% visible del hero */
+  pointer-events: none;
+}
+.orfebreria-fondo .cadena {
+  height: 100%;
+  width: auto;
   display: block;
+  filter: drop-shadow(0 30px 40px rgba(43, 38, 32, 0.18));
 }
-.imagen-principal-wrapper .imagen-principal-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.imagen-principal-wrapper .imagen-principal-placeholder .icono-placeholder {
-  font-size: 5rem;
-  color: #c9a96e;
-  opacity: 0.6;
-}
-.imagen-principal-wrapper .imagen-principal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-}
-.imagen-principal-wrapper .titulo-orfebreria {
-  font-family: "Italiana", serif;
-  font-size: 4rem;
-  color: #f5f5f5;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
-}
-.imagen-principal-wrapper .subtitulo-orfebreria {
-  font-family: "Lato", sans-serif;
-  font-size: 1.25rem;
-  color: #e8d5b5;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-}
-
-.contenedor-Informativo {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  background-image: url("/images/fondos/fondo-madera.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  padding: 5rem 2rem;
-}
-.contenedor-Informativo::before {
+.orfebreria-fondo picture::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(26, 26, 26, 0.85);
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 30px;
+  background: radial-gradient(ellipse at center, rgba(43, 38, 32, 0.3) 0%, rgba(43, 38, 32, 0) 70%);
+  filter: blur(5px);
 }
 
-.informativo-grid {
+.contenedor-orfebreria-hero {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 60vh;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: center;
+  justify-items: center;
+  padding: 2rem;
+  color: #000000;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper {
+  grid-column: 1/2;
   position: relative;
   z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-
-.informativo-imagen {
-  position: relative;
-  overflow: hidden;
+  max-width: 900px;
+  padding: 2rem;
   border-radius: 4px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-.informativo-imagen .img-informativa {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  display: block;
-  transition: all 0.4s ease;
-}
-.informativo-imagen:hover .img-informativa {
-  transform: scale(1.05);
-}
-.informativo-imagen .informativo-imagen-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 400px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-}
-.informativo-imagen .informativo-imagen-placeholder .icono-placeholder {
-  font-size: 4rem;
-  color: #c9a96e;
-  opacity: 0.5;
-}
-
-.informativo-texto {
-  color: #f5f5f5;
-  padding: 1rem;
-}
-.informativo-texto .informativo-titulo {
-  font-family: "Italiana", serif;
-  font-size: 2.5rem;
-  color: #c9a96e;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.05em;
-}
-.informativo-texto .informativo-parrafo {
-  font-family: "Lato", sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: #a0a0a0;
-  margin-bottom: 1rem;
-}
-
-.contenedor-productos-orfebres {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  background: #1a1a1a;
-  padding: 5rem 2rem;
-  overflow: hidden;
-}
-.contenedor-productos-orfebres .productos-orfebres-titulo {
-  font-family: "Italiana", serif;
-  font-size: 2.5rem;
-  color: #c9a96e;
-  text-align: center;
-  margin-bottom: 4rem;
-  letter-spacing: 0.1em;
-}
-
-.productos-orfebres-marco {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  height: 700px;
-}
-.productos-orfebres-marco .orfebre-imagen {
-  position: absolute;
-  overflow: hidden;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  transition: all 0.4s ease;
-}
-.productos-orfebres-marco .orfebre-imagen img {
-  width: 100%;
+  align-items: center;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  display: block;
-  transition: all 0.4s ease;
 }
-.productos-orfebres-marco .orfebre-imagen:hover {
-  z-index: 10;
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-}
-.productos-orfebres-marco .orfebre-imagen:hover img {
-  transform: scale(1.08);
-}
-.productos-orfebres-marco .orfebre-imagen .orfebre-imagen-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .subtitulo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 16px;
+  font-size: 12px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #8f6c40;
+  margin-bottom: 30px;
 }
-.productos-orfebres-marco .orfebre-imagen .orfebre-imagen-placeholder .icono-placeholder {
-  font-size: 2.5rem;
-  color: #c9a96e;
-  opacity: 0.5;
-}
-.productos-orfebres-marco .orfebre-imagen-1 {
-  top: 0;
-  left: 5%;
-  width: 280px;
-  height: 320px;
-  z-index: 2;
-}
-.productos-orfebres-marco .orfebre-imagen-2 {
-  top: 8%;
-  right: 10%;
-  width: 240px;
-  height: 280px;
-  z-index: 3;
-}
-.productos-orfebres-marco .orfebre-imagen-3 {
-  top: 35%;
-  left: 30%;
-  width: 300px;
-  height: 220px;
-  z-index: 4;
-}
-.productos-orfebres-marco .orfebre-imagen-4 {
-  bottom: 10%;
-  left: 8%;
-  width: 250px;
-  height: 260px;
-  z-index: 2;
-}
-.productos-orfebres-marco .orfebre-imagen-5 {
-  bottom: 5%;
-  right: 5%;
-  width: 320px;
-  height: 300px;
-  z-index: 3;
-}
-
-.contenedor-ReservarCita {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-  padding: 5rem 2rem;
-}
-
-.reservar-cita-wrapper {
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.reservar-cita-wrapper .reservar-cita-titulo {
-  font-family: "Italiana", serif;
-  font-size: 2.5rem;
-  color: #c9a96e;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.1em;
-}
-.reservar-cita-wrapper .reservar-cita-subtitulo {
-  font-family: "Lato", sans-serif;
-  color: #a0a0a0;
-  margin-bottom: 3rem;
-  font-weight: 300;
-}
-
-.form-reservar-cita {
-  text-align: left;
-}
-.form-reservar-cita .form-label {
-  display: block;
-  color: #f5f5f5;
-  font-family: "Lato", sans-serif;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
-  font-weight: 400;
-}
-.form-reservar-cita .form-control,
-.form-reservar-cita .form-select {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  color: #f5f5f5;
-  font-family: "Lato", sans-serif;
-  font-size: 1rem;
-  transition: all 0.4s ease;
-}
-.form-reservar-cita .form-control:focus,
-.form-reservar-cita .form-select:focus {
-  outline: none;
-  border-color: #c9a96e;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
-}
-.form-reservar-cita .form-control::-moz-placeholder, .form-reservar-cita .form-select::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-.form-reservar-cita .form-control::placeholder,
-.form-reservar-cita .form-select::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-.form-reservar-cita .form-select {
-  color-scheme: dark;
-}
-.form-reservar-cita .form-select option {
-  background-color: #1a1a1a;
-  color: #f5f5f5;
-}
-.form-reservar-cita .form-select option:checked,
-.form-reservar-cita .form-select option:hover {
-  background-color: #c9a96e;
-  color: #1a1a1a;
-}
-.form-reservar-cita textarea.form-control {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.div-datos-contacto {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.div-proposito {
-  margin-bottom: 2rem;
-}
-.div-proposito .grupo-proposito {
-  border: none;
-  padding: 0;
-  margin-bottom: 1.5rem;
-}
-.div-proposito .grupo-proposito legend {
-  font-family: "Lato", sans-serif;
-  color: #f5f5f5;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-.div-proposito .opciones-radio {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.div-proposito .radio-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  color: #a0a0a0;
-  font-family: "Lato", sans-serif;
-  font-size: 0.95rem;
-  transition: all 0.4s ease;
-}
-.div-proposito .radio-label:hover {
-  color: #f5f5f5;
-}
-.div-proposito .radio-label input[type=radio] {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.4s ease;
-}
-.div-proposito .radio-label input[type=radio]:checked {
-  border-color: #c9a96e;
-  background: #c9a96e;
-}
-.div-proposito .radio-label input[type=radio]:checked::after {
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .subtitulo::before {
   content: "";
+  width: 46px;
+  height: 1px;
+  background: #a8845a;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .titulo-orfebreria {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 69px;
+  width: 24vw;
+  margin-bottom: 2rem;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper {
+  /*  Dolor eu minim est non magna */
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .contenido-orfebreria {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 200;
+  font-size: 20px;
+  line-height: 30px;
+  width: 23vw;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .fila-botones {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 30px;
+  width: 100%;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .fila-botones .btn {
+  padding: 12px 24px;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.1rem;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .fila-botones .btn-coleccion {
+  width: 50%;
+  background: #1a1a1a;
+  color: #f8f9fa;
+  text-transform: uppercase;
+  border-radius: 0px;
+}
+.contenedor-orfebreria-hero .contenedor-principal-wrapper .fila-botones .btn-proceso {
+  width: 50%;
+  text-decoration: none;
+  border: 1px solid #1a1a1a;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  border-radius: 0px;
+}
+
+.contenedor-orfebreria-info {
+  position: relative;
+  top: -150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 3rem;
+  height: 100vh;
+}
+.contenedor-orfebreria-info .img-orfebreria {
+  position: absolute;
+  top: 0%;
+  left: 5%;
+  width: 35%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.contenedor-orfebreria-info .img-orfebreria img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+.contenedor-orfebreria-info .contendor-texto {
+  position: absolute;
+  top: 0%;
+  left: 45%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.contenedor-orfebreria-info .contendor-texto .titulo-info {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 69px;
+  text-align: center;
+  margin-bottom: 5rem;
+}
+.contenedor-orfebreria-info .contendor-texto .contenido-info {
+  /* Ea esse occaecat culpa veniam tempor veniam est Lorem amet aliquip esse. Ad magna duis ipsum nostrud sit ea sint ex laboris. */
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 25px;
+  line-height: 45px;
+  margin-bottom: 5rem;
+  width: 80%;
+}
+.contenedor-orfebreria-info .contendor-texto .btn-info-proceso {
+  width: 25%;
+  padding: 12px 24px;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  background: #87794D;
+  color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.contenedor-orfebreria-imagenes {
+  height: auto;
+}
+.contenedor-orfebreria-imagenes .titulo-orfebreria {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 69px;
+  text-align: center;
+  margin-bottom: 5rem;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre {
+  height: 110vh;
+  padding: 2rem;
+  position: relative;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre img {
+  will-change: transform;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre .colgante-dorado {
+  position: absolute;
+  width: 25%;
+  height: auto;
+  top: 10%;
+  left: 20%;
+  z-index: 1;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre .anillo-serpiente {
+  position: absolute;
+  width: 20%;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre .colgante-oro {
+  position: absolute;
+  width: 20%;
+  height: auto;
+  right: 20%;
+  top: 10%;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre .colgante-rosa {
+  position: absolute;
+  width: 25%;
+  height: auto;
+  left: 18%;
+  top: 60%;
+  z-index: 1;
+}
+.contenedor-orfebreria-imagenes .galeria-orfebre .collar-azul {
+  position: absolute;
+  width: 22%;
+  height: auto;
+  top: 50%;
+  left: 58%;
+  z-index: 1;
+}
+
+.contenedor-orfebreria-contacto {
+  margin-top: 20rem;
+  height: 120vh;
+  position: relative;
+}
+.contenedor-orfebreria-contacto .titulo-formulario {
+  position: absolute;
+  width: 30%;
+  padding: 1rem;
+  background-color: #3E2C26;
+  color: white;
+  text-align: center;
+  font-family: "Italiana";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  top: 10%;
+  left: 35%;
+  z-index: 10;
+  line-height: 40px;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita {
+  position: relative;
+  background: rgba(255, 253, 247, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(1px) saturate(2);
+}
+@supports (backdrop-filter: url(#x)) {
+  .contenedor-orfebreria-contacto .formulario-consultas-cita {
+    backdrop-filter: url(#glass-distortion) blur(2px) saturate(2);
+  }
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 45%);
+  pointer-events: none;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita {
+  background: rgba(227, 213, 201, 0.47);
+  border-radius: 10px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 6px;
-  height: 6px;
-  background: #fff;
-  border-radius: 50%;
+  width: 55%;
+  padding: 3rem 3.5rem;
+  z-index: 2;
 }
-.div-proposito .grupo-motivo {
-  margin-top: 1rem;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
 }
-
-.div-detalles-cita {
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 5fr 6fr;
+  gap: 4rem;
+  flex: 1;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .primera-columna,
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna {
+  display: flex;
+  flex-direction: column;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .primera-columna {
   gap: 1.5rem;
-  margin-bottom: 2rem;
 }
-
-.div-comentarios {
-  margin-bottom: 2rem;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna {
+  gap: 0.4rem;
 }
-
-.btn-confirmar-cita {
-  display: inline-block;
-  width: 100%;
-  padding: 1rem 2rem;
-  background: #c9a96e;
-  color: #1a1a1a;
-  border: none;
-  border-radius: 4px;
-  font-family: "Lato", sans-serif;
-  font-size: 1rem;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-mensaje {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-mensaje textarea {
+  flex: 1;
+  resize: none;
+  position: relative;
+  background: rgba(255, 253, 247, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(1px) saturate(2);
+}
+@supports (backdrop-filter: url(#x)) {
+  .contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-mensaje textarea {
+    backdrop-filter: url(#glass-distortion) blur(2px) saturate(2);
+  }
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-mensaje textarea::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 45%);
+  pointer-events: none;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-imagen {
+  margin-top: 1.5rem;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario,
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-mensaje {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario label,
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-mensaje label {
+  font-family: "Lato";
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 15px;
+  color: #1a1a1a;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario input,
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario select {
+  width: 100%;
+  padding: 7px 16px;
+  font-family: "Lato";
+  font-size: 15px;
+  color: #1a1a1a;
+  background: rgba(122, 109, 96, 0.35);
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  transition: background 0.3s ease;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario input:focus,
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario select:focus {
+  background: rgba(122, 109, 96, 0.5);
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-formulario select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   cursor: pointer;
-  transition: all 0.4s ease;
 }
-.btn-confirmar-cita:hover {
-  background: rgb(189.9286432161, 151.367839196, 80.2713567839);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(201, 169, 110, 0.3);
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-mensaje textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: "Lato";
+  font-size: 15px;
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid rgba(60, 50, 40, 0.45);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
-.btn-confirmar-cita:active {
-  transform: translateY(0);
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-mensaje textarea:focus {
+  border-color: #8f6c40;
 }
-
-.mensaje-confirmacion {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  background: rgba(40, 167, 69, 0.1);
-  border: 1px solid rgba(40, 167, 69, 0.3);
-  border-radius: 4px;
-  text-align: center;
-  animation: fadeInUp 0.5s ease;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
-.mensaje-confirmacion i {
-  font-size: 3rem;
-  color: #28a745;
-  margin-bottom: 1rem;
-  display: block;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen .etiqueta-imagen {
+  font-family: "Lato";
+  font-weight: 600;
+  font-size: 15px;
+  color: #1a1a1a;
 }
-.mensaje-confirmacion p {
-  color: #f5f5f5;
-  font-family: "Lato", sans-serif;
-  font-size: 1.1rem;
-  margin: 0;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen .etiqueta-imagen small, .contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen .etiqueta-imagen .small {
+  font-weight: 400;
+  font-size: 12px;
 }
-
-.mensaje-confirmacion--visible,
-.mensaje-error-cita {
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen .btn-cargar-imagen {
+  align-self: flex-start;
+  padding: 6px 22px;
+  font-family: "Lato";
+  font-size: 14px;
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid rgba(60, 50, 40, 0.6);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .campo-imagen .btn-cargar-imagen:hover {
+  background: rgba(122, 109, 96, 0.2);
+}
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  text-align: left;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(60, 50, 40, 0.45);
 }
-.mensaje-confirmacion--visible i,
-.mensaje-error-cita i {
-  margin-bottom: 0;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario .privacidad {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Lato";
+  font-size: 13px;
+  color: #1a1a1a;
 }
-
-.mensaje-error-cita {
-  margin: 0 0 2rem;
-  padding: 1.25rem 1.5rem;
-  background: rgba(220, 53, 69, 0.1);
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  border-radius: 4px;
-  color: #f8d7da;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario .privacidad a {
+  color: #1a1a1a;
+  text-decoration: underline;
 }
-.mensaje-error-cita i {
-  color: #dc3545;
-  font-size: 1.6rem;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario .btn-enviar {
+  padding: 10px 30px;
+  font-family: "Lato";
+  font-size: 15px;
+  color: #f8f9fa;
+  background: rgba(110, 95, 85, 0.6);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
-.mensaje-error-cita p {
-  margin: 0;
-  color: #f5f5f5;
-  font-family: "Lato", sans-serif;
+.contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario .btn-enviar:hover {
+  background: rgba(110, 95, 85, 0.8);
+}
+.contenedor-orfebreria-contacto .reloj-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.contenedor-orfebreria-contacto .reloj-wrapper picture {
+  display: block;
+  z-index: 1;
+}
+.contenedor-orfebreria-contacto .reloj-wrapper .reloj {
+  z-index: 1;
+  height: 110vh;
+  width: auto;
+  display: block;
+}
+.contenedor-orfebreria-contacto .reloj-wrapper .agujas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 @keyframes fadeInUp {
@@ -25629,6 +25636,26 @@ body.home-page header .nav-link {
   .informativo-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+  .contenedor-orfebreria-contacto {
+    height: auto;
+    min-height: 120vh;
+    padding: 4rem 0;
+  }
+  .contenedor-orfebreria-contacto .formulario-consultas-cita {
+    width: 85%;
+    padding: 2rem;
+  }
+  .contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .encabezado-formulario .segunda-columna .campo-mensaje textarea {
+    min-height: 150px;
+  }
+  .contenedor-orfebreria-contacto .formulario-consultas-cita .formulario-consultas .footer-formulario {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .informativo-imagen {
     max-width: 600px;

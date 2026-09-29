@@ -1,3 +1,10 @@
+import { initScrollFrameAnimation } from '../components/scrollFrameAnimation.js';
+
+// Animación frame-by-frame con scroll en section-uno (canvas + ScrollTrigger)
+if (document.querySelector('.section-uno .frames-canvas')) {
+    initScrollFrameAnimation('.section-uno');
+}
+
 if (document.querySelector('.carrusel-joyas')) {
     initHomeCarousel();
 }

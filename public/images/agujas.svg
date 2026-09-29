@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3138 4832" width="3138" height="4832">
+  <defs>
+    <!-- Faceta en sombra (lado izquierdo de las dauphine) -->
+    <linearGradient id="facetDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5f3a20"/>
+      <stop offset="0.25" stop-color="#7d5636"/>
+      <stop offset="1" stop-color="#a07447"/>
+    </linearGradient>
+    <!-- Faceta pulida (lado derecho) con borde brillante -->
+    <linearGradient id="facetLight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8c491"/>
+      <stop offset="0.45" stop-color="#c69660"/>
+      <stop offset="0.85" stop-color="#d9a870"/>
+      <stop offset="1" stop-color="#f0d3a4"/>
+    </linearGradient>
+    <!-- Segundero: bastón con cresta central brillante -->
+    <linearGradient id="secGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6e4426"/>
+      <stop offset="0.5" stop-color="#e3b57e"/>
+      <stop offset="1" stop-color="#6e4426"/>
+    </linearGradient>
+    <radialGradient id="capGold" cx="0.38" cy="0.35" r="0.9">
+      <stop offset="0" stop-color="#f4d8ab"/>
+      <stop offset="0.55" stop-color="#c98f5c"/>
+      <stop offset="1" stop-color="#8a5530"/>
+    </radialGradient>
+    <!-- Sombra suave que proyectan las agujas sobre la esfera -->
+    <filter id="handShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="10" dy="8" stdDeviation="9" flood-color="#3a2c1c" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Pivote: (1456, 2306). Agujas apuntando a las 12 (punta = y negativa).
+       Medidas tomadas de la foto original. -->
+
+  <!-- AGUJA HORARIA — dauphine ancha, punta en r=770 -->
+  <g id="hour" transform="translate(1456 2306)" filter="url(#handShadow)">
+    <path fill="url(#facetDark)"  d="M0,55 L-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 Z"/>
+    <path fill="url(#facetLight)" d="M0,55 L14,50 L45,-90 L44,-180 L40,-280 L34,-380 L27,-480 L19,-580 L10,-690 L0,-770 Z"/>
+    <path fill="#f7e3c0" opacity="0.45" d="M-1.5,-60 L0,-765 L1.5,-60 Z"/>
+    <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+          d="M-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 L10,-690 L19,-580 L27,-480 L34,-380 L40,-280 L44,-180 L45,-90 L14,50"/>
+  </g>
+
+  <!-- MINUTERO — dauphine larga, punta en r=1110, cola hasta r=+110 -->
+  <g id="minute" transform="translate(1456 2306)" filter="url(#handShadow)">
+    <path fill="url(#facetDark)"  d="M0,110 L-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 Z"/>
+    <path fill="url(#facetLight)" d="M0,110 L7,105 L40,-60 L39,-200 L32,-350 L26,-500 L17,-650 L11,-800 L6,-950 L2,-1060 L0,-1110 Z"/>
+    <path fill="#f7e3c0" opacity="0.45" d="M-1,100 L0,-1105 L1,100 Z"/>
+    <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+          d="M-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 L2,-1060 L6,-950 L11,-800 L17,-650 L26,-500 L32,-350 L39,-200 L40,-60 L7,105"/>
+  </g>
+
+  <!-- SEGUNDERO — bastón 8px, punta en r=-1080, contrapeso hasta r=+445 -->
+  <g id="second" transform="translate(1456 2306)" filter="url(#handShadow)">
+    <!-- contrapeso (pala cónica, hacia abajo) -->
+    <path fill="url(#facetDark)"  d="M0,70 L-11,100 L-9,220 L-6,340 L-2,430 L0,445 Z"/>
+    <path fill="url(#facetLight)" d="M0,70 L11,100 L9,220 L6,340 L2,430 L0,445 Z"/>
+    <!-- bastón (hacia arriba) -->
+    <path fill="url(#secGrad)" d="M-4,-60 L-4,-1050 L-2,-1080 L2,-1080 L4,-1050 L4,-60 Z"/>
+    <!-- anillo del centro -->
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#b87a4e" stroke-width="7"/>
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#f0d3a4" stroke-width="2" opacity="0.7"/>
+  </g>
+
+  <!-- TAPA CENTRAL (radio 56 como el original + anillo decorativo) -->
+  <g id="cap" transform="translate(1456 2306)">
+    <circle r="100" fill="none" stroke="#c9a06b" stroke-width="5" opacity="0.85"/>
+    <circle r="104" fill="none" stroke="#8a6a45" stroke-width="2" opacity="0.5"/>
+    <circle r="56" fill="url(#capGold)"/>
+    <circle r="56" fill="none" stroke="#7d4e2c" stroke-width="3"/>
+    <circle r="40" fill="none" stroke="#a06a3f" stroke-width="4"/>
+    <circle r="24" fill="none" stroke="#e8c491" stroke-width="2" opacity="0.8"/>
+  </g>
+</svg>

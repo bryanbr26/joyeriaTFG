@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reloj en tiempo real — JS vanilla</title>
+<style>
+  :root { --bg: #efe9e1; --ink: #4a3f33; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    background: radial-gradient(1200px 800px at 50% 30%, #f7f3ec, var(--bg));
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+  }
+  .watch {
+    position: relative;
+    width: min(70vw, 420px);
+    filter: drop-shadow(0 24px 40px rgba(74, 63, 51, .28));
+  }
+  .watch img { width: 100%; display: block; }
+  .watch svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .digital {
+    font-size: 1.15rem;
+    letter-spacing: .35em;
+    font-variant-numeric: tabular-nums;
+    color: #7a6a58;
+  }
+  h1 { font-size: 1rem; font-weight: normal; letter-spacing: .2em; text-transform: uppercase; color: #9a8873; }
+</style>
+</head>
+<body>
+
+<h1>Reloj en tiempo real</h1>
+
+<div class="watch">
+  <!-- Esfera SIN agujas (fondo transparente) -->
+  <img src="reloj_sin_agujas.png" alt="Reloj">
+
+  <!-- Agujas SVG: réplica de las originales (misma forma, tamaño y relieve).
+       Pivote en (1456, 2306); apuntan a las 12 por defecto -->
+  <svg viewBox="0 0 3138 4832" aria-hidden="true">
+    <defs>
+      <linearGradient id="facetDark" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#5f3a20"/>
+        <stop offset="0.25" stop-color="#7d5636"/>
+        <stop offset="1" stop-color="#a07447"/>
+      </linearGradient>
+      <linearGradient id="facetLight" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#e8c491"/>
+        <stop offset="0.45" stop-color="#c69660"/>
+        <stop offset="0.85" stop-color="#d9a870"/>
+        <stop offset="1" stop-color="#f0d3a4"/>
+      </linearGradient>
+      <linearGradient id="secGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#6e4426"/>
+        <stop offset="0.5" stop-color="#e3b57e"/>
+        <stop offset="1" stop-color="#6e4426"/>
+      </linearGradient>
+      <radialGradient id="capGold" cx=".38" cy=".35" r=".9">
+        <stop offset="0" stop-color="#f4d8ab"/><stop offset=".55" stop-color="#c98f5c"/><stop offset="1" stop-color="#8a5530"/>
+      </radialGradient>
+      <filter id="handShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="10" dy="8" stdDeviation="9" flood-color="#3a2c1c" flood-opacity="0.35"/>
+      </filter>
+    </defs>
+
+    <g id="hour" filter="url(#handShadow)">
+      <path fill="url(#facetDark)"  d="M0,55 L-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 Z"/>
+      <path fill="url(#facetLight)" d="M0,55 L14,50 L45,-90 L44,-180 L40,-280 L34,-380 L27,-480 L19,-580 L10,-690 L0,-770 Z"/>
+      <path fill="#f7e3c0" opacity="0.45" d="M-1.5,-60 L0,-765 L1.5,-60 Z"/>
+      <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+            d="M-14,50 L-45,-90 L-44,-180 L-40,-280 L-34,-380 L-27,-480 L-19,-580 L-10,-690 L0,-770 L10,-690 L19,-580 L27,-480 L34,-380 L40,-280 L44,-180 L45,-90 L14,50"/>
+    </g>
+
+    <g id="minute" filter="url(#handShadow)">
+      <path fill="url(#facetDark)"  d="M0,110 L-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 Z"/>
+      <path fill="url(#facetLight)" d="M0,110 L7,105 L40,-60 L39,-200 L32,-350 L26,-500 L17,-650 L11,-800 L6,-950 L2,-1060 L0,-1110 Z"/>
+      <path fill="#f7e3c0" opacity="0.45" d="M-1,100 L0,-1105 L1,100 Z"/>
+      <path fill="none" stroke="#4e2f18" stroke-width="2.5" opacity="0.8"
+            d="M-7,105 L-40,-60 L-39,-200 L-32,-350 L-26,-500 L-17,-650 L-11,-800 L-6,-950 L-2,-1060 L0,-1110 L2,-1060 L6,-950 L11,-800 L17,-650 L26,-500 L32,-350 L39,-200 L40,-60 L7,105"/>
+    </g>
+
+    <g id="second" filter="url(#handShadow)">
+      <path fill="url(#facetDark)"  d="M0,70 L-11,100 L-9,220 L-6,340 L-2,430 L0,445 Z"/>
+      <path fill="url(#facetLight)" d="M0,70 L11,100 L9,220 L6,340 L2,430 L0,445 Z"/>
+      <path fill="url(#secGrad)" d="M-4,-60 L-4,-1050 L-2,-1080 L2,-1080 L4,-1050 L4,-60 Z"/>
+      <circle cx="0" cy="0" r="20" fill="none" stroke="#b87a4e" stroke-width="7"/>
+      <circle cx="0" cy="0" r="20" fill="none" stroke="#f0d3a4" stroke-width="2" opacity="0.7"/>
+    </g>
+
+    <g id="cap">
+      <circle r="100" fill="none" stroke="#c9a06b" stroke-width="5" opacity="0.85"/>
+      <circle r="104" fill="none" stroke="#8a6a45" stroke-width="2" opacity="0.5"/>
+      <circle r="56" fill="url(#capGold)"/>
+      <circle r="56" fill="none" stroke="#7d4e2c" stroke-width="3"/>
+      <circle r="40" fill="none" stroke="#a06a3f" stroke-width="4"/>
+      <circle r="24" fill="none" stroke="#e8c491" stroke-width="2" opacity="0.8"/>
+    </g>
+  </svg>
+</div>
+
+<div class="digital" id="digital">--:--:--</div>
+
+<script>
+  // Pivote del mecanismo en coordenadas del viewBox
+  const PX = 1456, PY = 2306;
+
+  const hourEl   = document.getElementById('hour');
+  const minuteEl = document.getElementById('minute');
+  const secondEl = document.getElementById('second');
+  const digital  = document.getElementById('digital');
+  const pad = n => String(n).padStart(2, '0');
+
+  // requestAnimationFrame > setInterval:
+  //  - se sincroniza con el refresco de pantalla (sin tirones)
+  //  - se pausa en pestañas ocultas (ahorra CPU/batería)
+  //  - permite segundero fluido ("sweep") usando milisegundos
+  function tick() {
+    const now = new Date();
+    const s = now.getSeconds() + now.getMilliseconds() / 1000; // sweep continuo
+    const m = now.getMinutes() + s / 60;
+    const h = (now.getHours() % 12) + m / 60;
+
+    secondEl.setAttribute('transform', `translate(${PX} ${PY}) rotate(${s * 6})`);
+    minuteEl.setAttribute('transform', `translate(${PX} ${PY}) rotate(${m * 6})`);
+    hourEl.setAttribute('transform',   `translate(${PX} ${PY}) rotate(${h * 30})`);
+
+    digital.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  /* Alternativa con "tic" clásico a saltos (si la prefieres):
+  setInterval(() => {
+    const s = new Date().getSeconds();
+    secondEl.setAttribute('transform', `translate(${PX} ${PY}) rotate(${s * 6})`);
+  }, 1000);
+  */
+</script>
+</body>
+</html>
