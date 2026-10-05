@@ -146,7 +146,7 @@ class ProductoController extends Controller
      */
     private function validateProducto(Request $request, bool $creating): array
     {
-        return $request->validate([
+        $datos = $request->validate([
             'categoria' => 'required|in:anillo,pulsera,pendiente,collar',
             'nombre' => 'required|string|max:255',
             'marca' => 'required|string|max:255',
@@ -158,11 +158,17 @@ class ProductoController extends Controller
             'material' => 'nullable|string|max:255',
             'peso' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'es_grabable' => 'nullable|boolean',
             'imagenes' => ($creating ? 'required' : 'nullable') . '|array|min:1',
             'imagenes.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
             'imagenes_eliminar' => 'nullable|array',
             'imagenes_eliminar.*' => 'integer|exists:IMAGENES_PRODUCTO,id',
         ]);
+
+        // Los checkboxes desmarcados no se envían en el request
+        $datos['es_grabable'] = $request->boolean('es_grabable');
+
+        return $datos;
     }
 
     /**
@@ -191,7 +197,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * Almacena las imágenes subidas para un producto en S3.
+     * Almacena las imágenes subidas para un producto en el disco configurado (S3 o local).
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Producto $producto
@@ -204,9 +210,10 @@ class ProductoController extends Controller
         }
 
         $hasPrincipal = $producto->imagenes()->where('principal', true)->exists();
+        $disco = disco_imagenes_producto();
 
         foreach ($request->file('imagenes') as $index => $imagen) {
-            $ruta = $imagen->store('productos', 's3');
+            $ruta = $imagen->store('productos', $disco);
 
             $producto->imagenes()->create([
                 'url' => $ruta,
@@ -241,8 +248,13 @@ class ProductoController extends Controller
      */
     private function deleteProductoImageFile(ImagenProducto $imagen): void
     {
-        if (!preg_match('/^https?:\/\//', $imagen->url) && Storage::disk('s3')->exists($imagen->url)) {
-            Storage::disk('s3')->delete($imagen->url);
+        if (preg_match('/^https?:\/\//', $imagen->url)) {
+            return;
+        }
+
+        $disco = disco_imagenes_producto();
+        if (Storage::disk($disco)->exists($imagen->url)) {
+            Storage::disk($disco)->delete($imagen->url);
         }
     }
 

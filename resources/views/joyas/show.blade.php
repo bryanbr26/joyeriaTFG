@@ -140,11 +140,13 @@
                     @endauth
                 </div>
 
-                {{-- Botón personalizar --}}
-                <a href="{{ route('personaliza.producto', $producto) }}" class="btn-personalizar">
-                    <i class="bi bi-brush"></i>
-                    <span>Personalizar joya</span>
-                </a>
+                {{-- Botón personalizar (solo si la joya es grabable) --}}
+                @if($producto->es_grabable)
+                    <a href="{{ route('personaliza.producto', $producto) }}" class="btn-personalizar">
+                        <i class="bi bi-brush"></i>
+                        <span>Personalizar joya</span>
+                    </a>
+                @endif
             </div>
         </div>
     </div>

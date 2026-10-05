@@ -171,28 +171,28 @@
                                 <div class="lista-personaliza-container">
                                     <ul class="lista-personaliza">
                                         <li class="categoria-personaliza">
-                                            <a href="{{ route('joyas.buscar') }}"
+                                            <a href="{{ route('personaliza') }}"
                                                 style="font-weight: bold;">Categoría</a>
                                             <br>
-                                            <a href="{{ route('joyas.index', 'anillos') }}">Grabado de anillos</a>
+                                            <a href="{{ route('personaliza', ['categoria' => 'anillo']) }}">Grabado de anillos</a>
                                             <br>
-                                            <a href="{{ route('joyas.index', 'pendientes') }}">Grabado de pendientes</a>
+                                            <a href="{{ route('personaliza', ['categoria' => 'pendiente']) }}">Grabado de pendientes</a>
                                             <br>
-                                            <a href="{{ route('joyas.index', 'collares') }}">Grabado de colgantes</a>
+                                            <a href="{{ route('personaliza', ['categoria' => 'collar']) }}">Grabado de colgantes</a>
                                             <br>
-                                            <a href="{{ route('joyas.index', 'pulseras') }}">Grabado de pulseras</a>
+                                            <a href="{{ route('personaliza', ['categoria' => 'pulsera']) }}">Grabado de pulseras</a>
                                             <br>
                                         </li>
                                         <li class="material-personaliza">
-                                            <a href="{{ route('joyas.buscar', ['material' => ['plata', 'oro', 'acero']]) }}" style="font-weight: bold;">Material</a>
+                                            <a href="{{ route('personaliza') }}" style="font-weight: bold;">Material</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['plata']]) }}">Plata de 1º ley</a>
+                                            <a href="{{ route('personaliza', ['material' => 'plata']) }}">Plata de 1º ley</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro 18k</a>
+                                            <a href="{{ route('personaliza', ['material' => 'oro']) }}">Oro 18k</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['oro']]) }}">Oro rosa</a>
+                                            <a href="{{ route('personaliza', ['material' => 'oro']) }}">Oro rosa</a>
                                             <br>
-                                            <a href="{{ route('joyas.buscar', ['material' => ['acero']]) }}">Acero Inoxidable</a>
+                                            <a href="{{ route('personaliza', ['material' => 'acero']) }}">Acero Inoxidable</a>
                                             <br>
                                         </li>
                                     </ul>

@@ -58,7 +58,8 @@ class ImagenProducto extends Model
      * Si la URL ya es absoluta (http/https) la devuelve tal cual.
      * Si las imágenes están configuradas como privadas genera una URL temporal de S3;
      * de lo contrario devuelve la URL pública de S3.
-     * Si S3 no está configurado, devuelve null para que la vista muestre el placeholder.
+     * Si S3 no está configurado (desarrollo local), sirve la imagen desde el disco
+     * 'public'; si el archivo no existe, devuelve null para que la vista muestre el placeholder.
      *
      * @return string|null URL completa de la imagen o null
      */
@@ -68,8 +69,10 @@ class ImagenProducto extends Model
             return $this->url;
         }
 
-        if (empty(config('filesystems.disks.s3.bucket')) && empty(config('filesystems.disks.s3.key'))) {
-            return null;
+        if (disco_imagenes_producto() === 'public') {
+            return Storage::disk('public')->exists($this->url)
+                ? Storage::disk('public')->url($this->url)
+                : null;
         }
 
         try {

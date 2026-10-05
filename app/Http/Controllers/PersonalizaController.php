@@ -18,13 +18,50 @@ use Illuminate\Support\Facades\Storage;
 class PersonalizaController extends Controller
 {
     /**
-     * Vista genérica de personalización (sin producto, acceso desde nav).
+     * Catálogo de productos grabables (acceso desde nav, sin producto).
      *
+     * Lista únicamente los productos con es_grabable = true, con filtros
+     * opcionales por categoría y material para los submenús del header.
+     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
-    public function personaliza()
+    public function personaliza(Request $request)
     {
-        return view('pages.personaliza', ['producto' => null]);
+        $categoria = $request->input('categoria');
+        $material = $request->input('material');
+
+        $consulta = Producto::with('imagenes')->where('es_grabable', true);
+
+        $nombresCategoria = [
+            'anillo' => 'anillos',
+            'pulsera' => 'pulseras',
+            'pendiente' => 'pendientes',
+            'collar' => 'collares',
+        ];
+
+        $subtitulo = null;
+
+        if ($categoria && isset($nombresCategoria[$categoria])) {
+            $consulta->where('categoria', $categoria);
+            $subtitulo = 'Grabado de ' . $nombresCategoria[$categoria];
+        }
+
+        if ($material) {
+            $materiales = array_map('strtolower', (array) $material);
+            $consulta->whereIn('material', $materiales);
+            $subtitulo = 'Material: ' . implode(', ', array_map('ucfirst', $materiales));
+        }
+
+        $productos = $consulta->orderBy('categoria')->orderBy('nombre')
+            ->paginate(12)
+            ->appends($request->query());
+
+        return view('pages.personaliza-catalogo', [
+            'productos' => $productos,
+            'titulo' => 'Personaliza tus joyas',
+            'subtitulo' => $subtitulo,
+        ]);
     }
 
     /**
@@ -35,6 +72,10 @@ class PersonalizaController extends Controller
      */
     public function personalizaProducto(Producto $producto)
     {
+        if (!$producto->es_grabable) {
+            abort(404);
+        }
+
         $producto->load('imagenes');
 
         return view('pages.personaliza', compact('producto'));
@@ -61,6 +102,13 @@ class PersonalizaController extends Controller
         ]);
 
         $producto = Producto::findOrFail($request->input('producto_id'));
+
+        if (!$producto->es_grabable) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Este producto no admite grabado personalizado'
+            ], 422);
+        }
 
         // Verificar stock considerando TODAS las unidades de este producto en el carrito
         $totalEnCarrito = Carrito::where('id_usuario', Auth::id())

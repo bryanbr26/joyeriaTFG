@@ -70,6 +70,12 @@
             <input type="number" id="peso" name="peso" class="form-control" step="0.01" min="0" value="{{ old('peso', optional($producto)->peso) }}">
         </div>
         <div class="full">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="es_grabable" name="es_grabable" value="1" {{ old('es_grabable', optional($producto)->es_grabable) ? 'checked' : '' }}>
+                <label class="form-check-label" for="es_grabable">Joya grabable (se puede personalizar con grabado)</label>
+            </div>
+        </div>
+        <div class="full">
             <label for="imagenes" class="form-label">Imágenes</label>
             @if($producto && $producto->imagenes->isNotEmpty())
                 <div class="d-flex gap-2 flex-wrap mb-2">

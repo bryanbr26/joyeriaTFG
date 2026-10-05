@@ -308,7 +308,7 @@
         }
 
         h3 {
-            position: relative;
+            position: absolute;
             z-index: 200;
             font-family: $font-logo;
             font-weight: 500;
@@ -319,9 +319,28 @@
             text-align: center;
             letter-spacing: -0.01em;
         }
+        
+        .btn-coleccion{
+            top: 60%;
+            padding: 1rem;
+            width: 10vw;
+            position: absolute;
+            text-decoration: none;
+            font-family: 'Playfair Display';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 27px;
+            text-align: center;
+
+            color: #FFFFFF;
+
+
+        }
 
         &:hover img {
             transform: scale(1.08);
+            border-radius: 2rem;
         }
     }
 
@@ -512,19 +531,14 @@
 }
 
 .btn-coleccion {
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    z-index: 300;
-    border-radius: 10px;
-    padding: 10px;
-    width: 15vh;
-    color: $light;
-    background-color: rgba(115, 204, 199, 0.43);
-    border: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
+    /* Rectangle 19 */
+
+    box-sizing: border-box;
+
+
+    border: 4px solid #FFFFFF;
+    border-radius: 53px;
+
 
     &:hover {
         background-color: rgba(115, 204, 199, 0.8);

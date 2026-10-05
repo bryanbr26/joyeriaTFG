@@ -355,6 +355,7 @@ class JoyasController extends Controller
                 'descripcion' => $producto->descripcion,
                 'precio' => $producto->precio,
                 'ruta_grabado' => $producto->ruta_grabado,
+                'es_grabable' => (bool) $producto->es_grabable,
                 'imagen_url' => $producto->imagenUrl('medium'),
                 'placeholder_url' => $producto->placeholder,
                 'categoria' => $mapaCategorias[$producto->categoria] ?? $producto->categoria,

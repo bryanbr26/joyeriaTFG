@@ -59,15 +59,15 @@
     </section>
     <section class="section-tres">
         <div class="contenedor-coleccion-uno animar-entrada-arriba">
-            {!! responsive_picture('joyas/fondo-coleccion-uno.png', 'Colección de collares elegantes', ['loading' => 'lazy', 'decoding' => 'async']) !!}
-            <h3>Colección 1</h3>
-            <a href="{{ route('joyas.index', 'collares') }}" class="btn-coleccion">Descúbrelo</a>
+            {!! responsive_picture('publicidad-home/banner-uno.png', 'Colección de collares elegantes', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+            <h3>COLECCION DE OTOÑO</h3>
+            <a href="{{ route('joyas.index', 'collares') }}" class="btn-coleccion">Descubre más</a>
              
         </div>
         <div class="contenedor-coleccion-dos animar-entrada-arriba-retrasada">
-            {!! responsive_picture('joyas/fondo-coleccion-dos.png', 'Colección de pulseras exclusivas', ['loading' => 'lazy', 'decoding' => 'async']) !!}
-            <h3>Colección 2</h3>
-            <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-coleccion">Descúbrelo</a>
+            {!! responsive_picture('publicidad-home/banner-dos.png', 'Colección de pulseras exclusivas', ['loading' => 'lazy', 'decoding' => 'async']) !!}
+            <h3>COLECCION ORIGENES</h3>
+            <a href="{{ route('joyas.index', 'pulseras') }}" class="btn-coleccion">Descubre más</a>
         </div>
     </section>
     <section class="section-cuatro">

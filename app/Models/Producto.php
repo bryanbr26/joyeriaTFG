@@ -62,6 +62,7 @@ class Producto extends Model
         'color',
         'talla',
         'ruta_grabado',
+        'es_grabable',
         'material',
         'peso',
         'stock',
@@ -77,6 +78,7 @@ class Producto extends Model
     protected $casts = [
         'precio' => 'decimal:2',
         'peso' => 'decimal:2',
+        'es_grabable' => 'boolean',
         'fecha_agregado' => 'datetime',
     ];
 
@@ -145,8 +147,10 @@ class Producto extends Model
         }
 
         if ($this->ruta_grabado) {
-            if (empty(config('filesystems.disks.s3.bucket')) && empty(config('filesystems.disks.s3.key'))) {
-                return null;
+            if (disco_imagenes_producto() === 'public') {
+                return \Illuminate\Support\Facades\Storage::disk('public')->exists($this->ruta_grabado)
+                    ? \Illuminate\Support\Facades\Storage::disk('public')->url($this->ruta_grabado)
+                    : null;
             }
 
             try {

@@ -55,6 +55,18 @@ if (!function_exists('optimized_image_url')) {
             return null;
         }
 
+        // Las imágenes del disco local 'public' se sirven tal cual:
+        // el optimizador remoto no puede descargar la propia app desde el contenedor
+        $ruta = parse_url($url, PHP_URL_PATH) ?: '';
+        if (strpos($ruta, '/storage/') === 0) {
+            return $url;
+        }
+
+        // El optimizador remoto solo acepta URLs absolutas
+        if (!preg_match('/^https?:\/\//', $url)) {
+            return $url;
+        }
+
         return route('imagen.optimizada.remota', [
             'size' => $size,
             'url' => $url,
@@ -113,5 +125,23 @@ if (!function_exists('responsive_picture')) {
         $html .= '</picture>';
 
         return $html;
+    }
+}
+
+if (!function_exists('disco_imagenes_producto')) {
+    /**
+     * Devuelve el disco donde se almacenan las imágenes de producto.
+     *
+     * Usa S3 cuando está configurado (producción); en caso contrario
+     * recurre al disco 'public' (desarrollo local).
+     *
+     * @return string Nombre del disco: 's3' o 'public'
+     */
+    function disco_imagenes_producto(): string
+    {
+        $s3Configurado = !empty(config('filesystems.disks.s3.bucket'))
+            && !empty(config('filesystems.disks.s3.key'));
+
+        return $s3Configurado ? 's3' : 'public';
     }
 }

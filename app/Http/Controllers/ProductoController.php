@@ -38,8 +38,8 @@ class ProductoController extends Controller
     /**
      * Almacena un nuevo producto en la base de datos.
      *
-     * Valida los datos de entrada, sube la imagen a S3 si se proporciona
-     * y crea el registro del producto.
+     * Valida los datos de entrada, sube la imagen al disco configurado (S3 o local)
+     * si se proporciona y crea el registro del producto.
      *
      * @param \Illuminate\Http\Request $request Datos del formulario
      * @return \Illuminate\Http\RedirectResponse
@@ -64,7 +64,7 @@ class ProductoController extends Controller
         $datos = $request->except('imagen');
 
         if ($request->hasFile('imagen')) {
-            $ruta = $request->file('imagen')->store('productos', 's3');
+            $ruta = $request->file('imagen')->store('productos', disco_imagenes_producto());
             $datos['ruta_grabado'] = $ruta;
         }
 
@@ -87,8 +87,8 @@ class ProductoController extends Controller
     /**
      * Actualiza un producto existente en la base de datos.
      *
-     * Valida los datos, elimina la imagen anterior de S3 si se sube una nueva
-     * y actualiza el registro.
+     * Valida los datos, elimina la imagen anterior del disco configurado si se sube
+     * una nueva y actualiza el registro.
      *
      * @param \Illuminate\Http\Request $request Datos del formulario
      * @param \App\Models\Producto $producto Producto a actualizar
@@ -115,10 +115,11 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             // Eliminar imagen anterior si existe
-            if ($producto->ruta_grabado && Storage::disk('s3')->exists($producto->ruta_grabado)) {
-                Storage::disk('s3')->delete($producto->ruta_grabado);
+            $disco = disco_imagenes_producto();
+            if ($producto->ruta_grabado && Storage::disk($disco)->exists($producto->ruta_grabado)) {
+                Storage::disk($disco)->delete($producto->ruta_grabado);
             }
-            $ruta = $request->file('imagen')->store('productos', 's3');
+            $ruta = $request->file('imagen')->store('productos', $disco);
             $datos['ruta_grabado'] = $ruta;
         }
 
@@ -128,7 +129,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * Elimina un producto del catálogo y su imagen asociada de S3.
+     * Elimina un producto del catálogo y su imagen asociada.
      *
      * @param \App\Models\Producto $producto Producto a eliminar
      * @return \Illuminate\Http\RedirectResponse
@@ -136,8 +137,9 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         // Eliminar imagen si existe
-        if ($producto->ruta_grabado && Storage::disk('s3')->exists($producto->ruta_grabado)) {
-            Storage::disk('s3')->delete($producto->ruta_grabado);
+        $disco = disco_imagenes_producto();
+        if ($producto->ruta_grabado && Storage::disk($disco)->exists($producto->ruta_grabado)) {
+            Storage::disk($disco)->delete($producto->ruta_grabado);
         }
 
         $producto->delete();

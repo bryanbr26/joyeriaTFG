@@ -83,6 +83,7 @@
                             <option value="pedido">Información de pedido</option>
                             <option value="personalizacion">Personalización</option>
                             <option value="cita">Solicitar cita</option>
+                            <option value="tazacion">Tazación de joyas</option>
                             <option value="otro">Otro</option>
                         </select>
                     </div>
